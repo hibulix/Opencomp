@@ -9,7 +9,7 @@
 
 <div class="page-title">
     <h3><?php echo __('Items travaillés mais non évalués'); ?></h3>
-    <?php echo $this->Html->link('<i class="icon-plus"></i> '.__('ajouter un item'), '#addUnratedItem', array(
+    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un item'), '#addUnratedItem', array(
     'class' => 'ontitle btn btn-success', 
     'data-toggle' => 'modal',
     'escape' => false
@@ -41,7 +41,7 @@
 </table>
 <?php else: ?>
     <div class="alert alert-info">
-        <i class="icon-info-sign icon-3x pull-left"></i>
+        <i class="fa fa-info-circle fa fa-3x pull-left"></i>
         Dans Opencomp, les items non évalués permettent de faire figurer sur les bulletins des items travaillés mais pas nécessairement évalués.<br />À la place du résultat, une coche sera affichée pour indiquer que l'item a été travaillé mais non évalué.<br /><br />
         Actuellement, aucun item non évalué n'a été associé à cette classe. Vous pouvez ajouter un item en cliquant sur le bouton vert ci-dessus.
     </div>

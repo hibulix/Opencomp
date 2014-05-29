@@ -1,7 +1,7 @@
 <div class="pupils index">
     <div class="page-title">
         <h2><?php echo __('Élèves'); ?></h2>
-        <?php echo $this->Html->link('<i class="icon-plus"></i> '.__('Ajouter un élève'), 'add', array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+        <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('Ajouter un élève'), 'add', array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
     </div>
 	
 	<?php
@@ -31,9 +31,9 @@
 		<td><?php echo h($pupil['Pupil']['sex']); ?>&nbsp;</td>
 		<td><?php echo h($pupil['Pupil']['birthday']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link('<button class="btn btn-mini"><i class="icon-eye-open"></i> '.__('Voir').'</button>', array('action' => 'view', $pupil['Pupil']['id']), array('escape' => false)); ?>
-			<?php echo $this->Html->link('<button class="btn btn-mini"><i class="icon-pencil"></i> '.__('Modifier').'</button>', array('action' => 'edit', $pupil['Pupil']['id']), array('escape' => false)); ?>
-			<?php echo $this->Form->postLink('<button class="btn btn-danger btn-mini"><i class="icon-trash"></i> '.__('Supprimer').'</button>', array('action' => 'delete', $pupil['Pupil']['id']), array('escape' => false), __('Êtes vous sûr de vouloir supprimer # %s?', $pupil['Pupil']['id'])); ?>
+			<?php echo $this->Html->link('<button class="btn btn-mini"><i class="fa fa fa-eye"></i> '.__('Voir').'</button>', array('action' => 'view', $pupil['Pupil']['id']), array('escape' => false)); ?>
+			<?php echo $this->Html->link('<button class="btn btn-mini"><i class="fa fa-pencil"></i> '.__('Modifier').'</button>', array('action' => 'edit', $pupil['Pupil']['id']), array('escape' => false)); ?>
+			<?php echo $this->Form->postLink('<button class="btn btn-danger btn-mini"><i class="fa fa-trash-o"></i> '.__('Supprimer').'</button>', array('action' => 'delete', $pupil['Pupil']['id']), array('escape' => false), __('Êtes vous sûr de vouloir supprimer # %s?', $pupil['Pupil']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

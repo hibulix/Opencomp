@@ -10,15 +10,15 @@
         }
     ],
     "require": {
-        "pear-cakephp/cakephp": "2.*",
-		"slywalker/boost_cake": "1.*",
-		"zendframework/zendpdf": "2.*",
-		"enygma/yubikey": "1.0",
-		"dompdf/dompdf": "0.6.*"
+        "pear-cakephp/cakephp": "2.5.1",
+    	"slywalker/boost_cake": "1.0.5",
+    	"zendframework/zendpdf": "2.0.2",
+    	"enygma/yubikey": "1.0.0",
+    	"dompdf/dompdf": "0.6.1"
     },
     "require-dev": {
-    	"cakephp/debug_kit": "2.2.*",
-        "phpunit/phpunit": "3.7.*"
+    	"cakephp/debug_kit": "2.2.3",
+        "phpunit/phpunit": "4.1.1"
     },
     "config": {
         "vendor-dir": "Vendor/"

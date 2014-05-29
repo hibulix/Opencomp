@@ -1,5 +1,5 @@
 <div class="page-title">
-    <h2><i class="icon-hand-right"></i> <?php  echo __('Prévisialisation, vérifiez les données à importer'); ?></h2>
+    <h2><i class="fa fa-hand-o-right"></i> <?php  echo __('Prévisialisation, vérifiez les données à importer'); ?></h2>
 </div>
 
 <div class="alert alert-info">
@@ -36,5 +36,5 @@ $to = $this->Html->url(array(
 </table>
 
 <div class="form-actions">
-    <a href="<?php echo $to ?>" class="btn btn-large btn-success pull-right"><i class="icon-ok"></i> Valider et importer</a>
+    <a href="<?php echo $to ?>" class="btn btn-large btn-success pull-right"><i class="fa fa-check"></i> Valider et importer</a>
 </div>

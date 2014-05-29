@@ -9,7 +9,7 @@ echo $this->Form->create('ClassroomsPupil', array('class' => 'form-horizontal'))
 ?>
 
 <div class="alert alert-info">
-	<i class="icon-info-sign"></i> Opencomp étant un logiciel multi-académies et multi-établissements, commencez par rechercher si l'élève que vous souhaitez ajouter n'existe pas déjà.
+	<i class="fa fa-info-circle"></i> Opencomp étant un logiciel multi-académies et multi-établissements, commencez par rechercher si l'élève que vous souhaitez ajouter n'existe pas déjà.
 </div>
 
 <?php

@@ -1,6 +1,6 @@
 <div class="page-title">
     <h2><?php echo __('Modifier une évaluation'); ?></h2>
-    <?php echo $this->Html->link('<i class="icon-remove"></i> '.__('annuler modification'), '/evaluations/attacheditems/'.$evaluation_id, array('class' => 'ontitle btn btn-danger', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-ban"></i> '.__('annuler modification'), '/evaluations/attacheditems/'.$evaluation_id, array('class' => 'ontitle btn btn-danger', 'escape' => false)); ?>
 </div>
 
 <?php
@@ -46,7 +46,7 @@ echo $this->Form->input('period_id', array(
 foreach($pupils as $class => $list){
 	$btn_nvx[$class] = '<div class="btn-group">';
 	$btn_nvx[$class] .= $this->Form->button('Tous les '.$class, array('class'=> 'selectPupils btn btn-xs btn-default', 'value'=>$class, 'escape'=>false));
-	$btn_nvx[$class] .= $this->Form->button('<i class="icon-remove"></i>', array('class'=> 'unselectPupils btn btn-xs btn-default', 'value'=>$class, 'escape'=>false));
+	$btn_nvx[$class] .= $this->Form->button('<i class="fa fa-ban"></i>', array('class'=> 'unselectPupils btn btn-xs btn-default', 'value'=>$class, 'escape'=>false));
 	$btn_nvx[$class] .= '</div>';
 }
 

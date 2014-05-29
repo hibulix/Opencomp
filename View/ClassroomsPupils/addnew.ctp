@@ -1,6 +1,6 @@
 <div class="page-title">
     <h2><?php echo __('Ajouter un nouvel élève à la classe'); ?></h2>
-    <?php echo $this->Html->link('<i class="icon-arrow-left"></i> '.__('retour à la classe'), '/classrooms/view/'.$classroom_id, array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à la classe'), '/classrooms/view/'.$classroom_id, array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
 <?php 
@@ -41,7 +41,7 @@ echo $this->Form->input('Pupil.birthday', array(
         'type' => 'text',
         'readonly' => 'readonly',
         'beforeInput' => '<div class="input-group">',
-        'afterInput' => '<span class="input-group-addon"><i class="icon-calendar"></i></span></div>',
+        'afterInput' => '<span class="input-group-addon"><i class="fa fa-calendar"></i></span></div>',
         'class' => 'form-control startdate',
         'label' => array(
             'text' => 'Date de naissance'

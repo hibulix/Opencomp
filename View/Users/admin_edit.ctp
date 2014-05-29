@@ -1,6 +1,6 @@
 <div class="page-title">
     <h2><?php echo __('Modifier un utilisateur'); ?></h2>
-    <?php echo $this->Html->link('<i class="icon-arrow-left"></i> '.__('retour aux utilisateurs'), 'index', array('class' => 'ontitle btn', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour aux utilisateurs'), 'index', array('class' => 'ontitle btn', 'escape' => false)); ?>
 </div>
 
 <?php 
@@ -86,7 +86,7 @@ echo $this->Form->create('User', array(
       ?>
      
       <div class="form-actions">
-         <?php echo $this->Form->button('<i class="icon-hdd"></i> Enregistrer les modifications', array('type' => 'submit', 'class' => 'btn btn-primary')); ?>        
+         <?php echo $this->Form->button('<i class="fa fa-hdd-o"></i> Enregistrer les modifications', array('type' => 'submit', 'class' => 'btn btn-primary')); ?>        
       </div>
 
 <?php echo $this->Form->end(); ?>

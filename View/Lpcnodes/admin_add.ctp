@@ -1,7 +1,7 @@
 <div class="page-title">
     <h2><?php echo __('Ajouter un noeud au Livret Personnel de Compétences'); ?></h2>
     
-    <?php echo $this->Html->link('<i class="icon-ok"></i> '.__('J\'ai terminé la saisie'), array('admin'=>false,'action'=>'index'), array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-check"></i> '.__('J\'ai terminé la saisie'), array('admin'=>false,'action'=>'index'), array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
 </div>
 
 <?php

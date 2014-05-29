@@ -36,7 +36,7 @@ foreach($items as $item){
     if(isset($manual)):
         echo $this->Form->input($item['Item']['id'], array(
             'wrapInput' => 'col col-md-2',
-            'beforeInput' => '<div class="input-group"><span class="input-group-addon"><i class="icon-keyboard"></i></span>',
+            'beforeInput' => '<div class="input-group"><span class="input-group-addon"><i class="fa fa-keyboard-o"></i></span>',
             'afterInput' => '</div>',
             'after' => '<div class="help-block">'.$item['Item']['title'].'</div>',
             'class' => 'form-control result',
@@ -48,7 +48,7 @@ foreach($items as $item){
     else:
         echo $this->Form->input($item['Item']['id'], array(
             'wrapInput' => 'col col-md-2',
-            'beforeInput' => '<div class="input-group"><span class="input-group-addon"><i class="icon-barcode"></i></span>',
+            'beforeInput' => '<div class="input-group"><span class="input-group-addon"><i class="fa fa-barcode"></i></span>',
             'afterInput' => '</div>',
             'after' => '<div class="help-block">'.$item['Item']['title'].'</div>',
             'class' => 'form-control result',

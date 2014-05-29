@@ -18,7 +18,7 @@
 ?>
 
 <div class="alert alert-block alert-error">
-  <h2 class="alert-heading"><i class="icon-bolt"></i> <?php echo __d('cake', 'Ooops - Une erreur interne est survenue.'); ?></h4>
+  <h2 class="alert-heading"><i class="fa fa-bolt"></i> <?php echo __d('cake', 'Ooops - Une erreur interne est survenue.'); ?></h4>
 <br />
     <h3><?php echo $name; ?></h3><br />
 	<?php printf(

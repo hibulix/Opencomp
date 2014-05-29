@@ -1,6 +1,6 @@
 <div class="page-title">
     <h2><?php echo __('Ajouter un utilisateur'); ?></h2>
-    <?php echo $this->Html->link('<i class="icon-arrow-left"></i> '.__('retour aux utilisateurs'), 'index', array('class' => 'ontitle btn', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour aux utilisateurs'), 'index', array('class' => 'ontitle btn', 'escape' => false)); ?>
 </div>
 
 <?php 
@@ -60,7 +60,7 @@ echo $this->Form->create('User', array(
     ?>
     
         <div class="form-actions">
-             <?php echo $this->Form->button('définir les affectations <i class="icon-arrow-right"></i>', array('class' => 'btn btn-primary tab2')); ?>        
+             <?php echo $this->Form->button('définir les affectations <i class="fa fa-arrow-right"></i>', array('class' => 'btn btn-primary tab2')); ?>        
         </div>
     </div>
     <div class="tab-pane fade in" id="tab2">
@@ -108,8 +108,8 @@ echo $this->Form->create('User', array(
       ?>
       
       <div class="form-actions">
-         <?php echo $this->Form->button('<i class="icon-arrow-left"></i> informations personnelles', array('type' => 'submit', 'class' => 'btn tab1')); ?> 
-         <?php echo $this->Form->button('<i class="icon-hdd"></i> Enregistrer les modifications', array('type' => 'submit', 'class' => 'btn btn-primary')); ?>        
+         <?php echo $this->Form->button('<i class="fa fa-arrow-left"></i> informations personnelles', array('type' => 'submit', 'class' => 'btn tab1')); ?> 
+         <?php echo $this->Form->button('<i class="fa fa-hdd-o"></i> Enregistrer les modifications', array('type' => 'submit', 'class' => 'btn btn-primary')); ?>        
       </div>
     </div>
   </div>

@@ -4,7 +4,7 @@
 
 <div class="page-title">
     <h2><?php echo __('<span class="flash">Flashez</span> l\'élève dont vous souhaitez saisir le résultat'); ?></h2>
-    <?php echo $this->Html->link('<i class="icon-ok"></i> '.__('J\'ai terminé la saisie'), '/evaluations/manageresults/'.$evaluation_id, array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-check"></i> '.__('J\'ai terminé la saisie'), '/evaluations/manageresults/'.$evaluation_id, array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
 </div>
 
 <?php
@@ -22,7 +22,7 @@ echo $this->Form->create('Result', array(
 ));
 
 echo $this->Form->input('pupil_id', array(
-    'beforeInput' => '<div class="input-group"><span class="input-group-addon"><i class="icon-barcode"></i></span>',
+    'beforeInput' => '<div class="input-group"><span class="input-group-addon"><i class="fa fa-barcode"></i></span>',
     'afterInput' => '</div>',
 	'class' => 'form-control send',
     'wrapInput' => 'col col-md-2',

@@ -1,6 +1,6 @@
 <div class="page-title">
     <h2><?php echo __('Ajouter une évaluation'); ?></h2>
-    <?php echo $this->Html->link('<i class="icon-arrow-left"></i> '.__('retour à la classe'), '/classrooms/viewtests/'.$classroom_id, array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à la classe'), '/classrooms/viewtests/'.$classroom_id, array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
 <?php
@@ -36,7 +36,7 @@ echo $this->Form->input('user_id', array(
 echo $this->Form->input('period_id', array(
     'class'=>'chzn-select form-control',
     'default'=>$current_period,
-    'after' => '<span style="font-style: italic; margin-top:10px; margin-bottom:20px;" class="help-block"><i class="icon-lightbulb"></i> '.__("La période courante de l'établissement a été automatiquement sélectionnée.").'</span>',
+    'after' => '<span style="font-style: italic; margin-top:10px; margin-bottom:20px;" class="help-block"><i class="fa fa-lightbulb-o"></i> '.__("La période courante de l'établissement a été automatiquement sélectionnée.").'</span>',
     'label' => array(
         'text' => 'Période associée'
         )
@@ -46,7 +46,7 @@ echo $this->Form->input('period_id', array(
 foreach($pupils as $class => $list){
 	$btn_nvx[$class] = '<div class="btn-group">';
 	$btn_nvx[$class] .= $this->Form->button('Tous les '.$class, array('class'=> 'selectPupils btn btn-xs btn-default', 'value'=>$class, 'escape'=>false));
-	$btn_nvx[$class] .= $this->Form->button('<i class="icon-remove"></i>', array('class'=> 'unselectPupils btn btn-xs btn-default', 'value'=>$class, 'escape'=>false));
+	$btn_nvx[$class] .= $this->Form->button('<i class="fa fa-ban"></i>', array('class'=> 'unselectPupils btn btn-xs btn-default', 'value'=>$class, 'escape'=>false));
 	$btn_nvx[$class] .= '</div>';
 }
 

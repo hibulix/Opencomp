@@ -11,10 +11,10 @@
 
 <div class="page-title">
     <h3><?php echo count($ClassroomsPupil).' '.__('élève(s) associé(s) à cette classe'); ?></h3>
-    <?php echo $this->Html->link('<i class="icon-plus"></i> '.__('ajouter un élève'), '/classroomspupils/addnew/classroom_id:'.$classroom['Classroom']['id'], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un élève'), '/classroomspupils/addnew/classroom_id:'.$classroom['Classroom']['id'], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
     <div class="btn-group ontitle">
         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="icon-arrow-down"></i> Importer
+            <i class="fa fa-arrow-down"></i> Importer
             <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
@@ -46,7 +46,7 @@
 		<td class="actions">
 		<?php 
 			echo $this->Html->link(
-				'<i class="icon-pencil"></i> Modifier', 
+				'<i class="fa fa-pencil"></i> Modifier', 
 				array(
 					'controller' => 'classroomsPupils', 
 					'action' => 'edit', 
@@ -58,7 +58,7 @@
 		?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<?php 
 			echo $this->Html->link(
-				'<i class="icon-trash"></i> Supprimer', 
+				'<i class="fa fa-trash-o"></i> Supprimer', 
 				array(
 					'controller' => 'classroomsPupils', 
 					'action' => 'unlink', 
@@ -75,6 +75,6 @@
 </table>
 <?php else: ?>
 <div class="alert alert-info">
-	<i class="icon-info-sign"></i> Cette classe ne comporte encore aucun élève associé.<br />Vous pouvez ajouter des élèves manuellement (bouton vert à droite) ou les importer depuis une classe de l'année précédente.
+	<i class="fa fa-info-circle"></i> Cette classe ne comporte encore aucun élève associé.<br />Vous pouvez ajouter des élèves manuellement (bouton vert à droite) ou les importer depuis une classe de l'année précédente.
 </div>
 <?php endif; ?>

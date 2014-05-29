@@ -1,7 +1,7 @@
 <div class="page-title">
     <h2><?php echo __('Visualiser une classe'); ?></h2>
-    <?php echo $this->Html->link('<i class="icon-pencil"></i> '.__('modifier'), '/classrooms/edit/'.$classroom['Classroom']['id'], array('class' => 'ontitle btn btn-primary', 'escape' => false)); ?>
-    <?php echo $this->Html->link('<i class="icon-arrow-left"></i> '.__('établissement de la classe'), '/establishments/view/'.$classroom['Establishment']['id'], array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('modifier'), '/classrooms/edit/'.$classroom['Classroom']['id'], array('class' => 'ontitle btn btn-primary', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('établissement de la classe'), '/establishments/view/'.$classroom['Establishment']['id'], array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
 <div class="row">
@@ -15,12 +15,12 @@
         		</dd>
         		<dt><?php echo __('Enseignant titulaire'); ?></dt>
         		<dd>
-        			<i class="icon-user"></i> <?php echo $classroom['User']['first_name'].' '.$classroom['User']['name'] ?>
+        			<i class="fa fa-user"></i> <?php echo $classroom['User']['first_name'].' '.$classroom['User']['name'] ?>
         			&nbsp;
         		</dd>
         		<dt><?php echo __('Établissement'); ?></dt>
         		<dd>
-        			<?php echo $this->Html->link('<i class="icon-home"></i> '.$classroom['Establishment']['name'], array('controller' => 'establishments', 'action' => 'view', $classroom['Establishment']['id']), array('escape' => false)); ?>
+        			<?php echo $this->Html->link('<i class="fa fa-home"></i> '.$classroom['Establishment']['name'], array('controller' => 'establishments', 'action' => 'view', $classroom['Establishment']['id']), array('escape' => false)); ?>
         			&nbsp;
         		</dd>
         		<dt><?php echo __('Année scolaire'); ?></dt>
@@ -57,7 +57,7 @@
 		</table>
 		<?php else: ?>
 		<div class="alert alert-info">
-	    	<i class="icon-info-sign"></i> Vous pouvez associer un utilisateur existant à cette classe en la <a href="/Opencomp/classrooms/edit/<?php echo $classroom['Classroom']['id']; ?>">modifiant</a>.
+	    	<i class="fa fa-info-circle"></i> Vous pouvez associer un utilisateur existant à cette classe en la <a href="/Opencomp/classrooms/edit/<?php echo $classroom['Classroom']['id']; ?>">modifiant</a>.
 	    </div>
 		<?php endif; ?>
 

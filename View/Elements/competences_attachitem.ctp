@@ -7,7 +7,7 @@
 <?php 
 
 echo $this->Html->link(
-	' <i class="icon-plus"></i> '.__('nouvel item'), 
+	' <i class="fa fa-plus"></i> '.__('nouvel item'), 
 	array(
 		'controller' => 'evaluationsItems',
 		'action' => 'additem',
@@ -36,7 +36,7 @@ if(empty($data['ChildCompetence'])){
 			}
 			echo $this->Html->link($item['title'], '#');
 			echo $this->Html->link(
-				' <i class="icon-ok"></i> '.__('ajouter à l\'évaluation'), 
+				' <i class="fa fa-check"></i> '.__('ajouter à l\'évaluation'), 
 				array(
 					'controller' => 'evaluationsItems',
 					'action' => 'attachitem',

@@ -54,7 +54,7 @@
 	    	
 </script>
 
-<h3 style="text-align:center; margin-bottom:20px; font-family: 'Titillium Web', sans-serif;">Laissez la magie <i class="icon-magic"></i> opérer et allez boire un café <i class="icon-coffee"></i></h3>
+<h3 style="text-align:center; margin-bottom:20px; font-family: 'Titillium Web', sans-serif;">Laissez la magie <i class="fa fa-magic"></i> opérer et allez boire un café <i class="fa fa-coffee"></i></h3>
 
 <div class="row">
 	<div class="span12">

@@ -43,7 +43,7 @@
 	<div class="col-md-4">
     	<div class="row">
 	    	<div class="col-md-6">
-	    		<?php echo $this->Html->link('<i class="icon-user"></i> '.__('Voir les élèves'), 
+	    		<?php echo $this->Html->link('<i class="fa fa-user"></i> '.__('Voir les élèves'), 
 	    		array(
     				'controller' => 'classrooms', 
     				'action' => 'view', 
@@ -55,7 +55,7 @@
     			)); ?>
     		</div>		    	
 	    	<div class="col-md-6">
-	    		<?php echo $this->Html->link('<i class="icon-file-alt"></i> '.__('Voir les bulletins'),
+	    		<?php echo $this->Html->link('<i class="fa fa-file-o"></i> '.__('Voir les bulletins'),
 	    		array(
 		    		'controller' => 'classrooms',
 		    		'action' => 'viewreports',
@@ -70,7 +70,7 @@
 	    </div>		    
 	    <div class="row">
 	    	<div class="col-md-6">
-	    		<?php echo $this->Html->link('<i class="icon-eye-open"></i> '.__('Voir les évaluations'), 
+	    		<?php echo $this->Html->link('<i class="fa fa fa-eye"></i> '.__('Voir les évaluations'), 
 	    		array(
 		    		'controller' => 'classrooms', 
 		    		'action' => 'viewtests', 
@@ -83,7 +83,7 @@
 	    	</div>
 	    	
 	    	<div class="col-md-6">
-		    	<?php echo $this->Html->link('<i class="icon-plus"></i> '.__('Nouvelle évaluation'), 
+		    	<?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('Nouvelle évaluation'), 
 		    	array(
 			    	'controller' => 'evaluations', 
 			    	'action' => 'add', 
@@ -107,7 +107,7 @@
 			$results = count($evaluation['Result']);
 			if($total != $results){
 				$line = '<li style="line-height:23px;">Saisie des résultats incomplète pour <code>'.$evaluation['title'].'</code>';
-				$line .= $this->Html->link('<i class="icon-magic"></i>Corriger', 
+				$line .= $this->Html->link('<i class="fa fa-magic"></i>Corriger', 
 	    		array(
 		    		'controller' => 'evaluations', 
 		    		'action' => 'manageresults', 
@@ -124,7 +124,7 @@
 		<?php if(count($lines) > 0): ?>
 		<div class="col-md-8">
 		<div class="alert-danger alert">
-		  <h4 style='margin-bottom:10px;'><i class="icon-pushpin"></i><strong> Des éléments nécessitent votre attention !</strong></h4>
+		  <h4 style='margin-bottom:10px;'><i class="fa fa-pushpin"></i><strong> Des éléments nécessitent votre attention !</strong></h4>
 		  <ul>
 		  	<?php foreach($lines as $line){
 			  	echo $line;
@@ -135,7 +135,7 @@
 		<?php else: ?>
 		<div class="col-md-8">
 		<div class="alert alert-success">
-		  <p class="lead" style="margin-bottom:0px;"><i class="icon-ok"></i> Tous les vérifications automatiques ont réussi ;)</p>
+		  <p class="lead" style="margin-bottom:0px;"><i class="fa fa-check"></i> Tous les vérifications automatiques ont réussi ;)</p>
 		</div>
 		<?php endif; ?>
 	</div>

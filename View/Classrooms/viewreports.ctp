@@ -9,7 +9,7 @@
 
 <div class="page-title">
     <h3><?php echo __('Bulletins de la classe'); ?></h3>
-    <?php echo $this->Html->link('<i class="icon-plus"></i> '.__('créer un bulletin'), array('controller'=>'reports','action'=>'add','classroom_id'=>$classroom['Classroom']['id']), array(
+    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('créer un bulletin'), array('controller'=>'reports','action'=>'add','classroom_id'=>$classroom['Classroom']['id']), array(
     'class' => 'ontitle btn btn-success', 
     'data-toggle' => 'modal',
     'escape' => false
@@ -37,15 +37,15 @@
 		?>		
 		</td>		
 		<td class="actions">
-			<?php echo $this->Html->link('<i class="icon-magic"></i> '.__('Générer'), array('controller' => 'results', 'action' => 'viewbul', $report['id']), array('escape' => false)); ?>
+			<?php echo $this->Html->link('<i class="fa fa-magic"></i> '.__('Générer'), array('controller' => 'results', 'action' => 'viewbul', $report['id']), array('escape' => false)); ?>
 			&nbsp;&nbsp;&nbsp;&nbsp;
-			<?php echo $this->Html->link('<i class="icon-bar-chart"></i> '.__('Analyser les résultats'), array('controller' => 'results', 'action' => 'analyseresults', $report['id']), array('escape' => false)); ?>
+			<?php echo $this->Html->link('<i class="fa fa-bar-chart-o"></i> '.__('Analyser les résultats'), array('controller' => 'results', 'action' => 'analyseresults', $report['id']), array('escape' => false)); ?>
 			&nbsp;&nbsp;&nbsp;&nbsp;
-			<?php echo $this->Html->link('<i class="icon-pencil"></i> '.__('Modifier'), array('controller' => 'reports', 'action' => 'edit', $report['id']), array('escape' => false)); ?>
+			<?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('Modifier'), array('controller' => 'reports', 'action' => 'edit', $report['id']), array('escape' => false)); ?>
 			&nbsp;&nbsp;&nbsp;&nbsp;
             <?php
             echo $this->Form->postLink(
-                '<i class="icon-trash"></i> Supprimer',
+                '<i class="fa fa-trash-o"></i> Supprimer',
                 array(
                     'controller' => 'reports',
                     'action' => 'delete',

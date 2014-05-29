@@ -24,22 +24,22 @@
             echo "$nbevals $title ($scope)";
         ?>
     </h3>
-    <?php echo $this->Html->link('<i class="icon-plus"></i> '.__('ajouter une évaluation'), '/evaluations/add/classroom_id:'.$classroom['Classroom']['id'], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter une évaluation'), '/evaluations/add/classroom_id:'.$classroom['Classroom']['id'], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
     <div class="btn-group ontitle">
 	  <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
-	    <i class="icon-filter"></i> Modifier le filtre
+	    <i class="fa fa-filter"></i> Modifier le filtre
 	    <span class="caret"></span>
 	  </a>
 	  <ul class="dropdown-menu">
-	    <li><?php echo $this->Html->link('<i class="icon-reorder"></i> '.__('afficher toutes les périodes'), '/classrooms/viewtests/'.$classroom['Classroom']['id'].'/periods:all', array('escape' => false)); ?></li>
-	    <li><?php echo $this->Html->link('<i class="icon-reorder"></i> '.__('afficher la période courante'), '/classrooms/viewtests/'.$classroom['Classroom']['id'], array('escape' => false)); ?></li>
+	    <li><?php echo $this->Html->link('<i class="fa fa-reorder"></i> '.__('afficher toutes les périodes'), '/classrooms/viewtests/'.$classroom['Classroom']['id'].'/periods:all', array('escape' => false)); ?></li>
+	    <li><?php echo $this->Html->link('<i class="fa fa-reorder"></i> '.__('afficher la période courante'), '/classrooms/viewtests/'.$classroom['Classroom']['id'], array('escape' => false)); ?></li>
 	  </ul>
 	</div>
 </div>
 
 <?php if (!empty($classroom['Evaluation'])): ?>
 <div class="alert alert-info">
-	<i class="icon-lightbulb"></i> &nbsp; Seules les évaluations de la période courante sont listées, pour visualiser la totalité des évaluations, vous pouvez modifier le filtre.
+	<i class="fa fa-lightbulb-o"></i> &nbsp; Seules les évaluations de la période courante sont listées, pour visualiser la totalité des évaluations, vous pouvez modifier le filtre.
 </div>
 <table class="table table-striped table-condensed">
 <tr>
@@ -69,17 +69,17 @@
 		</td>
 		<td class="actions">
 			<div class="btn-group">
-	          <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="icon-cogs"></i> Actions <span class="caret"></span></button>
+	          <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i> Actions <span class="caret"></span></button>
 	          <ul class="dropdown-menu">
-	            <li><li><?php echo $this->Html->link('<i class="icon-list"></i> '.__('Associer des items'), array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation['id']), array('escape' => false)); ?></li></li>
+	            <li><li><?php echo $this->Html->link('<i class="fa fa-list"></i> '.__('Associer des items'), array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation['id']), array('escape' => false)); ?></li></li>
 	            <?php if($progress > 0 && count($evaluation['Item']) > 0): ?>
-	            <li><li><?php echo $this->Html->link('<i class="icon-bar-chart"></i> '.__('Poursuivre la saisie des résultats'), array('controller' => 'evaluations', 'action' => 'manageresults', $evaluation['id']), array('escape' => false)); ?></li></li>
+	            <li><li><?php echo $this->Html->link('<i class="fa fa-bar-chart-o"></i> '.__('Poursuivre la saisie des résultats'), array('controller' => 'evaluations', 'action' => 'manageresults', $evaluation['id']), array('escape' => false)); ?></li></li>
 	            <?php elseif($progress == 0 && count($evaluation['Item']) > 0): ?>
-	            <li><li><?php echo $this->Html->link('<i class="icon-bar-chart"></i> '.__('Commencer la saisie des résultats'), array('controller' => 'evaluations', 'action' => 'manageresults', $evaluation['id']), array('escape' => false)); ?></li></li>
+	            <li><li><?php echo $this->Html->link('<i class="fa fa-bar-chart-o"></i> '.__('Commencer la saisie des résultats'), array('controller' => 'evaluations', 'action' => 'manageresults', $evaluation['id']), array('escape' => false)); ?></li></li>
 	            <?php endif; ?> 
 	            <li class="divider"></li>
-	            <li><?php echo $this->Html->link('<i class="icon-pencil"></i> '.__('Modifier'), array('controller' => 'evaluations', 'action' => 'edit', $evaluation['id']), array('escape' => false)); ?></li>
-	            <li><?php echo $this->Form->postLink('<i class="icon-trash"></i> '.__('Supprimer'), array('controller' => 'evaluations', 'action' => 'delete', $evaluation['id']), array('escape' => false), __('Are you sure you want to delete # %s?', $evaluation['id'])); ?></li>
+	            <li><?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('Modifier'), array('controller' => 'evaluations', 'action' => 'edit', $evaluation['id']), array('escape' => false)); ?></li>
+	            <li><?php echo $this->Form->postLink('<i class="fa fa-trash-o"></i> '.__('Supprimer'), array('controller' => 'evaluations', 'action' => 'delete', $evaluation['id']), array('escape' => false), __('Are you sure you want to delete # %s?', $evaluation['id'])); ?></li>
 
 	          </ul>
 	        </div>
@@ -89,7 +89,7 @@
 </table>
 <?php else: ?>
     <div class="alert alert-info">
-        <i class="icon-info-sign icon-3x pull-left"></i>
+        <i class="fa fa-info-circle fa fa-3x pull-left"></i>
         Actuellement, aucune évaluation n'a été associée à cette classe (<?php echo $scope ?>).<br />Vous pouvez ajouter une évaluation en cliquant sur le bouton vert ci-dessus.
     </div>
 <?php endif; ?>

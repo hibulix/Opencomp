@@ -14,14 +14,14 @@ $to = $this->Html->url(array(
 <form method="post" id="target" action="<?php echo $to ?>" enctype="multipart/form-data">
     <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
     <span class="btn file fileinput-button">
-        <i class="icon-cloud-upload"></i>
+        <i class="fa fa-cloud-upload"></i>
         <span>Sélectionnez l'export .csv BE1D</span>
         <!-- The file input field used as target for the file upload widget -->
         <input id="file" type="file" name="files[]" />
     </span>
 </form>
 
-<p id="loading" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Votre fichier est en cours de chargement ...</p>
+<p id="loading" style="display:none;"><i class="fa fa-spinner fa fa-spin fa fa-large"></i> Votre fichier est en cours de chargement ...</p>
 
 <link rel="stylesheet" href="/js/jQuery-File-Upload/css/jquery.fileupload-ui.css">
 

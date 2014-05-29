@@ -1,7 +1,7 @@
 <div class="page-title">
     <h2><?php echo __('Visualiser un établissement'); ?></h2>
-    <?php echo $this->Html->link('<i class="icon-pencil"></i> '.__('modifier'), 'edit/'.$establishment['Establishment']['id'], array('class' => 'ontitle btn btn-primary', 'escape' => false)); ?>
-    <?php echo $this->Html->link('<i class="icon-arrow-left"></i> '.__('académie de l\'établissement'), array('admin'=>false,'controller' => 'academies', 'action' => 'view', $establishment['Academy']['id']), array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('modifier'), 'edit/'.$establishment['Establishment']['id'], array('class' => 'ontitle btn btn-primary', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('académie de l\'établissement'), array('admin'=>false,'controller' => 'academies', 'action' => 'view', $establishment['Academy']['id']), array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
 <div class="row">
@@ -30,12 +30,12 @@
         		</dd>
         		<dt><?php echo __('Direction'); ?></dt>
         		<dd>
-        			<?php echo $this->Html->link('<i class="icon-user"></i> '.$establishment['User']['first_name'].' '.$establishment['User']['name'], array('controller' => 'users', 'action' => 'view', $establishment['User']['id']), array('escape' => false)); ?>
+        			<?php echo $this->Html->link('<i class="fa fa-user"></i> '.$establishment['User']['first_name'].' '.$establishment['User']['name'], array('controller' => 'users', 'action' => 'view', $establishment['User']['id']), array('escape' => false)); ?>
         			&nbsp;
         		</dd>
         		<dt><?php echo __('Académie'); ?></dt>
         		<dd>
-        			<?php echo $this->Html->link('<i class="icon-link"></i> '.$establishment['Academy']['name'], array('controller' => 'academies', 'action' => 'view', $establishment['Academy']['id']), array('escape' => false)); ?>
+        			<?php echo $this->Html->link('<i class="fa fa-link"></i> '.$establishment['Academy']['name'], array('controller' => 'academies', 'action' => 'view', $establishment['Academy']['id']), array('escape' => false)); ?>
         			&nbsp;
         		</dd>
         	</dl>
@@ -44,11 +44,11 @@
     <div class="col-md-6">
         <div class="page-title">
             <h3><?php echo __('Périodes de cet établissement'); ?></h3>
-            <?php echo $this->Html->link('<i class="icon-plus"></i> '.__('ajouter une période'), '#addPeriod', array('data-toggle' => 'modal', 'class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+            <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter une période'), '#addPeriod', array('data-toggle' => 'modal', 'class' => 'ontitle btn btn-success', 'escape' => false)); ?>
         </div>
         
         <?php if (!empty($establishment['Period'])): ?>
-        <p><?php echo $this->Html->link('<i class="icon-pencil"></i> '.__('Modifier la période courante'), '#defaultPeriod', array('data-toggle' => 'modal', 'escape' => false)); ?></p>
+        <p><?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('Modifier la période courante'), '#defaultPeriod', array('data-toggle' => 'modal', 'escape' => false)); ?></p>
 		<table class="table table-condensed table-striped">
 		<tr>
 			<th><?php echo __('Période'); ?></th>
@@ -63,7 +63,7 @@
 				<td><?php echo $period['wellnamed']; ?></td>
 				<td><?php echo $period['Year']['title']; ?></td>
 				<td class="actions">
-					<?php echo $this->Html->link('<i class="icon-pencil"></i> '.__('Modifier'), array('controller' => 'periods', 'action' => 'edit', $period['id']), array('escape' => false)); ?>
+					<?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('Modifier'), array('controller' => 'periods', 'action' => 'edit', $period['id']), array('escape' => false)); ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
@@ -74,7 +74,7 @@
 
 <div class="page-title">
     <h3><?php echo __('Classes de cet établissement'); ?></h3>
-    <?php echo $this->Html->link('<i class="icon-plus"></i> '.__('ajouter une classe'), '/classrooms/add/establishment_id:'.$establishment['Establishment']['id'], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter une classe'), '/classrooms/add/establishment_id:'.$establishment['Establishment']['id'], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
 </div>
 
 <?php if (!empty($establishment['Classroom'])): ?>
@@ -93,9 +93,9 @@
         <td><?php echo $classroom['User']['first_name'].' '.$classroom['User']['name']; ?></td>
         <td><?php echo $classroom['Year']['title']; ?></td>
         <td class="actions">
-            <?php echo $this->Html->link('<i class="icon-eye-open"></i> '.__('Voir'), array('controller' => 'classrooms', 'action' => 'view', $classroom['id']), array('escape'=>false)); ?>&nbsp;&nbsp;&nbsp;
-            <?php echo $this->Html->link('<i class="icon-pencil"></i> '.__('Modifier'), array('controller' => 'classrooms', 'action' => 'edit', $classroom['id']), array('escape'=>false)); ?>&nbsp;&nbsp;&nbsp;
-            <?php echo $this->Form->postLink('<i class="icon-trash"></i> '.__('Supprimer'), array('controller' => 'classrooms', 'action' => 'delete', $classroom['id']), array('escape'=>false), __('Are you sure you want to delete # %s?', $classroom['id'])); ?>
+            <?php echo $this->Html->link('<i class="fa fa fa-eye"></i> '.__('Voir'), array('controller' => 'classrooms', 'action' => 'view', $classroom['id']), array('escape'=>false)); ?>&nbsp;&nbsp;&nbsp;
+            <?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('Modifier'), array('controller' => 'classrooms', 'action' => 'edit', $classroom['id']), array('escape'=>false)); ?>&nbsp;&nbsp;&nbsp;
+            <?php echo $this->Form->postLink('<i class="fa fa-trash-o"></i> '.__('Supprimer'), array('controller' => 'classrooms', 'action' => 'delete', $classroom['id']), array('escape'=>false), __('Are you sure you want to delete # %s?', $classroom['id'])); ?>
         </td>
     </tr>
 <?php endforeach; ?>
@@ -116,7 +116,7 @@
                     ),
                     'readonly'=>'readonly',
                     'beforeInput' => '<div class="input-group">',
-                    'afterInput' => '<span class="input-group-addon"><i class="icon-calendar"></i></span></div>',
+                    'afterInput' => '<span class="input-group-addon"><i class="fa fa-calendar"></i></span></div>',
                     'wrapInput' => 'col col-md-4',
                     'class' => 'form-control startdate'
                 ),
@@ -138,7 +138,7 @@
 
                 echo $this->Form->input('end', array(
                     'type' => 'text',
-                    'prepend' => array('<i class="icon-calendar"></i>'),
+                    'prepend' => array('<i class="fa fa-calendar"></i>'),
                     'label' => array(
                         'text' => 'Date de fin'
                     )

@@ -1,6 +1,6 @@
 <div class="page-title">
     <h2><?php echo __('Ajouter un item'); ?></h2>
-    <?php echo $this->Html->link('<i class="icon-arrow-left"></i> '.__('retour à l\'arbre de compétences'), array('controller' => 'competences', 'action' => 'attachitem', 'evaluation_id' => $evaluation_id), array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à l\'arbre de compétences'), array('controller' => 'competences', 'action' => 'attachitem', 'evaluation_id' => $evaluation_id), array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
 <div class="alert alert-info">

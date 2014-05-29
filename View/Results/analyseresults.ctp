@@ -1,6 +1,6 @@
 <div class="page-title">
     <h2><?php echo __('Analyse instantanée des résultats du bulletin'); ?></h2>
-    <?php echo $this->Html->link('<i class="icon-arrow-left"></i> '.__('retour à la classe'), '/classrooms/viewreports/'.$report['Classroom']['id'], array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à la classe'), '/classrooms/viewreports/'.$report['Classroom']['id'], array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
 <table class="table table-striped">

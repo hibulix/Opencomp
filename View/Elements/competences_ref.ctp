@@ -6,7 +6,7 @@
 
 <?php if(AuthComponent::user('role') === 'admin'){
 	echo $this->Html->link(
-		'<i class="icon-arrow-up"></i>', 
+		'<i class="fa fa-arrow-up"></i>', 
 		array(
             'admin'=> true,
 			'controller' => 'competences', 
@@ -20,7 +20,7 @@
 	);
 	
 	echo $this->Html->link(
-		' <i class="icon-arrow-down"></i>', 
+		' <i class="fa fa-arrow-down"></i>', 
 		array(
             'admin'=> true,
 			'controller' => 'competences', 
@@ -38,7 +38,7 @@
 	echo '<ul><li>';
 	
 	echo $this->Html->link(
-		' <i class="icon-plus"></i> '.__('créer une nouvelle compétence dans ').$data['Competence']['title'], 
+		' <i class="fa fa-plus"></i> '.__('créer une nouvelle compétence dans ').$data['Competence']['title'], 
 		array(
             'admin'=> true,
 			'controller' => 'competences', 

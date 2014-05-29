@@ -1,7 +1,7 @@
 <div class="page-title">
     <h2><?php echo __('Détails d\'une évaluation'); ?></h2>
-    <?php echo $this->Html->link('<i class="icon-pencil"></i> '.__('modifier'), 'edit/'.$evaluation['Evaluation']['id'], array('class' => 'ontitle btn btn-primary', 'escape' => false)); ?>
-    <?php echo $this->Html->link('<i class="icon-arrow-left"></i> '.__('retour à la classe'), '/classrooms/viewtests/'.$evaluation['Classroom']['id'], array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('modifier'), 'edit/'.$evaluation['Evaluation']['id'], array('class' => 'ontitle btn btn-primary', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à la classe'), '/classrooms/viewtests/'.$evaluation['Classroom']['id'], array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
 <div class="row">
@@ -25,7 +25,7 @@
                 </dd>
                 <dt><?php echo __('Évalué par'); ?></dt>
                 <dd>
-                    <i class="icon-user"></i> <?php echo $evaluation['User']['first_name'].'&nbsp;'.$evaluation['User']['name']; ?>
+                    <i class="fa fa-user"></i> <?php echo $evaluation['User']['first_name'].'&nbsp;'.$evaluation['User']['name']; ?>
                 </dd>
                 <dt><?php echo __('Période'); ?></dt>
                 <dd>

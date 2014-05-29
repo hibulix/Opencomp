@@ -1,8 +1,8 @@
 <div class="academies view">
     <div class="page-title">
         <h2><?php echo __('Visualiser une académie'); ?></h2>
-        <?php echo $this->Html->link('<i class="icon-pencil"></i> '.__('modifier'), '/admin/academies/edit/'.$academy['Academy']['id'], array('class' => 'ontitle btn btn-primary', 'escape' => false)); ?>
-        <?php echo $this->Html->link('<i class="icon-arrow-left"></i> '.__('lister les académies'), '/admin/academies/index', array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+        <?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('modifier'), '/admin/academies/edit/'.$academy['Academy']['id'], array('class' => 'ontitle btn btn-primary', 'escape' => false)); ?>
+        <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('lister les académies'), '/admin/academies/index', array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
     </div>
     
 	<dl class="dl-horizontal">
@@ -39,7 +39,7 @@
         			<td><?php echo $user['first_name']; ?></td>
         			<td><?php echo $user['name']; ?></td>
         			<td class="actions">
-        				<?php echo $this->Html->link('<i class="icon-eye-open"></i> '.__('Voir'), array('controller' => 'users', 'action' => 'view', $user['id']), array('escape' => false)); ?>
+        				<?php echo $this->Html->link('<i class="fa fa fa-eye"></i> '.__('Voir'), array('controller' => 'users', 'action' => 'view', $user['id']), array('escape' => false)); ?>
         			</td>
         		</tr>
         	<?php endforeach; ?>
@@ -53,7 +53,7 @@
     <div class="col-md-6">
         <div class="page-title">
             <h3><?php echo __('Établissement(s) de cette académie'); ?></h3>
-            <?php echo $this->Html->link('<i class="icon-plus"></i> '.__('ajouter un établissement'), '/establishments/add/academy_id:'.$academy['Academy']['id'], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+            <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un établissement'), '/establishments/add/academy_id:'.$academy['Academy']['id'], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
         </div>
         
         <?php if (!empty($academy['Establishment'])): ?>
@@ -72,8 +72,8 @@
         			<td><?php echo $establishment['postcode']; ?></td>
         			<td><?php echo $establishment['town']; ?></td>
         			<td class="actions">
-        			     <?php echo $this->Html->link('<i class="icon-eye-open"></i> '.__('Voir'), array('controller' => 'establishments', 'action' => 'view', 'admin'=>false, $establishment['id']), array('escape' => false)); ?> &nbsp;
-        			     <?php echo $this->Html->link('<i class="icon-pencil"></i> '.__('Éditer'), array('controller' => 'establishments', 'action' => 'edit', 'admin'=>false, $establishment['id']), array('escape' => false)); ?>
+        			     <?php echo $this->Html->link('<i class="fa fa fa-eye"></i> '.__('Voir'), array('controller' => 'establishments', 'action' => 'view', 'admin'=>false, $establishment['id']), array('escape' => false)); ?> &nbsp;
+        			     <?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('Éditer'), array('controller' => 'establishments', 'action' => 'edit', 'admin'=>false, $establishment['id']), array('escape' => false)); ?>
         			</td>
         		</tr>
         	<?php endforeach; ?>

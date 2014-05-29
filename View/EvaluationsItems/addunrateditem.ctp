@@ -1,6 +1,6 @@
 <div class="page-title">
     <h2><?php echo __('Ajouter un item non évalué'); ?></h2>
-    <?php echo $this->Form->postLink('<i class="icon-arrow-left"></i> '.__('retour à l\'arbre de compétences'), '/competences/attachunrateditem/', array('data' => array('Classroom.classroom_id' => $this->request->params['named']['classroom_id'], 'Classroom.period_id' => $this->request->params['named']['period_id']), 'class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+    <?php echo $this->Form->postLink('<i class="fa fa-arrow-left"></i> '.__('retour à l\'arbre de compétences'), '/competences/attachunrateditem/', array('data' => array('Classroom.classroom_id' => $this->request->params['named']['classroom_id'], 'Classroom.period_id' => $this->request->params['named']['period_id']), 'class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
 <div class="alert alert-info">

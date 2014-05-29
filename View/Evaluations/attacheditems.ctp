@@ -8,14 +8,14 @@
 
 <div class="page-title">
     <h3><?php echo __('Items associés à cette évaluation'); ?></h3>
-    <?php echo $this->Html->link('<i class="icon-plus"></i> '.__('ajouter un item évalué'), '/competences/attachitem/evaluation_id:'.$evaluation['Evaluation']['id'], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un item évalué'), '/competences/attachitem/evaluation_id:'.$evaluation['Evaluation']['id'], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
 </div>
 
 <?php if (!empty($items)): ?>
 	<table class="table table-stripped table-condensed">
 	<tr>
 		<th><?php echo __('Libellé de l\'item évalué'); ?></th>
-		<th style="width:175px;" class="actions"><?php echo __('Déplacer').' '; echo $this->Html->link('<i class="icon-question-sign"></i>', '#aboutMoveFunc', array('data-toggle' => 'modal', 'escape' => false)); ?></th>
+		<th style="width:175px;" class="actions"><?php echo __('Déplacer').' '; echo $this->Html->link('<i class="fa fa-question-circle"></i>', '#aboutMoveFunc', array('data-toggle' => 'modal', 'escape' => false)); ?></th>
 		<th style="width:100px;" class="actions"><?php echo __('Action'); ?></th>
 	</tr>
 	<?php
@@ -24,7 +24,7 @@
 		<tr>
 			<td><?php echo $item['Item']['title']; 
 			if($item['Item']['type'] == 3)
-				echo $this->Html->link(' <i class="icon-edit"></i>', '#editItem', 
+				echo $this->Html->link(' <i class="fa fa-edit"></i>', '#editItem', 
 				array(
 				'onclick'=>"
 					$('#ItemTitle').val('".addslashes(html_entity_decode($item['Item']['title'], ENT_QUOTES))."'); 
@@ -36,19 +36,19 @@
 			</td>
 			<td class="actions">
 				<?php if($item['EvaluationsItem']['position'] == 1) $style = 'padding-left: 54px;'; else $style = null; ?>
-				<?php if($item['EvaluationsItem']['position'] != 1) echo $this->Html->link('<i class="icon-arrow-up"></i> '.__('Monter'), '/evaluationsItems/moveup/evaluation_id:'.$item['EvaluationsItem']['evaluation_id'].'/item_id:'.$item['EvaluationsItem']['item_id'], array('escape' => false)); ?>&nbsp;&nbsp;
-				<?php if($item['EvaluationsItem']['position'] != $nbitems) echo $this->Html->link('<i class="icon-arrow-down"></i> '.__('Descendre'), '/evaluationsItems/movedown/evaluation_id:'.$item['EvaluationsItem']['evaluation_id'].'/item_id:'.$item['EvaluationsItem']['item_id'], array('style' => $style, 'escape' => false)); ?>
+				<?php if($item['EvaluationsItem']['position'] != 1) echo $this->Html->link('<i class="fa fa-arrow-up"></i> '.__('Monter'), '/evaluationsItems/moveup/evaluation_id:'.$item['EvaluationsItem']['evaluation_id'].'/item_id:'.$item['EvaluationsItem']['item_id'], array('escape' => false)); ?>&nbsp;&nbsp;
+				<?php if($item['EvaluationsItem']['position'] != $nbitems) echo $this->Html->link('<i class="fa fa-arrow-down"></i> '.__('Descendre'), '/evaluationsItems/movedown/evaluation_id:'.$item['EvaluationsItem']['evaluation_id'].'/item_id:'.$item['EvaluationsItem']['item_id'], array('style' => $style, 'escape' => false)); ?>
 			</td>
 			<td class="actions">
-				<?php echo $this->Form->postLink('<i class="icon-trash"></i> '.__('Supprimer'), array('controller' => 'evaluationsItems', 'action' => 'unlinkitem', 'item_id' => $item['EvaluationsItem']['item_id'], 'evaluation_id' => $evaluation['Evaluation']['id']), array('escape' => false), __('Êtes vous sûr(e) de vouloir dissocier cet item de cette évaluation ?', $item['EvaluationsItem']['id'])); ?>
+				<?php echo $this->Form->postLink('<i class="fa fa-trash-o"></i> '.__('Supprimer'), array('controller' => 'evaluationsItems', 'action' => 'unlinkitem', 'item_id' => $item['EvaluationsItem']['item_id'], 'evaluation_id' => $evaluation['Evaluation']['id']), array('escape' => false), __('Êtes vous sûr(e) de vouloir dissocier cet item de cette évaluation ?', $item['EvaluationsItem']['id'])); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>
 	</table>
 <?php else: ?>
 <div class="alert alert-info">
-    <i class="icon-info-sign"></i> Pour le moment, vous n'avez associé aucun item à cette évaluation.<br />
-    Vous devriez commencer par <?php echo $this->Html->link('<i class="icon-plus"></i> '.__('ajouter un item'), '/competences/attachitem/evaluation_id:'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-xs btn-success', 'escape' => false)); ?> à cette évaluation.
+    <i class="fa fa-info-circle"></i> Pour le moment, vous n'avez associé aucun item à cette évaluation.<br />
+    Vous devriez commencer par <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un item'), '/competences/attachitem/evaluation_id:'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-xs btn-success', 'escape' => false)); ?> à cette évaluation.
 </div>
 <?php endif; ?>
 
@@ -92,7 +92,7 @@
                 <h4 class="modal-title">Éditer un item</h4>
             </div>
             <div class="modal-body">
-                <div class="alert alert-info"><i class="icon-info-sign icon-3x pull-left"></i> Lorsque vous modifiez le libellé d'un item, vos corrections sont répercutées sur toutes les évaluations utilisant l'item.</div>
+                <div class="alert alert-info"><i class="fa fa-info-circle fa fa-3x pull-left"></i> Lorsque vous modifiez le libellé d'un item, vos corrections sont répercutées sur toutes les évaluations utilisant l'item.</div>
                 
                 <?php echo $this->Form->input('title', array(
                         'value' => '',

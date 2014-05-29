@@ -38,7 +38,7 @@ App::uses('Debugger', 'Utility');
 	else:
 		echo '<a href="#">[internal function]</a>';
 	endif;
-	echo '<i class="icon-caret-right"></i>';
+	echo '<i class="fa fa-caret-right"></i>';
 	if ($stack['function']):
 		$args = array();
 		if (!empty($stack['args'])):

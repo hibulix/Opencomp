@@ -1,7 +1,7 @@
 <div class="users index">
 	<div class="page-title">
         <h2><?php echo __('Utilisateurs'); ?></h2>
-        <?php echo $this->Html->link('<i class="icon-plus"></i> '.__('Ajouter un utilisateur'), 'add', array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+        <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('Ajouter un utilisateur'), 'add', array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
     </div>
 	<table class="table table-striped">
 	<tr>
@@ -23,9 +23,9 @@
 		<td><?php echo h($user['User']['email']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['role']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link('<button class="btn btn-mini"><i class="icon-eye-open"></i> '.__('Voir').'</button>', array('action' => 'view', $user['User']['id']), array('escape' => false)); ?>
-			<?php echo $this->Html->link('<button class="btn btn-mini"><i class="icon-pencil"></i> '.__('Modifier').'</button>', array('action' => 'edit', $user['User']['id']), array('escape' => false)); ?>
-			<?php echo $this->Form->postLink('<button class="btn btn-danger btn-mini"><i class="icon-trash"></i> '.__('Supprimer').'</button>', array('action' => 'delete', $user['User']['id']), array('escape' => false), __('Êtes vous sûr de vouloir supprimer # %s?', $user['User']['id'])); ?>
+			<?php echo $this->Html->link('<button class="btn btn-mini"><i class="fa fa fa-eye"></i> '.__('Voir').'</button>', array('action' => 'view', $user['User']['id']), array('escape' => false)); ?>
+			<?php echo $this->Html->link('<button class="btn btn-mini"><i class="fa fa-pencil"></i> '.__('Modifier').'</button>', array('action' => 'edit', $user['User']['id']), array('escape' => false)); ?>
+			<?php echo $this->Form->postLink('<button class="btn btn-danger btn-mini"><i class="fa fa-trash-o"></i> '.__('Supprimer').'</button>', array('action' => 'delete', $user['User']['id']), array('escape' => false), __('Êtes vous sûr de vouloir supprimer # %s?', $user['User']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

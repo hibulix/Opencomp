@@ -1,6 +1,6 @@
 <div class="page-title">
     <h2><?php echo __('Ajouter un établissement'); ?></h2>
-    <?php echo $this->Html->link('<i class="icon-arrow-left"></i> '.__('retour'), 'javascript:history.go(-1)', array('class' => 'ontitle btn btn-default', 'escape' => false, 'onclick'=>'javascript:history.go(-1)')); ?>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour'), 'javascript:history.go(-1)', array('class' => 'ontitle btn btn-default', 'escape' => false, 'onclick'=>'javascript:history.go(-1)')); ?>
 </div>
 
 <?php 
