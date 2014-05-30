@@ -343,11 +343,6 @@ class ResultsController extends AppController {
 			$stats[$result['Pupil']['id']]['first_name'] = $result['Pupil']['first_name'];
 			$stats[$result['Pupil']['id']]['name'] = $result['Pupil']['name'];
 			
-			if(isset($stats[$result['Pupil']['id']]['totalresults']))
-				$stats[$result['Pupil']['id']]['totalresults'] += 1;
-			else
-				$stats[$result['Pupil']['id']]['totalresults'] = 1;
-			
 			switch($result['Result']['result']){
 				case 'A':
 			        if(isset($stats[$result['Pupil']['id']]['numberA'])) 
@@ -382,7 +377,9 @@ class ResultsController extends AppController {
 			if(!isset($stats[$id_pupil]['numberB'])) $stats[$id_pupil]['numberB'] = 0;
 			if(!isset($stats[$id_pupil]['numberC'])) $stats[$id_pupil]['numberC'] = 0;
 			if(!isset($stats[$id_pupil]['numberD'])) $stats[$id_pupil]['numberD'] = 0;
-		
+
+			$stats[$id_pupil]['totalresults'] = $stats[$id_pupil]['numberA'] + $stats[$id_pupil]['numberB'] + $stats[$id_pupil]['numberC'] + $stats[$id_pupil]['numberD'];
+
 			$stats[$id_pupil]['percentA'] = $stats[$id_pupil]['numberA'] * 100 / $stats[$id_pupil]['totalresults'];
 			$stats[$id_pupil]['percentB'] = $stats[$id_pupil]['numberB'] * 100 / $stats[$id_pupil]['totalresults'];
 			$stats[$id_pupil]['percentC'] = $stats[$id_pupil]['numberC'] * 100 / $stats[$id_pupil]['totalresults'];
