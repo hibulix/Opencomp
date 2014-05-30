@@ -170,19 +170,17 @@ $(document).ready(function() {
 
     $("#tree_attach_item").on("dblclick.jstree-default", function (event) {
         var node = $(event.target).closest("li");
-        console.log(node);
         if($(node[0]).attr("data-type") == "feuille"){
             var idItem = $(node[0]).attr("data-id");
             window.location.href = $('#base_url').text()+'evaluationsitems/attachitem/evaluation_id:'+$('#id_evaluation').text()+'/item_id:'+idItem;
         }else if($(node[0]).attr("data-type") == "noeud"){
-            var idCompetenc = $(node[0]).attr("data-id");
+            var idCompetence = $(node[0]).attr("data-id");
             window.location.href = $('#base_url').text()+'evaluationsitems/additem/evaluation_id:'+$('#id_evaluation').text()+'/competence_id:'+idCompetence;
         }
     });
 
     $("#tree_attach_unrated_item").on("dblclick.jstree-default", function (event) {
         var node = $(event.target).closest("li");
-        console.log(node);
         if($(node[0]).attr("data-type") == "feuille"){
             var idItem = $(node[0]).attr("data-id");
             window.location.href = $('#base_url').text()+'evaluationsitems/attachunrateditem/period_id:'+$('#period_id').text()+'/item_id:'+idItem+'/classroom_id:'+$('#classroom_id').text();
