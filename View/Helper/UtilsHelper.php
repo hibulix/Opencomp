@@ -17,13 +17,13 @@ class UtilsHelper extends AppHelper {
    public function sorting_sign($column, $sortKey, $sortDir){
         if($column == $sortKey){
             if($sortDir == 'asc'){
-                echo '<i class="icon-sort-up"></i> ';
+                echo '<i class="fa fa-sort-up"></i> ';
             }
             elseif($sortDir == 'desc'){
-                echo '<i class="icon-sort-down"></i> ';
+                echo '<i class="fa fa-sort-down"></i> ';
             }
         }else{
-            echo '<i class="icon-sort"></i> ';
+            echo '<i class="fa fa-sort"></i> ';
         }
     }
 }

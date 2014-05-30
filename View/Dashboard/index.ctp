@@ -43,7 +43,7 @@
 	<div class="col-md-4">
     	<div class="row">
 	    	<div class="col-md-6">
-	    		<?php echo $this->Html->link('<i class="fa fa-user"></i> '.__('Voir les élèves'), 
+	    		<?php echo $this->Html->link('<i class="fa fa-child"></i> '.__('Voir les élèves'), 
 	    		array(
     				'controller' => 'classrooms', 
     				'action' => 'view', 
@@ -55,7 +55,7 @@
     			)); ?>
     		</div>		    	
 	    	<div class="col-md-6">
-	    		<?php echo $this->Html->link('<i class="fa fa-file-o"></i> '.__('Voir les bulletins'),
+	    		<?php echo $this->Html->link('<i class="fa fa-file-pdf-o"></i> '.__('Voir les bulletins'),
 	    		array(
 		    		'controller' => 'classrooms',
 		    		'action' => 'viewreports',
@@ -70,7 +70,7 @@
 	    </div>		    
 	    <div class="row">
 	    	<div class="col-md-6">
-	    		<?php echo $this->Html->link('<i class="fa fa fa-eye"></i> '.__('Voir les évaluations'), 
+	    		<?php echo $this->Html->link('<i class="fa fa fa-file-text-o"></i> '.__('Voir les évaluations'), 
 	    		array(
 		    		'controller' => 'classrooms', 
 		    		'action' => 'viewtests', 
