@@ -1,8 +1,8 @@
 <div class="page-title">
     <h2><?php echo __('Instructions officielles').' <small>Programmes 2008 & 2012</small>'; ?></h2>
     <div class="btn-group ontitle">
-        <?php echo $this->Html->link('<i class="fa fa-expand"></i> '.__('Déplier l\'arbre'), '#', array('class' => 'btn btn-default', 'escape' => false, 'onclick' => "$('#demo1').jstree('open_all','',200);")); ?>
-        <?php echo $this->Html->link('<i class="fa fa-compress"></i> '.__('Replier l\'arbre'), '#', array('class' => 'btn btn-default', 'escape' => false, 'onclick' => "$('#demo1').jstree('close_all','',200);")); ?>
+        <?php echo $this->Html->link('<i class="fa fa-expand"></i> '.__('Déplier l\'arbre'), '#', array('class' => 'btn btn-default', 'escape' => false, 'onclick' => "$('#competences').jstree('open_all','',200);")); ?>
+        <?php echo $this->Html->link('<i class="fa fa-compress"></i> '.__('Replier l\'arbre'), '#', array('class' => 'btn btn-default', 'escape' => false, 'onclick' => "$('#competences').jstree('close_all','',200);")); ?>
     </div>
 </div>
 
@@ -17,9 +17,9 @@
 		' <i class="fa fa-plus"></i> '.__('créer une nouvelle compétence à la racine de l\'arbre'),
 		array(
             'admin'=> true,
-			'controller' => 'competences', 
+			'controller' => 'competences',
 			'action' => 'add'
-		), 
+		),
 		array(
 			'escape' => false,
 			'style' => 'color:green;'
@@ -28,6 +28,6 @@
 }
 ?>
 
-<div id="demo1" class="jstree-default" style="margin-top:20px;">
-<?php echo $this->Tree->generate($stuff, array('element' => 'competences_ref'));  ?>
+<div id="competences" class="jstree-default" style="margin-top:20px;">
+
 </div>

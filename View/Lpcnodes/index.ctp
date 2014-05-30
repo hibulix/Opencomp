@@ -1,8 +1,8 @@
 <div class="page-title">
     <h2><?php echo __('Livret Personnel de Compétences').' <small>Basé sur le socle commun de connaissances et de compétences</small>'; ?></h2>
     <div class="btn-group ontitle">
-        <?php echo $this->Html->link('<i class="fa fa-expand"></i> '.__('Déplier l\'arbre'), '#', array('class' => 'btn btn-default', 'escape' => false, 'onclick' => "$('#demo1').jstree('open_all', -1, true);")); ?>
-        <?php echo $this->Html->link('<i class="fa fa-compress"></i> '.__('Replier l\'arbre'), '#', array('class' => 'btn btn-default', 'escape' => false, 'onclick' => "$('#demo1').jstree('close_all', -1, true);")); ?>
+        <?php echo $this->Html->link('<i class="fa fa-expand"></i> '.__('Déplier l\'arbre'), '#', array('class' => 'btn btn-default', 'escape' => false, 'onclick' => "$('#lpc_nodes').jstree('open_all','',200);")); ?>
+        <?php echo $this->Html->link('<i class="fa fa-compress"></i> '.__('Replier l\'arbre'), '#', array('class' => 'btn btn-default', 'escape' => false, 'onclick' => "$('#lpc_nodes').jstree('close_all','',200);")); ?>
     </div>
 </div>
 
@@ -28,6 +28,6 @@
 }
 ?>
 
-<div id="demo1" class="jstree-default" style="margin-top:20px;">
-<?php echo $this->Tree->generate($stuff, array('element' => 'lpcnodes_items'));  ?>
+<div id="lpc_nodes" class="jstree-default" style="margin-top:20px;">
+
 </div>

@@ -1,70 +1,214 @@
 $(document).ready(function() {
 
+    //Bootstrap Javascript components initialization
     $('.alert').alert();
-    
     $('.info').tooltip();
-    
     $('.chzn-select').chosen();
-    
     $('.startdate').datepicker({
         weekStart: 1,
         format: 'yyyy-mm-dd',
         language: 'fr-FR',
         autoclose: true
     })
-    
-    $(".tab2").click(function (e) {
-      e.preventDefault();
-      $('#myTab a[href="#tab2"]').tab('show');
-    })
-    
-    $(".tab1").click(function (e) {
-      e.preventDefault();
-      $('#myTab a[href="#tab1"]').tab('show');
-    })
-    
-    $(".jstree-toggle").click(function (e) {
-      e.preventDefault();
-      $("#demo1").jstree("toggle_node",e.delegateTarget);
-    })
-    
+
+    //Sélectionner/déseletionner tous les élèves d'un groupe de niveau
      $(".selectPupils").click(function(event){
       event.preventDefault();
-      var classe= $(event.delegateTarget).val(); 
+      var classe= $(event.delegateTarget).val();
       $('optgroup[label='+classe+']').children().attr('selected', 'selected');
       $("#PupilPupil").trigger("chosen:updated");
     })
-    
+
     $(".unselectPupils").click(function(event){
       event.preventDefault();
-      var classe= $(event.delegateTarget).val(); 
+      var classe= $(event.delegateTarget).val();
       $('optgroup[label='+classe+'] > option[selected=selected]').removeAttr('selected');
       $("#PupilPupil").trigger("chosen:updated");
     })
-    
-    $("#demo1").jstree({ 
-        "themes" : {
-            "dots" : true,
-            "icons" : false
-        },
-		"plugins" : [ "themes", "html_data" ]
+
+    //Configuration des arbres JsTree (Référentiels IO et LPC)
+    $("#competences").jstree({
+        'core' : {
+          'strings' : {
+              'Loading ...' : 'Veuillez patienter ...'
+          },
+          'data' : {
+            'url' : 'competences/return_competences',
+            'data' : function (node) {
+                return { 'id' : node.id };
+            }
+          },
+        }
 	});
-	
+
+    $("#lpc_nodes").jstree({
+        'core' : {
+            'strings' : {
+                'Loading ...' : 'Veuillez patienter ...'
+            },
+            'data' : {
+                'url' : 'lpcnodes/return_nodes',
+                'data' : function (node) {
+                    return { 'id' : node.id };
+                }
+            }
+        }
+    });
+
+    $("#tree_attach_item").jstree({
+        'state' : { 'key' : 'tree_attach_item' },
+        'contextmenu' : { 
+          //'show_at_node' : false,
+          'items' : returnContextMenu
+        },
+        'plugins' : [ 'state', 'contextmenu' ],
+        'core' : {
+            'check_callback' : true,
+            'strings' : {
+                'Loading ...' : 'Veuillez patienter ...'
+            },
+            'data' : {
+                'url' : '../return_competences',
+                'data' : function (node) {
+                    return { 'id' : node.id };
+                }
+            },
+        }
+    });
+
+    $("#tree_attach_unrated_item").jstree({
+        'state' : { 'key' : 'tree_attach_item' },
+        'contextmenu' : {
+          'items' : returnContextMenuUnratedItems
+        },
+        'plugins' : [ 'state', 'contextmenu' ],
+        'core' : {
+            'check_callback' : true,
+            'strings' : {
+                'Loading ...' : 'Veuillez patienter ...'
+            },
+            'data' : {
+                'url' : 'return_competences',
+                'data' : function (node) {
+                    return { 'id' : node.id };
+                }
+            },
+        }
+    });
+
+    function returnContextMenu(node){
+      if(node.data.type == "feuille"){
+        var idItem = node.data.id;
+        var competence = $('#'+node.parent+'>a').text();
+        var idCompetence = $('#'+node.parent).attr('data-id');
+      }
+      else if(node.data.type == "noeud"){
+        var competence = $('#'+node.data.id+'>a').text();
+        var idCompetence = node.data.id;
+      }
+
+    var items = {
+        "choose" : {
+            "label" : "ajouter cet item à l'évaluation",
+            "icon" : "fa text-info fa-check",
+            "action" : function (obj){
+                window.location.href = $('#base_url').text()+'evaluationsitems/attachitem/evaluation_id:'+$('#id_evaluation').text()+'/item_id:'+idItem;
+            },
+        },
+        "createNew" : {
+            "label" : "créer un nouvel item dans \""+competence.trim()+"\"",
+            "separator_before" : true,
+            "icon" : "fa text-success fa-plus",
+            "action" : function (obj){
+                window.location.href = $('#base_url').text()+'evaluationsitems/additem/evaluation_id:'+$('#id_evaluation').text()+'/competence_id:'+idCompetence;
+            }
+        }
+    };
+
+      if (node.data.type == "noeud") {
+          delete items.choose;
+      }
+
+      return items;
+    }
+
+     function returnContextMenuUnratedItems(node){
+      if(node.data.type == "feuille"){
+        var idItem = node.data.id;
+        var competence = $('#'+node.parent+'>a').text();
+        var idCompetence = $('#'+node.parent).attr('data-id');
+      }
+      else if(node.data.type == "noeud"){
+        var competence = $('#'+node.data.id+'>a').text();
+        var idCompetence = node.data.id;
+      }
+
+    var items = {
+        "choose" : {
+            "label" : "choisir cet item",
+            "icon" : "fa text-info fa-check",
+            "action" : function (obj){
+                window.location.href = $('#base_url').text()+'evaluationsitems/attachunrateditem/period_id:'+$('#period_id').text()+'/item_id:'+idItem+'/classroom_id:'+$('#classroom_id').text();
+            },
+        },
+        "createNew" : {
+            "label" : "créer un nouvel item dans \""+competence.trim()+"\"",
+            "separator_before" : true,
+            "icon" : "fa text-success fa-plus",
+            "action" : function (obj){
+                window.location.href = $('#base_url').text()+'evaluationsitems/addunrateditem/period_id:'+$('#period_id').text()+'/competence_id:'+idCompetence+'/classroom_id:'+$('#classroom_id').text();
+            }
+        }
+    };
+
+      if (node.data.type == "noeud") {
+          delete items.choose;
+      }
+
+      return items;
+    }
+
+    $("#tree_attach_item").on("dblclick.jstree-default", function (event) {
+        var node = $(event.target).closest("li");
+        console.log(node);
+        if($(node[0]).attr("data-type") == "feuille"){
+            var idItem = $(node[0]).attr("data-id");
+            window.location.href = $('#base_url').text()+'evaluationsitems/attachitem/evaluation_id:'+$('#id_evaluation').text()+'/item_id:'+idItem;
+        }else if($(node[0]).attr("data-type") == "noeud"){
+            var idCompetenc = $(node[0]).attr("data-id");
+            window.location.href = $('#base_url').text()+'evaluationsitems/additem/evaluation_id:'+$('#id_evaluation').text()+'/competence_id:'+idCompetence;
+        }
+    });
+
+    $("#tree_attach_unrated_item").on("dblclick.jstree-default", function (event) {
+        var node = $(event.target).closest("li");
+        console.log(node);
+        if($(node[0]).attr("data-type") == "feuille"){
+            var idItem = $(node[0]).attr("data-id");
+            window.location.href = $('#base_url').text()+'evaluationsitems/attachunrateditem/period_id:'+$('#period_id').text()+'/item_id:'+idItem+'/classroom_id:'+$('#classroom_id').text();
+        }else if($(node[0]).attr("data-type") == "noeud"){
+            var idCompetence = $(node[0]).attr("data-id");
+            window.location.href = $('#base_url').text()+'evaluationsitems/addunrateditem/period_id:'+$('#period_id').text()+'/competence_id:'+idCompetence+'/classroom_id:'+$('#classroom_id').text();
+        }
+    });
+
+    //Envoyer automatiquement le focus au premier champ visible de la page
 	$('form').find('input[type=text],textarea,select').filter(':visible:first').focus();
-	
+
 	$('.send').change(function(event) {
 		var pupil_id = $(event.delegateTarget).val();
 		$(event.delegateTarget).val(pupil_id);
 		$('#ResultSelectpupilForm').submit();
 	});
-	
+
 	$('.send').focus(function(event) {
 			$(event.delegateTarget).val('');
 	});
-	
+
 	$('.focus').focus();
-	
-	$('.result').blur(function(event) {		
+
+    //Remplacement des AAA, BBB, CCC, DDD et NEV par A, B, C, D, NE lors de l'utilisation de la saisie assistée.
+	$('.result').blur(function(event) {
 		if ($(event.delegateTarget).val() == 'AAA' || $(event.delegateTarget).val() == 'A' || $(event.delegateTarget).val() == 'a') { // Cette condition renvoie « true », le code est donc exécuté
 		    $(event.delegateTarget).val('A');
 		    $(event.delegateTarget).css("background-color", "#e4ffcb");
@@ -93,5 +237,4 @@ $(document).ready(function() {
 			$('#ResultsAddForm').submit();
 		}
 	});
-    
 });

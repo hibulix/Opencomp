@@ -19,16 +19,16 @@ class CompetencesController extends AppController {
 				$this->Session->setFlash(__('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.'), 'flash_error');
 			}
 		}
-		
+
 		//On passe le paramètre à la vue
 		if(isset($id) && is_numeric($id))
 			$this->set('idcomp', $id);
-		
-		//Récupération des ids des catégories existantes	
+
+		//Récupération des ids des catégories existantes
 		$competenceids = $this->Competence->generateTreeList(null, null, null, "");
 		$this->set('cid', $competenceids);
 	}
-	
+
 	public function admin_moveup($id = null) {
 	    $this->Competence->id = $id;
 	    if (!$this->Competence->exists()) {
@@ -38,7 +38,7 @@ class CompetencesController extends AppController {
 	    $this->Competence->moveUp($this->Competence->id, 1);
 	    $this->redirect(array('action' => 'index'));
 	}
-	
+
 	public function admin_movedown($id = null) {
 	    $this->Competence->id = $id;
 	    if (!$this->Competence->exists()) {
@@ -48,7 +48,7 @@ class CompetencesController extends AppController {
 	    $this->Competence->moveDown($this->Competence->id, 1);
 	    $this->redirect(array('action' => 'index'));
 	}
-	
+
 	public function admin_deleteNode($id = null) {
 	    $this->Competence->id = $id;
 	    if (!$this->Competence->exists()) {
@@ -58,7 +58,7 @@ class CompetencesController extends AppController {
 		$this->Competence->delete();
 	    $this->redirect(array('action' => 'index'));
 	}
-	
+
 	public function attachitem() {
         $this->set('title_for_layout', __('Associer un item à une évaluation'));
 
@@ -79,35 +79,44 @@ class CompetencesController extends AppController {
 		} else {
 			throw new NotFoundException(__('You must provide a evaluation_id in order to attach an item to this test !'));
 		}
-		
-		$this->Competence->contain('Item.Level.title', 'Item.user_id = '.AuthComponent::user('id').' OR Item.type = 1 OR Item.type = 2', 'ChildCompetence');
-        $stuff = $this->Competence->find('all',  
-                array('fields' => array('title', 'lft', 'rght'), 'order' => 'lft ASC')); 
-        $this->set('stuff', $stuff);  
     }
-    
-    public function attachunrateditem() {
-        $this->set('title_for_layout', __('Associer un item à une évaluation'));
 
-	    if($this->request->is('post') && is_numeric($this->request->data['Classroom']['period_id'])){
-		    $this->Competence->contain('Item.Level.title', 'ChildCompetence');
-	        $stuff = $this->Competence->find('all',  
-	                array('fields' => array('title', 'lft', 'rght'), 'order' => 'lft ASC')); 
-	        $this->set('stuff2', $stuff);  
-	    }else{
+    public function attachunrateditem() {
+        $this->set('title_for_layout', __('Associer un item non évalué à une évaluation'));
+
+	    if(!$this->request->is('post') || !is_numeric($this->request->data['Classroom']['period_id']))
 		    throw new NotFoundException(__('Missing or invalid arguments !'));
+	    else{
+	    	$this->set('period_id', $this->request->data['Classroom']['period_id']);
+	    	$this->set('classroom_id', $this->request->data['Classroom']['classroom_id']);
 	    }
 	}
 
-    public function index() {	
-    	$this->set('title_for_layout', __('Référentiel de compétences'));	
-        $stuff = $this->Competence->find('all',  
+    public function return_competences($id = null){
+
+        if(isset($this->request->query['id']) && $this->request->query['id'] != "#")
+            $id = $this->request->query['id'];
+
+        $this->layout = 'pdf';
+
+        $items_enfants = $this->Competence->Item->findItemsWithCompetenceId($id);
+        $resultats['Items'] = $items_enfants;
+
+        $competences_enfants = $this->Competence->findAllCompetencesWithParentId($id);
+        $resultats['Competences'] = $competences_enfants;
+
+        $this->set('items_competences', $resultats);
+    }
+
+    public function index() {
+    	$this->set('title_for_layout', __('Référentiel de compétences'));
+        $this->Competence->recursive = -1;
+        $stuff = $this->Competence->find('threaded',
         	array(
-            	'fields' => array('title', 'lft', 'rght'), 
             	'order' => 'lft ASC',
             )
-        ); 
-        $this->set('stuff', $stuff);  
+        );
+        $this->set('stuff', $stuff);
     }
 
 

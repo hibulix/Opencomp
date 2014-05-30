@@ -21,15 +21,29 @@ class LpcnodesController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->set('title_for_layout', __('Livret Personnel de Compétences'));	
-        $stuff = $this->Lpcnode->find('all',  
+		$this->set('title_for_layout', __('Livret Personnel de Compétences'));
+        $this->Lpcnode->recursive = -1;
+        $stuff = $this->Lpcnode->find('threaded',
         	array(
-            	'fields' => array('title', 'lft', 'rght'), 
             	'order' => 'lft ASC',
             )
         ); 
         $this->set('stuff', $stuff); 
 	}
+
+    public function return_nodes($id = null) {
+
+        if(isset($this->request->query['id']) && $this->request->query['id'] != "#")
+            $id = $this->request->query['id'];
+
+        $this->layout = 'pdf';
+
+        $lpcnodes_enfants = $this->Lpcnode->findAllNodesWithParentId($id);
+        $resultats['Competences'] = $lpcnodes_enfants;
+
+        $this->set('items_lpcnodes', $resultats);
+
+    }
 
 	public function admin_moveup($id = null) {
 	    $this->Lpcnode->id = $id;

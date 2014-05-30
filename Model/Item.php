@@ -19,6 +19,8 @@ class Item extends AppModel {
  */
 	public $displayField = 'title';
 
+	public $actsAs = array('Containable');
+
 /**
  * Validation rules
  *
@@ -183,6 +185,23 @@ class Item extends AppModel {
 			'insertQuery' => ''
 		)
 	);
+
+    function findItemsWithCompetenceId($id){
+        return $this->find('all',
+            array(
+                'contain' => array ('Level.title'),
+                'fields' => array('id', 'title', 'type'),
+                'conditions' => array(
+                    'Item.competence_id'=>$id,
+                    'OR' => array(
+                        'Item.user_id' => AuthComponent::user('id'),
+                        'Item.type IN' => array('1','2'),
+                    ),
+                ),
+            )
+        );
+
+    }
 	
 	function beforeValidate($options = array()) {
 	  if (!isset($this->data['Level']['Level'])

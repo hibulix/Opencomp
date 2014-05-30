@@ -261,3 +261,12 @@ a.btn-success {
 .jstree-default{
     background-color: transparent !important;
 }
+
+.jstree a{
+  height:auto !important;
+  white-space:normal !important;
+}
+
+i.red {
+  color:red;
+}

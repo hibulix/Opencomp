@@ -116,4 +116,14 @@ class Lpcnode extends AppModel {
 		)
 	);
 
+    public function findAllNodesWithParentId($id){
+        return $this->find('all',
+            array(
+                'contain' => array('ChildLpcnode.id', 'Item.type = 1'),
+                'conditions' => array('Lpcnode.parent_id'=>$id),
+                'order' => 'Lpcnode.lft ASC',
+            )
+        );
+    }
+
 }

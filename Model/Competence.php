@@ -84,4 +84,14 @@ class Competence extends AppModel {
 		)
 	);
 
+    public function findAllCompetencesWithParentId($id){
+        return $this->find('all',
+            array(
+                'contain' => array('ChildCompetence.id', 'Item.user_id = '.AuthComponent::user('id').' OR Item.type = 1 OR Item.type = 2'),
+                'conditions' => array('Competence.parent_id'=>$id),
+                'order' => 'Competence.lft ASC',
+            )
+        );
+    }
+
 }
