@@ -45,6 +45,14 @@ Installation
 
 * Accédez à votre serveur web, les identifiants par défaut sont admin/admin.
 * Rapportez vos suggestions et avis sur [le gestionnaire de demandes du projet](http://projets.opencomp.fr/opencomp/issues/new).
+
+----
+
+Ceux qui le souhaitent peuvent me remercier via Flattr :blush:    
+
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=jtraulle&url=https://github.com/jtraulle/Opencomp&title=Opencomp&language=php&tags=github&category=software)
+
+----
  
 Licence
 -------
