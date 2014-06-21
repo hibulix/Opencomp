@@ -7,6 +7,34 @@ App::uses('AppController', 'Controller');
  */
 class UsersController extends AppController {
 
+    function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow('needYubikeyToken');
+    }
+
+    public function needYubikeyToken(){
+        $this->autoRender = false;
+        
+        if($this->request->is('post')) {
+            $this->layout = 'pdf';
+
+            $user = $this->User->find('first', array(
+                'conditions' => array(
+                    'User.username' => $this->request->data['User']['username'],
+                    'User.password' => $this->Auth->password($this->request->data['User']['password'])
+                ),
+                'recursive' => -1
+            ));
+            if (isset($user['User']['yubikeyID']) && !empty($user['User']['yubikeyID'])){
+                echo'true';
+                return;
+            }
+
+        }
+        echo 'false';
+        return;
+    }
+
 	public function login(){
 		$this->set('title_for_layout', __('Identification requise'));
 		$iduser = $this->Auth->user('id');
