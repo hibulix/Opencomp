@@ -18,7 +18,7 @@
  */
 
 $ds = DIRECTORY_SEPARATOR;
-$dispatcher = dirname(__DIR__) . $ds . 'Vendor' . $ds . 'pear-pear.cakephp.org' . $ds . 'CakePHP' . $ds . 'Cake' . $ds . 'Console' . $ds . 'ShellDispatcher.php';
+$dispatcher = dirname(__DIR__) . $ds . 'Vendor' . $ds . 'cakephp' . $ds . 'cakephp' . $ds . 'lib' . $ds . 'Cake' . $ds . 'Console' . $ds . 'ShellDispatcher.php';
 
 if (!include ($dispatcher)) {
 	trigger_error('Could not locate CakePHP core files.', E_USER_ERROR);
