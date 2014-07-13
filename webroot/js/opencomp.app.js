@@ -77,7 +77,7 @@ $(document).ready(function() {
     });
 
     $("#tree_attach_unrated_item").jstree({
-        'state' : { 'key' : 'tree_attach_item' },
+        'state' : { 'key' : 'tree_attach_unrated_item' },
         'contextmenu' : {
           'items' : returnContextMenuUnratedItems
         },
