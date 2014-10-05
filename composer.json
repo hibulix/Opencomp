@@ -10,15 +10,16 @@
         }
     ],
     "require": {
-        "cakephp/cakephp": "2.5.2",
+        "cakephp/cakephp": "2.5.5",
     	"slywalker/boost_cake": "1.0.5",
     	"zendframework/zendpdf": "2.0.2",
     	"enygma/yubikey": "1.0.0",
-    	"dompdf/dompdf": "0.6.1"
+    	"dompdf/dompdf": "0.6.1",
+        "phpoffice/phpexcel": "1.8.0"
     },
     "require-dev": {
-    	"cakephp/debug_kit": "2.2.3",
-        "phpunit/phpunit": "4.1.3"
+    	"cakephp/debug_kit": "2.2.4",
+        "phpunit/phpunit": "4.3.0"
     },
     "config": {
         "vendor-dir": "Vendor/"
