@@ -10,7 +10,7 @@
     echo $this->Html->css(array(
         '../components/bootstrap/dist/css/bootstrap.min',
         '../components/bootstrap/dist/css/bootstrap-theme.min',
-        '../components/font-awesome/css/font-awesome.min',
+        '../components/fontawesome/css/font-awesome.min',
         'opencomp.auth'
     ));
     

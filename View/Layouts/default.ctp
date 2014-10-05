@@ -11,7 +11,7 @@
             '../components/bootstrap/dist/css/bootstrap.min',
             '../components/bootstrap/dist/css/bootstrap-theme.min',
             '../components/bootstrap-datepicker/css/datepicker3',
-            '../components/font-awesome/css/font-awesome.min',
+            '../components/fontawesome/css/font-awesome.min',
             '../components/chosen/chosen.min',
             'chosen.bootstrap.css',
             '../components/jstree/dist/themes/default/style.min',
