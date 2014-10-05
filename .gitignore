@@ -13,4 +13,3 @@ composer.phar
 .idea/
 Vendor/*
 Plugin/*
-.DS_Store

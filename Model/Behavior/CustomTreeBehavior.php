@@ -31,16 +31,16 @@ class CustomTreeBehavior extends TreeBehavior {
 		if (!is_null($overrideRecursive))
 			$recursive = $overrideRecursive;
 
-		if ($keyPath == null && $valuePath == null && $Model->hasField($Model->displayField)) {
+		if ($keyPath === null && $valuePath === null && $Model->hasField($Model->displayField)) {
 			$fields = array($Model->primaryKey, $Model->displayField, $left, $right);
 		} else {
 			$fields = null;
 		}
 
-		if ($keyPath == null)
+		if ($keyPath === null)
 			$keyPath = '{n}.' . $Model->alias . '.' . $Model->primaryKey;
 
-		if ($valuePath == null) {
+		if ($valuePath === null) {
 			$valuePath = array('%s-%s', '{n}.depth', '{n}.' . $Model->alias . '.' . $Model->displayField);
 		} elseif (is_string($valuePath)) {
 			$valuePath = array('%s-%s', '{n}.depth', $valuePath);

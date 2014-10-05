@@ -8,16 +8,7 @@ php:
 before_script:
   - sh -c "mysql -e 'CREATE DATABASE opencomp_test;'"
   - chmod -R 777 tmp
-  - echo "<?php
-    class DATABASE_CONFIG {
-    public \$test = array(
-      'datasource' => 'Database/Mysql',
-      'database' => 'opencomp_test',
-      'host' => '0.0.0.0',
-      'login' => 'travis',
-      'persistent' => false,
-    );
-    }" > Config/database.php
+  - echo "<?php class DATABASE_CONFIG { public \$test = array('datasource' => 'Database/Mysql', 'database' => 'opencomp_test', 'host' => '0.0.0.0', 'login' => 'travis', 'persistent' => false); }" > Config/database.php
   - composer install --dev
 
 script:

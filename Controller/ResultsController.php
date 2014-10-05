@@ -56,7 +56,7 @@ class ResultsController extends AppController {
 		//On vérifie qu'un paramètre nommé evaluation_id a été fourni et qu'il existe.
         $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->params['named']['evaluation_id']);
 
-        if(isset($this->request->params['named']['manual']) && $this->request->params['named']['manual'] == true)
+        if(isset($this->request->params['named']['manual']) && $this->request->params['named']['manual'] == 'true')
             $this->set('manual', 'manual');
 
         $pupil_id = $this->CheckParams->checkForNamedParam('Pupil','pupil_id', $this->request->params['named']['pupil_id']);
@@ -109,7 +109,7 @@ class ResultsController extends AppController {
 
 			if(count($this->Result->invalidFields()) == 0){
 				$this->Session->setFlash(__('Les résultats de <code>'.$pupil['Pupil']['first_name'].' '.$pupil['Pupil']['name'].'</code> pour l\'évaluation <code>'.$items[0]['Evaluation']['title'].'</code> ont bien été enregistrés.'), 'flash_success');
-                if(isset($this->request->params['named']['manual']) && $this->request->params['named']['manual'] == true) {
+                if(isset($this->request->params['named']['manual']) && $this->request->params['named']['manual'] == 'true') {
                     $this->redirect(array(
                             'controller'    => 'results',
                             'action'        => 'selectpupilmanual',
