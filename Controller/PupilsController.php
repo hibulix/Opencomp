@@ -113,6 +113,9 @@ class PupilsController extends AppController {
     }
     
     private function _runImport($import){
+        //On vérifie qu'un paramètre nommé classroom_id a été fourni et qu'il existe.
+        $classroom_id = $this->CheckParams->checkForNamedParam('Classroom','classroom_id', $this->request->params['named']['classroom_id']);
+        
         $datas = array();
         foreach($import as $pupil){
             $data = array(
