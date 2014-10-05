@@ -14,12 +14,23 @@
     <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un élève'), '/classroomspupils/addnew/classroom_id:'.$classroom['Classroom']['id'], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
     <div class="btn-group ontitle">
         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+            <i class="fa fa-arrow-up"></i> Exporter
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <?php echo $this->Html->link('<i class="fa fa-file-excel-o"></i> '.__('vers Excel pour publipostage'), array('controller' => 'ClassroomsPupils', 'action' => 'excelExport', 'classroom_id' => $classroom['Classroom']['id']),array('escape' => false)); ?>
+            </li>
+        </ul>
+    </div>
+    <div class="btn-group ontitle">
+        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
             <i class="fa fa-arrow-down"></i> Importer
             <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
             <li>
-                <?php echo $this->Html->link(__('depuis un export .csv BE1D'), array('controller' => 'pupils', 'action' => 'import', 'classroom_id' => $classroom['Classroom']['id'])); ?>
+                <?php echo $this->Html->link('<i class="fa fa-file-text-o"></i> '.__('depuis un export .csv BE1D'), array('controller' => 'pupils', 'action' => 'import', 'classroom_id' => $classroom['Classroom']['id']),array('escape' => false)); ?>
             </li>
         </ul>
     </div>
