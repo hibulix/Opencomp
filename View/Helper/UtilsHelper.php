@@ -4,7 +4,7 @@ App::uses('AppHelper', 'View/Helper');
 class UtilsHelper extends AppHelper {
    
    /**
-    * sorting_sign function.
+    * sortingSign function.
     * Permet de retourner un signe ascendant, descendant ou les deux en fonction 
     * du tri actuellement appliqué par le paginateur.
     * 
@@ -14,7 +14,7 @@ class UtilsHelper extends AppHelper {
     * @param mixed $sortDir Utilisé pour transmettre $this->Paginator->sortDir()
     * @return void
     */
-   public function sorting_sign($column, $sortKey, $sortDir){
+   public function sortingSign($column, $sortKey, $sortDir){
         if($column == $sortKey){
             if($sortDir == 'asc'){
                 echo '<i class="fa fa-sort-up"></i> ';

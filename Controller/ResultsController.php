@@ -20,7 +20,7 @@ class ResultsController extends AppController {
 			} else {
 				$this->redirect(array(
                     'action' => 'add',
-                    'evaluation_id' => $this->request->params['named']['evaluation_id'],
+                    'evaluation_id' => $evaluation_id,
                     'pupil_id' => $pupil_id
                 ));
 			}
@@ -35,7 +35,7 @@ class ResultsController extends AppController {
             $pupil_id = intval($this->request->data['Result']['pupil_id']);
             $this->redirect(array(
                 'action' => 'add',
-                'evaluation_id' => $this->request->params['named']['evaluation_id'],
+                'evaluation_id' => $evaluation_id,
                 'pupil_id' => $pupil_id,'manual' => 'true'
             ));
         }
