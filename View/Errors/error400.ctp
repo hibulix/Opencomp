@@ -17,15 +17,16 @@
  */
 ?>
 
-<div class="alert alert-block alert-error">
-  <h2 class="alert-heading"><i class="fa fa-bolt"></i> <?php echo __d('cake', 'Ooops - Une erreur interne est survenue.'); ?></h4>
+<div class="alert alert-warning">
+  <h4><i class="fa fa-bolt"></i> <?php echo __d('cake', 'Erreur 404 - La page que vous avez demandé n\'existe pas !'); ?></h4>
 <br />
-    <h3><?php echo $name; ?></h3><br />
 	<?php printf(
-		__d('cake', 'L\'adresse demandée %s n\'a pas été trouvée sur le serveur.'),
+		__d('cake', 'Le chemin demandé %s n\'a pas été trouvé sur le serveur.'),
 		"<strong>'{$url}'</strong>"
-	); ?>
-<br /><br />
+	); ?><br />
+    <p>S'il ne s'agit pas d'une fausse manipulation, n'hésitez pas à <a href="http://projets.opencomp.fr/opencomp/issues/new"><i class="fa fa-bug"></i> ouvrir un ticket d'incident</a></p>
+    <br />
+    <a class="btn btn-xs btn-default" href="javascript:history.back();"><i class="fa fa-arrow-circle-left"></i> retourner à la page précédente</a>
 <?php
 if (Configure::read('debug') > 0 ):
 	echo $this->element('exception_stack_trace');

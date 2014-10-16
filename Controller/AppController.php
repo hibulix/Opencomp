@@ -68,4 +68,10 @@ class AppController extends Controller {
     	$this->Auth->flash['element'] = "flash_error";
     	$this->Auth->authError = "Vous n'êtes pas autorisé à accéder à cette page !";
     }
+
+    function beforeRender() {
+        if($this->name == 'CakeError') {
+            $this->layout = 'error';
+        }
+    }
 }
