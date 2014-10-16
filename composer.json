@@ -15,7 +15,8 @@
     	"zendframework/zendpdf": "2.0.2",
     	"enygma/yubikey": "1.0.0",
     	"dompdf/dompdf": "0.6.1",
-        "phpoffice/phpexcel": "1.8.0"
+        "phpoffice/phpexcel": "1.8.0",
+        "parallax/cake-sentry": "dev-master"
     },
     "require-dev": {
     	"cakephp/debug_kit": "2.2.4",
