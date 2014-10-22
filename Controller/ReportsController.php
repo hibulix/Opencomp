@@ -36,23 +36,7 @@ class ReportsController extends AppController {
             $this->set('classroom_id', $classroom_id);
         }
 
-        $this->loadModel('Competence');
-        $competences = $this->Competence->generateTreeList(null, null, null, '',-1);
-
-        $this->loadModel('Classroom');
-        $this->Classroom->recursive = 0;
-        $this->Classroom->id = $classroom_id;
-        $classroom = $this->Classroom->read();
-        
-        $this->loadModel('Setting');
-        $currentYear = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'currentYear')));
-
-        $this->loadModel('Period');
-        $periods = $this->Period->find('list', array(
-            'conditions' => array('establishment_id' => $classroom['Classroom']['establishment_id'], 'year_id' => $currentYear['Setting']['value']),
-            'recursive' => 0));
-
-        $this->set(compact('classrooms', 'users', 'periods', 'pupils', 'competences'));
+        $this->getReportAssociatedInfos($classroom_id);
     }
 
 /**
@@ -87,24 +71,34 @@ class ReportsController extends AppController {
 			$this->set('classroom_id', $classroom_id);
 		}
 		
-		$this->loadModel('Competence');
-		$competences = $this->Competence->generateTreeList(null, null, null, '',-1);
-		
-		$this->loadModel('Classroom');
-		$this->Classroom->recursive = 0;
-		$this->Classroom->id = $classroom_id;
-		$classroom = $this->Classroom->read();
-		
-		$this->loadModel('Setting');
+		$this->getReportAssociatedInfos($classroom_id);
+	}
+
+    /**
+     * method to initialize data related to reports (for combobox for example)
+     *
+     * @param string $classroom_id
+     * @return void
+     */
+    private function getReportAssociatedInfos($classroom_id) {
+        $this->loadModel('Competence');
+        $competences = $this->Competence->generateTreeList(null, null, null, '',-1);
+
+        $this->loadModel('Classroom');
+        $this->Classroom->recursive = 0;
+        $this->Classroom->id = $classroom_id;
+        $classroom = $this->Classroom->read();
+
+        $this->loadModel('Setting');
         $currentYear = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'currentYear')));
-		
-		$this->loadModel('Period');
-		$periods = $this->Period->find('list', array(
-			'conditions' => array('establishment_id' => $classroom['Classroom']['establishment_id'], 'year_id' => $currentYear['Setting']['value']),
+
+        $this->loadModel('Period');
+        $periods = $this->Period->find('list', array(
+            'conditions' => array('establishment_id' => $classroom['Classroom']['establishment_id'], 'year_id' => $currentYear['Setting']['value']),
             'recursive' => 0));
 
-		$this->set(compact('classrooms', 'users', 'periods', 'pupils', 'competences'));
-	}
+        $this->set(compact('classrooms', 'users', 'periods', 'pupils', 'competences'));
+    }
 
     /**
      * delete method
