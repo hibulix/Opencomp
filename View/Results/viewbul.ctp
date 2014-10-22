@@ -35,7 +35,7 @@
 			$("#progress-bar").addClass('progress-striped active');
 			$.ajax({ 
 			    type: "POST",
-			    url: "<?php echo $this->Html->url(array('controller' => 'results', 'action' => 'concat_bul'), true); ?>",
+			    url: "<?php echo $this->Html->url(array('controller' => 'results', 'action' => 'concatenateReports'), true); ?>",
 			    data: tab,
 			    complete: function(){
 			    	$("#progress-bar").removeClass('progress-striped active');

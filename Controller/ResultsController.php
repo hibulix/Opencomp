@@ -271,7 +271,7 @@ class ResultsController extends AppController {
         $this->set('competences', $competences);
 	}
 	
-	function concat_bul(){
+	function concatenateReports(){
 		$this->layout = 'ajax';
 			
 		$pdfMerged = new ZendPdf\PdfDocument();

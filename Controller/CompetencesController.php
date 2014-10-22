@@ -92,7 +92,7 @@ class CompetencesController extends AppController {
 	    }
 	}
 
-    public function return_competences($id = null){
+    public function returnCompetences($id = null){
 
         if(isset($this->request->query['id']) && $this->request->query['id'] != "#")
             $id = $this->request->query['id'];

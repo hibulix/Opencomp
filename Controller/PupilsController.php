@@ -108,11 +108,11 @@ class PupilsController extends AppController {
         }
 
         if(isset($this->request->params['named']['step']) && $this->request->params['named']['step'] == 'go') {
-            $this->_runImport($import);
+            $this->runImport($import);
         }
     }
     
-    private function _runImport($import){
+    private function runImport($import){
         //On vérifie qu'un paramètre nommé classroom_id a été fourni et qu'il existe.
         $classroom_id = $this->CheckParams->checkForNamedParam('Classroom','classroom_id', $this->request->params['named']['classroom_id']);
         

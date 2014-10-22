@@ -31,7 +31,7 @@ class LpcnodesController extends AppController {
         $this->set('stuff', $stuff); 
 	}
 
-    public function return_nodes($id = null) {
+    public function returnNodes($id = null) {
 
         if(isset($this->request->query['id']) && $this->request->query['id'] != "#")
             $id = $this->request->query['id'];

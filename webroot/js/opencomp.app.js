@@ -33,7 +33,7 @@ $(document).ready(function() {
               'Loading ...' : 'Veuillez patienter ...'
           },
           'data' : {
-            'url' : 'competences/return_competences',
+            'url' : 'competences/returnCompetences',
             'data' : function (node) {
                 return { 'id' : node.id };
             }
@@ -47,7 +47,7 @@ $(document).ready(function() {
                 'Loading ...' : 'Veuillez patienter ...'
             },
             'data' : {
-                'url' : 'lpcnodes/return_nodes',
+                'url' : 'lpcnodes/returnNodes',
                 'data' : function (node) {
                     return { 'id' : node.id };
                 }
@@ -68,7 +68,7 @@ $(document).ready(function() {
                 'Loading ...' : 'Veuillez patienter ...'
             },
             'data' : {
-                'url' : '../return_competences',
+                'url' : '../returnCompetences',
                 'data' : function (node) {
                     return { 'id' : node.id };
                 }
@@ -88,7 +88,7 @@ $(document).ready(function() {
                 'Loading ...' : 'Veuillez patienter ...'
             },
             'data' : {
-                'url' : 'return_competences',
+                'url' : 'returnCompetences',
                 'data' : function (node) {
                     return { 'id' : node.id };
                 }
