@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a18bb19fff469c98a2d683effba2b383",
+    "hash": "fc0605c5a3e104ae32396d1eefaf09e9",
     "packages": [
         {
             "name": "cakephp/cakephp",
@@ -955,16 +955,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.3.0",
+            "version": "4.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "6913ac6c2f71ce18ff09b605df2fa37a6d789fd9"
+                "reference": "5a0bc4dcbb7340c0a9a9bc3507854a67c564edc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6913ac6c2f71ce18ff09b605df2fa37a6d789fd9",
-                "reference": "6913ac6c2f71ce18ff09b605df2fa37a6d789fd9",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/5a0bc4dcbb7340c0a9a9bc3507854a67c564edc4",
+                "reference": "5a0bc4dcbb7340c0a9a9bc3507854a67c564edc4",
                 "shasum": ""
             },
             "require": {
@@ -1025,7 +1025,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-10-03 05:17:00"
+            "time": "2014-10-16 16:53:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
