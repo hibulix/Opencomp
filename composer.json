@@ -10,17 +10,17 @@
         }
     ],
     "require": {
-        "cakephp/cakephp": "2.5.5",
-    	"slywalker/boost_cake": "1.0.5",
+        "cakephp/cakephp": "2.5.7",
+    	"slywalker/boost_cake": "1.0.6",
     	"zendframework/zendpdf": "2.0.2",
-    	"enygma/yubikey": "2.3.0",
+    	"enygma/yubikey": "3.1.0",
     	"dompdf/dompdf": "0.6.1",
         "phpoffice/phpexcel": "1.8.0",
         "parallax/cake-sentry": "dev-master#990c905fa01a0ce6fdcd33c616b45a392bb716e2"
     },
     "require-dev": {
-    	"cakephp/debug_kit": "2.2.4",
-        "phpunit/phpunit": "4.3.3"
+    	"cakephp/debug_kit": "2.2.5",
+        "phpunit/phpunit": "4.4.0"
     },
     "config": {
         "vendor-dir": "Vendor/"

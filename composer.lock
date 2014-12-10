@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fc0605c5a3e104ae32396d1eefaf09e9",
+    "hash": "b6d7f939fd829b5a24ae8b92fb8003f3",
     "packages": [
         {
             "name": "cakephp/cakephp",
-            "version": "2.5.5",
+            "version": "2.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "ce98a1ff5738af6db0f42a3647aaaaa5c3773d24"
+                "reference": "ef28b42b2b8885a2be216c11adbbf32919e04a5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/ce98a1ff5738af6db0f42a3647aaaaa5c3773d24",
-                "reference": "ce98a1ff5738af6db0f42a3647aaaaa5c3773d24",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/ef28b42b2b8885a2be216c11adbbf32919e04a5b",
+                "reference": "ef28b42b2b8885a2be216c11adbbf32919e04a5b",
                 "shasum": ""
             },
             "require": {
@@ -47,20 +47,20 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2014-10-05 02:59:03"
+            "time": "2014-12-09 01:50:35"
         },
         {
             "name": "composer/installers",
-            "version": "v1.0.18",
+            "version": "v1.0.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "74fb0a7a1a23696d9c8cc2fba5903f6711cdd067"
+                "reference": "89d77bfbee79e16653f7162c86e602cc188471db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/74fb0a7a1a23696d9c8cc2fba5903f6711cdd067",
-                "reference": "74fb0a7a1a23696d9c8cc2fba5903f6711cdd067",
+                "url": "https://api.github.com/repos/composer/installers/zipball/89d77bfbee79e16653f7162c86e602cc188471db",
+                "reference": "89d77bfbee79e16653f7162c86e602cc188471db",
                 "shasum": ""
             },
             "replace": {
@@ -102,6 +102,7 @@
                 "Hurad",
                 "MODX Evo",
                 "OXID",
+                "Thelia",
                 "WolfCMS",
                 "agl",
                 "annotatecms",
@@ -111,9 +112,11 @@
                 "codeigniter",
                 "concrete5",
                 "croogo",
+                "dokuwiki",
                 "drupal",
                 "elgg",
                 "fuelphp",
+                "grav",
                 "installer",
                 "joomla",
                 "kohana",
@@ -137,7 +140,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2014-08-18 20:00:12"
+            "time": "2014-11-29 01:29:17"
         },
         {
             "name": "dompdf/dompdf",
@@ -182,22 +185,23 @@
         },
         {
             "name": "enygma/yubikey",
-            "version": "2.3",
+            "version": "3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/enygma/yubikey.git",
-                "reference": "4dcceaff09c9ac36abef60335ecfae5fcf3e9308"
+                "reference": "a2e3bbc60b85d2dcb661ac99270457ce0191e0a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/enygma/yubikey/zipball/4dcceaff09c9ac36abef60335ecfae5fcf3e9308",
-                "reference": "4dcceaff09c9ac36abef60335ecfae5fcf3e9308",
+                "url": "https://api.github.com/repos/enygma/yubikey/zipball/a2e3bbc60b85d2dcb661ac99270457ce0191e0a9",
+                "reference": "a2e3bbc60b85d2dcb661ac99270457ce0191e0a9",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.1"
             },
             "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
                 "phpunit/phpunit": "4.3.2"
             },
             "type": "library",
@@ -226,7 +230,7 @@
                 "yubico",
                 "yubikey"
             ],
-            "time": "2014-10-16 16:32:34"
+            "time": "2014-11-19 20:11:20"
         },
         {
             "name": "parallax/cake-sentry",
@@ -421,16 +425,16 @@
         },
         {
             "name": "slywalker/boost_cake",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slywalker/cakephp-plugin-boost_cake.git",
-                "reference": "a5551800a0ce83a0b7ec0c9f0351f8f218be3771"
+                "reference": "bb1fa0d96b2c2c8fad7b0ccfab2ca2f231f66c3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slywalker/cakephp-plugin-boost_cake/zipball/a5551800a0ce83a0b7ec0c9f0351f8f218be3771",
-                "reference": "a5551800a0ce83a0b7ec0c9f0351f8f218be3771",
+                "url": "https://api.github.com/repos/slywalker/cakephp-plugin-boost_cake/zipball/bb1fa0d96b2c2c8fad7b0ccfab2ca2f231f66c3e",
+                "reference": "bb1fa0d96b2c2c8fad7b0ccfab2ca2f231f66c3e",
                 "shasum": ""
             },
             "require": {
@@ -438,7 +442,7 @@
                 "php": ">=5.3.0"
             },
             "suggest": {
-                "twitter/bootstrap": "Bootstrap for Twitter"
+                "twbs/bootstrap": "Bootstrap framework"
             },
             "type": "cakephp-plugin",
             "notification-url": "https://packagist.org/downloads/",
@@ -448,8 +452,7 @@
             "authors": [
                 {
                     "name": "Yasuo Harada",
-                    "email": "slywalker.net@gmail.com",
-                    "homepage": "https://github.com/slywalker"
+                    "email": "slywalker.net@gmail.com"
                 }
             ],
             "description": "BoostCake is a plugin for CakePHP using Bootstrap",
@@ -459,7 +462,7 @@
                 "cakephp",
                 "twitter"
             ],
-            "time": "2014-01-09 03:56:57"
+            "time": "2014-11-07 10:36:43"
         },
         {
             "name": "zendframework/zend-memory",
@@ -605,16 +608,16 @@
     "packages-dev": [
         {
             "name": "cakephp/debug_kit",
-            "version": "2.2.4",
+            "version": "2.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/debug_kit.git",
-                "reference": "61d91e8eac30b7d6eb3d145101ea1622bd6e8c34"
+                "reference": "c91103061d9b7ec3141e642913f88090a292b2bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/61d91e8eac30b7d6eb3d145101ea1622bd6e8c34",
-                "reference": "61d91e8eac30b7d6eb3d145101ea1622bd6e8c34",
+                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/c91103061d9b7ec3141e642913f88090a292b2bf",
+                "reference": "c91103061d9b7ec3141e642913f88090a292b2bf",
                 "shasum": ""
             },
             "require": {
@@ -650,7 +653,7 @@
                 "debug",
                 "kit"
             ],
-            "time": "2014-07-29 01:27:30"
+            "time": "2014-11-22 17:58:32"
         },
         {
             "name": "doctrine/instantiator",
@@ -708,16 +711,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.0.11",
+            "version": "2.0.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "53603b3c995f5aab6b59c8e08c3a663d2cc810b7"
+                "reference": "0e7d2eec5554f869fa7a4ec2d21e4b37af943ea5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/53603b3c995f5aab6b59c8e08c3a663d2cc810b7",
-                "reference": "53603b3c995f5aab6b59c8e08c3a663d2cc810b7",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/0e7d2eec5554f869fa7a4ec2d21e4b37af943ea5",
+                "reference": "0e7d2eec5554f869fa7a4ec2d21e4b37af943ea5",
                 "shasum": ""
             },
             "require": {
@@ -769,7 +772,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-08-31 06:33:04"
+            "time": "2014-12-03 06:41:44"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -955,16 +958,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.3.3",
+            "version": "4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "5a0bc4dcbb7340c0a9a9bc3507854a67c564edc4"
+                "reference": "bbe7bcb83b6ec1a9eaabbe1b70d4795027c53ee0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/5a0bc4dcbb7340c0a9a9bc3507854a67c564edc4",
-                "reference": "5a0bc4dcbb7340c0a9a9bc3507854a67c564edc4",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/bbe7bcb83b6ec1a9eaabbe1b70d4795027c53ee0",
+                "reference": "bbe7bcb83b6ec1a9eaabbe1b70d4795027c53ee0",
                 "shasum": ""
             },
             "require": {
@@ -975,14 +978,15 @@
                 "ext-spl": "*",
                 "php": ">=5.3.3",
                 "phpunit/php-code-coverage": "~2.0",
-                "phpunit/php-file-iterator": "~1.3.1",
+                "phpunit/php-file-iterator": "~1.3.2",
                 "phpunit/php-text-template": "~1.2",
                 "phpunit/php-timer": "~1.0.2",
                 "phpunit/phpunit-mock-objects": "~2.3",
                 "sebastian/comparator": "~1.0",
                 "sebastian/diff": "~1.1",
-                "sebastian/environment": "~1.0",
+                "sebastian/environment": "~1.1",
                 "sebastian/exporter": "~1.0",
+                "sebastian/global-state": "~1.0",
                 "sebastian/version": "~1.0",
                 "symfony/yaml": "~2.0"
             },
@@ -995,7 +999,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.3.x-dev"
+                    "dev-master": "4.4.x-dev"
                 }
             },
             "autoload": {
@@ -1004,10 +1008,6 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "",
-                "../../symfony/yaml/"
-            ],
             "license": [
                 "BSD-3-Clause"
             ],
@@ -1019,13 +1019,13 @@
                 }
             ],
             "description": "The PHP Unit Testing framework.",
-            "homepage": "http://www.phpunit.de/",
+            "homepage": "https://phpunit.de/",
             "keywords": [
                 "phpunit",
                 "testing",
                 "xunit"
             ],
-            "time": "2014-10-16 16:53:00"
+            "time": "2014-12-05 06:49:03"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1084,16 +1084,16 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "e54a01c0da1b87db3c5a3c4c5277ddf331da4aef"
+                "reference": "c484a80f97573ab934e37826dba0135a3301b26a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/e54a01c0da1b87db3c5a3c4c5277ddf331da4aef",
-                "reference": "e54a01c0da1b87db3c5a3c4c5277ddf331da4aef",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/c484a80f97573ab934e37826dba0135a3301b26a",
+                "reference": "c484a80f97573ab934e37826dba0135a3301b26a",
                 "shasum": ""
             },
             "require": {
@@ -1107,7 +1107,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
@@ -1144,7 +1144,7 @@
                 "compare",
                 "equality"
             ],
-            "time": "2014-05-11 23:00:21"
+            "time": "2014-11-16 21:32:38"
         },
         {
             "name": "sebastian/diff",
@@ -1200,16 +1200,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "0d9bf79554d2a999da194a60416c15cf461eb67d"
+                "reference": "6e6c71d918088c251b181ba8b3088af4ac336dd7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/0d9bf79554d2a999da194a60416c15cf461eb67d",
-                "reference": "0d9bf79554d2a999da194a60416c15cf461eb67d",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/6e6c71d918088c251b181ba8b3088af4ac336dd7",
+                "reference": "6e6c71d918088c251b181ba8b3088af4ac336dd7",
                 "shasum": ""
             },
             "require": {
@@ -1246,7 +1246,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2014-10-22 06:38:05"
+            "time": "2014-10-25 08:00:45"
         },
         {
             "name": "sebastian/exporter",
@@ -1314,6 +1314,57 @@
             "time": "2014-09-10 00:51:36"
         },
         {
+            "name": "sebastian/global-state",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/global-state.git",
+                "reference": "c7428acdb62ece0a45e6306f1ae85e1c05b09c01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/c7428acdb62ece0a45e6306f1ae85e1c05b09c01",
+                "reference": "c7428acdb62ece0a45e6306f1ae85e1c05b09c01",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.2"
+            },
+            "suggest": {
+                "ext-uopz": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de"
+                }
+            ],
+            "description": "Snapshotting of global state",
+            "homepage": "http://www.github.com/sebastianbergmann/global-state",
+            "keywords": [
+                "global state"
+            ],
+            "time": "2014-10-06 09:23:50"
+        },
+        {
             "name": "sebastian/version",
             "version": "1.0.3",
             "source": {
@@ -1350,17 +1401,17 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.5.5",
+            "version": "v2.6.1",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "b1dbc53593b98c2d694ebf383660ac9134d30b96"
+                "reference": "3346fc090a3eb6b53d408db2903b241af51dcb20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/b1dbc53593b98c2d694ebf383660ac9134d30b96",
-                "reference": "b1dbc53593b98c2d694ebf383660ac9134d30b96",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/3346fc090a3eb6b53d408db2903b241af51dcb20",
+                "reference": "3346fc090a3eb6b53d408db2903b241af51dcb20",
                 "shasum": ""
             },
             "require": {
@@ -1369,7 +1420,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -1393,7 +1444,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-09-22 09:14:18"
+            "time": "2014-12-02 20:19:20"
         }
     ],
     "aliases": [],
