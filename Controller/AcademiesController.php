@@ -24,12 +24,23 @@ App::uses('AppController', 'Controller');
  */
 class AcademiesController extends AppController {
 
+	public function isAuthorized($user = null) {
+		if (in_array($this->action, array('index', 'add', 'edit', 'delete'))) {
+			if($user['role'] === 'admin')
+				return true;
+			else
+				return false;
+		}else{
+			return true;
+		}
+	}
+
 /**
  * index method
  *
  * @return void
  */
-    public function admin_index() {
+    public function index() {
 	    $this->set('title_for_layout', __('Liste des académies'));
 		$this->Academy->recursive = 0;
 		$this->set('academies', $this->paginate());
@@ -56,7 +67,7 @@ class AcademiesController extends AppController {
  *
  * @return void
  */
-	public function admin_add() {
+	public function add() {
 	    $this->set('title_for_layout', __('Ajouter une académie'));
 		if ($this->request->is('post')) {
 			$this->Academy->create();
@@ -78,7 +89,7 @@ class AcademiesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function admin_edit($id = null) {
+	public function edit($id = null) {
 	    $this->set('title_for_layout', __('Modifier une académie'));
 		$this->Academy->id = $id;
 		if (!$this->Academy->exists()) {
@@ -106,7 +117,7 @@ class AcademiesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function admin_delete($id = null) {
+	public function delete($id = null) {
 		if (!$this->request->is('post')) {
 			throw new MethodNotAllowedException();
 		}

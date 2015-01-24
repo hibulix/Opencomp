@@ -7,7 +7,18 @@ App::uses('AppController', 'Controller');
  */
 class SettingsController extends AppController {
 
-	public function admin_index(){
+	public function isAuthorized($user = null) {
+		if (in_array($this->action, array('index'))) {
+			if($user['role'] === 'admin')
+				return true;
+			else
+				return false;
+		}else{
+			return true;
+		}
+	}
+
+	public function index(){
 	
 		$this->loadModel('Year');	
 		$years = $this->Year->find('list');

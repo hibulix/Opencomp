@@ -94,12 +94,23 @@ class UsersController extends AppController {
 		$this->redirect(array('controller' => 'users', 'action' => 'login'));
 	}
 
+	public function isAuthorized($user = null) {
+		if (in_array($this->action, array('index', 'add', 'edit', 'delete'))) {
+			if($user['role'] === 'admin')
+				return true;
+			else
+				return false;
+		}else{
+			return true;
+		}
+	}
+
 /**
  * index method
  *
  * @return void
  */
-	public function admin_index() {
+	public function index() {
         $this->set('title_for_layout', __('Liste des utilisateurs'));
 		$this->User->recursive = 0;
 		$this->set('users', $this->paginate());
@@ -126,7 +137,7 @@ class UsersController extends AppController {
  *
  * @return void
  */
-	public function admin_add() {
+	public function add() {
 	    $this->set('title_for_layout', __('Ajouter un utilisateur'));
 		if ($this->request->is('post')) {
 			$this->User->create();
@@ -151,7 +162,7 @@ class UsersController extends AppController {
  * @param string $id
  * @return void
  */	
-	public function admin_edit($id = null) {
+	public function edit($id = null) {
 	    $this->set('title_for_layout', __('Modifier un utilisateur'));
 		$this->User->id = $id;
 		if (!$this->User->exists()) {
@@ -182,7 +193,7 @@ class UsersController extends AppController {
  * @param string $id
  * @return void
  */
-	public function admin_delete($id = null) {
+	public function delete($id = null) {
 		if (!$this->request->is('post')) {
 			throw new MethodNotAllowedException();
 		}

@@ -45,7 +45,18 @@ class LpcnodesController extends AppController {
 
     }
 
-	public function admin_moveup($id = null) {
+	public function isAuthorized($user = null) {
+		if (in_array($this->action, array('add', 'moveup', 'movedown', 'deleteNode'))) {
+			if($user['role'] === 'admin')
+				return true;
+			else
+				return false;
+		}else{
+			return true;
+		}
+	}
+
+	public function moveup($id = null) {
 	    $this->Lpcnode->id = $id;
 	    if (!$this->Lpcnode->exists()) {
 	       throw new NotFoundException(__('Ce noeud n\'existe pas ;)'));
@@ -55,7 +66,7 @@ class LpcnodesController extends AppController {
 	    $this->redirect(array('action' => 'index'));
 	}
 	
-	public function admin_movedown($id = null) {
+	public function movedown($id = null) {
 	    $this->Lpcnode->id = $id;
 	    if (!$this->Lpcnode->exists()) {
 	       throw new NotFoundException(__('Ce noeud n\'existe pas ;)'));
@@ -65,7 +76,7 @@ class LpcnodesController extends AppController {
 	    $this->redirect(array('action' => 'index'));
 	}
 	
-	public function admin_deleteNode($id = null) {
+	public function deleteNode($id = null) {
 	    $this->Lpcnode->id = $id;
 	    if (!$this->Lpcnode->exists()) {
 	       throw new NotFoundException(__('Ce noeud n\'existe pas ;)'));
@@ -80,7 +91,7 @@ class LpcnodesController extends AppController {
  *
  * @return void
  */
-	public function admin_add($id = null) {
+	public function add($id = null) {
 		$this->set('title_for_layout', __('Ajouter un noeud au Livret Personnel de Compétences'));
 		if ($this->request->is('post')) {
 			$this->Lpcnode->create();
