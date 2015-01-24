@@ -15,11 +15,11 @@
 	
 	<table class="table table-striped">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id', $this->Utils->sorting_sign('id', $this->Paginator->sortKey(), $this->Paginator->sortDir()).'#', array('escape' => false)); ?></th>
-			<th><?php echo $this->Paginator->sort('name', $this->Utils->sorting_sign('name', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Prénom'), array('escape' => false)); ?></th>
-			<th><?php echo $this->Paginator->sort('first_name', $this->Utils->sorting_sign('first_name', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Nom'), array('escape' => false)); ?></th>
-			<th><?php echo $this->Paginator->sort('sex', $this->Utils->sorting_sign('sex', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Sexe'), array('escape' => false)); ?></th>
-			<th><?php echo $this->Paginator->sort('birthday', $this->Utils->sorting_sign('birthday', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Date de naissance'), array('escape' => false)); ?></th>
+			<th><?php echo $this->Paginator->sort('id', $this->Utils->sortingSign('id', $this->Paginator->sortKey(), $this->Paginator->sortDir()).'#', array('escape' => false)); ?></th>
+			<th><?php echo $this->Paginator->sort('name', $this->Utils->sortingSign('name', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Prénom'), array('escape' => false)); ?></th>
+			<th><?php echo $this->Paginator->sort('first_name', $this->Utils->sortingSign('first_name', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Nom'), array('escape' => false)); ?></th>
+			<th><?php echo $this->Paginator->sort('sex', $this->Utils->sortingSign('sex', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Sexe'), array('escape' => false)); ?></th>
+			<th><?php echo $this->Paginator->sort('birthday', $this->Utils->sortingSign('birthday', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Date de naissance'), array('escape' => false)); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php

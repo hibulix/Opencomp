@@ -5,11 +5,11 @@
     </div>
 	<table class="table table-striped">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id', $this->Utils->sorting_sign('id', $this->Paginator->sortKey(), $this->Paginator->sortDir()).'#', array('escape' => false)); ?></th>
-			<th><?php echo $this->Paginator->sort('username', $this->Utils->sorting_sign('username', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Nom d\'utilisateur'), array('escape' => false)); ?></th>
-			<th><?php echo $this->Paginator->sort('first_name', $this->Utils->sorting_sign('first_name', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Prénom'), array('escape' => false)); ?></th>
-			<th><?php echo $this->Paginator->sort('name', $this->Utils->sorting_sign('name', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Nom'), array('escape' => false)); ?></th>
-			<th><?php echo $this->Paginator->sort('email', $this->Utils->sorting_sign('email', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Email'), array('escape' => false)); ?></th>
+			<th><?php echo $this->Paginator->sort('id', $this->Utils->sortingSign('id', $this->Paginator->sortKey(), $this->Paginator->sortDir()).'#', array('escape' => false)); ?></th>
+			<th><?php echo $this->Paginator->sort('username', $this->Utils->sortingSign('username', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Nom d\'utilisateur'), array('escape' => false)); ?></th>
+			<th><?php echo $this->Paginator->sort('first_name', $this->Utils->sortingSign('first_name', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Prénom'), array('escape' => false)); ?></th>
+			<th><?php echo $this->Paginator->sort('name', $this->Utils->sortingSign('name', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Nom'), array('escape' => false)); ?></th>
+			<th><?php echo $this->Paginator->sort('email', $this->Utils->sortingSign('email', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Email'), array('escape' => false)); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php

@@ -9,8 +9,8 @@
     
         	<table class="table table-striped table-condensed">
             	<tr>
-            			<th><?php echo $this->Paginator->sort('name', $this->Utils->sorting_sign('name', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Nom de l\'académie'), array('escape' => false)); ?></th>
-            			<th><?php echo $this->Paginator->sort('type', $this->Utils->sorting_sign('type', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Type d\'académie'), array('escape' => false)); ?></th>
+            			<th><?php echo $this->Paginator->sort('name', $this->Utils->sortingSign('name', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Nom de l\'académie'), array('escape' => false)); ?></th>
+            			<th><?php echo $this->Paginator->sort('type', $this->Utils->sortingSign('type', $this->Paginator->sortKey(), $this->Paginator->sortDir()).__('Type d\'académie'), array('escape' => false)); ?></th>
             			<th class="actions"><?php echo __('Actions'); ?></th>
             	</tr>
         	<?php
