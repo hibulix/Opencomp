@@ -26,6 +26,15 @@
 		)
 	);
 }
+
+$this->start('script');
+?>
+<script type='text/javascript'>
+	var role = '<?php echo AuthComponent::user('role'); ?>';
+</script>
+<?php
+$this->end();
+
 ?>
 
 <div id="competences" class="jstree-default" style="margin-top:20px;">

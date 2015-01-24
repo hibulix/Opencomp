@@ -5,6 +5,7 @@
 </div>
 
 <?php
+
 if(isset($idnode)){
 	echo $this->Form->create('Lpcnode', array(
 		'url' => array(
@@ -12,6 +13,14 @@ if(isset($idnode)){
 	    	'action' => 'add',
 	    	$idnode
 	    ),
+		'inputDefaults' => array(
+			'div' => 'form-group',
+			'label' => array(
+				'class' => 'col col-md-2 control-label'
+			),
+			'wrapInput' => 'col col-md-3',
+			'class' => 'form-control'
+		),
 		'class' => 'form-horizontal'
 	));
 }else{
@@ -24,30 +33,28 @@ if(isset($idnode)){
 	));
 }
 
-
 echo $this->Form->input('title', array(
-    'label' => array('text' => 'Nom du noeud'), 'class' => 'input-block-level'
+    'label' => array('text' => 'Nom du noeud'),
 )); 
 
 if(isset($idnode)) {
 	echo $this->Form->input('parent_id', array(
-	    'class'=>'chzn-select',
 	    'selected'=>$idnode,
 	    'options'=>$cid,
-	    'data-placeholder'=>'Sélectionnez une noeud ...',
-	    'style'=>'width : 300px;',
-	    'label' => array(
-	        'text' => 'Noeud parent',
-	        'class' => 'control-label'
-	        )
-	    )
+		'class'=>'chzn-select form-control',
+		'label' => array(
+			'text' => 'Noeud parent'
+		))
 	);
 }
 
 ?>
 
-<div class="form-actions">
-     <?php echo $this->Form->button('Ajouter et nouveau', array('type' => 'submit', 'class' => 'btn btn-primary')); ?>
+<div class="form-group">
+	<?php echo $this->Form->submit('Ajouter et nouveau', array(
+		'div' => 'col col-md-9 col-md-offset-2',
+		'class' => 'btn btn-primary'
+	)); ?>
 </div>
 
 <?php echo $this->Form->end(); ?>
