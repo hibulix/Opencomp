@@ -47,6 +47,22 @@ echo $this->Form->input('Level', array(
     )
 );
 
+?>
+<div class="form-group">
+    <label class="col col-md-2 control-label">Jumelage LPC</label>
+    <div class="col col-md-10">
+        <?php echo $this->Form->hidden('lpcnode_id'); ?>
+        <div id="jumelage_lpc" class="jstree-default" style="margin-top:20px;">
+
+        </div>
+        <div class="well" id="selected_item"></div>
+    </div>
+</div>
+<?php
+
+
+
+
 echo $this->Form->hidden('competence_id', array('value' => $competence_id));
 echo $this->Form->hidden('classroom_id', array('value' => $eval['Evaluation']['classroom_id']));
 echo $this->Form->hidden('user_id', array('value' => AuthComponent::user('id')));

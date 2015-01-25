@@ -46,10 +46,11 @@ $(document).ready(function() {
     });
 
     $("#lpc_nodes").jstree({
+        'state' : { 'key' : 'lpc_nodes' },
         'contextmenu' : {
             'items' : returnContextMenuAdminLpcNodes
         },
-        'plugins' : [ 'contextmenu' ],
+        'plugins' : [ 'state', 'contextmenu' ],
         'core' : {
             'strings' : {
                 'Loading ...' : 'Veuillez patienter ...'
@@ -60,6 +61,37 @@ $(document).ready(function() {
                     return { 'id' : node.id };
                 }
             }
+        }
+    });
+
+
+
+    $("#jumelage_lpc").jstree({
+        'core' : {
+            'multiple' : false,
+            'check_callback' : true,
+            'strings' : {
+                'Loading ...' : 'Veuillez patienter ...'
+            },
+            'data' : {
+                'url' : '../../../lpcnodes/returnNodes',
+                'data' : function (node) {
+                    return { 'id' : node.id };
+                }
+            }
+        }
+    });
+
+    $("#jumelage_lpc").on("click.jstree-default", function (event) {
+        var selected = $('#jumelage_lpc').jstree(true).get_selected()[0];
+        if($('#jumelage_lpc').jstree(true).is_leaf(selected) === false){
+            $('#jumelage_lpc').jstree(true).deselect_node(selected);
+            if($('#jumelage_lpc').jstree(true).is_open(selected))
+                $('#jumelage_lpc').jstree(true).close_node(selected);
+            else
+                $('#jumelage_lpc').jstree(true).open_node(selected);
+        }else{
+            $('#selected_item').text($('#'+selected).text());
         }
     });
 
@@ -221,15 +253,9 @@ $(document).ready(function() {
     }
 
     function returnContextMenuAdminLpcNodes(node){
-        if(node.data.type == "feuille"){
-            var idItem = node.data.id;
-            var competence = $('#'+node.parent+'>a').text();
-            var idCompetence = $('#'+node.parent).attr('data-id');
-        }
-        else if(node.data.type == "noeud"){
-            var competence = $('#'+node.data.id+'>a').text();
-            var idCompetence = node.data.id;
-        }
+
+        var competence = $('#'+node.data.id+'>a').text();
+        var idCompetence = node.data.id;
 
         var items = {
             "createNew" : {
@@ -237,6 +263,13 @@ $(document).ready(function() {
                 "icon" : "fa text-success fa-plus",
                 "action" : function (obj){
                     window.location.href = $('#base_url').text()+'lpcnodes/add/'+idCompetence;
+                }
+            },
+            "edit" : {
+                "label" : "modifier l'intitulé ou le noeud parent de \""+competence.trim()+"\"",
+                "icon" : "fa text-warning fa-pencil",
+                "action" : function (obj){
+                    window.location.href = $('#base_url').text()+'lpcnodes/edit/'+idCompetence;
                 }
             },
             "moveTop" : {
@@ -255,7 +288,7 @@ $(document).ready(function() {
             }
         };
 
-        if (node.data.type == "feuille" || role !== 'admin') {
+        if (role !== 'admin') {
             delete items.createNew;
             delete items.moveTop;
             delete items.moveDown;
