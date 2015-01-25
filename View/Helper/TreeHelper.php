@@ -25,11 +25,19 @@ class TreeHelper extends AppHelper {
                       echo "<li data-jstree='{ \"icon\" : \"fa fa-lg ".$this->returnClassTypeItem($val['Item']['type'])." fa-cube\" }' data-type=\"feuille\" data-id=\"" . $val['Item']['id'] . "\">". $this->returnLevels($val['Level']) . $val['Item']['title'];
                       echo "</li>\n";
                   }
-
-                  if(isset($val[$ModelName])) {
-                      echo "<li class='".$child."' data-jstree='{ \"icon\" : \"fa fa-lg fa-cubes\" }' data-type='noeud' data-id='".$val[$ModelName]['id']."' id='".$val[$ModelName]['id']."'> ".$val[$ModelName]['title'];
-                      echo "</li>\n";
+                  if($ModelName == 'Lpcnode'){
+                      if($child != ""){$type = 'noeud'; $icon = 'fa-cubes';}else{$type = 'feuille'; $icon = 'text-danger fa-cube';}
+                      if(isset($val[$ModelName])) {
+                          echo "<li class='".$child."' data-jstree='{ \"icon\" : \"fa fa-lg ".$icon."\" }' data-type='".$type."' data-id='".$val[$ModelName]['id']."' id='".$val[$ModelName]['id']."'> ".$val[$ModelName]['title'];
+                          echo "</li>\n";
+                      }
+                  } else {
+                      if(isset($val[$ModelName])) {
+                          echo "<li class='".$child."' data-jstree='{ \"icon\" : \"fa fa-lg fa-cubes\" }' data-type='noeud' data-id='".$val[$ModelName]['id']."' id='".$val[$ModelName]['id']."'> ".$val[$ModelName]['title'];
+                          echo "</li>\n";
+                      }
                   }
+
               }
           }
           echo "</ul>\n";

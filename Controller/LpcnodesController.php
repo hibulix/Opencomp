@@ -46,7 +46,7 @@ class LpcnodesController extends AppController {
     }
 
 	public function isAuthorized($user = null) {
-		if (in_array($this->action, array('add', 'moveup', 'movedown', 'deleteNode'))) {
+		if (in_array($this->action, array('add', 'edit', 'moveup', 'movedown', 'deleteNode'))) {
 			if($user['role'] === 'admin')
 				return true;
 			else
@@ -114,4 +114,40 @@ class LpcnodesController extends AppController {
 		$competenceids = $this->Lpcnode->generateTreeList(null, null, null, "");
 		$this->set('cid', $competenceids);
 	}
+
+	/**
+	 * edit method
+	 *
+	 * @return void
+	 */
+	public function edit($id = null) {
+		$this->set('title_for_layout', __('Modifier un noeud du Livret Personnel de Compétences'));
+
+		$this->Lpcnode->id = $id;
+		if (!$this->Lpcnode->exists()) {
+			throw new NotFoundException(__('Ce noeud n\'existe pas ;)'));
+		}
+
+		$lpcnode = $this->Lpcnode->findById($id);
+		if(!$this->request->data){
+			$this->request->data = $lpcnode;
+		}
+
+		if ($this->request->is('post')) {
+			if ($this->Lpcnode->save($this->request->data)) {
+				$this->Session->setFlash(__('Le noeud LPC a été correctement modifé'), 'flash_success');
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.'), 'flash_error');
+			}
+		}
+
+
+
+		//Récupération des ids des catégories existantes
+		$competenceids = $this->Lpcnode->generateTreeList(null, null, null, "");
+		$this->set('cid', $competenceids);
+	}
 }
+
+
