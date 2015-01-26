@@ -30,3 +30,65 @@
 <div id="tree_attach_item" class="jstree-default" style="width:1140px; overflow: hidden;">
 
 </div>
+
+<?php
+$this->start('script');
+?>
+<script type='text/javascript'>
+	var data = <?php echo $json; ?>;
+
+	function returnContextMenu(node){
+		if(node.data.type == "feuille"){
+			var idItem = node.data.id;
+			var competence = $('#'+node.parent+'>a').text();
+			var idCompetence = $('#'+node.parent).attr('data-id');
+		}
+		else if(node.data.type == "noeud"){
+			var competence = $('#'+node.id+'>a').text();
+			var idCompetence = node.id;
+		}
+
+		var items = {
+			"choose" : {
+				"label" : "ajouter cet item à l'évaluation",
+				"icon" : "fa text-info fa-check",
+				"action" : function (obj){
+					window.location.href = $('#base_url').text()+'evaluationsItems/attachitem/evaluation_id:'+$('#id_evaluation').text()+'/item_id:'+idItem;
+				},
+			},
+			"createNew" : {
+				"label" : "créer un nouvel item dans \""+competence.trim()+"\"",
+				"separator_before" : true,
+				"icon" : "fa text-success fa-plus",
+				"action" : function (obj){
+					window.location.href = $('#base_url').text()+'evaluationsItems/additem/evaluation_id:'+$('#id_evaluation').text()+'/competence_id:'+idCompetence;
+				}
+			}
+		};
+
+		if (node.data.type == "noeud") {
+			delete items.choose;
+		}
+
+		return items;
+	}
+
+	$("#tree_attach_item").jstree({
+		'state' : { 'key' : 'tree_attach_item' },
+		'contextmenu' : {
+			//'show_at_node' : false,
+			'items' : returnContextMenu
+		},
+		'plugins' : [ 'state', 'contextmenu' ],
+		'core' : {
+			'check_callback' : true,
+			'strings' : {
+				'Loading ...' : 'Veuillez patienter ...'
+			},
+			'data' : data
+		}
+	});
+
+</script>
+<?php
+$this->end();

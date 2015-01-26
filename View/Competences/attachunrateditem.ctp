@@ -28,6 +28,83 @@
 	</ul>
 </div>
 
+
+
 <div id="tree_attach_unrated_item" class="jstree-default" style="width:1140px; overflow: hidden;">
 
 </div>
+
+<?php
+$this->start('script');
+?>
+<script type='text/javascript'>
+    var data = <?php echo $json; ?>;
+
+    function returnContextMenuUnratedItems(node){
+        var competence, idCompetence;
+        if(node.data.type == "feuille"){
+            var idItem = node.data.id;
+            competence = $('#'+node.parent+'>a').text();
+            idCompetence = $('#'+node.parent).attr('data-id');
+        }
+        else if(node.data.type == "noeud"){
+            competence = $('#'+node.data.id+'>a').text();
+            idCompetence = node.data.id;
+        }
+
+        var items = {
+            "choose" : {
+                "label" : "choisir cet item",
+                "icon" : "fa text-info fa-check",
+                "action" : function (obj){
+                    window.location.href = $('#base_url').text()+'evaluationsItems/attachunrateditem/period_id:'+$('#period_id').text()+'/item_id:'+idItem+'/classroom_id:'+$('#classroom_id').text();
+                }
+            },
+            "createNew" : {
+                "label" : "créer un nouvel item dans \""+competence.trim()+"\"",
+                "separator_before" : true,
+                "icon" : "fa text-success fa-plus",
+                "action" : function (obj){
+                    window.location.href = $('#base_url').text()+'evaluationsItems/addunrateditem/period_id:'+$('#period_id').text()+'/competence_id:'+idCompetence+'/classroom_id:'+$('#classroom_id').text();
+                }
+            }
+        };
+
+        if (node.data.type == "noeud") {
+            delete items.choose;
+        }
+
+        return items;
+    }
+
+    $("#tree_attach_unrated_item").jstree({
+        'state' : { 'key' : 'tree_attach_unrated_item' },
+        'contextmenu' : {
+            'items' : returnContextMenuUnratedItems
+        },
+        'plugins' : [ 'state', 'contextmenu' ],
+        'core' : {
+            'check_callback' : true,
+            'strings' : {
+                'Loading ...' : 'Veuillez patienter ...'
+            },
+            'data' : data
+        }
+    });
+
+    $("#tree_attach_unrated_item").on("dblclick.jstree-default", function (event) {
+        var node = $(event.target).closest("li");
+        if($(node[0]).attr("data-type") == "feuille"){
+            var idItem = $(node[0]).attr("data-id");
+            window.location.href = $('#base_url').text()+'evaluationsItems/attachunrateditem/period_id:'+$('#period_id').text()+'/item_id:'+idItem+'/classroom_id:'+$('#classroom_id').text();
+        }else if($(node[0]).attr("data-type") == "noeud"){
+            var idCompetence = $(node[0]).attr("data-id");
+            window.location.href = $('#base_url').text()+'evaluationsItems/addunrateditem/period_id:'+$('#period_id').text()+'/competence_id:'+idCompetence+'/classroom_id:'+$('#classroom_id').text();
+        }
+    });
+
+</script>
+<?php
+$this->end();
+
+?>

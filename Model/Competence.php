@@ -94,4 +94,37 @@ class Competence extends AppModel {
         );
     }
 
+	public function findAllCompetencesIn($ids_array = null){
+
+		if(isset($ids_array) && is_array($ids_array))
+			$conditions['Competence.id'] = $ids_array;
+		else
+			$conditions = array();
+
+		$competences = $this->find('all',[
+			'conditions' => [
+				$conditions
+			],
+			'order' => ['Competence.lft'],
+			'recursive' => -1
+		]);
+
+		$tab = array();
+
+		foreach($competences as $num=>$c){
+			$tab[$num]['id'] = $c['Competence']['id'];
+			if($c['Competence']['parent_id'])
+				$tab[$num]['parent'] = $c['Competence']['parent_id'];
+			else
+				$tab[$num]['parent'] = "#";
+			$tab[$num]['icon'] = 'fa fa-lg fa-cubes';
+			$tab[$num]['text'] = $c['Competence']['title'];
+			$tab[$num]['data']['type'] = "noeud";
+			$tab[$num]['li_attr']['data-type'] = "noeud";
+			$tab[$num]['li_attr']['data-id'] = $c['Competence']['id'];
+		}
+
+		return $tab;
+	}
+
 }

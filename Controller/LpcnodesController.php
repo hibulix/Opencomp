@@ -13,7 +13,7 @@ class LpcnodesController extends AppController {
  *
  * @var array
  */
-	public $helpers = array('Tree');
+	public $components = array('JsonTree');
 
 /**
  * index method
@@ -22,28 +22,8 @@ class LpcnodesController extends AppController {
  */
 	public function index() {
 		$this->set('title_for_layout', __('Livret Personnel de Compétences'));
-        $this->Lpcnode->recursive = -1;
-        $stuff = $this->Lpcnode->find('threaded',
-        	array(
-            	'order' => 'lft ASC',
-            )
-        ); 
-        $this->set('stuff', $stuff); 
+        $this->JsonTree->passAllLpcnodesToView();
 	}
-
-    public function returnNodes($id = null) {
-
-        if(isset($this->request->query['id']) && $this->request->query['id'] != "#")
-            $id = $this->request->query['id'];
-
-        $this->layout = 'pdf';
-
-        $lpcnodes_enfants = $this->Lpcnode->findAllNodesWithParentId($id);
-        $resultats['Competences'] = $lpcnodes_enfants;
-
-        $this->set('items_lpcnodes', $resultats);
-
-    }
 
 	public function isAuthorized($user = null) {
 		if (in_array($this->action, array('add', 'edit', 'moveup', 'movedown', 'deleteNode'))) {

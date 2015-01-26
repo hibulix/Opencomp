@@ -55,13 +55,9 @@ echo $this->Form->input('Level', array(
         <div id="jumelage_lpc" class="jstree-default" style="margin-top:20px;">
 
         </div>
-        <div class="well" id="selected_item"></div>
     </div>
 </div>
 <?php
-
-
-
 
 echo $this->Form->hidden('competence_id', array('value' => $competence_id));
 echo $this->Form->hidden('classroom_id', array('value' => $eval['Evaluation']['classroom_id']));
@@ -77,4 +73,40 @@ echo $this->Form->hidden('type', array('value' => 3));
     )); ?>
 </div>
 
-<?php echo $this->Form->end(); ?>
+<?php echo $this->Form->end();
+
+$this->start('script');
+?>
+<script type='text/javascript'>
+    var role = '<?php echo AuthComponent::user('role'); ?>';
+    var data = <?php echo $json; ?>;
+
+    $("#jumelage_lpc").jstree({
+        'state' : { 'key' : 'jumelage_lpc' },
+        'plugins' : [ 'state' ],
+        'core' : {
+            'multiple' : false,
+            'check_callback' : true,
+            'strings' : {
+                'Loading ...' : 'Veuillez patienter ...'
+            },
+            'data' : data
+        }
+    });
+
+    $("#jumelage_lpc").on("click.jstree-default", function (event) {
+        var selected = $('#jumelage_lpc').jstree(true).get_selected()[0];
+        if($('#jumelage_lpc').jstree(true).is_leaf(selected) === false){
+            $('#jumelage_lpc').jstree(true).deselect_node(selected);
+            if($('#jumelage_lpc').jstree(true).is_open(selected))
+                $('#jumelage_lpc').jstree(true).close_node(selected);
+            else
+                $('#jumelage_lpc').jstree(true).open_node(selected);
+        }else{
+            $('#ItemLpcnodeId').val(selected);
+        }
+    });
+</script>
+<?php
+$this->end();
+?>

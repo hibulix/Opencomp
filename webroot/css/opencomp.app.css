@@ -263,8 +263,9 @@ a.btn-success {
 }
 
 .jstree a{
-  height:auto !important;
-  white-space:normal !important;
+    height:auto !important;
+    white-space:normal !important;
+    user-select: none;
 }
 
 i.red {
@@ -272,3 +273,7 @@ i.red {
 }
 
 .datepicker{z-index:1151 !important;}
+
+.jstree-anchor::selection, .jstree-icon::selection{
+    background: transparent;
+}

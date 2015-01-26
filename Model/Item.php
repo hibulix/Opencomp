@@ -190,7 +190,7 @@ class Item extends AppModel {
         return $this->find('all',
             array(
                 'contain' => array ('Level.title'),
-                'fields' => array('id', 'title', 'type'),
+                'fields' => array('id', 'title', 'type', 'lpcnode_id'),
                 'conditions' => array(
                     'Item.competence_id'=>$id,
                     'OR' => array(
@@ -202,6 +202,65 @@ class Item extends AppModel {
         );
 
     }
+
+	function findAllItems(){
+		$this->contain('Level');
+		$items = $this->find('all',[
+			'conditions' => [
+				'OR' => [
+					'Item.user_id' => AuthComponent::user('id'),
+					'Item.type IN' => ['1','2'],
+				]
+			]
+		]);
+
+		$tab = array();
+		$num = 0;
+
+		foreach($items as $item){
+			$tab[$num]['id'] = 'item-'.$item['Item']['id'];
+			$tab[$num]['parent'] = $item['Item']['competence_id'];
+			$tab[$num]['icon'] = 'fa fa-lg fa-cube ' . $this->returnItemClassType($item);
+			$tab[$num]['text'] =  $this->returnLpcLink($item) . $this->returnFormattedLevelsItem($item) . $item['Item']['title'];
+			$tab[$num]['data']['type'] = "feuille";
+			$tab[$num]['data']['id'] = $item['Item']['id'];
+			$tab[$num]['li_attr']['data-type'] = "feuille";
+			$tab[$num]['li_attr']['data-id'] = $item['Item']['id'];
+			$num++;
+		}
+
+		return $tab;
+	}
+
+	private function returnFormattedLevelsItem($item){
+		$string = '';
+		foreach($item['Level'] as $level){
+			$string .= sprintf('<span class="label label-default">%s</span> ',$level['title']);
+		}
+		return $string;
+	}
+
+	private function returnLpcLink($item){
+		if(isset($item['Item']['lpcnode_id'])){
+			return '<span class="info label label-success"><i class="fa fa-link"></i></span> ';
+		}else{
+			return '<span class="info label label-danger"><i class="fa fa-unlink"></i></span> ';
+		}
+	}
+
+	private function returnItemClassType($item){
+		switch ($item['Item']['type']) {
+			case 1:
+				return "text-danger";
+				break;
+			case 2:
+				return "text-info";
+				break;
+			case 3:
+				return "text-success";
+				break;
+		}
+	}
 	
 	function beforeValidate($options = array()) {
 	  if (!isset($this->data['Level']['Level'])

@@ -7,6 +7,8 @@ App::uses('AppController', 'Controller');
  */
 class EvaluationsItemsController extends AppController {
 
+	public $components = array('JsonTree');
+
 	public function attachitem(){
 		//On vérifie que les paramètres nommés evaluation_id et item_id ont été fournis et qu'ils existent.
         $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->params['named']['evaluation_id']);
@@ -99,6 +101,8 @@ class EvaluationsItemsController extends AppController {
 	    $this->set('eval', $eval);
 		
 		$this->set('path', $this->tabPathToString($this->EvaluationsItem->Item->Competence->getPath($competence_id)));
+
+		$this->JsonTree->passAllLpcnodesToView();
 		
 		if ($this->request->is('post')) {			
 			$lastItemPosition = $this->EvaluationsItem->find('count', array(

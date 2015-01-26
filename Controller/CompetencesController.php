@@ -6,7 +6,7 @@ App::uses('AppController', 'Controller');
  */
 class CompetencesController extends AppController {
 
-	public $helpers = array('Tree');
+	public $components = array('JsonTree');
 
 	public function isAuthorized($user = null) {
 		if (in_array($this->action, array('add', 'moveup', 'movedown', 'deletenode'))) {
@@ -86,6 +86,7 @@ class CompetencesController extends AppController {
 					'recursive' => -1
 				));
 				$this->set('eval', $evaluation);
+				$this->JsonTree->passAllItemsJsonTreeToView();
 			}
 		} else {
 			throw new NotFoundException(__('You must provide a evaluation_id in order to attach an item to this test !'));
@@ -100,34 +101,14 @@ class CompetencesController extends AppController {
 	    else{
 	    	$this->set('period_id', $this->request->data['Classroom']['period_id']);
 	    	$this->set('classroom_id', $this->request->data['Classroom']['classroom_id']);
+			$this->JsonTree->passAllItemsJsonTreeToView();
 	    }
 	}
 
-    public function returnCompetences($id = null){
-
-        if(isset($this->request->query['id']) && $this->request->query['id'] != "#")
-            $id = $this->request->query['id'];
-
-        $this->layout = 'pdf';
-
-        $items_enfants = $this->Competence->Item->findItemsWithCompetenceId($id);
-        $resultats['Items'] = $items_enfants;
-
-        $competences_enfants = $this->Competence->findAllCompetencesWithParentId($id);
-        $resultats['Competences'] = $competences_enfants;
-
-        $this->set('items_competences', $resultats);
-    }
-
     public function index() {
     	$this->set('title_for_layout', __('Référentiel de compétences'));
-        $this->Competence->recursive = -1;
-        $stuff = $this->Competence->find('threaded',
-        	array(
-            	'order' => 'lft ASC',
-            )
-        );
-        $this->set('stuff', $stuff);
+
+		$this->JsonTree->passAllItemsJsonTreeToView();
     }
 
 
