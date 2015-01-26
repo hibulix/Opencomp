@@ -71,9 +71,9 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-rocket"></i> <?php echo __('Administration') ; ?> <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><?php echo $this->Html->link('<i class="fa fa-home"></i> '.__('Gestion des établissements'), '/admin/academies', array('escape' => false)); ?></li>
-                                    <li><?php echo $this->Html->link('<i class="fa fa-user"></i> '.__('Gestion des utilisateurs'), '/admin/users', array('escape' => false)); ?></li>
-                                    <li><?php echo $this->Html->link('<i class="fa fa-cogs"></i> '.__('Paramètres de l\'application'), '/admin/settings/', array('escape' => false)); ?></li>
+                                    <li><?php echo $this->Html->link('<i class="fa fa-home"></i> '.__('Gestion des établissements'), '/academies', array('escape' => false)); ?></li>
+                                    <li><?php echo $this->Html->link('<i class="fa fa-user"></i> '.__('Gestion des utilisateurs'), '/users', array('escape' => false)); ?></li>
+                                    <li><?php echo $this->Html->link('<i class="fa fa-cogs"></i> '.__('Paramètres de l\'application'), '/settings/', array('escape' => false)); ?></li>
                                 </ul>
                             </li>
                             <?php } ?>

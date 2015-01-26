@@ -16,7 +16,6 @@
 	echo $this->Html->link(
 		' <i class="fa fa-plus"></i> '.__('créer une nouvelle compétence à la racine de l\'arbre'),
 		array(
-            'admin'=> true,
 			'controller' => 'competences',
 			'action' => 'add'
 		),
@@ -31,6 +30,65 @@ $this->start('script');
 ?>
 <script type='text/javascript'>
 	var role = '<?php echo AuthComponent::user('role'); ?>';
+	var data = <?php echo $json; ?>;
+
+	function returnContextMenuAdminCompetence(node){
+		console.log(node);
+		if(node.data.type == "feuille"){
+			var idItem = node.id;
+			var competence = $('#'+node.parent+'>a').text();
+			var idCompetence = $('#'+node.parent).attr('data-id');
+		}
+		else if(node.data.type == "noeud"){
+			var competence = $('#'+node.id+'>a').text();
+			var idCompetence = node.id;
+		}
+
+		var items = {
+			"createNew" : {
+				"label" : "créer une compétence enfant dans \""+competence.trim()+"\"",
+				"icon" : "fa text-success fa-plus",
+				"action" : function (obj){
+					window.location.href = $('#base_url').text()+'competences/add/'+idCompetence;
+				}
+			},
+			"moveTop" : {
+				"label" : "déplacer vers le haut",
+				"icon" : "fa text-info fa-arrow-up",
+				"action" : function (obj){
+					window.location.href = $('#base_url').text()+'competences/moveup/'+idCompetence;
+				}
+			},
+			"moveDown" : {
+				"label" : "déplacer vers le bas",
+				"icon" : "fa text-info fa-arrow-down",
+				"action" : function (obj){
+					window.location.href = $('#base_url').text()+'competences/movedown/'+idCompetence;
+				}
+			}
+		};
+
+		if (node.data.type == "feuille" || role !== 'admin') {
+			delete items.createNew;
+			delete items.moveTop;
+			delete items.moveDown;
+		}
+
+		return items;
+	}
+
+	$("#competences").jstree({
+		'contextmenu' : {
+			'items' : returnContextMenuAdminCompetence
+		},
+		'plugins' : [ 'contextmenu' ],
+		'core' : {
+			'strings' : {
+				'Loading ...' : 'Veuillez patienter ...'
+			},
+			'data' : data
+		}
+	});
 </script>
 <?php
 $this->end();
