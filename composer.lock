@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3cc83ad99bcb4a90ec418be15971f7c3",
+    "hash": "f56fdb3e881c8319556a8a38bd1d8b38",
     "packages": [
         {
             "name": "cakephp/cakephp",
@@ -234,54 +234,6 @@
             "time": "2014-11-19 20:11:20"
         },
         {
-            "name": "parallax/cake-sentry",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/parallax/cake-sentry.git",
-                "reference": "990c905fa01a0ce6fdcd33c616b45a392bb716e2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/parallax/cake-sentry/zipball/990c905fa01a0ce6fdcd33c616b45a392bb716e2",
-                "reference": "990c905fa01a0ce6fdcd33c616b45a392bb716e2",
-                "shasum": ""
-            },
-            "require": {
-                "composer/installers": "*",
-                "php": ">=5.3.0",
-                "raven/raven": "*@dev"
-            },
-            "type": "cakephp-plugin",
-            "extra": {
-                "installer-name": "Sentry"
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Sandreu",
-                    "homepage": "https://github.com/Sandreu",
-                    "role": "Author"
-                },
-                {
-                    "name": "Parallax Agency Ltd",
-                    "homepage": "https://github.com/parallax",
-                    "role": "Author"
-                }
-            ],
-            "description": "CakePHP Sentry Plugin",
-            "homepage": "https://github.com/parallax/cake-sentry",
-            "keywords": [
-                "Behat",
-                "cakephp",
-                "shell"
-            ],
-            "time": "2014-10-14 12:45:08"
-        },
-        {
             "name": "phenx/php-font-lib",
             "version": "0.2.2",
             "source": {
@@ -371,58 +323,6 @@
                 "xlsx"
             ],
             "time": "2014-03-02 15:22:49"
-        },
-        {
-            "name": "raven/raven",
-            "version": "0.10.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/getsentry/raven-php.git",
-                "reference": "8534b131f296597c163cbc408ac2d914f43a1a2c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/raven-php/zipball/8534b131f296597c163cbc408ac2d914f43a1a2c",
-                "reference": "8534b131f296597c163cbc408ac2d914f43a1a2c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.4"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "bin": [
-                "bin/raven"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.8.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Raven_": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD"
-            ],
-            "authors": [
-                {
-                    "name": "David Cramer",
-                    "email": "dcramer@gmail.com"
-                }
-            ],
-            "description": "A PHP client for Sentry (http://getsentry.com)",
-            "homepage": "http://getsentry.com",
-            "keywords": [
-                "log",
-                "logging"
-            ],
-            "time": "2014-09-03 04:10:36"
         },
         {
             "name": "slywalker/boost_cake",
@@ -958,16 +858,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.4.0",
+            "version": "4.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "bbe7bcb83b6ec1a9eaabbe1b70d4795027c53ee0"
+                "reference": "2e8580deebb7d1ac92ac878595e6bffe01069c2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/bbe7bcb83b6ec1a9eaabbe1b70d4795027c53ee0",
-                "reference": "bbe7bcb83b6ec1a9eaabbe1b70d4795027c53ee0",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2e8580deebb7d1ac92ac878595e6bffe01069c2a",
+                "reference": "2e8580deebb7d1ac92ac878595e6bffe01069c2a",
                 "shasum": ""
             },
             "require": {
@@ -985,8 +885,9 @@
                 "sebastian/comparator": "~1.0",
                 "sebastian/diff": "~1.1",
                 "sebastian/environment": "~1.1",
-                "sebastian/exporter": "~1.0",
+                "sebastian/exporter": "~1.1",
                 "sebastian/global-state": "~1.0",
+                "sebastian/recursion-context": "~1.0",
                 "sebastian/version": "~1.0",
                 "symfony/yaml": "~2.0"
             },
@@ -1025,7 +926,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-12-05 06:49:03"
+            "time": "2015-01-27 16:06:15"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1503,9 +1404,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "parallax/cake-sentry": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
