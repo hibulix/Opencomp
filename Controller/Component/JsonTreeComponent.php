@@ -11,7 +11,7 @@ class JsonTreeComponent extends Component {
     public function passAllItemsJsonTreeToView(){
         $this->Competence = ClassRegistry::init('Competence');
         $this->Item = ClassRegistry::init('Item');
-        $competences = $this->Competence->findAllCompetencesIn();
+        $competences = $this->Competence->findAllCompetences();
         $items = $this->Item->findAllItems();
 
         $competences_items = array_merge($competences, $items);
