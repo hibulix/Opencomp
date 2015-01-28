@@ -68,6 +68,6 @@ div.spacer{
     max-width: 370px;
     padding: 15px;
     display: block;
-    margin:0px auto;
+    margin:0 auto;
     text-align: center;
 }

@@ -274,6 +274,6 @@ i.red {
 
 .datepicker{z-index:1151 !important;}
 
-.jstree-anchor::selection, .jstree-icon::selection{
+.jstree-anchor::selection, .jstree-icon::selection, .label::selection{
     background: transparent;
 }
