@@ -203,15 +203,18 @@ class Item extends AppModel {
 
     }
 
-	function findAllItems(){
+	function findAllItems($item_ids = null){
 		$this->contain('Level');
+
+		if(isset($item_ids))
+			$conditions['Item.id IN'] = $item_ids;
+		else{
+			$conditions['OR']['Item.user_id'] = AuthComponent::user('id');
+			$conditions['OR']['Item.type IN'] = ['1','2'];
+		}
+
 		$items = $this->find('all',[
-			'conditions' => [
-				'OR' => [
-					'Item.user_id' => AuthComponent::user('id'),
-					'Item.type IN' => ['1','2'],
-				]
-			]
+			'conditions' => $conditions
 		]);
 
 		$tab = array();
@@ -242,9 +245,9 @@ class Item extends AppModel {
 
 	private function returnLpcLink($item){
 		if(isset($item['Item']['lpcnode_id'])){
-			return '<span class="info label label-success"><i class="fa fa-link"></i></span> ';
+			return '<span title="Cet item est jumelé avec le LPC" class="info label label-success"><i class="fa fa-link"></i></span> ';
 		}else{
-			return '<span class="info label label-danger"><i class="fa fa-unlink"></i></span> ';
+			return '<span title="Cet item n\'est pas jumelé avec le LPC" class="info label label-danger"><i class="fa fa-unlink"></i></span> ';
 		}
 	}
 

@@ -9,6 +9,34 @@ class EvaluationsItemsController extends AppController {
 
 	public $components = array('JsonTree');
 
+	public function usedItems($id = null){
+		$this->EvaluationsItem->Evaluation->Classroom->id = $id;
+		if (!$this->EvaluationsItem->Evaluation->Classroom->exists())
+			$this->redirect('/');
+
+		$classroom = $this->EvaluationsItem->Evaluation->Classroom->find('first', array(
+			'conditions' => array('Classroom.id' => $id)
+		));
+
+		$this->set('classroom', $classroom);
+
+		$this->EvaluationsItem->contain('Evaluation','Item');
+		$items_competences = $this->EvaluationsItem->find('list',[
+			'recursive' => -1,
+			'fields' => [
+				'Item.id',
+				'Item.competence_id'
+			],
+			'conditions'=>[
+				'Evaluation.classroom_id' => $id,
+				'Evaluation.unrated' => 0
+			]
+		]);
+
+		$this->JsonTree->passAllUsedItemsJsonTreeToView($items_competences, array_keys($items_competences));
+
+	}
+
 	public function attachitem(){
 		//On vérifie que les paramètres nommés evaluation_id et item_id ont été fournis et qu'ils existent.
         $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->params['named']['evaluation_id']);

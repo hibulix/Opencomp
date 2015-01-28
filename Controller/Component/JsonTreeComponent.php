@@ -19,6 +19,17 @@ class JsonTreeComponent extends Component {
         $this->controller->set('json', json_encode($competences_items));
     }
 
+    public function passAllUsedItemsJsonTreeToView($competence_ids, $items_id){
+        $this->Competence = ClassRegistry::init('Competence');
+        $this->Item = ClassRegistry::init('Item');
+        $competences = $this->Competence->findAllCompetencesFromCompetenceId(array_unique($competence_ids));
+        $items = $this->Item->findAllItems($items_id);
+
+        $competences_items = array_merge($competences, $items);
+
+        $this->controller->set('json', json_encode($competences_items));
+    }
+
     public function passAllLpcnodesToView(){
         $this->Lpcnode = ClassRegistry::init('Lpcnode');
         $lpcnodes = $this->Lpcnode->findAllLpcnodeIn();

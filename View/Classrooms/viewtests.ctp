@@ -25,9 +25,10 @@
         ?>
     </h3>
     <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter une évaluation'), '/evaluations/add/classroom_id:'.$classroom['Classroom']['id'], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+	<?php echo $this->Html->link('<i class="fa fa-binoculars"></i> '.__('items évalués'), '/evaluationsItems/useditems/'.$classroom['Classroom']['id'], array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
     <div class="btn-group ontitle">
 	  <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
-	    <i class="fa fa-filter"></i> Modifier le filtre
+	    <i class="fa fa-filter"></i>
 	    <span class="caret"></span>
 	  </a>
 	  <ul class="dropdown-menu">
