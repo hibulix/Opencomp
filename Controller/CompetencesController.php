@@ -40,6 +40,39 @@ class CompetencesController extends AppController {
 		$this->set('cid', $competenceids);
 	}
 
+	/**
+	 * edit method
+	 *
+	 * @return void
+	 */
+	public function edit($id = null)
+	{
+		$this->set('title_for_layout', __('Modifier une compétence'));
+
+		$this->Competence->id = $id;
+		if (!$this->Competence->exists()) {
+			throw new NotFoundException(__('Cette compétence n\'existe pas ;)'));
+		}
+
+		$competence = $this->Competence->findById($id);
+		if (!$this->request->data) {
+			$this->request->data = $competence;
+		}
+
+		if ($this->request->is('post')) {
+			if ($this->Competence->save($this->request->data)) {
+				$this->Session->setFlash(__('La compétence a été correctement modifée'), 'flash_success');
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.'), 'flash_error');
+			}
+		}
+
+		//Récupération des ids des catégories existantes
+		$competenceids = $this->Competence->generateTreeList(null, null, null, "");
+		$this->set('cid', $competenceids);
+	}
+
 	public function moveup($id = null) {
 	    $this->Competence->id = $id;
 	    if (!$this->Competence->exists()) {

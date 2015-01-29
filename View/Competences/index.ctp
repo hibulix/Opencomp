@@ -52,6 +52,13 @@ $this->start('script');
 					window.location.href = $('#base_url').text()+'competences/add/'+idCompetence;
 				}
 			},
+			"edit" : {
+				"label" : "modifier l'intitulé ou la compétence parente de \""+competence.trim()+"\"",
+				"icon" : "fa text-warning fa-pencil",
+				"action" : function (obj){
+					window.location.href = $('#base_url').text()+'competences/edit/'+idCompetence;
+				}
+			},
 			"moveTop" : {
 				"label" : "déplacer vers le haut",
 				"icon" : "fa text-info fa-arrow-up",
@@ -70,6 +77,7 @@ $this->start('script');
 
 		if (node.data.type == "feuille" || role !== 'admin') {
 			delete items.createNew;
+			delete items.edit;
 			delete items.moveTop;
 			delete items.moveDown;
 		}
