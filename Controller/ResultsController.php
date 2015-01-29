@@ -232,8 +232,8 @@ class ResultsController extends AppController {
 				'Evaluation.classroom_id' => $report['Classroom']['id']
 			),
 			'contain' => array(
-				'Item.Competence.id', 
 				'Item.title',
+				'Item.competence_id',
 				'Pupil.id',
 				'Pupil.name',
 				'Pupil.first_name',
@@ -248,27 +248,17 @@ class ResultsController extends AppController {
 		}
 			
 		$this->set('items', $items);
-			
-		foreach($items as $item){
-				$comp[] = $item['Item']['competence_id'];
-		}
-		
-		$comp = array_values(array_unique($comp));
-		
-		foreach($comp as $id_comp){
-			$search_results[] = $this->Result->Item->Competence->getPath($id_comp, array('id'));
-		}
-		
-		foreach($search_results as $result_competence){
-			foreach($result_competence as $competence){
-				$comp_to_show[] = $competence['Competence']['id'];
-			}
-		}
-		
-		$comp_to_show = array_values(array_unique($comp_to_show));
-        
-        $competences = $this->Result->Item->Competence->generateTreeListWithDepth(array('Competence.id' => $comp_to_show));
+
+        $competences = $this->Result->Item->Competence->findAllCompetencesFromCompetenceId($this->arrayValueRecursive('competence_id',$items),'!jstree');
         $this->set('competences', $competences);
+	}
+
+	function arrayValueRecursive($key, array $arr){
+		$val = array();
+		array_walk_recursive($arr, function($v, $k) use($key, &$val){
+			if($k == $key) array_push($val, $v);
+		});
+		return count($val) > 1 ? $val : array_pop($val);
 	}
 	
 	function concatenateReports(){

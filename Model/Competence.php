@@ -21,7 +21,7 @@ class Competence extends AppModel {
 	 *
 	 * @var string
 	 */
-	public $actsAs = array('CustomTree', 'Containable');
+	public $actsAs = array('Tree', 'Containable');
 
 	/**
 	 * Validation rules
@@ -92,7 +92,7 @@ class Competence extends AppModel {
 	 * @param array $ids_array Un tableau contentant les id_competence les plus profond dont on souhaite la hiérarchie.
 	 * @return array Un tableau prêt à être JSONifié pour passer à JsTree.
      */
-	public function findAllCompetencesFromCompetenceId($ids_array){
+	public function findAllCompetencesFromCompetenceId($ids_array, $format = 'jstree'){
 		$competence_bounds = $this->returnBoundsFromCompetenceId($ids_array);
 		$sql_string = "SELECT * FROM competences AS Competence WHERE ";
 
@@ -107,8 +107,10 @@ class Competence extends AppModel {
 		$sql_string .= "ORDER BY lft;";
 
 		$competences = $this->query($sql_string);
-
-		return $this->formatCompetencesTheJstreeWay($competences);
+		if($format == 'jstree')
+			return $this->formatCompetencesTheJstreeWay($competences);
+		else
+			return $this->formatTreeHelperWay($competences);
 	}
 
 	/**
@@ -148,6 +150,33 @@ class Competence extends AppModel {
 		}
 
 		return $tab;
+	}
+
+	/**
+	 * Méthode permettant de formatter un tableau en émulant le renvoie de la méthode GenerateTreeListWithDepth.
+	 *
+	 * @param array $dataset Un resultset CakePHP contenant plusieurs tableaux Competence.
+	 * @return array Un tableau en émulant le format de renvoie de la méthode GenerateTreeListWithDepth
+	 */
+	private function formatTreeHelperWay($dataset){
+		$tab = array();
+
+		foreach($dataset as $num=>$c){
+			$tab[$num]['id'] = $c['Competence']['id'];
+			$tab[$num]['title'] = $c['Competence']['title'];
+			$tab[$num]['depth'] = $c['Competence']['depth'];
+		}
+
+		return $tab;
+	}
+
+	/**
+	 * Cette méthode de rappel permet de recalculer la profondeur de chaque item de l'arbre
+	 * lorsqu'un item y est ajouté ou modifié.
+	 *
+	 */
+	public function afterSave($created, $options = array()){
+		$this->query('UPDATE competences SET competences.depth = DEPTH(competences.lft,competences.rght)');
 	}
 
 }
