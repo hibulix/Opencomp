@@ -8,6 +8,8 @@ App::uses('AppController', 'Controller');
  */
 class ResultsController extends AppController {
 
+	public $helpers = array('ReportFormater');
+
 	public function selectpupil(){
 		//On vérifie qu'un paramètre nommé evaluation_id a été fourni et qu'il existe.
         $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->params['named']['evaluation_id']);
