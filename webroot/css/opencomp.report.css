@@ -20,6 +20,7 @@ time, mark, audio, video {
 }
 @page { margin: 0; }
 #copyright {
+    -o-transform: rotate(270deg);
     -webkit-transform: rotate(270deg);
     -moz-transform: rotate(270deg);
     -ms-transform: rotate(270deg);
@@ -34,6 +35,7 @@ time, mark, audio, video {
 #footer .page:after { content: counter(page, decimal); }
 body {
     width: 694px;
+    box-sizing: border-box;
     padding: 50px;
 }
 td {
@@ -74,26 +76,26 @@ table{
     width:100%;
 }
 .tabniv2{
-    margin: 0px 0px 0px 0px;
+    margin: 0 0 0 0;
 }
 .tabniv3{
-    margin: 0px 0px 15px 23px;
+    margin: 0 0 15px 23px;
     width: 685px;
 }
 .tabniv4{
-    margin: 0px 0px 15px 46px;
+    margin: 0 0 15px 46px;
     width: 678px;
 }
 .tabniv5{
-    margin: 0px 0px 15px 69px;
+    margin: 0 0 15px 69px;
     width: 671px;
 }
 .tabniv6{
-    margin: 0px 0px 15px 46px;
+    margin: 0 0 15px 46px;
     width: 664px;
 }
 .title{
     font: italic 500 23px Helvetica;
     border: 1px solid black;
-    padding: 0px 0px 3px 10px;
+    padding: 0 0 3px 10px;
 }
