@@ -1,6 +1,5 @@
 <?php
 App::uses('AppController', 'Controller');
-use Pheanstalk\Pheanstalk;
 
 /**
  * Results Controller
