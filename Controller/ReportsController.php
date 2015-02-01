@@ -84,7 +84,7 @@ class ReportsController extends AppController {
         $pheanstalk = new Pheanstalk('127.0.0.1');
         $pupilsJobs = [];
 
-        foreach($pup as $ind => $id){
+        foreach($pup as $id){
             $jobId = $pheanstalk
                 ->useTube('generate-report')
                 ->put(json_encode(['action'=>'generate', 'pupil_id'=>$id, 'report_id'=>$report['Report']['id']]));

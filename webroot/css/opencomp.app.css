@@ -110,20 +110,17 @@ a.btn-success {
 
 	-webkit-animation-name: glow;
 	-moz-animation-name: glow;
-	-ms-animation-name: glow;
 	-o-animation-name: glow;
 	animation-name: glow;
 	-webkit-animation-duration: 1100ms;
 
 	-webkit-animation-iteration-count: infinite;
 	-moz-animation-iteration-count: infinite;
-	-ms-animation-iteration-count: infinite;
 	-o-animation-iteration-count: infinite;
 	animation-iteration-count: infinite;
 
 	-webkit-animation-timing-function: linear;
 	-moz-animation-timing-function: linear;
-	-ms-animation-timing-function: linear;
 	-o-animation-timing-function: linear;
 	animation-timing-function: linear;
 }
@@ -155,19 +152,6 @@ a.btn-success {
 }
 
 @-webkit-keyframes "glow" {
- 0% {
-   text-shadow: 3px 1px 23px #ffffff;
- }
- 50% {
-   text-shadow: 3px 1px 23px rgba(255,0,0,0.74);
- }
- 100% {
-   text-shadow: 3px 1px 23px #ff0000;
- }
-
-}
-
-@-ms-keyframes "glow" {
  0% {
    text-shadow: 3px 1px 23px #ffffff;
  }

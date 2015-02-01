@@ -177,7 +177,7 @@ class ReportFormaterHelper extends AppHelper
      * @param $period_id int La période liée au bulletin généré
      * @param $pupil_id int L'identifiant de l'élève dont le bulletin est généré.
      */
-    public function renderPdf($html, $classroom_id, $period_id, $pupil_id){
+    public function renderPdf($html, $pupil_id){
         if(!defined('DOMPDF_ENABLE_AUTOLOAD'))
             define('DOMPDF_ENABLE_AUTOLOAD', false);
         App::import('Vendor', 'Dompdf', array('file' => 'dompdf' . DS . 'dompdf' . DS . 'dompdf_config.inc.php'));
