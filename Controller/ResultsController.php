@@ -14,7 +14,7 @@ class ResultsController extends AppController {
 	public function selectpupil(){
 		//On vérifie qu'un paramètre nommé evaluation_id a été fourni et qu'il existe.
         $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->params['named']['evaluation_id']);
-		
+
 		if ($this->request->is('post')) {
 			$pupil_id = intval($this->request->data['Result']['pupil_id']);
 			$this->Result->Pupil->id = $pupil_id;
@@ -54,7 +54,7 @@ class ResultsController extends AppController {
 
         $this->set('pupils', $pupils);
     }
-	
+
 	public function add(){
 		//On vérifie qu'un paramètre nommé evaluation_id a été fourni et qu'il existe.
         $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->params['named']['evaluation_id']);
@@ -72,9 +72,9 @@ class ResultsController extends AppController {
 		    $this->Session->setFlash(__('Impossible de saisir des résultats, aucun item associé à cette évaluation !'), 'flash_error');
 		    $this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation_id));
 	    }
-		
+
 		$items = $this->Result->Evaluation->findItemsByPosition($evaluation_id);
-		
+
 		//Récupération des résultats éventuels
 		$qresults = $this->Result->findAllByEvaluationIdAndPupilId($evaluation_id, $pupil_id, array('Result.item_id', 'Result.result'));
 		if(!empty($qresults)){
@@ -87,13 +87,13 @@ class ResultsController extends AppController {
 
 	    $this->set('items', $items);
 	    $this->set('results', $results);
-	    
+
 	    $pupil = $this->Result->Pupil->find('first', array(
 	        'conditions' => array('id' => $pupil_id),
 	        'recursive' => -1
 	    ));
 	    $this->set('pupil', $pupil);
-		
+
 		if ($this->request->is('post')) {
 			$i=0;
 			foreach($this->request->data['Results'] as $k => $v){
@@ -102,11 +102,11 @@ class ResultsController extends AppController {
 					$data[$i]['Result']['evaluation_id'] = $evaluation_id;
 					$data[$i]['Result']['item_id'] = $k;
 					$data[$i]['Result']['result'] = $v;
-					
+
 					$i++;
 				}
 			}
-			
+
 			$this->Result->create();
 			$this->Result->saveMany($data, array('validate' => 'all'));
 
@@ -130,76 +130,7 @@ class ResultsController extends AppController {
 			}
 		}
 	}
-	
-	public function viewbul($id = null){	
-		$this->set('title_for_layout', __('Visualiser une classe'));
-		
-		//On charge le modèle report et on récupère les infos du bulletin à générer.
-		$this->loadModel('Report');
-		$this->Report->id = $id;
-		if (!$this->Report->exists()) {
-			throw new NotFoundException(__('The report_id provided does not exist !'));
-		}
-		$report = $this->Report->find('first', array(
-			'conditions' => array('Report.id' => $id)
-		));
-		$this->set('report', $report);
-		
-		$classroom = $this->Report->Classroom->find('first', array(
-			'conditions' => array('Classroom.id' => $report['Classroom']['id'])
-		));		
-		$this->set('classroom', $classroom);
 
-		$ReqPupils = $this->Result->find('all', array(
-			'fields' => array('pupil_id'),
-			'order' => array('name', 'first_name'),
-			'conditions' => array(
-				'Evaluation.period_id' => $report['Report']['period_id'],
-				'Evaluation.classroom_id' => $report['Classroom']['id']
-			),
-			'contain' => array(
-				'Pupil.id',
-				'Evaluation.Period.id',
-				'Evaluation.Classroom.id'
-			)
-		));
-
-		foreach($ReqPupils as $pupils){
-			$pup[] = $pupils['Pupil']['id'];
-		}
-
-        if(!isset($pup)){
-            $this->Session->setFlash(__('Aucun résultat saisi pour la/les période(s) configurée(s). Génération annulée !'), 'flash_error');
-            $this->redirect(array('controller' => 'classrooms', 'action' => 'viewreports', $report['Classroom']['id']));
-        }
-
-		$pup = array_values(array_unique($pup));
-		$nbpup = count($pup);
-		$pheanstalk = new Pheanstalk('127.0.0.1');
-		$pupilsJobs = [];
-		foreach($pup as $ind => $id){
-			$jobId = $pheanstalk
-				->useTube('generate-report')
-				->put(json_encode(['pupil_id'=>$id, 'report_id'=>$report['Report']['id']]));
-			$pourcent[$ind] = round((100 / $nbpup) * ($ind+1),1);
-			$pupilsJobs[$id] = $jobId;
-		}
-
-		$this->Report->id = $report['Report']['id'];
-		$this->Report->saveField('beanstalkd_jobs', serialize($pupilsJobs));
-
-		$tab = array('pupils' => $pup, 'pourcent' => $pourcent, 'report_id' => $report['Report']['id'], 'period_id' => implode(",",$report['Report']['period_id']), 'classroom_id' => $report['Classroom']['id']);
-		//$this->set('pupils', json_encode(json_encode($tab)));
-	}
-
-	function arrayValueRecursive($key, array $arr){
-		$val = array();
-		array_walk_recursive($arr, function($v, $k) use($key, &$val){
-			if($k == $key) array_push($val, $v);
-		});
-		return count($val) > 1 ? $val : array_pop($val);
-	}
-	
 	public function analyseresults($id = null) {
 		//On charge le modèle report et on récupère les infos du bulletin à générer.
 		$this->loadModel('Report');
@@ -211,7 +142,7 @@ class ResultsController extends AppController {
 			'conditions' => array('Report.id' => $id)
 		));
 		$this->set('report', $report);
-		
+
 		$results = $this->Result->find('all', array(
 			'fields' => array('result'),
 			'order' => array('Pupil.name', 'Pupil.first_name'),
@@ -226,41 +157,41 @@ class ResultsController extends AppController {
 				'Pupil.name'
 			)
 		));
-		
+
 		foreach($results as $result){
 			$stats[$result['Pupil']['id']]['first_name'] = $result['Pupil']['first_name'];
 			$stats[$result['Pupil']['id']]['name'] = $result['Pupil']['name'];
-			
+
 			switch($result['Result']['result']){
 				case 'A':
-			        if(isset($stats[$result['Pupil']['id']]['numberA'])) 
+			        if(isset($stats[$result['Pupil']['id']]['numberA']))
 			        	$stats[$result['Pupil']['id']]['numberA'] += 1;
-			        else	
+			        else
 			        	$stats[$result['Pupil']['id']]['numberA'] = 1;
 			        break;
 			    case 'B':
-			        if(isset($stats[$result['Pupil']['id']]['numberB'])) 
+			        if(isset($stats[$result['Pupil']['id']]['numberB']))
 			        	$stats[$result['Pupil']['id']]['numberB'] += 1;
-			        else	
+			        else
 			        	$stats[$result['Pupil']['id']]['numberB'] = 1;
 			        break;
 			    case 'C':
-			        if(isset($stats[$result['Pupil']['id']]['numberC'])) 
+			        if(isset($stats[$result['Pupil']['id']]['numberC']))
 			        	$stats[$result['Pupil']['id']]['numberC'] += 1;
-			        else	
+			        else
 			        	$stats[$result['Pupil']['id']]['numberC'] = 1;
 			        break;
 			    case 'D':
-			        if(isset($stats[$result['Pupil']['id']]['numberD'])) 
+			        if(isset($stats[$result['Pupil']['id']]['numberD']))
 			        	$stats[$result['Pupil']['id']]['numberD'] += 1;
-			        else	
+			        else
 			        	$stats[$result['Pupil']['id']]['numberD'] = 1;
 			        break;
 			}
 		}
-		
+
 		foreach($stats as $id_pupil => $stat){
-		
+
 			if(!isset($stats[$id_pupil]['numberA'])) $stats[$id_pupil]['numberA'] = 0;
 			if(!isset($stats[$id_pupil]['numberB'])) $stats[$id_pupil]['numberB'] = 0;
 			if(!isset($stats[$id_pupil]['numberC'])) $stats[$id_pupil]['numberC'] = 0;
@@ -273,9 +204,9 @@ class ResultsController extends AppController {
 			$stats[$id_pupil]['percentC'] = $stats[$id_pupil]['numberC'] * 100 / $stats[$id_pupil]['totalresults'];
 			$stats[$id_pupil]['percentD'] = $stats[$id_pupil]['numberD'] * 100 / $stats[$id_pupil]['totalresults'];
 		}
-		
+
 		$this->set('results', $stats);
 
 	}
-	
+
 }

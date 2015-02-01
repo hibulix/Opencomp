@@ -56,7 +56,7 @@ Installation
     autostart=true
     autorestart=true
     ```
-    * démarrez **supervisord** et le service Opencomp `supervisord && supervisorctl start opencomp-worker`
+    * démarrez le service Opencomp `supervisorctl start opencomp-worker`
 
 ### 5. Créer et configurer la base de données
 
