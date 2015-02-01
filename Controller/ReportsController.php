@@ -1,4 +1,7 @@
 <?php
+
+use Pheanstalk\Pheanstalk;
+
 class ReportsController extends AppController {
 
     /**
@@ -37,6 +40,128 @@ class ReportsController extends AppController {
         }
 
         $this->getReportAssociatedInfos($classroom_id);
+    }
+
+    public function requestGeneration($id = null){
+        $this->Report->id = $id;
+        if (!$this->Report->exists()) {
+            throw new NotFoundException(__('The report_id provided does not exist !'));
+        }
+
+        $report = $this->Report->find('first', array(
+            'conditions' => array('Report.id' => $id)
+        ));
+
+        if(!$report['Report']['beanstalkd_finished'])
+            $this->redirect(['action'=>'generationProgress',$id]);
+
+        $this->loadModel('Result');
+        $ReqPupils = $this->Result->find('all', array(
+            'fields' => array('pupil_id'),
+            'order' => array('name', 'first_name'),
+            'conditions' => array(
+                'Evaluation.period_id' => $report['Report']['period_id'],
+                'Evaluation.classroom_id' => $report['Classroom']['id']
+            ),
+            'contain' => array(
+                'Pupil.id',
+                'Evaluation.Period.id',
+                'Evaluation.Classroom.id'
+            )
+        ));
+
+        foreach($ReqPupils as $pupils){
+            $pup[] = $pupils['Pupil']['id'];
+        }
+
+        if(!isset($pup)){
+            $this->Session->setFlash(__('Aucun résultat saisi pour la/les période(s) configurée(s). Génération annulée !'), 'flash_error');
+            $this->redirect(array('controller' => 'classrooms', 'action' => 'viewreports', $report['Classroom']['id']));
+        }
+
+        $pup = array_values(array_unique($pup));
+
+        $pheanstalk = new Pheanstalk('127.0.0.1');
+        $pupilsJobs = [];
+
+        foreach($pup as $ind => $id){
+            $jobId = $pheanstalk
+                ->useTube('generate-report')
+                ->put(json_encode(['action'=>'generate', 'pupil_id'=>$id, 'report_id'=>$report['Report']['id']]));
+            $pupilsJobs[$id] = $jobId;
+        }
+
+        $jobId = $pheanstalk
+            ->useTube('generate-report')
+            ->put(json_encode(['action'=>'concatenate', 'report_id'=>$report['Report']['id']]));
+
+        $pupilsJobs['concatenate'] = $jobId;
+
+        $this->Report->id = $report['Report']['id'];
+        $this->Report->saveField('beanstalkd_jobs', serialize($pupilsJobs));
+        $this->Report->saveField('beanstalkd_finished', 0);
+
+        $this->redirect(array('controller' => 'reports', 'action' => 'generationProgress', $report['Report']['id']));
+    }
+
+    public function generationProgress($id = null){
+        $report = $this->Report->findById($id);
+        $classroom = $this->Report->Classroom->find('first', array(
+            'conditions' => array('Classroom.id' => $report['Report']['classroom_id'])
+        ));
+        $this->set('classroom', $classroom);
+        $this->set('report', $report);
+    }
+
+    public function generationProgressWidget($id = null){
+        $this->layout = 'ajax';
+
+        $this->Report->id = $id;
+        if (!$this->Report->exists()) {
+            throw new NotFoundException(__('Invalid report'));
+        }
+
+        $report = $this->Report->read('beanstalkd_jobs', $id);
+        $jobsIds = unserialize($report['Report']['beanstalkd_jobs']);
+
+        $this->loadModel('Pupil');
+        $pupils = $this->Pupil->find('list',[
+            'fields' => [
+                'id', 'wellnamed'
+            ],
+            'conditions' => [
+                'id IN' => array_keys($jobsIds)
+            ],
+            'recursive' => -1
+        ]);
+
+        $pupilsStatus = [];
+        $pheanstalk = new Pheanstalk('127.0.0.1');
+
+        $concatenateJobId = array_pop($jobsIds);
+        foreach($jobsIds as $pupil_id => $job_id){
+            try{
+                $pupilsStatus[$pupil_id]['name'] = $pupils[$pupil_id];
+                $pupilsStatus[$pupil_id]['state'] = $pheanstalk->statsJob($job_id)->state;
+            }catch(Exception $e){
+                $pupilsStatus[$pupil_id]['name'] = $pupils[$pupil_id];
+                $pupilsStatus[$pupil_id]['state'] = 'done';
+            }
+        }
+
+        try{
+            $pupilsStatus[$pupil_id]['name'] = "Fusion des bulletins";
+            $pupilsStatus[$pupil_id]['state'] = $pheanstalk->statsJob($concatenateJobId)->state;
+        }catch(Exception $e){
+            $pupilsStatus[$pupil_id]['name'] = "Fusion des bulletins";
+            $pupilsStatus[$pupil_id]['state'] = 'done';
+        }
+
+        if ($this->request->is('requested')) {
+            return $pupilsStatus;
+        }
+
+        $this->set('pupilsStates',$pupilsStatus);
     }
 
 /**
@@ -98,6 +223,24 @@ class ReportsController extends AppController {
             'recursive' => 0));
 
         $this->set(compact('classrooms', 'users', 'periods', 'pupils', 'competences'));
+    }
+
+    public function download($id) {
+        $this->Report->id = $id;
+        if (!$this->Report->exists()) {
+            throw new NotFoundException(__('Invalid report'));
+        }
+
+        $report = $this->Report->findById($id);
+
+        $this->response->file(APP . "files" . DS . "reports" . DS . $id.".pdf",
+            [
+                'download' => true,
+                'name' => Inflector::slug($report['Report']['title']).".pdf"
+            ]
+        );
+
+        return $this->response;
     }
 
     /**

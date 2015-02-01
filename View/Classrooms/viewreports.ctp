@@ -37,7 +37,7 @@
 		?>		
 		</td>		
 		<td class="actions">
-			<?php echo $this->Html->link('<i class="fa fa-magic"></i> '.__('Générer'), array('controller' => 'results', 'action' => 'viewbul', $report['id']), array('escape' => false)); ?>
+			<?php echo $this->Html->link('<i class="fa fa-magic"></i> '.__('Générer'), array('controller' => 'reports', 'action' => 'requestGeneration', $report['id']), array('escape' => false)); ?>
 			&nbsp;&nbsp;&nbsp;&nbsp;
 			<?php echo $this->Html->link('<i class="fa fa-bar-chart-o"></i> '.__('Analyser les résultats'), array('controller' => 'results', 'action' => 'analyseresults', $report['id']), array('escape' => false)); ?>
 			&nbsp;&nbsp;&nbsp;&nbsp;

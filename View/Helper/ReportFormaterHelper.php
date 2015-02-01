@@ -178,7 +178,8 @@ class ReportFormaterHelper extends AppHelper
      * @param $pupil_id int L'identifiant de l'élève dont le bulletin est généré.
      */
     public function renderPdf($html, $classroom_id, $period_id, $pupil_id){
-        define('DOMPDF_ENABLE_AUTOLOAD', false);
+        if(!defined('DOMPDF_ENABLE_AUTOLOAD'))
+            define('DOMPDF_ENABLE_AUTOLOAD', false);
         App::import('Vendor', 'Dompdf', array('file' => 'dompdf' . DS . 'dompdf' . DS . 'dompdf_config.inc.php'));
 
         $dompdf = new DOMPDF();
@@ -194,7 +195,7 @@ class ReportFormaterHelper extends AppHelper
                 $dompdf->get_canvas()->new_page();
 
         $pdfoutput = $dompdf->output();
-        $filename = "files/".$classroom_id."_".str_replace(',','',$period_id)."_".$pupil_id.".pdf";
+        $filename = APP . "files/reports/".$this->report['Report']['id']."_".$pupil_id.".pdf";
         $fp = fopen($filename, "a");
         fwrite($fp, $pdfoutput);
         fclose($fp);

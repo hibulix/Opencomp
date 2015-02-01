@@ -37,29 +37,50 @@ Installation
 * Téléchargez le gestionnaire de dépendances frontend Bower à l'aide de npm `npm install -g bower`
 * Récupérez l'ensemble des dépendances en exécutant `bower install`
 
-### 4. Créer et configurer la base de données 
+### 4 . Installer le serveur de file d'attente de message (Beanstalkd)
+
+*Les générations de PDF étant très consommatrices de ressources, elles sont gérées par l'intermédiaire du serveur de file d'attente de message **beanstalkd***.
+
+* Installez **beanstalkd** avec
+    * GNU/Linux basé Debian `apt-get install beanstalkd`
+    * OS X `brew install beanstalkd`
+
+
+* Installez **supervisord** pour pouvoir gérer le démon permettant de générer les PDF en tant que service :
+    * `easy_install supervisor` (pour fonctionner, la commande `easy_install` nécessite l'installation préalable de Python) ...
+    * éditez le fichier de configuration de **supervisord** `nano /etc/supervisor/supervisord.conf`
+    * ajoutez les lignes suivantes
+    ```txt
+    [program:opencomp-worker]
+    command=/var/www/répertoireDinstallationOpencomp/Console/cake generatepupilreport
+    autostart=true
+    autorestart=true
+    ```
+    * démarrez **supervisord** et le service Opencomp `supervisord && supervisorctl start opencomp-worker`
+
+### 5. Créer et configurer la base de données
 
 * Créer une base de donnée MySQL en important les dumps SQL `struct.sql` et `data.sql` présents dans le répertoire `app/Model/Datasource/` du dossier téléchargé.
 * Éditez les informations de connexion à la base de données MySQL présentes dans le fichier `app/Config/database.php` (lignes 62 et suivantes).
 
-### 5. Profitez !
+### 6. Profitez !
 
 * Accédez à votre serveur web, les identifiants par défaut sont admin/admin.
 * Rapportez vos suggestions et avis sur [le gestionnaire de demandes du projet](http://projets.opencomp.fr/opencomp/issues/new).
 
 ----
 
-Ceux qui le souhaitent peuvent me remercier via Flattr :blush:    
+Ceux qui le souhaitent peuvent me remercier via Flattr :blush:
 
 [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=jtraulle&url=https://github.com/jtraulle/Opencomp&title=Opencomp&language=php&tags=github&category=software)
 
 ----
- 
+
 Licence
 -------
 
-<pre>Ce programme est distribué dans l'espoir qu'il sera utile, mais SANS AUCUNE GARANTIE ; 
-sans même la garantie implicite de COMMERCIALISATION ou D’ADAPTATION A UN OBJET PARTICULIER. 
+<pre>Ce programme est distribué dans l'espoir qu'il sera utile, mais SANS AUCUNE GARANTIE ;
+sans même la garantie implicite de COMMERCIALISATION ou D’ADAPTATION A UN OBJET PARTICULIER.
 
 Pour plus d'informations, reportez vous au fichier LICENCE.txt de l'archive.</pre>
 

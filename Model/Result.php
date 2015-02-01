@@ -89,6 +89,26 @@ class Result extends AppModel {
 			'order' => ''
 		)
 	);
+
+	public function findResultsForReport($pupil_id, $classroom_id, $period_id){
+		return $this->find('all', array(
+			'fields' => array('result'),
+			'conditions' => array(
+				'Pupil.id' => $pupil_id,
+				'Evaluation.period_id' => $period_id,
+				'Evaluation.classroom_id' => $classroom_id
+			),
+			'contain' => array(
+				'Item.title',
+				'Item.competence_id',
+				'Pupil.id',
+				'Pupil.name',
+				'Pupil.first_name',
+				'Evaluation.Period.id',
+				'Evaluation.Classroom.id'
+			)
+		));
+	}
 	
 	public function beforeSave($options = array()){
 		$evaluation_id = $this->data['Result']['evaluation_id'];

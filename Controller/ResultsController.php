@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+use Pheanstalk\Pheanstalk;
 
 /**
  * Results Controller
@@ -174,85 +175,21 @@ class ResultsController extends AppController {
 
 		$pup = array_values(array_unique($pup));
 		$nbpup = count($pup);
+		$pheanstalk = new Pheanstalk('127.0.0.1');
+		$pupilsJobs = [];
 		foreach($pup as $ind => $id){
+			$jobId = $pheanstalk
+				->useTube('generate-report')
+				->put(json_encode(['pupil_id'=>$id, 'report_id'=>$report['Report']['id']]));
 			$pourcent[$ind] = round((100 / $nbpup) * ($ind+1),1);
+			$pupilsJobs[$id] = $jobId;
 		}
+
+		$this->Report->id = $report['Report']['id'];
+		$this->Report->saveField('beanstalkd_jobs', serialize($pupilsJobs));
+
 		$tab = array('pupils' => $pup, 'pourcent' => $pourcent, 'report_id' => $report['Report']['id'], 'period_id' => implode(",",$report['Report']['period_id']), 'classroom_id' => $report['Classroom']['id']);
-		$this->set('pupils', json_encode(json_encode($tab)));		
-	}
-	
-	public function bul(){
-	
-		if(!isset($this->request->params['named']['output_type'])) {
-       		throw new NotFoundException(__('You must provide an output type !')); 		
-       	} else {
-			$output_type = strval($this->request->params['named']['output_type']);
-		}
-		
-		if(!isset($this->request->params['named']['pupil_id']) || !is_numeric($this->request->params['named']['pupil_id'])) {
-       		throw new NotFoundException(__('You must provide pupil_id !')); 		
-       	} else {
-			$pupil =  intval($this->request->params['named']['pupil_id']);
-		}
-		
-		if(!isset($this->request->params['named']['report_id']) || !is_numeric($this->request->params['named']['report_id'])) {
-       		throw new NotFoundException(__('You must provide report_id !')); 		
-       	} else {
-			$report_id =  intval($this->request->params['named']['report_id']);
-		}
-		
-		$this->set('pupil_id', $pupil);
-		
-		$this->loadModel('Report');
-		$this->Report->id = $report_id;
-		if(!$this->Report->exists()) {
-			throw new NotFoundException(__('The report_id provided does not exist !'));
-		}
-		$report = $this->Report->find('first', array(
-			'conditions' => array('Report.id' => $report_id)
-		));
-		
-		$this->set('classroom_id', $report['Classroom']['id']);
-		$this->set('period_id', implode(",",$report['Report']['period_id']));
-		
-		$this->set('report', $report);
-
-		if ($output_type == 'pdf') {
-			$this->set('output_type', 'pdf');
-			$this->layout = 'pdf';
-		}elseif ($output_type == 'html') {
-			$this->layout = 'pdf';
-		}else{
-			throw new NotFoundException(__('Wrong output type !'));
-		}
-		
-		$items = $this->Result->find('all', array(
-			'fields' => array('result'),
-			'conditions' => array(
-				'Pupil.id' => $pupil,
-				'Evaluation.period_id' => $report['Report']['period_id'],
-				'Evaluation.classroom_id' => $report['Classroom']['id']
-			),
-			'contain' => array(
-				'Item.title',
-				'Item.competence_id',
-				'Pupil.id',
-				'Pupil.name',
-				'Pupil.first_name',
-				'Evaluation.Period.id',
-				'Evaluation.Classroom.id'
-			)
-		));
-	
-		if(empty($items)){
-			$this->Session->setFlash(__('Aucun résultat n\'a été saisi pour cet élève', 'flash_error'));
-			$this->redirect(array('controller' => 'results', 'action' => 'bul'));
-		}
-			
-		$this->set('items', $items);
-
-        $competences = $this->Result->Item->Competence->findAllCompetencesFromCompetenceId($this->arrayValueRecursive('competence_id',$items),'!jstree');
-        $this->set('competences', $competences);
+		//$this->set('pupils', json_encode(json_encode($tab)));
 	}
 
 	function arrayValueRecursive($key, array $arr){
@@ -261,47 +198,6 @@ class ResultsController extends AppController {
 			if($k == $key) array_push($val, $v);
 		});
 		return count($val) > 1 ? $val : array_pop($val);
-	}
-	
-	function concatenateReports(){
-		$this->layout = 'ajax';
-			
-		$pdfMerged = new ZendPdf\PdfDocument();
-
-		foreach($this->request->data['pupils'] as $pupil_id){
-	      
-	      // Load PDF Document
-	      $OldPdf = ZendPdf\PdfDocument::load("files/".$this->request->data['classroom_id']."_".str_replace(',','',$this->request->data['period_id'])."_".$pupil_id.".pdf");
-	
-	      // Clone each page and add to merged PDF
-	      $pages = count($OldPdf->pages);
-	      for($i=0; $i<$pages; ++$i){
-	         $page = clone $OldPdf->pages[$i];
-	         $pdfMerged->pages[] = $page;
-	      }
-		}
-	   
-		// Save changes to PDF
-	   	$pdfMerged->save("files/".$this->request->data['classroom_id']."_".str_replace(',','',$this->request->data['period_id']).".pdf");
-		
-		foreach($this->request->data['pupils'] as $pupil_id){
-			unlink("files/".$this->request->data['classroom_id']."_".str_replace(',','',$this->request->data['period_id'])."_".$pupil_id.".pdf");
-		}
-	
-	}
-	
-	function download(){
-		$this->layout = 'ajax';
-		if(!isset($this->request->params['named']['filename'])) {
-       		throw new NotFoundException(__('You must provide a filename !')); 		
-       	} else {
-			$filename = strval($this->request->params['named']['filename']);
-		}
-		
-		header('Content-disposition: attachment; filename='.$filename);
-		header('Content-type: application/pdf');
-		readfile('files/'.$filename);
-		unlink('files/'.$filename);
 	}
 	
 	public function analyseresults($id = null) {

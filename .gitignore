@@ -7,6 +7,7 @@ tmp/cache/persistent/myapp_cake*
 .project
 .PHPEditProject
 Opencomp.esproj/
+files/
 webroot/files
 webroot/components
 composer.phar

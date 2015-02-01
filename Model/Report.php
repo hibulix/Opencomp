@@ -67,8 +67,9 @@ class Report extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 	
 	public function beforeSave($options = array()){
-		$this->data['Report']['period_id'] = implode(",",$this->data['Report']['period_id']);
-		if(is_array($this->data['Report']['page_break']))
+		if(isset($this->data['Report']['period_id']))
+			$this->data['Report']['period_id'] = implode(",",$this->data['Report']['period_id']);
+		if(isset($this->data['Report']['page_break']) && is_array($this->data['Report']['page_break']))
 			$this->data['Report']['page_break'] = implode(",",$this->data['Report']['page_break']);
 
 		return true;
