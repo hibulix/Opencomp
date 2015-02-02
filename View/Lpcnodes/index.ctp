@@ -38,7 +38,7 @@ $this->start('script');
 
 		var items = {
 			"createNew" : {
-				"label" : "créer une compétence enfant dans \""+competence.trim()+"\"",
+				"label" : "créer un noeud enfant dans \""+competence.trim()+"\"",
 				"icon" : "fa text-success fa-plus",
 				"action" : function (obj){
 					window.location.href = $('#base_url').text()+'lpcnodes/add/'+idCompetence;

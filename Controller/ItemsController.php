@@ -7,7 +7,56 @@ App::uses('AppController', 'Controller');
  */
 class ItemsController extends AppController {
 
-	public function editTitle($id = null){	
+	public $components = array('JsonTree');
+
+	public function edit($id = null, $classroom_id){
+		$this->Item->id = $id;
+		if (!$this->Item->exists()) {
+			throw new NotFoundException(__('The item_id provided does not exist !'));
+		}
+
+		$item = $this->Item->findById($id);
+		if (!$this->request->data) {
+			$this->request->data = $item;
+		}
+
+		if($this->Auth->user('id') != $item['Item']['user_id'] && $this->Auth->user('role') != 'admin'){
+			$this->Session->setFlash(__('Vous ne pouvez pas éditer un item dont vous n\'êtes pas propriétaire.'), 'flash_error');
+			$this->redirect(array(
+				'controller'    => 'evaluationsItems',
+				'action'        => 'useditems', $classroom_id));
+		}
+
+		if ($this->request->is('post')) {
+			if ($this->Item->save($this->request->data)) {
+				$this->Session->setFlash(__('L\'item a été correctement modifée'), 'flash_success');
+				if(isset($classroom_id)){
+					$this->redirect(array(
+						'controller'    => 'evaluationsItems',
+						'action'        => 'useditems', $classroom_id));
+				}else{
+					$this->redirect(array(
+						'controller'    => 'competences',
+						'action'        => 'index'));
+				}
+			} else {
+				$this->Session->setFlash(__('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.'), 'flash_error');
+			}
+		}
+
+		//Récupération des ids des catégories existantes
+		$competenceids = $this->Item->Competence->generateTreeList(null, null, null, "");
+		$this->set('cid', $competenceids);
+
+		$levels = $this->Item->Level->find('list', array('recursive' => 0));
+		$this->set('levels', $levels);
+
+		//Passage des compétences et du LPC
+		$this->JsonTree->passAllCompetencesJsonTreeToView();
+		$this->JsonTree->passAllLpcnodesToView();
+	}
+
+	public function editTitle($id = null){
 		$this->Item->id = $id;
 		if (!$this->Item->exists()) {
 			throw new NotFoundException(__('The item_id provided does not exist !'));

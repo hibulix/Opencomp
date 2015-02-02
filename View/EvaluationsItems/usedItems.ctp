@@ -44,7 +44,7 @@ $this->start('script');
                     "label" : "modifier cet item",
                     "icon" : "fa text-info fa-pencil text-warning",
                     "action" : function (obj){
-                        window.location.href = $('#base_url').text()+'items/edit/'+idItem;
+                        window.location.href = $('#base_url').text()+'items/edit/'+idItem+'/<?php echo $classroom['Classroom']['id'];?>';
                     },
                 }
             };

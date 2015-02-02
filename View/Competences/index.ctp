@@ -33,9 +33,8 @@ $this->start('script');
 	var data = <?php echo $json; ?>;
 
 	function returnContextMenuAdminCompetence(node){
-		console.log(node);
 		if(node.data.type == "feuille"){
-			var idItem = node.id;
+			var idItem = node.id.substr(5);
 			var competence = $('#'+node.parent+'>a').text();
 			var idCompetence = $('#'+node.parent).attr('data-id');
 		}
@@ -59,6 +58,13 @@ $this->start('script');
 					window.location.href = $('#base_url').text()+'competences/edit/'+idCompetence;
 				}
 			},
+			"editItem" : {
+				"label" : "modifier cet item",
+				"icon" : "fa text-warning fa-pencil",
+				"action" : function (obj){
+					window.location.href = $('#base_url').text()+'items/edit/'+idItem;
+				}
+			},
 			"moveTop" : {
 				"label" : "déplacer vers le haut",
 				"icon" : "fa text-info fa-arrow-up",
@@ -80,6 +86,8 @@ $this->start('script');
 			delete items.edit;
 			delete items.moveTop;
 			delete items.moveDown;
+		}else{
+			delete items.editItem;
 		}
 
 		return items;

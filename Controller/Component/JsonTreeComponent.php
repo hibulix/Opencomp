@@ -8,6 +8,13 @@ class JsonTreeComponent extends Component {
         $this->controller = $controller;
     }
 
+    public function passAllCompetencesJsonTreeToView(){
+        $this->Competence = ClassRegistry::init('Competence');
+        $competences = $this->Competence->findAllCompetences();
+
+        $this->controller->set('competence_id', json_encode($competences));
+    }
+
     public function passAllItemsJsonTreeToView(){
         $this->Competence = ClassRegistry::init('Competence');
         $this->Item = ClassRegistry::init('Item');
