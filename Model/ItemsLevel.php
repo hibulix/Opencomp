@@ -20,16 +20,10 @@ class ItemsLevel extends AppModel {
 		'Item' => array(
 			'className' => 'Item',
 			'foreignKey' => 'item_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		),
 		'Level' => array(
 			'className' => 'Level',
 			'foreignKey' => 'level_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		)
 	);
 }

@@ -21,23 +21,15 @@ class ClassroomsPupil extends AppModel {
 		'Classroom' => array(
 			'className' => 'Classroom',
 			'foreignKey' => 'classroom_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		),
 		'Pupil' => array(
 			'className' => 'Pupil',
 			'foreignKey' => 'pupil_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		),
 		'Level' => array(
 			'className' => 'Level',
 			'foreignKey' => 'level_id',
-			'conditions' => '',
 			'fields' => 'title',
-			'order' => ''
 		)
 	);
 }

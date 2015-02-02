@@ -20,16 +20,10 @@ class EvaluationsItem extends AppModel {
 		'Evaluation' => array(
 			'className' => 'Evaluation',
 			'foreignKey' => 'evaluation_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		),
 		'Item' => array(
 			'className' => 'Item',
 			'foreignKey' => 'item_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		)
 	);
 

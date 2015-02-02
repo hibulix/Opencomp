@@ -9,7 +9,6 @@ App::uses('AppModel', 'Model');
 class EvaluationsPupil extends AppModel {
 
     public $actsAs = array('Containable');
-    //The Associations below have been created with all possible keys, those that are not needed can be removed
 
     /**
      * belongsTo associations
@@ -20,16 +19,10 @@ class EvaluationsPupil extends AppModel {
         'Evaluation' => array(
             'className' => 'Evaluation',
             'foreignKey' => 'evaluation_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => ''
         ),
         'Pupil' => array(
             'className' => 'Pupil',
             'foreignKey' => 'pupil_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => ''
         )
     );
 }

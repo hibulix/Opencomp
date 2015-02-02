@@ -60,14 +60,6 @@ App::uses('AppModel', 'Model');
 			'className' => 'Establishment',
 			'foreignKey' => 'academy_id',
 			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
 		)
 	);
 
@@ -84,14 +76,6 @@ App::uses('AppModel', 'Model');
 			'foreignKey' => 'academy_id',
 			'associationForeignKey' => 'user_id',
 			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
 		)
 	);
 

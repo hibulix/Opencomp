@@ -20,16 +20,10 @@ class ClassroomsUser extends AppModel {
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		),
 		'Classroom' => array(
 			'className' => 'Classroom',
 			'foreignKey' => 'classroom_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		)
 	);
 }

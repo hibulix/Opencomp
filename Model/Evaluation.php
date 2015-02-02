@@ -29,45 +29,24 @@ class Evaluation extends AppModel {
 			'notempty' => array(
 				'rule' => array('notempty'),
 				'message' => 'Vous devez saisir un titre pour la nouvelle évaluation.',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 		'classroom_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 		'user_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 		'period_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 	);
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
  * belongsTo associations
@@ -78,23 +57,14 @@ class Evaluation extends AppModel {
 		'Classroom' => array(
 			'className' => 'Classroom',
 			'foreignKey' => 'classroom_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		),
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		),
 		'Period' => array(
 			'className' => 'Period',
 			'foreignKey' => 'period_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		)
 	);
 
@@ -108,40 +78,16 @@ class Evaluation extends AppModel {
 			'className' => 'Result',
 			'foreignKey' => 'evaluation_id',
 			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
 		),
 		'EvaluationsItem' => array(
 			'className' => 'EvaluationsItem',
 			'foreignKey' => 'evaluation_id',
 			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
 		),
         'EvaluationsPupil' => array(
             'className' => 'EvaluationsPupil',
             'foreignKey' => 'evaluation_id',
             'dependent' => false,
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'exclusive' => '',
-            'finderQuery' => '',
-            'counterQuery' => ''
         )
 	);
 
@@ -158,14 +104,6 @@ class Evaluation extends AppModel {
 			'foreignKey' => 'evaluation_id',
 			'associationForeignKey' => 'item_id',
 			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
 		),
 		'Pupil' => array(
 			'className' => 'Pupil',
@@ -173,14 +111,6 @@ class Evaluation extends AppModel {
 			'foreignKey' => 'evaluation_id',
 			'associationForeignKey' => 'pupil_id',
 			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
 		)
 	);
 	

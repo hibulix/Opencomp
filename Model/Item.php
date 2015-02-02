@@ -31,10 +31,6 @@ class Item extends AppModel {
 			'notempty' => array(
 				'rule' => array('notempty'),
 				'message' => 'Vous devez renseigner ce champ !',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 		'Level' => array(
@@ -46,56 +42,29 @@ class Item extends AppModel {
 		'competence_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 		'place' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 		'type' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 		'user_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 		'classroom_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 	);
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
  * belongsTo associations
@@ -106,23 +75,18 @@ class Item extends AppModel {
 		'Competence' => array(
 			'className' => 'Competence',
 			'foreignKey' => 'competence_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		),
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		),
 		'Classroom' => array(
 			'className' => 'Classroom',
 			'foreignKey' => 'classroom_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
+		),
+		'Lpcnode' => array(
+			'className' => 'Lpcnode',
+			'foreignKey' => 'lpcnode_id',
 		)
 	);
 
@@ -136,14 +100,6 @@ class Item extends AppModel {
 			'className' => 'Result',
 			'foreignKey' => 'item_id',
 			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
 		)
 	);
 
@@ -160,14 +116,6 @@ class Item extends AppModel {
 			'foreignKey' => 'item_id',
 			'associationForeignKey' => 'evaluation_id',
 			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
 		),
 		'Level' => array(
 			'className' => 'Level',
@@ -175,14 +123,6 @@ class Item extends AppModel {
 			'foreignKey' => 'item_id',
 			'associationForeignKey' => 'level_id',
 			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-			'deleteQuery' => '',
-			'insertQuery' => ''
 		)
 	);
 

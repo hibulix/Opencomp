@@ -16,10 +16,6 @@ class Report extends AppModel {
 			'notempty' => array(
 				'rule' => array('notempty'),
 				'message' => 'Vous devez compléter ce champ.',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 		'period_id' => array(
@@ -27,27 +23,18 @@ class Report extends AppModel {
 		        'rule' => array('multiple', array(
 		            'min' => 1
 		        )),
-		        //'message' => '<i class="icon-user"></i> Vous devez séléctionner au moins une période !'
 		    )
 		),
 		'header' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
 				'message' => 'Vous devez compléter ce champ.',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 		'footer' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
 				'message' => 'Vous devez compléter ce champ.',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 	);
@@ -56,9 +43,6 @@ class Report extends AppModel {
 			'Classroom' => array(
 			'className' => 'Classroom',
 			'foreignKey' => 'classroom_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
 		),
 	);
 	
