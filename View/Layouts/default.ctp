@@ -89,13 +89,6 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-lg fa-star text-warning"></i> <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li class="disabled"><?php echo $this->Html->link('<i class="fa fa-edit"></i> '.__('Mon compte (bientôt)'), '', array('escape' => false)); ?></li>
-                                <li><?php echo $this->Html->link('<i class="fa fa-bank"></i> '.__('Se déconnecter'), '/settings/save', array('escape' => false)); ?></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
                             <?php $first_name = $this->Session->read('Auth.User.first_name');
                             $name = $this->Session->read('Auth.User.name'); ?>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo($first_name.' '.$name); ?> <b class="caret"></b></a>

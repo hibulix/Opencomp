@@ -16,8 +16,6 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-set_time_limit(0);
-
 require('setPaths.php');
 
 if (Configure::read('debug') < 1) {
