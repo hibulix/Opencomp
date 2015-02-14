@@ -7,6 +7,8 @@ App::uses('AppController', 'Controller');
  */
 class PupilsController extends AppController {
 
+    public $components = array('Encoding','FileUpload');
+
 /**
  * add method
  *
@@ -34,41 +36,16 @@ class PupilsController extends AppController {
      * @return void
      */
     public function import() {
-        //On vérifie qu'un paramètre nommé classroom_id a été fourni et qu'il existe.
         $classroom_id = $this->CheckParams->checkForNamedParam('Classroom','classroom_id', $this->request->params['named']['classroom_id']);
 
-        if(isset($this->request->params['named']['step']) && $this->request->params['named']['step'] == 'muf') {
-            if(!empty($_FILES)){
-                if ($_FILES['files']['error'][0] != 0) {
-                    switch ($_FILES['files']['error'][0]){
-                        case 1: // UPLOAD_ERR_INI_SIZE
-                            $this->Session->setFlash(__('Le fichier envoyé est trop volumineux.'), 'flash_error');
-                            $this->redirect(array('controller' => 'pupils', 'action' => 'import', 'classroom_id' => $classroom_id));
-                            break;
-                        case 2: // UPLOAD_ERR_FORM_SIZE
-                            $this->Session->setFlash(__('Le fichier envoyé est trop volumineux.'), 'flash_error');
-                            $this->redirect(array('controller' => 'pupils', 'action' => 'import', 'classroom_id' => $classroom_id));
-                            break;
-                        case 3: // UPLOAD_ERR_PARTIAL
-                            $this->Session->setFlash(__('L\'envoi du fichier a été interrompu pendant le transfert !'), 'flash_error');
-                            $this->redirect(array('controller' => 'pupils', 'action' => 'import', 'classroom_id' => $classroom_id));
-                            break;
-                        case 4: // UPLOAD_ERR_NO_FILE
-                            $this->Session->setFlash(__('Le fichier envoyé a une taille nulle !'), 'flash_error');
-                            $this->redirect(array('controller' => 'pupils', 'action' => 'import', 'classroom_id' => $classroom_id));
-                            break;
-                        default:
-                            break;
-                    }
-                }else {
-                    if($_FILES['files']['type'][0] != 'text/csv'){
-                        $this->Session->setFlash(__('Le fichier envoyé n\'est pas un fichier .csv !'), 'flash_error');
-                        $this->redirect(array('controller' => 'pupils', 'action' => 'import', 'classroom_id' => $classroom_id));
-                    }else{
-                        move_uploaded_file($_FILES['files']['tmp_name'][0],WWW_ROOT.'files/import_be1d_'.$classroom_id.'.csv');
-                        $this->redirect(array('controller' => 'pupils', 'action' => 'parseimport', 'classroom_id' => $classroom_id));
-                    }
-                }
+        if($this->request->data && $this->Pupil->isUploadedFile($this->request->data['Pupil']['exportBe1d'])){
+            $err = $this->FileUpload->checkError($this->request->data['Pupil']['exportBe1d'], 'text/csv');
+
+            if($err){
+                $this->Session->setFlash(__($err),'flash_error');
+            }else{
+                move_uploaded_file($this->request->data['Pupil']['exportBe1d']['tmp_name'],APP.'files/import_be1d_'.$classroom_id.'.csv');
+                $this->redirect(array('controller' => 'pupils', 'action' => 'parseimport', 'classroom_id' => $classroom_id));
             }
         }
     }
@@ -77,59 +54,55 @@ class PupilsController extends AppController {
         //On vérifie qu'un paramètre nommé classroom_id a été fourni et qu'il existe.
         $classroom_id = $this->CheckParams->checkForNamedParam('Classroom','classroom_id', $this->request->params['named']['classroom_id']);
 
-        if(file_exists('files/import_be1d_'.$classroom_id.'.csv')){
-            if (($handle = fopen('files/import_be1d_'.$classroom_id.'.csv', 'r')) !== FALSE) {
-                $i = 0;
+        if(file_exists(APP.'files/import_be1d_'.$classroom_id.'.csv')){
+            $csv_file = file(APP.'files/import_be1d_'.$classroom_id.'.csv');
+            array_shift($csv_file);
+            foreach($csv_file as $line)
+                $csv_array[] = str_getcsv($line,';','"');
 
-                $niveaux = $this->Pupil->ClassroomsPupil->Level->find('all', array('recursive' => -1));
-                foreach($niveaux as $niveau){
-                    $levels[$niveau['Level']['title']] = $niveau['Level']['id'];
-                }
-
-                while (($data = fgetcsv($handle, 1000, ";", '"')) !== FALSE) {
-                    if($i != 0){
-                        $import[$i]['nom'] = mb_convert_encoding($data[0],'UTF-8','ISO-8859-1');
-                        $import[$i]['prenom'] = mb_convert_encoding($data[1],'UTF-8','ISO-8859-1');
-                        $import[$i]['datenaiss'] = $data[9];
-                        $import[$i]['datebase'] = substr($data[9],6,4).'-'.substr($data[9],3,2).'-'.substr($data[9],0,2);
-                        $import[$i]['niveau'] = $data[2];
-                        $import[$i]['niveaubase'] = $levels[$data[2]];
-                        $import[$i]['sexe'] = substr($data[13],0,1);
-                    }
-                    $i++;
-                }
-                fclose($handle);
-                $this->set('preview',$import);
-            }
-
+            $this->set('preview', $this->Encoding->convertArrayToUtf8($csv_array));
         }else{
             $this->Session->setFlash(__('Le fichier n\'a pas été correctement importé.'), 'flash_error');
             $this->redirect(array('controller' => 'pupils', 'action' => 'import', 'classroom_id' => $classroom_id));
         }
 
-        if(isset($this->request->params['named']['step']) && $this->request->params['named']['step'] == 'go') {
-            $this->runImport($import);
-        }
+        if(isset($this->request->params['named']['step']) && $this->request->params['named']['step'] == 'go')
+            $this->runImport($this->Encoding->convertArrayToUtf8($csv_array));
     }
     
     private function runImport($import){
-        //On vérifie qu'un paramètre nommé classroom_id a été fourni et qu'il existe.
-        $classroom_id = $this->CheckParams->checkForNamedParam('Classroom','classroom_id', $this->request->params['named']['classroom_id']);
-        
+        $classroom_id = $this->request->params['named']['classroom_id'];
+
+        $niveaux = $this->Pupil->ClassroomsPupil->Level->find('all', array('recursive' => -1));
+        foreach($niveaux as $niveau){
+            $levels[$niveau['Level']['title']] = $niveau['Level']['id'];
+        }
+
         $datas = array();
-        foreach($import as $pupil){
+        foreach($import as $line){
             $data = array(
-                'Pupil' => array('name' => $pupil['nom'],'first_name' => $pupil['prenom'],'sex' => $pupil['sexe'],'birthday' => $pupil['datebase']),
-                'ClassroomsPupil' => array(array('classroom_id' => $classroom_id, 'level_id' => $pupil['niveaubase']))
+                'Pupil' => array(
+                    'name' => $line[0],
+                    'first_name' => $line[1],
+                    'sex' => $line[13],
+                    'birthday' => substr($line[9],6,4).'-'.substr($line[9],3,2).'-'.substr($line[9],0,2)
+                ),
+                'ClassroomsPupil' => array(
+                    array(
+                        'classroom_id' => $classroom_id,
+                        'level_id' => $levels[$line[2]]
+                    )
+                )
             );
             array_push($datas,$data);
         }
+
         if($this->Pupil->saveMany($datas, array('deep' => true, 'atomic' => true))){
             $this->Session->setFlash(__('Les élèves ont été correctement importés.'), 'flash_success');
+            unlink(APP.'files/import_be1d_'.$classroom_id.'.csv');
             $this->redirect(array('controller' => 'classrooms', 'action' => 'view', $classroom_id));
-            unlink('/files/import_be1d_'.$classroom_id.'.csv');
         }else{
-            unlink('/files/import_be1d_'.$classroom_id.'.csv');
+            unlink(APP.'files/import_be1d_'.$classroom_id.'.csv');
             $this->Session->setFlash(__('Une erreur est survenue lors de l\'import'), 'flash_error');
             $this->redirect(array('controller' => 'pupils', 'action' => 'parseimport', 'classroom_id' => $classroom_id));
         }

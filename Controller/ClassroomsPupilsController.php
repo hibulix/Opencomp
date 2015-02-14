@@ -65,7 +65,6 @@ class ClassroomsPupilsController extends AppController {
 
     	//Ajout des élèves au fichier Excel
         foreach ($pupils as $line => $pupil) {
-        	$num = $line+2;
 			$export->addRow(array(
 				'*00'.$pupil['Pupil']['id'].'*',
 				$pupil['Pupil']['name'],

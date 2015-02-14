@@ -126,6 +126,7 @@
             '../components/bootstrap/dist/js/bootstrap.min',
             '../components/bootstrap-datepicker/js/bootstrap-datepicker',
             '../components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr',
+            '../components/bootstrap-filestyle/src/bootstrap-filestyle',
             'opencomp.app'
         ));
 	    echo $this->fetch('script');

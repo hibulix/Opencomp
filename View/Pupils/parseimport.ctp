@@ -19,10 +19,15 @@
     </thead>
     <tbody>
 
-<?php
-foreach($preview as $pupil){
-    echo"<tr><td>".$pupil['prenom']."</td><td>".$pupil['nom']."</td><td>".$pupil['datebase']." (".$pupil['datenaiss'].")</td><td>".$pupil['niveaubase']." (".$pupil['niveau'].")</td><td>".$pupil['sexe']."</td></tr>";
-}
+<?php foreach($preview as $line): ?>
+    <tr>
+        <td><?php echo $line[1]; ?></td>
+        <td><?php echo $line[0]; ?></td>
+        <td><?php echo $line[9]; ?></td>
+        <td><?php echo $line[2]; ?></td>
+        <td><?php echo $line[13]; ?></td>
+    </tr>
+<?php endforeach;
 
 $to = $this->Html->url(array(
     "controller" => "pupils",
