@@ -41,4 +41,4 @@
     <i class="fa fa-info-circle"></i> Vous ne pouvez pas saisir les résultats de cette évaluation car vous ne lui avez pas encore associé d'items.<br />
     Commencez par <?php echo $this->Html->link(__('associer des items'), array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation['Evaluation']['id'])); ?> à cette évaluation.
 </div>
-<?php endif; ?>
+<?php endif;

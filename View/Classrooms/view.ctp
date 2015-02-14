@@ -88,4 +88,4 @@
 <div class="alert alert-info">
 	<i class="fa fa-info-circle"></i> Cette classe ne comporte encore aucun élève associé.<br />Vous pouvez ajouter des élèves manuellement (bouton vert à droite) ou les importer depuis une classe de l'année précédente.
 </div>
-<?php endif; ?>
+<?php endif;

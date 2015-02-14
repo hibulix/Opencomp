@@ -61,4 +61,4 @@ echo $this->Form->hidden('type', array('value' => 3));
     )); ?>
 </div>
 
-<?php echo $this->Form->end(); ?>
+<?php echo $this->Form->end();

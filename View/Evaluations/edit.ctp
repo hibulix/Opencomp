@@ -78,4 +78,4 @@ echo $this->Form->input('Pupil', array(
     )); ?>
 </div>
 
-<?php echo $this->Form->end(); ?>
+<?php echo $this->Form->end();

@@ -77,4 +77,5 @@ echo $this->Form->submit('Modifier cet utilisateur', array(
     'class' => 'btn btn-primary'
 )); 
         
-echo $this->Form->end(); ?>
+echo $this->Form->end();
+

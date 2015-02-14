@@ -93,4 +93,4 @@
         <i class="fa fa-info-circle fa fa-3x pull-left"></i>
         Actuellement, aucune évaluation n'a été associée à cette classe (<?php echo $scope ?>).<br />Vous pouvez ajouter une évaluation en cliquant sur le bouton vert ci-dessus.
     </div>
-<?php endif; ?>
+<?php endif;

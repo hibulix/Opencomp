@@ -58,9 +58,9 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                    	<li><?php echo $this->Html->link('<i class="fa fa-dashboard"></i> '.__('Bureau'), '/dashboard', array('escape' => false)); ?></li>
+                    	<li><?php echo $this->Html->link('<i class="fa fa-lg fa-dashboard"></i> '.__('Bureau'), '/dashboard', array('escape' => false)); ?></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-list"></i> <?php echo __('Référentiels') ?> <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-lg fa-list"></i> <?php echo __('Référentiels') ?> <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><?php echo $this->Html->link('<i class="fa fa-book"></i> '.__('Instructions officielles'), '/competences', array('escape' => false)); ?></li>
                                 <li><?php echo $this->Html->link('<i class="fa fa-book"></i> '.__('Livret Personnel de Compétences'), '/lpcnodes', array('escape' => false)); ?></li>
@@ -69,7 +69,7 @@
                             </li>
                             <?php if(AuthComponent::user('role') === 'admin'){ ?>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-rocket"></i> <?php echo __('Administration') ; ?> <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-lg fa-rocket"></i> <?php echo __('Administration') ; ?> <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li><?php echo $this->Html->link('<i class="fa fa-home"></i> '.__('Gestion des établissements'), '/academies', array('escape' => false)); ?></li>
                                     <li><?php echo $this->Html->link('<i class="fa fa-user"></i> '.__('Gestion des utilisateurs'), '/users', array('escape' => false)); ?></li>
@@ -78,7 +78,7 @@
                             </li>
                             <?php } ?>
                             <li class="dropdown">
-                   <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-support"></i> <?php echo __('Aide et support') ?> <b class="caret"></b></a>
+                   <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-lg fa-support"></i> <?php echo __('Aide et support') ?> <b class="caret"></b></a>
 
             	<ul class="dropdown-menu">
                 	<li><a href="http://kb.opencomp.fr" target="_blank"><i class="fa fa-book"></i> <?php echo __('Chercher une solution dans la base de connaissance') ; ?></a></li>
@@ -88,6 +88,13 @@
 
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-lg fa-star text-warning"></i> <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li class="disabled"><?php echo $this->Html->link('<i class="fa fa-edit"></i> '.__('Mon compte (bientôt)'), '', array('escape' => false)); ?></li>
+                                <li><?php echo $this->Html->link('<i class="fa fa-bank"></i> '.__('Se déconnecter'), '/settings/save', array('escape' => false)); ?></li>
+                            </ul>
+                        </li>
                         <li class="dropdown">
                             <?php $first_name = $this->Session->read('Auth.User.first_name');
                             $name = $this->Session->read('Auth.User.name'); ?>

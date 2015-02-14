@@ -106,5 +106,3 @@ $this->start('script');
 </script>
 <?php
 $this->end();
-
-?>

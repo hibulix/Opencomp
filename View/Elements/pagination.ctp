@@ -70,4 +70,4 @@ if($this->Paginator->counter('{:pages}') > 1){
 	</ul>
 </div>
 
-<?php } ?>
+<?php }

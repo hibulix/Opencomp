@@ -75,4 +75,5 @@ echo $this->Form->submit('Ajouter cet utilisateur', array(
     'class' => 'btn btn-primary'
 )); 
         
-echo $this->Form->end(); ?>
+echo $this->Form->end();
+

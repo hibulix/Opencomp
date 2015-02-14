@@ -68,4 +68,4 @@ echo $this->Form->input('academy_id', array(
     )); ?>
 </div>
 
-<?php echo $this->Form->end(); ?>
+<?php echo $this->Form->end();

@@ -76,4 +76,4 @@ echo $this->Form->input('Setting.yubikeySecretKey', array(
      <?php echo $this->Form->button('Enregistrer les paramètres', array('type' => 'submit', 'class' => 'btn btn-primary')); ?>        
 </div>
 
-<?php echo $this->Form->end(); ?>
+<?php echo $this->Form->end();

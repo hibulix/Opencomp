@@ -31,4 +31,4 @@ echo $this->Form->input('Pupil.id', array(
      <?php echo $this->Html->link('<button class="btn">'.__('L\'élève que je souhaite ajouter n\'est pas listé').'</button>', array('action' => 'addnew', 'classroom_id'=>$classroom_id), array('escape' => false)); ?>       
 </div>
 
-<?php echo $this->Form->end(); ?>
+<?php echo $this->Form->end();

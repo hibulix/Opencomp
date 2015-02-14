@@ -33,5 +33,3 @@ echo $this->Form->input('pupil_id', array(
 ));
 
 echo $this->Form->end(); 
-
-?>

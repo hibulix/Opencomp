@@ -49,4 +49,4 @@ echo $this->Form->input('User', array(
     )); ?>
 </div>
 
-<?php echo $this->Form->end(); ?>
+<?php echo $this->Form->end();

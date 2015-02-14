@@ -62,5 +62,3 @@ foreach($items as $item){
 
 
 echo $this->Form->end(); 
-
-?>
