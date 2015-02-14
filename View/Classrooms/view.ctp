@@ -19,7 +19,7 @@
         </a>
         <ul class="dropdown-menu">
             <li>
-                <?php echo $this->Html->link('<i class="fa fa-file-excel-o"></i> '.__('vers Excel pour publipostage'), array('controller' => 'ClassroomsPupils', 'action' => 'excelExport', 'classroom_id' => $classroom['Classroom']['id']),array('escape' => false)); ?>
+                <?php echo $this->Html->link('<i class="fa fa-table"></i> '.__('au format OASIS OpenDocument Spreadsheet'), array('controller' => 'ClassroomsPupils', 'action' => 'excelExport', 'classroom_id' => $classroom['Classroom']['id']),array('escape' => false)); ?>
             </li>
         </ul>
     </div>
