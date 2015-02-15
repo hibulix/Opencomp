@@ -12,9 +12,7 @@
 </div>
 
 <div id="progress">
-<?php echo $this->element('generationProgressWidget', [
-    "report_id" => $report['Report']['id'],
-]); ?>
+
 </div>
 
 <?php $this->start('script'); ?>
