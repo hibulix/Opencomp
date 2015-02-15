@@ -72,7 +72,7 @@ class GeneratePupilReportShell extends AppShell {
                 </body>
             </html>
 HTML;
-        $html_report->renderPdf($html, $report['Classroom']['id'], implode($report['Report']['period_id']), $data['pupil_id']);
+        $html_report->renderPdf($html, $data['pupil_id']);
     }
 
     private function concatenateReports($data){
