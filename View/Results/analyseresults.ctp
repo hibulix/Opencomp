@@ -5,35 +5,36 @@
 
 <table class="table table-striped">
 	<thead>
-	  <tr>
-	    <th>Prénom</th>
-	    <th>Nom</th>
-	    <th>Total items</th>
-	    <th>Total A</th>
-	    <th>Total B</th>
-	    <th>Total C</th>
-	    <th>Total D</th>
-	    <th style="width:500px;">Répartition</th>
-	  </tr>
+		<tr>
+			<th>Prénom</th>
+			<th>Nom</th>
+			<th class="text-center">A</th>
+			<th class="text-center">B</th>
+			<th class="text-center">C</th>
+			<th class="text-center">D</th>
+			<th class="text-center">Total</th>
+			<th style="width:500px;">Répartition</th>
+		</tr>
 	</thead>
 	<tbody>
-	<?php foreach($results as $id_pupils => $result): ?>
+	<?php foreach($results as $result): ?>
+		<?php $total_items = $result['Result']['sum_grade_a'] + $result['Result']['sum_grade_b'] + $result['Result']['sum_grade_c'] + $result['Result']['sum_grade_d']; ?>
 		<tr>
-			<td><?php echo $result['name']; ?></td>
-		    <td><?php echo $result['first_name']; ?></td>
-		    <td><?php echo $result['totalresults']; ?></td>
-		    <td><?php echo $result['numberA']." (".number_format($result['percentA'],0)." %)"; ?></td>
-		    <td><?php echo $result['numberB']." (".number_format($result['percentB'],0)." %)"; ?></td>
-		    <td><?php echo $result['numberC']." (".number_format($result['percentC'],0)." %)"; ?></td>
-		    <td><?php echo $result['numberD']." (".number_format($result['percentD'],0)." %)"; ?></td>
+			<td><?php echo $result['Pupil']['first_name']; ?></td>
+		    <td><?php echo $result['Pupil']['name']; ?></td>
+		    <td class="text-center"><?php echo $result['Result']['sum_grade_a']; ?></td>
+		    <td class="text-center"><?php echo $result['Result']['sum_grade_b']; ?></td>
+		    <td class="text-center"><?php echo $result['Result']['sum_grade_c']; ?></td>
+		    <td class="text-center"><?php echo $result['Result']['sum_grade_d']; ?></td>
+			<td class="text-center"><?php echo $total_items ?></td>
 		    <td>
 		    <div class="progress" style="margin-bottom:0px;">
-                        <div class="info progress-bar progress-bar-success" rel="tooltip" data-placement="bottom" title="<?php echo number_format($result['percentA'],1) ?>% des items acquis <?php echo $result['numberA'] ?> A sur <?php echo $result['totalresults'] ?> items évalués au total" style="width: <?php echo $result['percentA'] ?>%;"></div>
-                        <div class="info progress-bar" rel="tooltip" data-placement="bottom" title="<?php echo number_format($result['percentB'],1) ?>% des items à renforcer <?php echo $result['numberB'] ?> B sur <?php echo $result['totalresults'] ?> items évalués au total" style="width: <?php echo $result['percentB'] ?>%;"></div>
-                        <div class="info progress-bar progress-bar-warning" rel="tooltip" data-placement="bottom" title="<?php echo number_format($result['percentC'],1) ?>% des items en cours d'acquisition <?php echo $result['numberC'] ?> C sur <?php echo $result['totalresults'] ?> items évalués au total" style="width: <?php echo $result['percentC'] ?>%;"></div>
-                        <div class="info progress-bar progress-bar-danger" rel="tooltip" data-placement="bottom" title="<?php echo number_format($result['percentD'],1) ?>% des items non acquis <?php echo $result['numberD'] ?> D sur <?php echo $result['totalresults'] ?> items évalués au total" style="width: <?php echo $result['percentD'] ?>%;"></div>
-                    </div>
-		    </th>
+				<div class="info progress-bar progress-bar-success" rel="tooltip" data-placement="bottom" title="<?php echo $this->Utils->getPercentValue($result['Result']['sum_grade_a'], $total_items); ?>% des items acquis <?php echo $result['Result']['sum_grade_a'] ?> A sur <?php echo $total_items ?> items évalués au total" style="width: <?php echo $this->Utils->getPercentValue($result['Result']['sum_grade_a'], $total_items); ?>%;"></div>
+				<div class="info progress-bar" rel="tooltip" data-placement="bottom" title="<?php echo $this->Utils->getPercentValue($result['Result']['sum_grade_b'], $total_items); ?>% des items à renforcer <?php echo $result['Result']['sum_grade_b'] ?> B sur <?php echo $total_items ?> items évalués au total" style="width: <?php echo $this->Utils->getPercentValue($result['Result']['sum_grade_b'], $total_items); ?>%;"></div>
+				<div class="info progress-bar progress-bar-warning" rel="tooltip" data-placement="bottom" title="<?php echo $this->Utils->getPercentValue($result['Result']['sum_grade_c'], $total_items); ?>% des items en cours d'acquisition <?php echo $result['Result']['sum_grade_c'] ?> C sur <?php echo $total_items ?> items évalués au total" style="width: <?php echo $this->Utils->getPercentValue($result['Result']['sum_grade_c'], $total_items); ?>%;"></div>
+				<div class="info progress-bar progress-bar-danger" rel="tooltip" data-placement="bottom" title="<?php echo $this->Utils->getPercentValue($result['Result']['sum_grade_d'], $total_items); ?>% des items non acquis <?php echo $result['Result']['sum_grade_d'] ?> D sur <?php echo $total_items ?> items évalués au total" style="width: <?php echo $this->Utils->getPercentValue($result['Result']['sum_grade_d'], $total_items); ?>%;"></div>
+			</div>
+
 		</tr>
 	<?php endforeach; ?>
 	</tbody>

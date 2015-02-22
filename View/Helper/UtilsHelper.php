@@ -14,7 +14,7 @@ class UtilsHelper extends AppHelper {
     * @param mixed $sortDir Utilisé pour transmettre $this->Paginator->sortDir()
     * @return void
     */
-   public function sortingSign($column, $sortKey, $sortDir){
+    public function sortingSign($column, $sortKey, $sortDir){
         if($column == $sortKey){
             if($sortDir == 'asc'){
                 echo '<i class="fa fa-sort-up"></i> ';
@@ -25,5 +25,9 @@ class UtilsHelper extends AppHelper {
         }else{
             echo '<i class="fa fa-sort"></i> ';
         }
+    }
+
+    public function getPercentValue($qty, $total){
+        return number_format($qty*100/$total,3);
     }
 }

@@ -11,6 +11,13 @@ class Result extends AppModel {
 
 	public $actsAs = array('Containable');
 
+	public $virtualFields = array(
+		'sum_grade_a' => 'SUM(Result.grade_a)',
+		'sum_grade_b' => 'SUM(Result.grade_b)',
+		'sum_grade_c' => 'SUM(Result.grade_c)',
+		'sum_grade_d' => 'SUM(Result.grade_d)'
+	);
+
 /**
  * Validation rules
  *

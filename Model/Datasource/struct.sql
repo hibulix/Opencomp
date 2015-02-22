@@ -7,7 +7,7 @@
 #
 # Hôte: 127.0.0.1 (MySQL 5.6.21)
 # Base de données: opencomp
-# Temps de génération: 2015-01-29 22:29:19 +0000
+# Temps de génération: 2015-02-22 20:22:46 +0000
 # ************************************************************
 
 
@@ -106,7 +106,7 @@ CREATE TABLE `classrooms_users` (
 CREATE TABLE `competences` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `parent_id` int(10) unsigned DEFAULT NULL,
-  `depth` int(10) unsigned DEFAULT NULL,
+  `depth` int(1) unsigned DEFAULT NULL,
   `lft` int(10) unsigned NOT NULL,
   `rght` int(10) unsigned NOT NULL,
   `title` varchar(150) NOT NULL,
@@ -355,6 +355,10 @@ CREATE TABLE `results` (
   `pupil_id` int(10) unsigned NOT NULL,
   `item_id` int(10) unsigned NOT NULL,
   `result` enum('A','B','C','D','ABS','X','NE') NOT NULL DEFAULT 'NE',
+  `grade_a` tinyint(11) unsigned DEFAULT '0',
+  `grade_b` tinyint(11) unsigned DEFAULT '0',
+  `grade_c` tinyint(11) unsigned DEFAULT '0',
+  `grade_d` tinyint(11) unsigned DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `updated` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
