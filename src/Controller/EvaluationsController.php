@@ -2,6 +2,7 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 /**
  * Evaluations Controller
  *
@@ -16,9 +17,10 @@ class EvaluationsController extends AppController {
      * @return bool
      */
     public function isAuthorized($user = null) {
-        if(isset($this->request['pass'][0])){
-            //$this->request['pass'][0] correspond a l'id de l'évaluation passé
-            $this->Evaluation->id = $this->request['pass'][0];
+
+        if(isset($this->request->params['pass'][0])){
+            //$this->request->params['pass'][0] correspond a l'id de l'évaluation passé
+            $this->Evaluation->id = $this->request->params['pass'][0];
 
             //Vérification de l'existance de l'évaluation avant de continuer
             if ($this->Evaluation->exists()) {
@@ -44,14 +46,13 @@ class EvaluationsController extends AppController {
             }
         }else{
             //Si on a fourni le paramètre classroom_id
-            if(isset($this->request->params['named']['classroom_id'])) {
+            if(isset($this->request->query['classroom_id'])) {
                 if($user['role'] === 'admin'){
                     return true;
                 }
-                $classroom_id = intval($this->request->params['named']['classroom_id']);
-                $this->Evaluation->Classroom->id = $classroom_id;
-                $classrooms = $this->request->session()->read('Authorized')['classrooms'];
-                if ($this->Evaluation->Classroom->exists() && in_array($classroom_id,$classrooms)) {
+                $classroom_id = intval($this->request->query['classroom_id']);
+                $classrooms = array_merge($this->request->session()->read('Authorized')['classrooms'], $this->request->session()->read('Authorized')['classrooms_manager']);
+                if (in_array($classroom_id,$classrooms)) {
                     return true;
                 }
             }
@@ -71,15 +72,15 @@ class EvaluationsController extends AppController {
 
 		$this->Evaluation->id = $id;
 		$this->Evaluation->contain(array('User', 'Period', 'Classroom', 'Pupil.first_name', 'Pupil.name'));
-		$evaluation = $this->Evaluation->findById($id);		
+		$evaluation = $this->Evaluation->findById($id);
 		$this->set('evaluation', $evaluation);
-		
+
 		$this->Evaluation->EvaluationsItem->contain(array('Item.title', 'Item.type'));
 		$items = $this->Evaluation->EvaluationsItem->findAllByEvaluationId($id, array(), array('EvaluationsItem.position' => 'asc'));
 		$this->set('items', $items);
-		
+
 	}
-	
+
 	public function manageresults($id = null) {
 		$this->Evaluation->id = $id;
 		$this->Evaluation->contain(array('User', 'Period', 'Classroom', 'Pupil.Result.evaluation_id = '.$id, 'Item'));
@@ -97,9 +98,8 @@ class EvaluationsController extends AppController {
 	public function add() {
         $this->set('title_for_layout', __('Ajouter une évaluation'));
 
-        $classroom_id = intval($this->request->params['named']['classroom_id']);
-        $this->Evaluation->Classroom->id = $classroom_id;
-        $this->set('classroom_id', intval($classroom_id));
+        $classroom_id = intval($this->request->query['classroom_id']);
+
 
 		if ($this->request->is('post')) {
 			$this->Evaluation->create();
@@ -110,37 +110,39 @@ class EvaluationsController extends AppController {
 				$this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
 			}
 		}
-		
-		$users = $this->Evaluation->User->find('list', array(
+
+		$users = $this->Evaluations->Users->find('list', array(
 			'recursive' => 0,
-			'conditions' => array('id' => $this->Evaluation->User->findAllUsersInClassroom($classroom_id))
+			'conditions' => array('id' => $this->Evaluations->Users->findAllUsersInClassroom($classroom_id))
 			)
 		);
-		
-		$etab = $this->Evaluation->Classroom->find('first', array(
+
+		$etab = $this->Evaluations->Classrooms->find('all', array(
 			'fields'=>'establishment_id',
 			'conditions'=>array(
-				'Classroom.id'=>$classroom_id
+				'Classrooms.id'=>$classroom_id
 			),
-			'recursive'=>-1
-		));
-		
-		$this->Evaluation->Classroom->contain(array('Establishment.current_period_id'));
-		$current_period = $this->Evaluation->Classroom->findById($classroom_id, 'Establishment.current_period_id');
-		$current_period = $current_period['Establishment']['current_period_id'];
+		))->first();
 
-        $this->loadModel('Setting');
-        $currentYear = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'currentYear')));
-		
-		$periods = $this->Evaluation->Period->find('list', array(
+        $classroom = $this->Evaluations->Classrooms->get($classroom_id,[
+            'fields' => ['Establishments.current_period_id'],
+            'contain' => ['Establishments']
+        ]);
+
+        $current_period = $classroom['Establishments']->current_period_id;
+
+        $settingsTable = TableRegistry::get('Settings');
+        $currentYear = $settingsTable->find('all', array('conditions' => array('Settings.key' => 'currentYear')))->first();
+
+		$periods = $this->Evaluations->Periods->find('list', array(
 			'conditions' => array(
-                'establishment_id' => $etab['Classroom']['establishment_id'],
-                'year_id' => $currentYear['Setting']['value'],
-            ),
-			'recursive' => 0));
-		
-		$pupils = $this->Evaluation->findPupilsByLevelsInClassroom($classroom_id);
-		$this->set(compact('classrooms', 'users', 'periods', 'pupils', 'current_period'));
+                'establishment_id' => $etab->establishment_id,
+                'year_id' => $currentYear->value,
+            )
+        ));
+
+		$pupils = $this->Evaluations->findPupilsByLevelsInClassroom($classroom_id);
+		$this->set(compact('classroom_id', 'classrooms', 'users', 'periods', 'pupils', 'current_period'));
 	}
 
 /**
@@ -167,13 +169,13 @@ class EvaluationsController extends AppController {
 			$this->set('evaluation_id', $id);
 			$this->set('classroom_id', $classroom_id);
 		}
-	
+
 		$users = $this->Evaluation->User->find('list', array(
 			'recursive' => 0,
 			'conditions' => array('id' => $this->Evaluation->User->findAllUsersInClassroom($classroom_id))
 			)
 		);
-		
+
 		$etab = $this->Evaluation->Classroom->find('first', array(
 			'fields'=>'establishment_id',
 			'conditions'=>array(
@@ -181,11 +183,11 @@ class EvaluationsController extends AppController {
 			),
 			'recursive'=>-1
 		));
-		
+
 		$periods = $this->Evaluation->Period->find('list', array(
 			'conditions' => array('establishment_id' => $etab['Classroom']['establishment_id']),
 			'recursive' => 0));
-		
+
 		$pupils = $this->Evaluation->findPupilsByLevelsInClassroom($classroom_id);
 		$this->set(compact('classrooms', 'users', 'periods', 'pupils'));
 	}
@@ -205,13 +207,13 @@ class EvaluationsController extends AppController {
 		$this->Evaluation->id = $id;
 		$classroom_id = $this->Evaluation->read('Evaluation.classroom_id', $id);
 		if ($this->Evaluation->delete()) {
-			$this->Flash->success('L'évaluation a été correctement supprimée');
+			$this->Flash->success('L\'évaluation a été correctement supprimée');
 			$this->redirect(array(
 			    'controller'    => 'classrooms',
 			    'action'        => 'viewtests',
 			    $classroom_id['Evaluation']['classroom_id']));
 		}
-		$this->Flash->error('L'évaluation n'a pas pu être supprimée en raison d'une erreur interne');
+		$this->Flash->error('L\'évaluation n\'a pas pu être supprimée en raison d\'une erreur interne');
 		$this->redirect(array(
 		    'controller'    => 'classrooms',
 		    'action'        => 'viewtests'));

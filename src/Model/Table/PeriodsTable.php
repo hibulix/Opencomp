@@ -22,7 +22,7 @@ class PeriodsTable extends Table
     public function initialize(array $config)
     {
         $this->table('periods');
-        $this->displayField('id');
+        $this->displayField('well_named');
         $this->primaryKey('id');
         $this->belongsTo('Years', [
             'foreignKey' => 'year_id',

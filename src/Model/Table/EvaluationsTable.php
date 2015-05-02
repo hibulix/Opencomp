@@ -6,6 +6,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\ORM\TableRegistry;
 
 /**
  * Evaluations Model
@@ -86,4 +87,53 @@ class EvaluationsTable extends Table
         $rules->add($rules->existsIn(['period_id'], 'Periods'));
         return $rules;
     }
+
+
+    public function findPupilsByLevelsInClassroom($id_classroom){
+        $levelsTable = TableRegistry::get('Levels');
+		$levels = $levelsTable->find('all', array(
+			'conditions' => array(
+				'ClassroomsPupils.classroom_id' => $id_classroom
+			),
+			'fields' => 'ClassroomsPupils.level_id',
+			'join' => array(
+			    array('table' => 'classrooms_pupils',
+			        'alias' => 'ClassroomsPupils',
+			        'type' => 'LEFT',
+			        'conditions' => array(
+			            'Levels.id = ClassroomsPupils.level_id',
+			        ),
+			    )
+			 )
+		))->hydrate(false)->extract('ClassroomsPupils.level_id')->toArray();
+
+        $classroomsPupilsTable = TableRegistry::get('ClassroomsPupils');
+		$pupils = $classroomsPupilsTable->find('all', array(
+			'conditions' => array(
+				'ClassroomsPupils.classroom_id' => $id_classroom,
+				'ClassroomsPupils.level_id IN' => array_unique($levels)
+			),
+			'fields' => array('Pupils.id','Pupils.first_name','Pupils.name','Levels.title'),
+			'join' => array(
+			    array('table' => 'pupils',
+			        'type' => 'LEFT',
+			        'conditions' => array(
+			            'Pupils.id = ClassroomsPupils.pupil_id',
+			        ),
+			    ),
+			    array('table' => 'levels',
+			        'type' => 'LEFT',
+			        'conditions' => array(
+			            'Levels.id = ClassroomsPupils.level_id',
+			        ),
+			    )
+			 )
+		));
+
+		foreach($pupils as $pupil){
+			$pupilsLevels[$pupil->Levels['title']][$pupil->Pupils['id']] = $pupil->Pupils['first_name'].' '.$pupil->Pupils['name'];
+		}
+
+		return $pupilsLevels;
+	}
 }

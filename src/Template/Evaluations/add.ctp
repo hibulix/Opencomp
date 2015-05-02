@@ -5,17 +5,13 @@
 
 <?php
 
-echo $this->Form->create('Evaluation', array(
-    'inputDefaults' => array(
-        'div' => 'form-group',
-        'label' => array(
-            'class' => 'col col-md-2 control-label'
-        ),
-        'wrapInput' => 'col col-md-3',
-        'class' => 'form-control'
-    ),
-    'class' => 'form-horizontal'
-));
+echo $this->Form->create('Evaluation', ['align' => [
+    'md' => [
+        'left' => 2,
+        'middle' => 5,
+        'right' => 6,
+    ],
+]]);
 
 echo $this->Form->input('title', array(
     'label' => array(
@@ -36,7 +32,7 @@ echo $this->Form->input('user_id', array(
 echo $this->Form->input('period_id', array(
     'class'=>'chzn-select form-control',
     'default'=>$current_period,
-    'after' => '<span style="font-style: italic; margin-top:10px; margin-bottom:20px;" class="help-block"><i class="fa fa-lightbulb-o"></i> '.__("La période courante de l'établissement a été automatiquement sélectionnée.").'</span>',
+    'help' => '<span style="font-style: italic; margin-top:10px; margin-bottom:-10px;" class="help-block"><i class="fa fa-lightbulb-o"></i> '.__("La période courante de l'établissement a été automatiquement sélectionnée.").'</span>',
     'label' => array(
         'text' => 'Période associée'
         )
@@ -56,11 +52,11 @@ foreach($btn_nvx as $btn)
 	$btn_nvx_string .= $btn;
 
 
-echo $this->Form->input('Pupil', array(
+echo $this->Form->input('pupils._ids', array(
     'class'=>'chzn-select form-control',
-    'wrapInput' => 'col col-md-7',
+    'id'=>'PupilPupil',
     'data-placeholder' => 'Cliquez ici ou sur les boutons de niveaux pour ajouter des élèves.',
-    'afterInput' => '<div class="help-block btn-toolbar">'.$btn_nvx_string.'</div>',
+    'help' => '<div class="help-block btn-toolbar">'.$btn_nvx_string.'</div>',
     'label' => array(
         'text' => 'Élèves ayant passé l\'évaluation'
         )
