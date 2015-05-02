@@ -30,68 +30,68 @@
     	</div>
     </div>
 </div>
-	
+
 <?php if(!empty($classrooms)):
 	foreach($classrooms as $classroom): ?>
 
 <div class="page-title">
 	<h3>
-    	<?php echo $classroom['Classroom']['title'] ?> à <?php echo $classroom['Establishment']['name'] ?>
+    	<?php echo $classroom->title ?> à <?php echo $classroom->establishment->name ?>
     </h3>
 </div>
 <div class="row">
 	<div class="col-md-4">
     	<div class="row">
 	    	<div class="col-md-6">
-	    		<?php echo $this->Html->link('<i class="fa fa-child"></i> '.__('Voir les élèves'), 
+	    		<?php echo $this->Html->link('<i class="fa fa-child"></i> '.__('Voir les élèves'),
 	    		array(
-    				'controller' => 'classrooms', 
-    				'action' => 'view', 
-    				$classroom['Classroom']['id']
-    			), 
+    				'controller' => 'classrooms',
+    				'action' => 'view',
+    				$classroom->id
+    			),
     			array(
     				'class' => 'btn btn-default btn-large btn-block',
     				'escape' => false
     			)); ?>
-    		</div>		    	
+    		</div>
 	    	<div class="col-md-6">
 	    		<?php echo $this->Html->link('<i class="fa fa-file-pdf-o"></i> '.__('Voir les bulletins'),
 	    		array(
 		    		'controller' => 'classrooms',
 		    		'action' => 'viewreports',
-		    		$classroom['Classroom']['id']
-	    		), 
+		    		$classroom->id
+	    		),
 	    		array(
 		    		'class' => 'btn btn-default btn-large btn-block',
-		    		'style'=>'font-weight:normal; margin-bottom:10px;', 
+		    		'style'=>'font-weight:normal; margin-bottom:10px;',
 		    		'escape' => false
 	    		)); ?>
 	    	</div>
-	    </div>		    
+	    </div>
 	    <div class="row">
 	    	<div class="col-md-6">
-	    		<?php echo $this->Html->link('<i class="fa fa fa-file-text-o"></i> '.__('Voir les évaluations'), 
+	    		<?php echo $this->Html->link('<i class="fa fa fa-file-text-o"></i> '.__('Voir les évaluations'),
 	    		array(
-		    		'controller' => 'classrooms', 
-		    		'action' => 'viewtests', 
-		    		$classroom['Classroom']['id']
-	    		), 
+		    		'controller' => 'classrooms',
+		    		'action' => 'viewtests',
+		    		$classroom->id
+	    		),
 	    		array(
 		    		'class' => 'btn btn-default btn-large btn-block',
 		    		'escape' => false
 	    		)); ?>
 	    	</div>
-	    	
+
 	    	<div class="col-md-6">
-		    	<?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('Nouvelle évaluation'), 
+		    	<?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('Nouvelle évaluation'),
 		    	array(
-			    	'controller' => 'evaluations', 
-			    	'action' => 'add', 
-			    	'classroom_id' => $classroom['Classroom']['id']
-		    	), 
+			    	'controller' => 'evaluations',
+			    	'action' => 'add',
+			    	'classroom_id' => $classroom->id
+		    	),
 		    	array(
-			    	'class' => 'btn btn-large btn-block btn-success', 
-			    	'style'=>'font-weight:normal; margin-bottom:20px;', 
+			    	'class' => 'btn btn-large btn-block btn-success',
+			    	'style'=>'font-weight:normal; margin-bottom:20px;',
 			    	'escape' => false
 		    	)); ?>
 	    	</div>
@@ -100,18 +100,18 @@
 
 		<?php
 		$lines = array();
-		foreach ($classroom['Evaluation'] as $evaluation): ?>
-		
-		<?php 
-			$total = count($evaluation['Item'])*count($evaluation['Pupil']);
-			$results = count($evaluation['Result']);
+		foreach ($classroom->evaluations as $evaluation): ?>
+
+		<?php
+			$total = count($evaluation->item)*count($evaluation->pupil);
+			$results = count($evaluation->result);
 			if($total != $results){
-				$line = '<li style="line-height:23px;">Saisie des résultats incomplète pour <code>'.$evaluation['title'].'</code>';
-				$line .= $this->Html->link('<i class="fa fa-magic"></i>Corriger', 
+				$line = '<li style="line-height:23px;">Saisie des résultats incomplète pour <code>'.$evaluation->title.'</code>';
+				$line .= $this->Html->link('<i class="fa fa-magic"></i>Corriger',
 	    		array(
-		    		'controller' => 'evaluations', 
-		    		'action' => 'manageresults', 
-		    		$evaluation['id']
+		    		'controller' => 'evaluations',
+		    		'action' => 'manageresults',
+		    		$evaluation->id
 	    		),
 	    		array(
 	    			'style' => 'float:right; ',
@@ -139,7 +139,7 @@
 		</div>
 		<?php endif; ?>
 	</div>
-</div>	
+</div>
 
 <?php endforeach;
 endif;

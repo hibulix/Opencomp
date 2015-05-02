@@ -2,24 +2,33 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 class DashboardController extends AppController {
 
 	public function index() {
 		$this->set('title_for_layout', __('Synthèse : votre tableau de bord personnel'));
-		
-		$this->loadModel('Classroom');
-		
-		$this->loadModel('Setting');
-        $currentYear = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'currentYear')));
-		
-		$this->Classroom->contain(array('Evaluation.unrated=0', 'Evaluation.Result', 'Evaluation.Item', 'Evaluation.Pupil', 'Establishment'));
-		$classrooms = $this->Classroom->find('all', array(
-	        'conditions' => array(
-	        	'Classroom.user_id' => $this->Auth->user('id'),
-	        	'Classroom.year_id' => $currentYear['Setting']['value']
-	        )
-	    ));
+
+		$classroomsTable = TableRegistry::get('Classrooms');
+
+		$settingsTable = TableRegistry::get('Settings');
+        $currentYear = $settingsTable->find('all', array('conditions' => array('Settings.key' => 'currentYear')))->first();
+
+		$classrooms = $classroomsTable->find('all', [
+			'contain' => [
+				'Evaluations' => function ($q) {
+			        return $q->where(['Evaluations.unrated' => 0]);
+			    },
+				'Evaluations.Results',
+				'Evaluations.Items',
+				'Evaluations.Pupils',
+				'Establishments'
+			],
+			'conditions' => [
+	        	'Classrooms.user_id' => $this->Auth->user('id'),
+	        	'Classrooms.year_id' => $currentYear->value
+	        ]
+		]);
 		$this->set('classrooms', $classrooms);
 	}
 
