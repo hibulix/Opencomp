@@ -80,4 +80,39 @@ class CompetencesTable extends Table
         $rules->add($rules->existsIn(['parent_id'], 'ParentCompetences'));
         return $rules;
     }
+
+    /**
+     * Méthode permettant de retourner l'ensemble de l'arbre de compétences.
+     *
+     * @return array Un tableau prêt à être JSONifié pour passer à JsTree.
+     */
+    public function findAllCompetences(){
+        $competences = $this->find('all',[
+            'order' => ['Competences.lft']
+        ]);
+        return $this->formatCompetencesTheJstreeWay($competences);
+    }
+
+    /**
+     * Méthode permettant de formatter un tableau en vue de son passage à JsTree.
+     *
+     * @param array $dataset Un resultset CakePHP contenant plusieurs tableaux Competence.
+     * @return array Un tableau prêt à être JSONifié pour passer à JsTree.
+     */
+    private function formatCompetencesTheJstreeWay($dataset){
+        $tab = array();
+        foreach($dataset as $num=>$c){
+            $tab[$num]['id'] = $c->id;
+            if($c->parent_id)
+                $tab[$num]['parent'] = $c->parent_id;
+            else
+                $tab[$num]['parent'] = "#";
+            $tab[$num]['icon'] = 'fa fa-lg fa-cubes';
+            $tab[$num]['text'] = $c->title;
+            $tab[$num]['data']['type'] = "noeud";
+            $tab[$num]['li_attr']['data-type'] = "noeud";
+            $tab[$num]['li_attr']['data-id'] = $c->id;
+        }
+        return $tab;
+    }
 }

@@ -42,11 +42,12 @@ class CompetencesController extends AppController {
 		$this->set('cid', $competenceids);
 	}
 
-	/**
-	 * edit method
-	 *
-	 * @return void
-	 */
+    /**
+     * edit method
+     *
+     * @param null $id
+     * @throws NotFoundException
+     */
 	public function edit($id = null)
 	{
 		$this->set('title_for_layout', __('Modifier une compétence'));
@@ -121,7 +122,7 @@ class CompetencesController extends AppController {
 					'recursive' => -1
 				));
 				$this->set('eval', $evaluation);
-				$this->JsonTree->passAllItemsJsonTreeToView();
+                $this->set('json',$this->JsonTree->allItemsToJson());
 			}
 		} else {
 			throw new NotFoundException(__('You must provide a evaluation_id in order to attach an item to this test !'));
@@ -136,14 +137,13 @@ class CompetencesController extends AppController {
 	    else{
 	    	$this->set('period_id', $this->request->data['Classroom']['period_id']);
 	    	$this->set('classroom_id', $this->request->data['Classroom']['classroom_id']);
-			$this->JsonTree->passAllItemsJsonTreeToView();
+            $this->set('json',$this->JsonTree->allItemsToJson());
 	    }
 	}
 
     public function index() {
     	$this->set('title_for_layout', __('Référentiel de compétences'));
-
-		$this->JsonTree->passAllItemsJsonTreeToView();
+		$this->set('json',$this->JsonTree->allItemsToJson());
     }
 
 

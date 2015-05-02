@@ -6,7 +6,7 @@
     </div>
 </div>
 
-<?php if(AuthComponent::user('role') !== 'admin'){ ?>
+<?php if($this->request->session()->read('Auth.User.role') !== 'admin'){ ?>
 	<div class="alert alert-info">
 	<i class="fa fa-info-circle fa fa-3x pull-left"></i>
 	  Dans Opencomp, les référentiels sont utilisés de façon à hiérarchiser les items lors de l'impression de documents papier de synthèse (Bulletin, LPC).<br />
@@ -29,7 +29,7 @@
 $this->start('script');
 ?>
 <script type='text/javascript'>
-	var role = '<?php echo AuthComponent::user('role'); ?>';
+	var role = '<?php echo $this->request->session()->read('Auth.User.role'); ?>';
 	var data = <?php echo $json; ?>;
 
 	function returnContextMenuAdminCompetence(node){

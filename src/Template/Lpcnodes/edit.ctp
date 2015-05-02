@@ -4,26 +4,14 @@
 
 <?php
 
-
-echo $this->Form->create('Lpcnode', array(
+echo $this->Form->create($lpcnode, array(
     'type' => 'post',
     'url' => array(
         'controller' => 'lpcnodes',
         'action' => 'edit',
-        $this->params['pass'][0]
+        $lpcnode->id
     ),
-    'inputDefaults' => array(
-        'div' => 'form-group',
-        'label' => array(
-            'class' => 'col col-md-2 control-label'
-        ),
-        'wrapInput' => 'col col-md-3',
-        'class' => 'form-control'
-    ),
-    'class' => 'form-horizontal'
 ));
-
-echo $this->Form->input('id');
 
 echo $this->Form->input('title', array(
     'label' => array('text' => 'Nom du noeud'),
@@ -41,7 +29,6 @@ echo $this->Form->input('parent_id', array(
 
 <div class="form-group">
     <?php echo $this->Form->submit('Enregistrer les modifications', array(
-        'div' => 'col col-md-9 col-md-offset-2',
         'class' => 'btn btn-primary'
     )); ?>
 </div>

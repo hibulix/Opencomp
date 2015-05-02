@@ -10,21 +10,21 @@ use App\Controller\AppController;
  */
 class LpcnodesController extends AppController {
 
-/**
- * Helpers
- *
- * @var array
- */
+    /**
+     * Helpers
+     *
+     * @var array
+     */
 	public $components = array('JsonTree');
 
-/**
- * index method
- *
- * @return void
- */
+    /**
+     * index method
+     *
+     * @return void
+     */
 	public function index() {
 		$this->set('title_for_layout', __('Livret Personnel de Compétences'));
-        $this->JsonTree->passAllLpcnodesToView();
+        $this->set('json',$this->JsonTree->allLpcnodesToJson());
 	}
 
 	public function isAuthorized($user = null) {
@@ -39,7 +39,7 @@ class LpcnodesController extends AppController {
 	}
 
 	public function moveup($id = null) {
-	    $this->Lpcnode->id = $id;
+	    $this->Lpcnodes->get($id);
 	    if (!$this->Lpcnode->exists()) {
 	       throw new NotFoundException(__('Ce noeud n\'existe pas ;)'));
 	    }
@@ -68,11 +68,11 @@ class LpcnodesController extends AppController {
 	    $this->redirect(array('action' => 'index'));
 	}
 
-/**
- * add method
- *
- * @return void
- */
+    /**
+     * add method
+     *
+     * @return void
+     */
 	public function add($id = null) {
 		$this->set('title_for_layout', __('Ajouter un noeud au Livret Personnel de Compétences'));
 		if ($this->request->is('post')) {
@@ -93,30 +93,24 @@ class LpcnodesController extends AppController {
 			$this->set('idnode', $id);
 		
 		//Récupération des ids des catégories existantes	
-		$competenceids = $this->Lpcnode->generateTreeList(null, null, null, "");
+		$competenceids = $this->Lpcnodes->find('treeList');
 		$this->set('cid', $competenceids);
 	}
 
-	/**
-	 * edit method
-	 *
-	 * @return void
-	 */
+    /**
+     * edit method
+     *
+     * @param null $id
+     * @throws NotFoundException
+     */
 	public function edit($id = null) {
 		$this->set('title_for_layout', __('Modifier un noeud du Livret Personnel de Compétences'));
 
-		$this->Lpcnode->id = $id;
-		if (!$this->Lpcnode->exists()) {
-			throw new NotFoundException(__('Ce noeud n\'existe pas ;)'));
-		}
-
-		$lpcnode = $this->Lpcnode->findById($id);
-		if(!$this->request->data){
-			$this->request->data = $lpcnode;
-		}
+		$lpcnode = $this->Lpcnodes->get($id);
 
 		if ($this->request->is('post')) {
-			if ($this->Lpcnode->save($this->request->data)) {
+            $lpcnode = $this->Lpcnodes->patchEntity($lpcnode, $this->request->data);
+			if ($this->Lpcnodes->save($lpcnode)) {
 				$this->Flash->success('Le noeud LPC a été correctement modifé');
 				$this->redirect(array('action' => 'index'));
 			} else {
@@ -124,11 +118,10 @@ class LpcnodesController extends AppController {
 			}
 		}
 
-
-
 		//Récupération des ids des catégories existantes
-		$competenceids = $this->Lpcnode->generateTreeList(null, null, null, "");
+		$competenceids = $this->Lpcnodes->find('treeList');
 		$this->set('cid', $competenceids);
+        $this->set('lpcnode', $lpcnode);
 	}
 }
 
