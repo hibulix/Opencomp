@@ -18,8 +18,8 @@ class ClassroomsPupilsController extends AppController {
 	public function add(){
 		
 		//On vérifie qu'un paramètre nommé classroom_id a été fourni et qu'il existe.
-		if(isset($this->request->params['named']['classroom_id'])) {
-       		$classroom_id = intval($this->request->params['named']['classroom_id']);
+		if(isset($this->request->query['classroom_id'])) {
+       		$classroom_id = intval($this->request->query['classroom_id']);
        		$this->set('classroom_id', $classroom_id);
        		$this->ClassroomsPupil->Classroom->id = $classroom_id;
 			if (!$this->ClassroomsPupil->Classroom->exists()) {
@@ -49,7 +49,7 @@ class ClassroomsPupilsController extends AppController {
      */
     public function excelExport() {
         //On vérifie qu'un paramètre nommé classroom_id a été fourni et qu'il existe.
-        $classroom_id = $this->CheckParams->checkForNamedParam('Classroom','classroom_id', $this->request->params['named']['classroom_id']);
+        $classroom_id = $this->CheckParams->checkForNamedParam('Classroom','classroom_id', $this->request->query['classroom_id']);
         
         //Récupération des élève de la classe courante
         $pupils = $this->ClassroomsPupil->find('all', array(
@@ -86,7 +86,7 @@ class ClassroomsPupilsController extends AppController {
     	//Envoi du fichier Excel à l'utilisateur
 		$writer = new OdsWriter();
 		$writer->includeColumnHeaders = true;
-		$savePath = APP . "files/pupils_ods/pupils_".$this->request->params['named']['classroom_id'].".ods";
+		$savePath = APP . "files/pupils_ods/pupils_".$this->request->query['classroom_id'].".ods";
 		$export->save($writer, $savePath);
 
 		$this->response->file(
@@ -100,8 +100,8 @@ class ClassroomsPupilsController extends AppController {
 	public function addnew(){
 		
 		//On vérifie qu'un paramètre nommé classroom_id a été fourni et qu'il existe.
-		if(isset($this->request->params['named']['classroom_id'])) {
-       		$classroom_id = intval($this->request->params['named']['classroom_id']);
+		if(isset($this->request->query['classroom_id'])) {
+       		$classroom_id = intval($this->request->query['classroom_id']);
        		$this->set('classroom_id', $classroom_id);
        		$this->ClassroomsPupil->Classroom->id = $classroom_id;
 			if (!$this->ClassroomsPupil->Classroom->exists()) {
@@ -130,8 +130,8 @@ class ClassroomsPupilsController extends AppController {
 	public function import(){
 		
 		//On vérifie qu'un paramètre nommé classroom_id a été fourni et qu'il existe.
-		if(isset($this->request->params['named']['classroom_id'])) {
-       		$classroom_id = intval($this->request->params['named']['classroom_id']);
+		if(isset($this->request->query['classroom_id'])) {
+       		$classroom_id = intval($this->request->query['classroom_id']);
        		$this->set('classroom_id', $classroom_id);
        		$this->ClassroomsPupil->Classroom->id = $classroom_id;
 			if (!$this->ClassroomsPupil->Classroom->exists()) {
@@ -151,8 +151,8 @@ class ClassroomsPupilsController extends AppController {
 		}
        
 		//On vérifie qu'un paramètre nommé classroom_id a été fourni et qu'il existe.
-		if(isset($this->request->params['named']['classroom_id'])) {
-       		$classroom_id = intval($this->request->params['named']['classroom_id']);
+		if(isset($this->request->query['classroom_id'])) {
+       		$classroom_id = intval($this->request->query['classroom_id']);
        		$this->set('classroom_id', $classroom_id);
        		$this->ClassroomsPupil->Classroom->id = $classroom_id;
 			if (!$this->ClassroomsPupil->Classroom->exists()) {
@@ -196,8 +196,8 @@ class ClassroomsPupilsController extends AppController {
     public function unlink($id = null){
     
 	    //On vérifie qu'un paramètre nommé classroom_id a été fourni et qu'il existe.
-		if(isset($this->request->params['named']['classroom_id'])) {
-       		$classroom_id = intval($this->request->params['named']['classroom_id']);
+		if(isset($this->request->query['classroom_id'])) {
+       		$classroom_id = intval($this->request->query['classroom_id']);
        		$this->set('classroom_id', $classroom_id);
        		$this->ClassroomsPupil->Classroom->id = $classroom_id;
 			if (!$this->ClassroomsPupil->Classroom->exists()) {

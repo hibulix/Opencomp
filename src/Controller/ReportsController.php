@@ -18,8 +18,8 @@ class ReportsController extends AppController {
     public function add() {
         $this->set('title_for_layout', __('Ajouter un bulletin'));
 
-        if(isset($this->request->params['named']['classroom_id'])) {
-            $classroom_id = intval($this->request->params['named']['classroom_id']);
+        if(isset($this->request->query['classroom_id'])) {
+            $classroom_id = intval($this->request->query['classroom_id']);
             $this->set('classroom_id', $classroom_id);
             $this->Report->Classroom->id = $classroom_id;
             if (!$this->Report->Classroom->exists()) {

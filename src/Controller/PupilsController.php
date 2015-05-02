@@ -38,7 +38,7 @@ class PupilsController extends AppController {
      * @return void
      */
     public function import() {
-        $classroom_id = $this->CheckParams->checkForNamedParam('Classroom','classroom_id', $this->request->params['named']['classroom_id']);
+        $classroom_id = $this->CheckParams->checkForNamedParam('Classroom','classroom_id', $this->request->query['classroom_id']);
 
         if($this->request->data && $this->Pupil->isUploadedFile($this->request->data['Pupil']['exportBe1d'])){
             $err = $this->FileUpload->checkError($this->request->data['Pupil']['exportBe1d'], 'text/csv');
@@ -54,7 +54,7 @@ class PupilsController extends AppController {
 
     public function parseimport(){
         //On vérifie qu'un paramètre nommé classroom_id a été fourni et qu'il existe.
-        $classroom_id = $this->CheckParams->checkForNamedParam('Classroom','classroom_id', $this->request->params['named']['classroom_id']);
+        $classroom_id = $this->CheckParams->checkForNamedParam('Classroom','classroom_id', $this->request->query['classroom_id']);
 
         if(file_exists(APP.'files/import_be1d_'.$classroom_id.'.csv')){
             $csv_file = file(APP.'files/import_be1d_'.$classroom_id.'.csv');
@@ -68,12 +68,12 @@ class PupilsController extends AppController {
             $this->redirect(array('controller' => 'pupils', 'action' => 'import', 'classroom_id' => $classroom_id));
         }
 
-        if(isset($this->request->params['named']['step']) && $this->request->params['named']['step'] == 'go')
+        if(isset($this->request->query['step']) && $this->request->params['named']['step'] == 'go')
             $this->runImport($this->Encoding->convertArrayToUtf8($csv_array));
     }
     
     private function runImport($import){
-        $classroom_id = $this->request->params['named']['classroom_id'];
+        $classroom_id = $this->request->query['classroom_id'];
 
         $niveaux = $this->Pupil->ClassroomsPupil->Level->find('all', array('recursive' => -1));
         foreach($niveaux as $niveau){

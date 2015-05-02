@@ -109,8 +109,8 @@ class CompetencesController extends AppController {
         $this->set('title_for_layout', __('Associer un item à une évaluation'));
 
 		//On vérifie qu'un paramètre nommé classroom_id a été fourni et qu'il existe.
-		if(isset($this->request->params['named']['evaluation_id'])) {
-       		$evaluation_id = intval($this->request->params['named']['evaluation_id']);
+		if(isset($this->request->query['evaluation_id'])) {
+       		$evaluation_id = intval($this->request->query['evaluation_id']);
        		$this->set('evaluation_id', $evaluation_id);
        		$this->Competence->Item->Evaluation->id = $evaluation_id;
 			if (!$this->Competence->Item->Evaluation->exists()) {

@@ -87,8 +87,8 @@ class EstablishmentsController extends AppController {
 		}
 		
 		//Si on a passé un academy_id en paramètre, on présélectionne la liste déroulante avec la valeur passée.
-		if(isset($this->request->params['named']['academy_id']))
-		    $this->set('academy_id', $this->request->params['named']['academy_id']);
+		if(isset($this->request->query['academy_id']))
+		    $this->set('academy_id', $this->request->query['academy_id']);
         else
             $this->set('academy_id', null);
 		

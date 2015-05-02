@@ -16,9 +16,9 @@ class ClassroomsController extends AppController {
      * @return bool
      */
     public function isAuthorized($user = null) {
-        if(isset($this->request['pass'][0])){
+        if(isset($this->request->params['pass'][0])){
             //Vérification de l'existance de la classe
-            $this->Classroom->id = $this->request['pass'][0];
+            $this->Classroom->id = $this->request->params['pass'][0];
             if (!$this->Classroom->exists()) {
                 return false;
             //L'administrateur a toujours accès
@@ -30,8 +30,8 @@ class ClassroomsController extends AppController {
             }
         }else{
             //Si on a fourni le paramètre establishment_id
-            if(isset($this->request->params['named']['establishment_id'])) {
-                $establishment_id = intval($this->request->params['named']['establishment_id']);
+            if(isset($this->request->query['establishment_id'])) {
+                $establishment_id = intval($this->request->query['establishment_id']);
                 $this->Classroom->Establishment->id = $establishment_id;
 
                 if ($this->Classroom->Establishment->exists()) {
@@ -88,7 +88,7 @@ class ClassroomsController extends AppController {
 		$this->set('title_for_layout', __('Visualiser une classe'));
 		$this->Classroom->id = $id;
 
-        if(isset($this->request->params['named']['periods']) && $this->request->params['named']['periods'] == 'all')
+        if(isset($this->request->query['periods']) && $this->request->params['named']['periods'] == 'all')
             $this->set('all', 'all');
 
 		$this->Classroom->contain(array('Establishment.current_period_id'));
@@ -107,7 +107,7 @@ class ClassroomsController extends AppController {
 			$this->Flash->error('Il semblerait que la période sélectionnée soit inférieure à la date courante. Vous pouvez modifier cela en cliquant sur "établissement de la classe"');
 			
 		
-		if(isset($this->request->params['named']['periods']) && $this->request->params['named']['periods'] == 'all') {
+		if(isset($this->request->query['periods']) && $this->request->params['named']['periods'] == 'all') {
 			$this->Classroom->contain(array(
 				'Evaluation.created DESC', 'Evaluation.unrated=0', 'Evaluation.User', 'Evaluation.Result', 
 				'Evaluation.Pupil', 'Evaluation.Item', 'User', 'Establishment', 'Year'
@@ -188,8 +188,8 @@ class ClassroomsController extends AppController {
 		}
 		
 		//Si on a passé un establishment_id en paramètre, on présélectionne la liste déroulante avec la valeur passée.
-		if(isset($this->request->params['named']['establishment_id']))
-		    $this->set('establishment_id', $this->request->params['named']['establishment_id']);
+		if(isset($this->request->query['establishment_id']))
+		    $this->set('establishment_id', $this->request->query['establishment_id']);
         else
             $this->set('establishment_id', null);
 

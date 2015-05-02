@@ -14,7 +14,7 @@ class ResultsController extends AppController {
 
 	public function selectpupil(){
 		//On vérifie qu'un paramètre nommé evaluation_id a été fourni et qu'il existe.
-        $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->params['named']['evaluation_id']);
+        $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->query['evaluation_id']);
 
 		if ($this->request->is('post')) {
 			$pupil_id = intval($this->request->data['Result']['pupil_id']);
@@ -33,7 +33,7 @@ class ResultsController extends AppController {
 
     public function selectpupilmanual(){
         //On vérifie qu'un paramètre nommé evaluation_id a été fourni et qu'il existe.
-        $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->params['named']['evaluation_id']);
+        $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->query['evaluation_id']);
 
         if ($this->request->is('post')) {
             $pupil_id = intval($this->request->data['Result']['pupil_id']);
@@ -58,12 +58,12 @@ class ResultsController extends AppController {
 
 	public function add(){
 		//On vérifie qu'un paramètre nommé evaluation_id a été fourni et qu'il existe.
-        $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->params['named']['evaluation_id']);
+        $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->query['evaluation_id']);
 
-        if(isset($this->request->params['named']['manual']) && $this->request->params['named']['manual'] == 'true')
+        if(isset($this->request->query['manual']) && $this->request->params['named']['manual'] == 'true')
             $this->set('manual', 'manual');
 
-        $pupil_id = $this->CheckParams->checkForNamedParam('Pupil','pupil_id', $this->request->params['named']['pupil_id']);
+        $pupil_id = $this->CheckParams->checkForNamedParam('Pupil','pupil_id', $this->request->query['pupil_id']);
 
 		$hasItems = $this->Result->Evaluation->EvaluationsItem->find('all', array(
 	        'conditions' => array('evaluation_id' => $evaluation_id),
@@ -113,7 +113,7 @@ class ResultsController extends AppController {
 
 			if(count($this->Result->invalidFields()) == 0){
 				$this->Flash->success('Les résultats de <code>'.$pupil['Pupil']['first_name'].' '.$pupil['Pupil']['name'].'</code> pour l\'évaluation <code>'.$items[0]['Evaluation']['title'].'</code> ont bien été enregistrés.');
-                if(isset($this->request->params['named']['manual']) && $this->request->params['named']['manual'] == 'true') {
+                if(isset($this->request->query['manual']) && $this->request->params['named']['manual'] == 'true') {
                     $this->redirect(array(
                             'controller'    => 'results',
                             'action'        => 'selectpupilmanual',

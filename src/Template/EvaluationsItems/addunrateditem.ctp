@@ -1,6 +1,6 @@
 <div class="page-title">
     <h2><?php echo __('Ajouter un item non évalué'); ?></h2>
-    <?php echo $this->Form->postLink('<i class="fa fa-arrow-left"></i> '.__('retour à l\'arbre de compétences'), '/competences/attachunrateditem', array('data' => array('Classroom.classroom_id' => $this->request->params['named']['classroom_id'], 'Classroom.period_id' => $this->request->params['named']['period_id']), 'class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+    <?php echo $this->Form->postLink('<i class="fa fa-arrow-left"></i> '.__('retour à l\'arbre de compétences'), '/competences/attachunrateditem', array('data' => array('Classroom.classroom_id' => $this->request->query['classroom_id'], 'Classroom.period_id' => $this->request->params['named']['period_id']), 'class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
 <div class="alert alert-info">
@@ -16,8 +16,8 @@ echo $this->Form->create('Item', array(
     'url' => array(
     	'controller' => 'evaluationsItems',
     	'action' => 'addunrateditem',
-    	'classroom_id' => $this->request->params['named']['classroom_id'],
-    	'period_id' => $this->request->params['named']['period_id'],
+    	'classroom_id' => $this->request->query['classroom_id'],
+    	'period_id' => $this->request->query['period_id'],
     	'competence_id' => $competence_id
     ),
     'inputDefaults' => array(
@@ -48,7 +48,7 @@ echo $this->Form->input('Level', array(
 );
 
 echo $this->Form->hidden('competence_id', array('value' => $competence_id));
-echo $this->Form->hidden('classroom_id', array('value' => $this->request->params['named']['classroom_id']));
+echo $this->Form->hidden('classroom_id', array('value' => $this->request->query['classroom_id']));
 echo $this->Form->hidden('user_id', array('value' => AuthComponent::user('id')));
 echo $this->Form->hidden('type', array('value' => 3));
     
