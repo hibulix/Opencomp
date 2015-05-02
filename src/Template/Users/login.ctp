@@ -14,31 +14,31 @@ echo $this->Form->input('username',array(
     'autocomplete'=>'off',
     'placeholder'=>"Nom d'utilisateur",
     'class'=>'form-control top focus',
-    'beforeInput' => '<div class="login input-group"><span class="input-group-addon top"><i class="fa fa-user fa fa-2x"></i></span>',
-    'afterInput' => '</div>'
+    'prepend' => '<i class="fa fa-user fa fa-2x"></i>',
 ));
 
 echo $this->Form->input('password',array(
     'label'=>false,
     'autocomplete'=>"off",
     'placeholder'=>"Mot de passe",
-    'value'=>"",
-    'beforeInput' => '<div class="login input-group"><span class="input-group-addon bottom"><i class="fa fa-lock fa fa-2x"></i></span>',
-    'afterInput' => '</div>'
+    'class'=>"bottom",
+    'prepend' => '<i class="fa fa-lock fa fa-2x"></i>',
 )); ?>
 
 <div class="spacer"></div>
+<div class="yubikey input-group" style="display:none;">
 
 <?php echo $this->Form->input('yubikeyOTP',array(
     'label' =>false,
     'autocomplete'=>"off",
     'placeholder'=>"YubikeyOTP",
     'value'=>"",
-    'beforeInput' => '<div class="yubikey input-group" style="display:none;"><span class="input-group-addon">'.$this->Html->image("yubikey.png", array("height"=>30,"alt" => "Yubikey logo")).'</span>',
-    'afterInput' => '</div>'
-));
+    'prepend' => $this->Html->image("yubikey.png", array("height"=>30,"alt" => "Yubikey logo")),
+)); ?>
 
-echo $this->Form->button('<i class="fa fa-sign-in"></i>   '.__('Se connecter'), array('type' => 'submit','class'=>'btn btn-lg btn-primary btn-block submit'));
+</div>
+
+<?php echo $this->Form->button('<i class="fa fa-sign-in"></i>   '.__('Se connecter'), array('type' => 'submit','class'=>'btn btn-lg btn-primary btn-block submit'));
 echo $this->Form->end();
 
 $this->start('script'); ?>

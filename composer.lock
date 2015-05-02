@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3c03f1f908bb9e8954d16cf2f2188611",
+    "hash": "7bffa3c9784ff772322dc6a2a2a983fc",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -108,7 +108,7 @@
                     "email": "mapthegod@gmail.com"
                 },
                 {
-                    "name": "Jose Lorenzo Rodriguez",
+                    "name": "José Lorenzo Rodríguez",
                     "email": "jose.zap@gmail.com"
                 }
             ],
@@ -378,6 +378,55 @@
                 "yubikey"
             ],
             "time": "2014-11-19 20:11:20"
+        },
+        {
+            "name": "friendsofcake/bootstrap-ui",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfCake/bootstrap-ui.git",
+                "reference": "8403fee32cdf6616ce3448fdb7edd44eac4fb4c2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfCake/bootstrap-ui/zipball/8403fee32cdf6616ce3448fdb7edd44eac4fb4c2",
+                "reference": "8403fee32cdf6616ce3448fdb7edd44eac4fb4c2",
+                "shasum": ""
+            },
+            "require-dev": {
+                "cakephp/cakephp": "~3.0",
+                "cakephp/cakephp-codesniffer": "2.*",
+                "phpunit/phpunit": "4.1.*"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "BootstrapUI\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jad Bitar",
+                    "homepage": "http://jadb.io",
+                    "role": "Author"
+                },
+                {
+                    "name": "Others",
+                    "homepage": "https://github.com/friendsofcake/bootstrap-ui/graphs/contributors"
+                }
+            ],
+            "description": "Twitter Bootstrap 3 support for CakePHP 3",
+            "homepage": "http://github.com/friendsofcake/bootstrap-ui",
+            "keywords": [
+                "bootstrap",
+                "cakephp",
+                "twitter"
+            ],
+            "time": "2015-04-06 20:30:24"
         },
         {
             "name": "fusonic/spreadsheet-export",

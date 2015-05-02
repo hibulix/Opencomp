@@ -13,7 +13,7 @@
         '../components/fontawesome/css/font-awesome.min',
         'opencomp.auth'
     ));
-    
+
     echo $this->Html->script('../components/jquery/dist/jquery.min');
 
     ?>
@@ -57,7 +57,7 @@
     <?php echo $this->Html->image("opencomp.png", array("alt" => "Opencomp logo", "class"=>"center hidden-xs")); ?>
     <div class="spacer"></div>
     <h3 class="center">Merci de vous identifier</h3>
-    <div class="form-signin"><?php echo $this->Flash->render(); ?></div>
+    <div class="form-signin"><?= $this->Flash->render() ?></div>
     <?php echo $this->fetch('content'); ?>
 </div> <!-- /container -->
 

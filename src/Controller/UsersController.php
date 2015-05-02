@@ -4,6 +4,7 @@ namespace app\Controller;
 use App\Controller\AppController;
 use Cake\Auth\WeakPasswordHasher;
 use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
 /**
  * Users Controller
  *
@@ -18,7 +19,7 @@ class UsersController extends AppController {
 
     public function needYubikeyToken(){
         $this->autoRender = false;
-        
+
         if($this->request->is('post')) {
             $this->layout = 'pdf';
 
@@ -43,7 +44,7 @@ class UsersController extends AppController {
 		$iduser = $this->Auth->user('id');
 		if(!empty($iduser))
 			$this->redirect(array('controller' => 'dashboard', 'action' => 'index'));
-			
+
 		$this->layout = 'auth';
 		if($this->request->is('post')){
 
@@ -57,26 +58,27 @@ class UsersController extends AppController {
 			$user = $users->first();
 
 			if(isset($user) && !empty($user)){
-				if(isset($user['User']['yubikeyID']) && !empty($user['User']['yubikeyID'])){
-					if($user['User']['yubikeyID'] == substr($this->request->data['User']['yubikeyOTP'], 0, 12)){
+				if(isset($user->yubikeyID) && !empty($user->yubikeyID)){
+					if($user->yubikeyID == substr($this->request->data['yubikeyOTP'], 0, 12)){
 						 $this->loadModel('Setting');
-						 $otp = $this->request->data['User']['yubikeyOTP'];
+						 $otp = $this->request->data['yubikeyOTP'];
 
-						 $clientID = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'yubikeyClientID')));
-						 $secret = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'yubikeySecretKey')));
-						 
-						 $v = new \Yubikey\Validate($secret['Setting']['value'], $clientID['Setting']['value']);
+                         $settingsTable = TableRegistry::get('Settings');
+						 $clientID = $settingsTable->find('all', array('conditions' => array('Settings.key' => 'yubikeyClientID')))->first();
+						 $secret = $settingsTable->find('all', array('conditions' => array('Settings.key' => 'yubikeySecretKey')))->first();
+
+						 $v = new \Yubikey\Validate($secret->value, $clientID->value);
 						 $response = $v->check($otp);
-						 
+
 						  if ($response->success() === true) {
 							  $this->Auth->setUser($user->toArray());
                               $this->setAuthorizedClassroomsId();
 							  return $this->redirect($this->Auth->redirectUrl());
 						  } else {
-						    $this->Flash->success('YubikeyOTP invalide !');
+						    $this->Flash->error('YubikeyOTP invalide !');
 						  }
 					}else{
-						$this->Flash->success('YubikeyID invalide !');
+						$this->Flash->error('YubikeyID invalide !');
 					}
 				}else{
 					$this->Auth->setUser($user->toArray());
@@ -84,15 +86,15 @@ class UsersController extends AppController {
 					return $this->redirect($this->Auth->redirectUrl());
 				}
 			}else{
-				$this->Flash->success('Votre login ou votre mot de passe ne correspond pas !'); 
-			}				
+				$this->Flash->error('Votre login ou votre mot de passe ne correspond pas !');
+			}
 		}
 	}
-	
+
 	public function setAuthorizedClassroomsId(){
-        //$this->request->session()->write('Authorized',$this->Users->findAuthorizedClasses($this->Auth->user('id')));
+        $this->request->session()->write('Authorized',$this->Users->findAuthorizedClasses($this->Auth->user('id')));
 	}
-	
+
 	public function logout(){
 		$this->Auth->logout();
 		$this->Flash->success('Vous êtes maintenant déconnecté.');
@@ -166,7 +168,7 @@ class UsersController extends AppController {
  * @throws NotFoundException
  * @param string $id
  * @return void
- */	
+ */
 	public function edit($id = null) {
 	    $this->set('title_for_layout', __('Modifier un utilisateur'));
 		$this->Users->id = $id;

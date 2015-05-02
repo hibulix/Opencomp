@@ -29,4 +29,10 @@ class User extends Entity
         'academies' => true,
         'competences' => true,
     ];
+
+    protected function _getFullName()
+    {
+        return  $this->_properties['first_name'] . ' ' .
+                $this->_properties['name'];
+    }
 }

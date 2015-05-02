@@ -6,6 +6,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\ORM\TableRegistry;
 
 /**
  * Users Model
@@ -22,7 +23,7 @@ class UsersTable extends Table
     public function initialize(array $config)
     {
         $this->table('users');
-        $this->displayField('name');
+        $this->displayField('full_name');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
         $this->hasMany('Classrooms', [
@@ -100,4 +101,49 @@ class UsersTable extends Table
         $rules->add($rules->isUnique(['email']));
         return $rules;
     }
+
+    public function findAllUsersInClassroom($classroom_id){
+		$titulaire = $this->Classrooms->find('all', [
+			'fields' => 'user_id',
+        	'conditions' => ['Classrooms.id' => $classroom_id]
+        ])->first();
+
+        $ClassroomsUsers = TableRegistry::get('ClassroomsUsers');
+        $intervenants = $ClassroomsUsers->find('all', [
+			'fields' => 'user_id',
+        	'conditions' => ['classroom_id' => $classroom_id]
+        ]);
+
+        $result[] = $titulaire->user_id;
+
+        foreach($intervenants as $info)
+	        $result[] = $info->user_id;
+
+        return($result);
+	}
+
+    public function findAuthorizedClasses($user_id){
+        $classrooms = [];
+
+        //On récupère les classes dont l'utilisateur est enseignant titulaire.
+        $ownedClassrooms = $this->Classrooms->find('all', [
+            'conditions' => [
+                'user_id' => $user_id
+            ]
+        ]);
+
+        foreach($ownedClassrooms as $classroom)
+                $classrooms['classrooms_manager'][] = $classroom->id;
+
+        //On récupère les classe pour lesquelles l'utilisateur a un accès.
+        $user = $this->get($user_id, [
+			'contain' => ['Classrooms']
+		]);
+
+        foreach($user->classrooms as $classroom)
+                $classrooms['classrooms'][] = $classroom->id;
+
+
+        return $classrooms;
+	}
 }
