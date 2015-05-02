@@ -56,11 +56,10 @@ class AcademiesController extends AppController {
  */
 	public function view($id = null) {
 	    $this->set('title_for_layout', __('Visualiser une académie'));
-		$this->Academy->id = $id;
-		if (!$this->Academy->exists()) {
-			throw new NotFoundException(__('L\'académie demandée n\'existe pas !'), 'flash_error');
-		}
-		$this->set('academy', $this->Academy->read(null, $id));
+		$academy = $this->Academies->get($id, [
+            'contain' => ['Establishments', 'Users']
+        ]);
+        $this->set('academy', $academy);
 	}
 
 /**
@@ -91,23 +90,21 @@ class AcademiesController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
-	    $this->set('title_for_layout', __('Modifier une académie'));
-		$this->Academy->id = $id;
-		if (!$this->Academy->exists()) {
-			throw new NotFoundException(__('L\'académie demandée n\'existe pas !'));
-		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Academy->save($this->request->data)) {
+		$this->set('title_for_layout', __('Modifier une académie'));
+		$academy = $this->Academies->get($id, [
+			'contain' => ['Users']
+		]);
+		if ($this->request->is(['patch', 'post', 'put'])) {
+			$academy = $this->Academies->patchEntity($academy, $this->request->data);
+			if ($this->Academies->save($academy)) {
 				$this->Flash->success('L\'académie a été correctement mise à jour');
-				$this->redirect(array('action' => 'view', $this->data['Academy']['id']));
+				return $this->redirect(['action' => 'index']);
 			} else {
 				$this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
 			}
-		} else {
-			$this->request->data = $this->Academy->read(null, $id);
 		}
-		$users = $this->Academy->User->find('list');
-		$this->set(compact('users'));
+		$users = $this->Academies->Users->find('list')->toArray();
+		$this->set(compact('academy', 'users'));
 	}
 
 /**
