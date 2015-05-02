@@ -1,0 +1,84 @@
+<?php
+namespace App\Model\Table;
+
+use App\Model\Entity\Pupil;
+use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
+use Cake\ORM\Table;
+use Cake\Validation\Validator;
+
+/**
+ * Pupils Model
+ */
+class PupilsTable extends Table
+{
+
+    /**
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
+     */
+    public function initialize(array $config)
+    {
+        $this->table('pupils');
+        $this->displayField('name');
+        $this->primaryKey('id');
+        $this->addBehavior('Timestamp');
+        $this->belongsTo('Tutors', [
+            'foreignKey' => 'tutor_id'
+        ]);
+        $this->hasMany('Results', [
+            'foreignKey' => 'pupil_id'
+        ]);
+        $this->belongsToMany('Classrooms', [
+            'foreignKey' => 'pupil_id',
+            'targetForeignKey' => 'classroom_id',
+            'joinTable' => 'classrooms_pupils'
+        ]);
+        $this->belongsToMany('Evaluations', [
+            'foreignKey' => 'pupil_id',
+            'targetForeignKey' => 'evaluation_id',
+            'joinTable' => 'evaluations_pupils'
+        ]);
+    }
+
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->add('id', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('id', 'create')
+            ->requirePresence('name', 'create')
+            ->notEmpty('name')
+            ->requirePresence('first_name', 'create')
+            ->notEmpty('first_name')
+            ->requirePresence('sex', 'create')
+            ->notEmpty('sex')
+            ->add('birthday', 'valid', ['rule' => 'date'])
+            ->requirePresence('birthday', 'create')
+            ->notEmpty('birthday')
+            ->add('state', 'valid', ['rule' => 'boolean'])
+            ->allowEmpty('state');
+
+        return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->existsIn(['tutor_id'], 'Tutors'));
+        return $rules;
+    }
+}

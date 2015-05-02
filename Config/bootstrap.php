@@ -1,196 +1,195 @@
 <?php
 /**
- * This file is loaded automatically by the app/webroot/index.php file after core.php
- *
- * This file should load/create any application wide configuration settings, such as 
- * Caching, Logging, loading additional configuration files.
- *
- * You should also use this file to include any files that provide global functions/constants
- * that your application uses.
- *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.Config
- * @since         CakePHP(tm) v 0.10.8.2117
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @since         0.10.8
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 /**
- * Cache Engine Configuration
- * Default settings provided below
- *
- * File storage engine.
- *
- * 	 Cache::config('default', array(
- *		'engine' => 'File', //[required]
- *		'duration'=> 3600, //[optional]
- *		'probability'=> 100, //[optional]
- * 		'path' => CACHE, //[optional] use system tmp directory - remember to use absolute path
- * 		'prefix' => 'cake_', //[optional]  prefix every cache file with this string
- * 		'lock' => false, //[optional]  use file locking
- * 		'serialize' => true, // [optional]
- * 		'mask' => 0666, // [optional] permission mask to use when creating cache files
- *	));
- *
- * APC (http://pecl.php.net/package/APC)
- *
- * 	 Cache::config('default', array(
- *		'engine' => 'Apc', //[required]
- *		'duration'=> 3600, //[optional]
- *		'probability'=> 100, //[optional]
- * 		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
- *	));
- *
- * Xcache (http://xcache.lighttpd.net/)
- *
- * 	 Cache::config('default', array(
- *		'engine' => 'Xcache', //[required]
- *		'duration'=> 3600, //[optional]
- *		'probability'=> 100, //[optional]
- *		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional] prefix every cache file with this string
- *		'user' => 'user', //user from xcache.admin.user settings
- *		'password' => 'password', //plaintext password (xcache.admin.pass)
- *	));
- *
- * Memcache (http://memcached.org/)
- *
- * 	 Cache::config('default', array(
- *		'engine' => 'Memcache', //[required]
- *		'duration'=> 3600, //[optional]
- *		'probability'=> 100, //[optional]
- * 		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
- * 		'servers' => array(
- * 			'127.0.0.1:11211' // localhost, default port 11211
- * 		), //[optional]
- * 		'persistent' => true, // [optional] set this to false for non-persistent connections
- * 		'compress' => false, // [optional] compress data in Memcache (slower, but uses less memory)
- *	));
- *
- *  Wincache (http://php.net/wincache)
- *
- * 	 Cache::config('default', array(
- *		'engine' => 'Wincache', //[required]
- *		'duration'=> 3600, //[optional]
- *		'probability'=> 100, //[optional]
- *		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
- *	));
- *
- * Redis (http://http://redis.io/)
- *
- * 	 Cache::config('default', array(
- *		'engine' => 'Redis', //[required]
- *		'duration'=> 3600, //[optional]
- *		'probability'=> 100, //[optional]
- *		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
- *		'server' => '127.0.0.1' // localhost
- *		'port' => 6379 // default port 6379
- *		'timeout' => 0 // timeout in seconds, 0 = unlimited
- *		'persistent' => true, // [optional] set this to false for non-persistent connections
- *	));
+ * Configure paths required to find CakePHP + general filepath
+ * constants
  */
-Cache::config('default', array('engine' => 'File'));
-/*Cache::config('default', array(
-	'engine' => 'Apc', //[required]
-	'duration'=> 3600, //[optional]
-	'probability'=> 100, //[optional]
-	'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
-));*/
+require __DIR__ . '/paths.php';
+
+// Use composer to load the autoloader.
+require ROOT . DS . 'vendor' . DS . 'autoload.php';
 
 /**
- * The settings below can be used to set additional paths to models, views and controllers.
+ * Bootstrap CakePHP.
  *
- * App::build(array(
- *     'Model'                     => array('/path/to/models', '/next/path/to/models'),
- *     'Model/Behavior'            => array('/path/to/behaviors', '/next/path/to/behaviors'),
- *     'Model/Datasource'          => array('/path/to/datasources', '/next/path/to/datasources'),
- *     'Model/Datasource/Database' => array('/path/to/databases', '/next/path/to/database'),
- *     'Model/Datasource/Session'  => array('/path/to/sessions', '/next/path/to/sessions'),
- *     'Controller'                => array('/path/to/controllers', '/next/path/to/controllers'),
- *     'Controller/Component'      => array('/path/to/components', '/next/path/to/components'),
- *     'Controller/Component/Auth' => array('/path/to/auths', '/next/path/to/auths'),
- *     'Controller/Component/Acl'  => array('/path/to/acls', '/next/path/to/acls'),
- *     'View'                      => array('/path/to/views', '/next/path/to/views'),
- *     'View/Helper'               => array('/path/to/helpers', '/next/path/to/helpers'),
- *     'Console'                   => array('/path/to/consoles', '/next/path/to/consoles'),
- *     'Console/Command'           => array('/path/to/commands', '/next/path/to/commands'),
- *     'Console/Command/Task'      => array('/path/to/tasks', '/next/path/to/tasks'),
- *     'Lib'                       => array('/path/to/libs', '/next/path/to/libs'),
- *     'Locale'                    => array('/path/to/locales', '/next/path/to/locales'),
- *     'Vendor'                    => array('/path/to/vendors', '/next/path/to/vendors'),
- *     'Plugin'                    => array('/path/to/plugins', '/next/path/to/plugins'),
- * ));
+ * Does the various bits of setup that CakePHP needs to do.
+ * This includes:
  *
+ * - Registering the CakePHP autoloader.
+ * - Setting the default application paths.
  */
+require CORE_PATH . 'config' . DS . 'bootstrap.php';
+
+// You can remove this if you are confident you have intl installed.
+if (!extension_loaded('intl')) {
+    trigger_error('You must enable the intl extension to use CakePHP.', E_USER_ERROR);
+}
+
+use Cake\Cache\Cache;
+use Cake\Console\ConsoleErrorHandler;
+use Cake\Core\App;
+use Cake\Core\Configure;
+use Cake\Core\Configure\Engine\PhpConfig;
+use Cake\Core\Plugin;
+use Cake\Datasource\ConnectionManager;
+use Cake\Error\ErrorHandler;
+use Cake\Log\Log;
+use Cake\Network\Email\Email;
+use Cake\Network\Request;
+use Cake\Routing\DispatcherFactory;
+use Cake\Utility\Inflector;
+use Cake\Utility\Security;
 
 /**
- * Custom Inflector rules, can be set to correctly pluralize or singularize table, model, controller names or whatever other
- * string is passed to the inflection functions
+ * Read configuration file and inject configuration into various
+ * CakePHP classes.
  *
- * Inflector::rules('singular', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
- * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
+ * By default there is only one configuration file. It is often a good
+ * idea to create multiple configuration files, and separate the configuration
+ * that changes from configuration that does not. This makes deployment simpler.
+ */
+try {
+    Configure::config('default', new PhpConfig());
+    Configure::load('app', 'default', false);
+} catch (\Exception $e) {
+    die($e->getMessage() . "\n");
+}
+
+// Load an environment local configuration file.
+// You can use a file like app_local.php to provide local overrides to your
+// shared configuration.
+//Configure::load('app_local', 'default');
+
+// When debug = false the metadata cache should last
+// for a very very long time, as we don't want
+// to refresh the cache while users are doing requests.
+if (!Configure::read('debug')) {
+    Configure::write('Cache._cake_model_.duration', '+1 years');
+    Configure::write('Cache._cake_core_.duration', '+1 years');
+}
+
+/**
+ * Set server timezone to UTC. You can change it to another timezone of your
+ * choice but using UTC makes time calculations / conversions easier.
+ */
+date_default_timezone_set('UTC');
+
+/**
+ * Configure the mbstring extension to use the correct encoding.
+ */
+mb_internal_encoding(Configure::read('App.encoding'));
+
+/**
+ * Set the default locale. This controls how dates, number and currency is
+ * formatted and sets the default language to use for translations.
+ */
+ini_set('intl.default_locale', 'en_US');
+
+/**
+ * Register application error and exception handlers.
+ */
+$isCli = php_sapi_name() === 'cli';
+if ($isCli) {
+    (new ConsoleErrorHandler(Configure::read('Error')))->register();
+} else {
+    (new ErrorHandler(Configure::read('Error')))->register();
+}
+
+// Include the CLI bootstrap overrides.
+if ($isCli) {
+    require __DIR__ . '/bootstrap_cli.php';
+}
+
+/**
+ * Set the full base URL.
+ * This URL is used as the base of all absolute links.
  *
+ * If you define fullBaseUrl in your config file you can remove this.
+ */
+if (!Configure::read('App.fullBaseUrl')) {
+    $s = null;
+    if (env('HTTPS')) {
+        $s = 's';
+    }
+
+    $httpHost = env('HTTP_HOST');
+    if (isset($httpHost)) {
+        Configure::write('App.fullBaseUrl', 'http' . $s . '://' . $httpHost);
+    }
+    unset($httpHost, $s);
+}
+
+Cache::config(Configure::consume('Cache'));
+ConnectionManager::config(Configure::consume('Datasources'));
+Email::configTransport(Configure::consume('EmailTransport'));
+Email::config(Configure::consume('Email'));
+Log::config(Configure::consume('Log'));
+Security::salt(Configure::consume('Security.salt'));
+
+/**
+ * The default crypto extension in 3.0 is OpenSSL.
+ * If you are migrating from 2.x uncomment this code to
+ * use a more compatible Mcrypt based implementation
+ */
+// Security::engine(new \Cake\Utility\Crypto\Mcrypt());
+
+/**
+ * Setup detectors for mobile and tablet.
+ */
+Request::addDetector('mobile', function ($request) {
+    $detector = new \Detection\MobileDetect();
+    return $detector->isMobile();
+});
+Request::addDetector('tablet', function ($request) {
+    $detector = new \Detection\MobileDetect();
+    return $detector->isTablet();
+});
+
+/**
+ * Custom Inflector rules, can be set to correctly pluralize or singularize
+ * table, model, controller names or whatever other string is passed to the
+ * inflection functions.
+ *
+ * Inflector::rules('plural', ['/^(inflect)or$/i' => '\1ables']);
+ * Inflector::rules('irregular', ['red' => 'redlings']);
+ * Inflector::rules('uninflected', ['dontinflectme']);
+ * Inflector::rules('transliteration', ['/å/' => 'aa']);
  */
 
 /**
  * Plugins need to be loaded manually, you can either load them one by one or all of them in a single call
- * Uncomment one of the lines below, as you need. make sure you read the documentation on CakePlugin to use more
+ * Uncomment one of the lines below, as you need. make sure you read the documentation on Plugin to use more
  * advanced ways of loading plugins
  *
- * CakePlugin::loadAll(); // Loads all plugins at once
- * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
+ * Plugin::loadAll(); // Loads all plugins at once
+ * Plugin::load('Migrations'); //Loads a single plugin named Migrations
  *
  */
-CakePlugin::load('DebugKit');
-CakePlugin::load('BoostCake');
+
+Plugin::load('Migrations');
+
+// Only try to load DebugKit in development mode
+// Debug Kit should not be installed on a production system
+if (Configure::read('debug')) {
+    Plugin::load('DebugKit', ['bootstrap' => true]);
+}
 
 /**
- * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:
- *
- * - AssetDispatcher filter will serve your asset files (css, images, js, etc) from your themes and plugins
- * - CacheDispatcher filter will read the Cache.check configure variable and try to serve cached content generated from controllers
- *
- * Feel free to remove or add filters as you see fit for your application. A few examples:
- *
- * Configure::write('Dispatcher.filters', array(
- *		'MyCacheFilter', //  will use MyCacheFilter class from the Routing/Filter package in your app.
- *		'MyPlugin.MyFilter', // will use MyFilter class from the Routing/Filter package in MyPlugin plugin.
- * 		array('callable' => $aFunction, 'on' => 'before', 'priority' => 9), // A valid PHP callback type to be called on beforeDispatch
- *		array('callable' => $anotherMethod, 'on' => 'after'), // A valid PHP callback type to be called on afterDispatch
- *
- * ));
+ * Connect middleware/dispatcher filters.
  */
-Configure::write('Dispatcher.filters', array(
-	'AssetDispatcher',
-	'CacheDispatcher'
-));
-
-/**
- * Configures default file logging options
- */
-App::uses('CakeLog', 'Log');
-CakeLog::config('debug', array(
-	'engine' => 'FileLog',
-	'types' => array('notice', 'info', 'debug'),
-	'file' => 'debug',
-));
-CakeLog::config('error', array(
-	'engine' => 'FileLog',
-	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
-	'file' => 'error',
-));
-
-// Load composer autoload.
-require APP . '/Vendor/autoload.php';
- 
-// Remove and re-prepend CakePHP's autoloader as composer thinks it is the most important.
-// See https://github.com/composer/composer/commit/c80cb76b9b5082ecc3e5b53b1050f76bb27b127b
-spl_autoload_unregister(array('App', 'load'));
-spl_autoload_register(array('App', 'load'), true, true);
+DispatcherFactory::add('Asset');
+DispatcherFactory::add('Routing');
+DispatcherFactory::add('ControllerFactory');

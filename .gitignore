@@ -14,3 +14,7 @@ composer.phar
 .idea/
 Vendor/*
 Plugin/*
+/vendor/*
+/config/app.php
+/tmp/*
+/logs/*
