@@ -39,7 +39,7 @@ class JsonTreeComponent extends Component {
 
     public function allLpcnodesToJson(){
         $this->Lpcnodes = TableRegistry::get('Lpcnodes');
-        $lpcnodes = $this->Lpcnodes->findAllLpcnodeIn();
+        $lpcnodes = $this->Lpcnodes->findAllLpcnodes();
 
         return json_encode($lpcnodes);
     }

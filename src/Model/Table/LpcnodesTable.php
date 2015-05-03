@@ -89,7 +89,7 @@ class LpcnodesTable extends Table
         );
     }
 
-    public function findAllLpcnodeIn($ids_array = null){
+    public function findAllLpcnodes($ids_array = null){
         if(isset($ids_array) && is_array($ids_array))
             $conditions['Lpcnodes.id'] = $ids_array;
         else
@@ -110,7 +110,7 @@ class LpcnodesTable extends Table
                 $tab[$num]['parent'] = "#";
             $tab[$num]['text'] = $node->title;
             $tab[$num]['li_attr']['data-id'] = $node->id;
-            if(count($node['ChildLpcnode'])){
+            if(count($node->child_lpcnodes)){
                 $tab[$num]['icon'] = 'fa fa-lg fa-cubes';
                 $tab[$num]['data']['type'] = "noeud";
                 $tab[$num]['li_attr']['data-type'] = "noeud";
