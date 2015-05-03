@@ -1,28 +1,28 @@
-<div class="periods form">
-<?php echo $this->Form->create('Period'); ?>
-	<fieldset>
-		<legend><?php echo __('Edit Period'); ?></legend>
-	<?php
-		echo $this->Form->input('id');
-		echo $this->Form->input('begin', array('dateFormat' => 'DMY'));
-		echo $this->Form->input('end', array('dateFormat' => 'DMY'));
-		echo $this->Form->input('year_id');
-		echo $this->Form->input('establishment_id');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<div class="page-title">
+    <h2><?php echo __('Modifier une période'); ?></h2>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à l\'établissement'), '/establishments/view/'.$this->request->query['establishment_id'], array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
 
-		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('Period.id')), null, __('Are you sure you want to delete # {0}?', $this->Form->value('Period.id'))); ?></li>
-		<li><?php echo $this->Html->link(__('List Periods'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Years'), array('controller' => 'years', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Year'), array('controller' => 'years', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Establishments'), array('controller' => 'establishments', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Establishment'), array('controller' => 'establishments', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Evaluations'), array('controller' => 'evaluations', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Evaluation'), array('controller' => 'evaluations', 'action' => 'add')); ?> </li>
-	</ul>
+<?php
+
+echo $this->Form->create($period, ['align' => [
+    'md' => [
+    'left' => 2,
+    'middle' => 5,
+    'right' => 6,
+    ],
+]]);
+
+    echo $this->Form->input('id');
+    echo $this->Form->input('begin', ['label' => 'Début de la période']);
+    echo $this->Form->input('end', ['label' => 'Fin de la période']);
+?>
+
+<div class="form-group">
+    <?php echo $this->Form->submit('Enregistrer cette période', array(
+        'div' => 'col col-md-9 col-md-offset-2',
+        'class' => 'btn btn-primary'
+    )); ?>
 </div>
+
+<?php echo $this->Form->end();

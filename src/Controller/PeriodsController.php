@@ -9,76 +9,39 @@ use App\Controller\AppController;
  */
 class PeriodsController extends AppController {
 
-/**
- * add method
- *
- * @return void
- */
-	public function add() {
-		if ($this->request->is('post')) {
-			$this->Period->create();
-			if ($this->Period->save($this->request->data)) {
-				$this->Flash->success('La nouvelle période a été correctement ajoutée.');
-				$this->redirect(array(
-				    'controller'    => 'establishments',
-				    'action'        => 'view', $this->request->data['Period']['establishment_id']));
-			} else {
-				$this->Session->setFlash(__('The period could not be saved. Please, try again.'));
-			}
-		}
-		$years = $this->Period->Year->find('list');
-		$establishments = $this->Period->Establishment->find('list');
-		$this->set(compact('years', 'establishments'));
-	}
+    public function add(){
+        if ($this->request->is('post')) {
+            $period = $this->Periods->newEntity($this->request->data);
+            if ($this->Periods->save($period))
+                $this->Flash->success('La nouvelle période a été correctement ajoutée.');
+            else
+                $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire.');
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+            return $this->redirect(['controller' => 'Establishments', 'action' => 'view', $this->request->query['establishment_id']]);
+        }
+    }
+
+    /**
+     * edit method
+     *
+     * @throws NotFoundException
+     * @param string $id
+     * @return void
+     */
 	public function edit($id = null) {
-		$this->Period->id = $id;
-		if (!$this->Period->exists()) {
-			throw new NotFoundException(__('Invalid period'));
-		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Period->save($this->request->data)) {
-				$this->Session->setFlash(__('The period has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The period could not be saved. Please, try again.'));
-			}
-		} else {
-			$this->request->data = $this->Period->read(null, $id);
-		}
-		$years = $this->Period->Year->find('list');
-		$establishments = $this->Period->Establishment->find('list');
-		$this->set(compact('years', 'establishments'));
+        $this->set('title_for_layout', __('Modifier une période'));
+        $period = $this->Periods->get($id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $period = $this->Periods->patchEntity($period, $this->request->data);
+            if ($this->Periods->save($period)) {
+                $this->Flash->success('La période a été correctement mise à jour');
+                return $this->redirect(['controller' => 'Establishments', 'action' => 'view', $this->request->query['establishment_id']]);
+            } else {
+                $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
+            }
+        }
+        $this->set(compact('period'));
 	}
 
-/**
- * delete method
- *
- * @throws MethodNotAllowedException
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
-		$this->Period->id = $id;
-		if (!$this->Period->exists()) {
-			throw new NotFoundException(__('Invalid period'));
-		}
-		if ($this->Period->delete()) {
-			$this->Session->setFlash(__('Period deleted'));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->Session->setFlash(__('Period was not deleted'));
-		$this->redirect(array('action' => 'index'));
-	}
+
 }

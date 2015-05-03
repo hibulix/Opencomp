@@ -1,7 +1,7 @@
 <div class="page-title">
     <h2><?php echo __('Visualiser un établissement'); ?></h2>
-    <?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('modifier'), 'edit/'.$establishment['Establishment']['id'], array('class' => 'ontitle btn btn-primary', 'escape' => false)); ?>
-    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('académie de l\'établissement'), array('admin'=>false,'controller' => 'academies', 'action' => 'view', $establishment['Academy']['id']), array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('modifier'), 'edit/'.$establishment->id, array('class' => 'ontitle btn btn-primary', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('académie de l\'établissement'), array('controller' => 'academies', 'action' => 'view', $establishment->academy->id), array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
 <div class="row">
@@ -10,32 +10,32 @@
         	<dl class="dl-horizontal">
         		<dt><?php echo __('Nom de l\'école'); ?></dt>
         		<dd>
-        			<?php echo h($establishment['Establishment']['name']); ?>
+        			<?php echo h($establishment->name); ?>
         			&nbsp;
         		</dd>
         		<dt><?php echo __('Adresse'); ?></dt>
         		<dd>
-        			<?php echo h($establishment['Establishment']['address']); ?>
+        			<?php echo h($establishment->address); ?>
         			&nbsp;
         		</dd>
         		<dt><?php echo __('Code postal'); ?></dt>
         		<dd>
-        			<?php echo h($establishment['Establishment']['postcode']); ?>
+        			<?php echo h($establishment->postcode); ?>
         			&nbsp;
         		</dd>
         		<dt><?php echo __('Ville'); ?></dt>
         		<dd>
-        			<?php echo h($establishment['Establishment']['town']); ?>
+        			<?php echo h($establishment->town); ?>
         			&nbsp;
         		</dd>
         		<dt><?php echo __('Direction'); ?></dt>
         		<dd>
-        			<?php echo $this->Html->link('<i class="fa fa-user"></i> '.$establishment['User']['first_name'].' '.$establishment['User']['name'], array('controller' => 'users', 'action' => 'view', $establishment['User']['id']), array('escape' => false)); ?>
+        			<?php echo $this->Html->link('<i class="fa fa-user"></i> '.$establishment->user->full_name, array('controller' => 'users', 'action' => 'view', $establishment->user->id), array('escape' => false)); ?>
         			&nbsp;
         		</dd>
         		<dt><?php echo __('Académie'); ?></dt>
         		<dd>
-        			<?php echo $this->Html->link('<i class="fa fa-link"></i> '.$establishment['Academy']['name'], array('controller' => 'academies', 'action' => 'view', $establishment['Academy']['id']), array('escape' => false)); ?>
+        			<?php echo $this->Html->link('<i class="fa fa-link"></i> '.$establishment->academy->name, array('controller' => 'academies', 'action' => 'view', $establishment->academy->id), array('escape' => false)); ?>
         			&nbsp;
         		</dd>
         	</dl>
@@ -47,7 +47,7 @@
             <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter une période'), '#addPeriod', array('data-toggle' => 'modal', 'class' => 'ontitle btn btn-success', 'escape' => false)); ?>
         </div>
         
-        <?php if (!empty($establishment['Period'])): ?>
+        <?php if (!empty($establishment->periods)): ?>
         <p><?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('Modifier la période courante'), '#defaultPeriod', array('data-toggle' => 'modal', 'escape' => false)); ?></p>
 		<table class="table table-condensed table-striped">
 		<tr>
@@ -57,13 +57,13 @@
 		</tr>
 		<?php
 			$i = 0;
-			foreach ($establishment['Period'] as $period):
-				$startTableLine = ($period['id'] == $establishment['Establishment']['current_period_id']) ? '<tr class="warning">' : '<tr>';
+			foreach ($establishment->periods as $period):
+				$startTableLine = ($period->id == $establishment->period_id) ? '<tr class="warning">' : '<tr>';
 			echo $startTableLine; ?> 
-				<td><?php echo $period['wellnamed']; ?></td>
-				<td><?php echo $period['Year']['title']; ?></td>
+				<td><?php echo $period->well_named; ?></td>
+				<td><?php echo $period->year->title; ?></td>
 				<td class="actions">
-					<?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('Modifier'), array('controller' => 'periods', 'action' => 'edit', $period['id']), array('escape' => false)); ?>
+					<?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('Modifier'), array('controller' => 'periods', 'action' => 'edit', $period->id, 'establishment_id' => $establishment->id), array('escape' => false)); ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
@@ -74,10 +74,10 @@
 
 <div class="page-title">
     <h3><?php echo __('Classes de cet établissement'); ?></h3>
-    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter une classe'), '/classrooms/add/establishment_id:'.$establishment['Establishment']['id'], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter une classe'), '/classrooms/add/establishment_id:'.$establishment->id, array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
 </div>
 
-<?php if (!empty($establishment['Classroom'])): ?>
+<?php if (!empty($establishment->classrooms)): ?>
 <table class='table table-striped table-condensed'>
 <tr>
     <th><?php echo __('Nom de la classe'); ?></th>
@@ -87,15 +87,15 @@
 </tr>
 <?php
     $i = 0;
-    foreach ($establishment['Classroom'] as $classroom): ?>
+    foreach ($establishment->classrooms as $classroom): ?>
     <tr>
-        <td><?php echo $classroom['title']; ?></td>
-        <td><?php echo $classroom['User']['first_name'].' '.$classroom['User']['name']; ?></td>
-        <td><?php echo $classroom['Year']['title']; ?></td>
+        <td><?php echo $classroom->title; ?></td>
+        <td><?php echo $classroom->user->full_name; ?></td>
+        <td><?php echo $classroom->year->title; ?></td>
         <td class="actions">
-            <?php echo $this->Html->link('<i class="fa fa fa-eye"></i> '.__('Voir'), array('controller' => 'classrooms', 'action' => 'view', $classroom['id']), array('escape'=>false)); ?>&nbsp;&nbsp;&nbsp;
-            <?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('Modifier'), array('controller' => 'classrooms', 'action' => 'edit', $classroom['id']), array('escape'=>false)); ?>&nbsp;&nbsp;&nbsp;
-            <?php echo $this->Form->postLink('<i class="fa fa-trash-o"></i> '.__('Supprimer'), array('controller' => 'classrooms', 'action' => 'delete', $classroom['id']), array('escape'=>false), __('Are you sure you want to delete # {0}?', $classroom['id'])); ?>
+            <?php echo $this->Html->link('<i class="fa fa fa-eye"></i> '.__('Voir'), array('controller' => 'classrooms', 'action' => 'view', $classroom->id), array('escape'=>false)); ?>&nbsp;&nbsp;&nbsp;
+            <?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('Modifier'), array('controller' => 'classrooms', 'action' => 'edit', $classroom->id), array('escape'=>false)); ?>&nbsp;&nbsp;&nbsp;
+            <?php echo $this->Form->postLink('<i class="fa fa-trash-o"></i> '.__('Supprimer'), array('controller' => 'classrooms', 'action' => 'delete', $classroom->id), array('escape'=>false), __('Are you sure you want to delete # {0}?', $classroom['id'])); ?>
         </td>
     </tr>
 <?php endforeach; ?>
@@ -107,21 +107,16 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <?php
-            echo $this->Form->create('Period', array(
-                'url' => array('controller' => 'periods', 'action' => 'add'),
-                'inputDefaults' => array(
-                    'div' => 'form-group',
-                    'label' => array(
-                        'class' => 'col col-md-3 control-label'
-                    ),
-                    'readonly'=>'readonly',
-                    'beforeInput' => '<div class="input-group">',
-                    'afterInput' => '<span class="input-group-addon"><i class="fa fa-calendar"></i></span></div>',
-                    'wrapInput' => 'col col-md-4',
-                    'class' => 'form-control startdate'
-                ),
-                'class' => 'form-horizontal'
-            ));
+            echo $this->Form->create($blank_period, [
+                'align' => [
+                    'md' => [
+                        'left' => 3,
+                        'middle' => 6,
+                        'right' => 3,
+                    ],
+                ],
+                'url' => ['controller' => 'Periods', 'action' => 'add', 'establishment_id' => $establishment->id]
+            ]);
             ?>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -130,14 +125,12 @@
             <div class="modal-body">
                 <?php
                 echo $this->Form->input('begin', array(
-                    'type' => 'text',
                     'label' => array(
                         'text' => 'Date de début'
                     )
                 ));
 
                 echo $this->Form->input('end', array(
-                    'type' => 'text',
                     'prepend' => array('<i class="fa fa-calendar"></i>'),
                     'label' => array(
                         'text' => 'Date de fin'
@@ -145,7 +138,7 @@
                 ));
 
                 echo $this->Form->hidden('year_id', array('value' => $current_year));
-                echo $this->Form->hidden('establishment_id', array('value' => $establishment['Establishment']['id']));
+                echo $this->Form->hidden('establishment_id', array('value' => $establishment->id));
 
                 ?>
             </div>
@@ -163,18 +156,16 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <?php
-            echo $this->Form->create('Establishment', array(
-                'url' => array('controller' => 'establishments', 'action' => 'setDefaultPeriod'),
-                'inputDefaults' => array(
-                    'div' => 'form-group',
-                    'label' => array(
-                        'class' => 'col col-md-3 control-label'
-                    ),
-                    'wrapInput' => 'col col-md-6',
-                    'class' => 'form-control'
-                ),
-                'class' => 'form-horizontal'
-            ));
+            echo $this->Form->create($establishment, [
+                'align' => [
+                    'md' => [
+                        'left' => 3,
+                        'middle' => 6,
+                        'right' => 3,
+                    ],
+                ],
+                'url' => ['controller' => 'Establishments', 'action' => 'setDefaultPeriod']
+            ]);
             ?>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -183,21 +174,19 @@
             <div class="modal-body">
                 <?php
 
-                foreach($establishment['Period'] as $period)
-                {
-                    $tabperiods[$period['id']] = $period['wellnamed'];
-                }
+                foreach($establishment->periods as $period)
+                    $tabperiods[$period['id']] = $period->well_named;
 
-                echo $this->Form->input('current_period_id', array(
+                echo $this->Form->input('period_id', array(
                         'options' => $tabperiods,
-                        'value' => $establishment['Establishment']['current_period_id'],
+                        'value' => $establishment->current_period_id,
                         'label' => array(
                             'text' => 'Période courante'
                         )
                     )
                 );
 
-                echo $this->Form->hidden('establishment_id', array('value' => $establishment['Establishment']['id']));
+                echo $this->Form->hidden('id', array('value' => $establishment->id));
 
                 ?>
             </div>

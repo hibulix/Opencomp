@@ -24,7 +24,8 @@ class EstablishmentsTable extends Table
         $this->table('establishments');
         $this->displayField('name');
         $this->primaryKey('id');
-        $this->belongsTo('Users', [
+        $this->belongsTo('User', [
+            'className' => 'Users',
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
         ]);
@@ -32,8 +33,8 @@ class EstablishmentsTable extends Table
             'foreignKey' => 'academy_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('CurrentPeriods', [
-            'foreignKey' => 'current_period_id',
+        $this->belongsTo('Periods', [
+            'foreignKey' => 'period_id',
             'joinType' => 'INNER'
         ]);
         $this->hasMany('Classrooms', [

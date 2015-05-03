@@ -2,6 +2,7 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
   * EstablishmentsController.php
@@ -28,142 +29,108 @@ class EstablishmentsController extends AppController {
 
 	public $helpers = array('Time');
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+    /**
+     * view method
+     *
+     * @throws NotFoundException
+     * @param string $id
+     * @return void
+     */
 	public function view($id = null) {
 	    $this->set('title_for_layout', __('Visualiser un établissement scolaire'));
-		$this->Establishment->id = $id;
-		if (!$this->Establishment->exists()) {
-			throw new NotFoundException(__('L\'établissement scolaire demandé n\'existe pas !'), 'flash_error');
-		}
 
-        $this->loadModel('Setting');
-        $currentYear = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'currentYear')));
+        $this->Settings = TableRegistry::get('Settings');
+        $currentYear = $this->Settings->find('all', array('conditions' => array('Settings.key' => 'currentYear')))->first();
 
         //On récupère l'établissement, les classes et les périodes correspondant à l'année courante.
-        $establishment = $this->Establishment->find('first',
+        $establishment = $this->Establishments->get($id,
             array(
-                'conditions' => array('Establishment.id' => $id),
                 'contain' => array(
                     'User',
-                    'Academy',
-                    'Period' => array(
-                        'conditions' => array('Period.year_id =' => $currentYear['Setting']['value'])),
-                    'Period.Year',
-                    'Classroom' => array(
-                        'conditions' => array('Classroom.year_id =' => $currentYear['Setting']['value'])),
-                    'Classroom.User',
-                    'Classroom.Year'
+                    'Users',
+                    'Academies',
+                    'Periods' => array(
+                        'conditions' => array('Periods.year_id =' => $currentYear->value)),
+                    'Periods.Years',
+                    'Classrooms' => array(
+                        'conditions' => array('Classrooms.year_id =' => $currentYear->value)),
+                    'Classrooms.User',
+                    'Classrooms.Years'
                 )
             )
         );
 
+        $this->set('blank_period', $this->Establishments->Periods->newEntity());
 		$this->set('establishment', $establishment);
-		$this->set('current_year', $currentYear['Setting']['value']);
+		$this->set('current_year', $currentYear->value);
 	}
 
-/**
- * add method
- *
- * @return void
- */
+    /**
+     * add method
+     *
+     * @return void
+     */
 	public function add() {
 	    $this->set('title_for_layout', __('Ajouter un établissement scolaire'));
-		if ($this->request->is('post')) {
-			$this->Establishment->create();
-			if ($this->Establishment->save($this->request->data)) {
-				$this->Flash->success('Le nouvel établissement scolaire a été correctement ajouté');
-				$this->redirect(array(
-				    'controller'    => 'academies',
-				    'action'        => 'view', $this->request->data['Establishment']['academy_id']));
-			} else {
-				$this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
-			}
-		}
-		
-		//Si on a passé un academy_id en paramètre, on présélectionne la liste déroulante avec la valeur passée.
-		if(isset($this->request->query['academy_id']))
-		    $this->set('academy_id', $this->request->query['academy_id']);
+
+        $establishment = $this->Establishments->newEntity();
+        if ($this->request->is('post')) {
+            $establishment = $this->Establishments->newEntity($this->request->data);
+            if ($this->Establishments->save($establishment)) {
+                $this->Flash->success('Le nouvel établissement scolaire a été correctement ajouté.');
+                return $this->redirect(['controller' => 'Academies', 'action' => 'view', $establishment->academy_id]);
+            } else {
+                $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
+            }
+        }
+
+        //Si on a passé un academy_id en paramètre, on présélectionne la liste déroulante avec la valeur passée.
+        if(isset($this->request->query['academy_id']))
+            $this->set('academy_id', $this->request->query['academy_id']);
         else
             $this->set('academy_id', null);
-		
-		$users = $this->Establishment->User->find('list');
-		$academies = $this->Establishment->Academy->find('list');
-		$this->set(compact('users', 'academies'));
+
+        $users = $this->Establishments->Users->find('list');
+        $academies = $this->Establishments->Academies->find('list');
+        $this->set(compact('users', 'academies', 'establishment'));
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+    /**
+     * edit method
+     *
+     * @throws NotFoundException
+     * @param string $id
+     * @return void
+     */
 	public function edit($id = null) {
 	    $this->set('title_for_layout', __('Modifier un établissement scolaire'));
-		$this->Establishment->id = $id;
-		if (!$this->Establishment->exists()) {
-			throw new NotFoundException(__('L\'établissement scolaire demandé n\'existe pas !'), 'flash_error');
-		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Establishment->save($this->request->data)) {
-				$this->Flash->success('L\'établissement scolaire a été correctement mis à jour');
-				$this->redirect(array(
-				    'controller'    => 'academies',
-				    'action'        => 'view', $this->request->data['Establishment']['academy_id']));
-			} else {
-				$this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
-			}
-		} else {
-			$this->request->data = $this->Establishment->read(null, $id);
-		}
-		$users = $this->Establishment->User->find('list');
-		$academies = $this->Establishment->Academy->find('list');
-		$this->set(compact('users', 'academies'));
+
+        $establishment = $this->Establishments->get($id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $establishment = $this->Establishments->patchEntity($establishment, $this->request->data);
+            if ($this->Establishments->save($establishment)) {
+                $this->Flash->success('L\'établissement a été correctement mis à jour');
+                return $this->redirect(['controller' => 'Academies', 'action' => 'view', $establishment->academy_id]);
+            } else {
+                $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
+            }
+        }
+        $users = $this->Establishments->Users->find('list')->toArray();
+        $academies = $this->Establishments->Academies->find('list');
+        $this->set(compact('establishment', 'academies', 'users'));
+
 	}
 
-/**
- * delete method
- *
- * @throws MethodNotAllowedException
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
-		$this->Establishment->id = $id;
-		if (!$this->Establishment->exists()) {
-			throw new NotFoundException(__('L\'établissement scolaire demandé n\'existe pas !'), 'flash_error');
-		}
-		if ($this->Establishment->delete()) {
-			$this->Flash->success('L\'établissement scolaire a été correctement supprimé');
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->Flash->error('L\'établissement scolaire n\'a pas pu être supprimé');
-		$this->redirect(array('action' => 'index'));
-	}
-
-    public function setDefaultPeriod() {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
+    public function setDefaultPeriod($id = null) {
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $establishment = $this->Establishments->get($id);
+            $establishment->period_id = $this->request->data('period_id');
+            if ($this->Establishments->save($establishment)) {
+                $this->Flash->success('La nouvelle période courante a bien été sauvegardée.');
+            } else {
+                $this->Flash->error('Une erreur est survenue');
+            }
+            return $this->redirect(['action' => 'view', $establishment->id]);
         }
-        $this->Establishment->id = $this->request->data['Establishment']['establishment_id'];
-        if (!$this->Establishment->exists()) {
-            throw new NotFoundException(__('L\'établissement scolaire demandé n\'existe pas !'), 'flash_error');
-        }
-        $this->Establishment->read(null, $this->request->data['Establishment']['establishment_id']);
-        $this->Establishment->set('current_period_id', $this->request->data['Establishment']['current_period_id']);
-        $this->Establishment->save();
-
-        $this->Flash->success('La période courante de l\'établissement a bien été modifiée.');
-        $this->redirect(array('action' => 'view', $this->request->data['Establishment']['establishment_id']));
     }
 }

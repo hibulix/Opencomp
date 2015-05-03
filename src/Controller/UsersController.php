@@ -60,7 +60,6 @@ class UsersController extends AppController {
 			if(isset($user) && !empty($user)){
 				if(isset($user->yubikeyID) && !empty($user->yubikeyID)){
 					if($user->yubikeyID == substr($this->request->data['yubikeyOTP'], 0, 12)){
-						 $this->loadModel('Setting');
 						 $otp = $this->request->data['yubikeyOTP'];
 
                          $settingsTable = TableRegistry::get('Settings');
