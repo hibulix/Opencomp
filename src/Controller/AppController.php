@@ -22,9 +22,8 @@
 namespace app\Controller;
 
 use Cake\Controller\Controller;
-use Cake\Event\Event;
-use Cake\Routing\Router;
 use Cake\I18n\Time;
+use Cake\I18n\I18n;
 
 /**
  * Application Controller
@@ -64,7 +63,8 @@ class AppController extends Controller {
         return false;
     }
 
-    public function beforeFilter(Event $event){
+    public function initialize(){
+        I18n::locale('fr_FR');
         Time::$defaultLocale = 'fr-FR';
     }
 }
