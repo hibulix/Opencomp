@@ -103,8 +103,8 @@
 		foreach ($classroom->evaluations as $evaluation): ?>
 
 		<?php
-			$total = count($evaluation->item)*count($evaluation->pupil);
-			$results = count($evaluation->result);
+			$total = count($evaluation->items)*count($evaluation->pupils);
+			$results = count($evaluation->results);
 			if($total != $results){
 				$line = '<li style="line-height:23px;">Saisie des résultats incomplète pour <code>'.$evaluation->title.'</code>';
 				$line .= $this->Html->link('<i class="fa fa-magic"></i>Corriger',
@@ -124,7 +124,7 @@
 		<?php if(count($lines) > 0): ?>
 		<div class="col-md-8">
 		<div class="alert-danger alert">
-		  <h4 style='margin-bottom:10px;'><i class="fa fa-pushpin"></i><strong> Des éléments nécessitent votre attention !</strong></h4>
+		  <h4 style='margin-bottom:10px;'><i class="fa fa-thumb-tack"></i><strong> Des éléments nécessitent votre attention !</strong></h4>
 		  <ul>
 		  	<?php foreach($lines as $line){
 			  	echo $line;
@@ -135,7 +135,7 @@
 		<?php else: ?>
 		<div class="col-md-8">
 		<div class="alert alert-success">
-		  <p class="lead" style="margin-bottom:0px;"><i class="fa fa-check"></i> Tous les vérifications automatiques ont réussi ;)</p>
+		  <p class="lead" style="margin-bottom:0px;"><i class="fa fa-check"></i> Toutes les vérifications automatiques ont réussi ;)</p>
 		</div>
 		<?php endif; ?>
 	</div>
