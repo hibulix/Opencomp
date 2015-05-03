@@ -5,17 +5,15 @@
 
 <?php 
 
-echo $this->Form->create('Academy', array(
-    'inputDefaults' => array(
-        'div' => 'form-group',
-        'label' => array(
-            'class' => 'col col-md-2 control-label'
-        ),
-        'wrapInput' => 'col col-md-3',
-        'class' => 'form-control'
-    ),
-    'class' => 'form-horizontal'
-));
+echo $this->Form->create($academy, ['novalidate',
+    'align' => [
+        'md' => [
+            'left' => 2,
+            'middle' => 3,
+            'right' => 7,
+        ],
+    ]
+]);
 
 echo $this->Form->input('name', array(
     'label' => array(
@@ -31,7 +29,7 @@ echo $this->Form->input('type', array(
     )
 )); 
 
-echo $this->Form->input('User', array(
+echo $this->Form->input('users._ids', array(
     'class'=>'chzn-select form-control',
     'data-placeholder'=>'Ajoutez un responsable ...',
     'label' => array(

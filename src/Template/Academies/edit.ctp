@@ -5,14 +5,15 @@
 
 <?php
 
-echo $this->Form->create($academy, ['align' => [
-    'md' => [
-        'left' => 2,
-        'middle' => 3,
-        'right' => 7,
-    ],
-]]);
-
+echo $this->Form->create($academy, ['novalidate',
+    'align' => [
+        'md' => [
+            'left' => 2,
+            'middle' => 3,
+            'right' => 7,
+        ],
+    ]
+]);
 
 echo $this->Form->input('name', array(
     'label' => array(
@@ -29,20 +30,21 @@ echo $this->Form->input('type', array(
 ));
 
 echo $this->Form->input('users._ids', array(
-    'class'=>'chzn-select',
-    'data-placeholder'=>'Ajoutez un responsable ...',
-    'label' => array(
-        'text' => 'Responsable(s) de l\'académie'
+        'class'=>'chzn-select form-control',
+        'data-placeholder'=>'Ajoutez un responsable ...',
+        'label' => array(
+            'text' => 'Responsable(s) de l\'académie'
         )
     )
 );
 
 ?>
 
+<div class="form-group">
+    <?php echo $this->Form->submit('Enregistrer les modifications', array(
+        'div' => 'col col-md-9 col-md-offset-2',
+        'class' => 'btn btn-primary'
+    )); ?>
+</div>
 
-<?php echo $this->Form->submit('Enregistrer les modifications', array(
-    'class' => 'btn btn-primary'
-)); ?>
-
-
-<?php echo $this->Form->end(); ?>
+<?php echo $this->Form->end();

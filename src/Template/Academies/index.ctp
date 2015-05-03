@@ -19,8 +19,9 @@
             		<td><?php echo h($academy->name); ?></td>
             		<td><?php if ($academy->type == 0) {echo 'Académie';} else {echo 'Sous rectorat';} ?></td>
             		<td class="actions">
-            		    <?php echo $this->Html->link('<button class="btn btn-default btn-xs"><i class="fa fa fa-eye"></i> '.__('Voir').'</button>', array('admin'=>false,'action' => 'view', $academy->id), array('escape' => false)); ?>
-            		</td>
+            		    <?php echo $this->Html->link('<button class="btn btn-default btn-xs"><i class="fa fa fa-eye"></i> '.__('Voir').'</button> ', array('action' => 'view', $academy->id), array('escape' => false)); ?>
+                        <?= $this->Form->postLink('<button class="btn btn-danger btn-xs"><i class="fa fa fa-trash"></i></button>', ['action' => 'delete', $academy->id], ['escape' => false, 'confirm' => __('Êtes vous sûr(e) de vouloir supprimer l\'académie {0}?', $academy->name)]); ?>
+                    </td>
             	</tr>
         	<?php endforeach; ?>
         	</table>

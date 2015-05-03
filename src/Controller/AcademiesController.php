@@ -69,17 +69,19 @@ class AcademiesController extends AppController {
  */
 	public function add() {
 	    $this->set('title_for_layout', __('Ajouter une académie'));
-		if ($this->request->is('post')) {
-			$this->Academy->create();
-			if ($this->Academy->save($this->request->data)) {
-				$this->Flash->success('La nouvelle académie a été correctement ajoutée');
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
-			}
-		}
-		$users = $this->Academy->User->find('list');
-		$this->set(compact('users'));
+
+        $academy = $this->Academies->newEntity();
+        if ($this->request->is('post')) {
+            $academy = $this->Academies->newEntity($this->request->data);
+            if ($this->Academies->save($academy)) {
+                $this->Flash->success('La nouvelle académie a été correctement ajoutée.');
+                return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
+            }
+        }
+		$users = $this->Academies->Users->find('list');
+		$this->set(compact('academy' ,'users'));
 	}
 
 /**
@@ -116,18 +118,13 @@ class AcademiesController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
-		$this->Academy->id = $id;
-		if (!$this->Academy->exists()) {
-			throw new NotFoundException(__('L\'académie demandée n\'existe pas !'));
-		}
-		if ($this->Academy->delete()) {
-			$this->Flash->success('L\'académie a été correctement supprimée');
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->Flash->error('L\'académie n\'a pas pu être supprimée');
-		$this->redirect(array('action' => 'index'));
+        $academy = $this->Academies->get($id);
+        $this->request->allowMethod(['post', 'delete']);
+        if ($this->Academies->delete($academy)) {
+            $this->Flash->success('L\'académie a été correctement supprimée');
+        } else {
+            $this->Flash->error('L\'académie n\'a pas pu être supprimée');
+        }
+        return $this->redirect(['action' => 'index']);
 	}
 }
