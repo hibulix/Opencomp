@@ -5,17 +5,14 @@
 
 <?php 
 
-echo $this->Form->create('Classroom', array(
-    'inputDefaults' => array(
-        'div' => 'form-group',
-        'label' => array(
-            'class' => 'col col-md-2 control-label'
-        ),
-        'wrapInput' => 'col col-md-3',
-        'class' => 'form-control'
-    ),
-    'class' => 'form-horizontal'
-));
+echo $this->Form->create($classroom, [
+    'align' => [
+    'md' => [
+        'left' => 2,
+        'middle' => 3,
+        'right' => 7,
+    ],
+]]);
 
 echo $this->Form->input('title', array(
     'label' => array(
@@ -28,13 +25,9 @@ echo $this->Form->input('user_id', array(
     'label' => array(
         'text' => 'Enseignant titulaire'
     )
-)); 
+));
 
-echo $this->Form->hidden('year_id', array('value' => $current_year));
-
-echo $this->Form->hidden('establishment_id', array('value' => $establishment_id));
-
-echo $this->Form->input('User', array(
+echo $this->Form->input('users._ids', array(
 	'class'=>'chzn-select form-control',
 	'data-placeholder'=>'Int extérieurs, mis-tps, décharge ...',
     'label' => array(

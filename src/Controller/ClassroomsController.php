@@ -2,6 +2,8 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
+use Cake\Network\Exception\BadRequestException;
+use Cake\ORM\TableRegistry;
 /**
  * Classrooms Controller
  *
@@ -17,28 +19,22 @@ class ClassroomsController extends AppController {
      */
     public function isAuthorized($user = null) {
         if(isset($this->request->params['pass'][0])){
-            //Vérification de l'existance de la classe
-            $this->Classroom->id = $this->request->params['pass'][0];
-            if (!$this->Classroom->exists()) {
-                return false;
-            //L'administrateur a toujours accès
-            }elseif($user['role'] === 'admin'){
+            if($user['role'] === 'admin'){
                 return true;
             }else{
                 //La classe courante est elle dans les classe pour lesquelle l'accès est autorisé à l'utilisateur ?
-                return in_array($this->Classroom->id, $this->request->session()->read('Authorized')['classrooms']);
+                $classroom = $this->Classrooms->get($this->request->params['pass'][0]);
+                return  in_array($classroom->id, $this->request->session()->read('Authorized')['classrooms']) ||
+                        in_array($classroom->id, $this->request->session()->read('Authorized')['classrooms_manager']);
             }
         }else{
             //Si on a fourni le paramètre establishment_id
             if(isset($this->request->query['establishment_id'])) {
                 $establishment_id = intval($this->request->query['establishment_id']);
-                $this->Classroom->Establishment->id = $establishment_id;
+                $establishment = $this->Classrooms->Establishments->get($establishment_id);
 
-                if ($this->Classroom->Establishment->exists()) {
-                    $current_record = $this->Classroom->Establishment->read(array('user_id'));
-                    if( ($current_record['Establishment']['user_id'] == $user['id']) || ($user['role'] === 'admin') )
-                        return true;
-                }
+                if( ($establishment->user_id == $user['id']) || ($user['role'] === 'admin') )
+                    return true;
             }
         }
         return false;
@@ -53,35 +49,16 @@ class ClassroomsController extends AppController {
  */
 	public function view($id = null) {
 		$this->set('title_for_layout', __('Visualiser une classe'));
-		$this->Classroom->id = $id;
-		$classroom = $this->Classroom->find('first', array(
-			'conditions' => array('Classroom.id' => $id)
-		));
-		$this->set('classroom', $classroom);
-		
-		$classroompupil = $this->Classroom->ClassroomsPupil->find('all', array(
-			'conditions' => array('ClassroomsPupil.classroom_id' => $id),
-			'recursive' => -1,
-			'fields' => array('Pupil.id','Pupil.first_name','Pupil.name','Pupil.sex','Pupil.birthday','Level.title'),
-			'order' => array('Pupil.name','Pupil.first_name'),
-			'joins' => array(
-			    array('table' => 'levels',
-			        'alias' => 'Level',
-			        'type' => 'LEFT',
-			        'conditions' => array(
-			            'Level.id = ClassroomsPupil.level_id',
-			        ),
-			    ),
-			    array('table' => 'pupils',
-			        'alias' => 'Pupil',
-			        'type' => 'LEFT',
-			        'conditions' => array(
-			            'Pupil.id = ClassroomsPupil.pupil_id',
-			        ),
-			    )
-			 )
-		));
-		$this->set('ClassroomsPupil', $classroompupil);
+
+        $classroom = $this->Classrooms->get($id,[
+            'contain' => ['User', 'Users', 'Establishments', 'Years']
+        ]);
+
+        $this->ClassroomsPupils = TableRegistry::get('ClassroomsPupils');
+		$classroomsPupils = $this->ClassroomsPupils->returnPupilsWithLevelsForClassroom($id);
+
+		$this->set(compact('classroom','classroomsPupils'));
+
 	}
 	
 	public function viewtests($id = null){
@@ -168,70 +145,72 @@ class ClassroomsController extends AppController {
 		$this->set('periods', $periods);
 	}
 
-/**
- * add method
- *
- * @return void
- */
+    /**
+     * add method
+     *
+     * @return void
+     */
 	public function add() {
 		$this->set('title_for_layout', __('Ajouter une classe'));
+
+        if(is_null($this->request->query['establishment_id']))
+            throw new BadRequestException;
+
+        $establishment = $this->Classrooms->Establishments->get($this->request->query['establishment_id']);
+
+        $classroom = $this->Classrooms->newEntity();
 		if ($this->request->is('post')) {
-			$this->Classroom->create();
-			if ($this->Classroom->save($this->request->data)) {
+            $classroom = $this->Classrooms->newEntity($this->request->data);
+
+            $this->Settings = TableRegistry::get('Settings');
+            $currentYear = $this->Settings->find('all', array('conditions' => array('Settings.key' => 'currentYear')))->first();
+            $current_year = $currentYear->value;
+
+            $classroom->year_id = $current_year;
+            $classroom->establishment_id = $establishment->id;
+
+			if ($this->Classrooms->save($classroom)) {
 				$this->Flash->success('La nouvelle classe a été correctement ajoutée.');
 				$this->redirect(array(
 				    'controller'    => 'establishments',
-				    'action'        => 'view', $this->request->data['Classroom']['establishment_id']));
+				    'action'        => 'view', $classroom->establishment_id));
 			} else {
 				$this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
 			}
 		}
-		
-		//Si on a passé un establishment_id en paramètre, on présélectionne la liste déroulante avec la valeur passée.
-		if(isset($this->request->query['establishment_id']))
-		    $this->set('establishment_id', $this->request->query['establishment_id']);
-        else
-            $this->set('establishment_id', null);
 
-        $this->loadModel('Setting');
-        $currentYear = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'currentYear')));
-        $current_year = $currentYear['Setting']['value'];
-
-		$establishments = $this->Classroom->Establishment->find('list');
-		$pupils = $this->Classroom->Pupil->find('list');
-		$users = $this->Classroom->User->find('list');
-		$this->set(compact('users', 'years', 'establishments', 'pupils', 'current_year'));
+		$users = $this->Classrooms->Users->find('list');
+        $this->set('establishment_id', $establishment->id);
+		$this->set(compact('classroom', 'users', 'establishments'));
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+    /**
+     * edit method
+     *
+     * @throws NotFoundException
+     * @param string $id
+     * @return void
+     */
 	public function edit($id = null) {
 		$this->set('title_for_layout', __('Modifier une classe'));
-		$this->Classroom->id = $id;
+        $classroom = $this->Classrooms->get($id, [
+            'contain' => 'Users'
+        ]);
 
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Classroom->save($this->request->data)) {
-				$this->Flash->success('La classe a été correctement mise à jour');
-				$this->redirect(array(
-				    'controller'    => 'classrooms',
-				    'action'        => 'view', $this->request->data['Classroom']['id']));
-			} else {
-				$this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
-			}
-		} else {
-			$this->request->data = $this->Classroom->read(null, $id);
+		if ($this->request->is(['patch', 'post', 'put'])) {
+            $classroom = $this->Classrooms->patchEntity($classroom, $this->request->data);
+            if ($this->Classrooms->save($classroom)) {
+                $this->Flash->success('La classe a été correctement modifiée.');
+                $this->redirect(array(
+                    'controller'    => 'classrooms',
+                    'action'        => 'view', $classroom->id));
+            } else {
+                $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
+            }
 		}
-		$users = $this->Classroom->User->find('list');
-		$years = $this->Classroom->Year->find('list');
-		$establishments = $this->Classroom->Establishment->find('list');
-		$pupils = $this->Classroom->Pupil->find('list');
-		$users = $this->Classroom->User->find('list');
-		$this->set(compact('users', 'years', 'establishments', 'pupils', 'users'));
+
+		$users = $this->Classrooms->Users->find('list');
+		$this->set(compact('classroom', 'users'));
 	}
 
 /**

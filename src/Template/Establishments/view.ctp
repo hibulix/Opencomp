@@ -74,7 +74,13 @@
 
 <div class="page-title">
     <h3><?php echo __('Classes de cet établissement'); ?></h3>
-    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter une classe'), '/classrooms/add/establishment_id:'.$establishment->id, array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+    <?php   echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter une classe'),
+            [
+                'controller' => 'Classrooms',
+                'action' => 'add',
+                'establishment_id' => $establishment->id
+            ],
+            array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
 </div>
 
 <?php if (!empty($establishment->classrooms)): ?>

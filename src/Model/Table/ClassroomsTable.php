@@ -25,7 +25,8 @@ class ClassroomsTable extends Table
         $this->displayField('title');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
-        $this->belongsTo('Users', [
+        $this->belongsTo('User', [
+            'className' => 'Users',
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
         ]);
@@ -50,6 +51,7 @@ class ClassroomsTable extends Table
             'foreignKey' => 'classroom_id'
         ]);
         $this->belongsToMany('Pupils', [
+            'through' => 'ClassroomsPupils',
             'foreignKey' => 'classroom_id',
             'targetForeignKey' => 'pupil_id',
             'joinTable' => 'classrooms_pupils'

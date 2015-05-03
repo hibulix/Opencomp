@@ -53,7 +53,7 @@
     <div class="col-md-6">
         <div class="page-title">
             <h3><?php echo __('Établissement(s) de cette académie'); ?></h3>
-            <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un établissement'), '/establishments/add/academy_id:'.$academy['Academy']['id'], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+            <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un établissement'), ['controller' => 'establishments', 'action' => 'add', 'academy_id' => $academy->id], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
         </div>
 
         <?php if (!empty($academy->establishments)): ?>

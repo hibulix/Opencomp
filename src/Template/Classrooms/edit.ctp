@@ -1,21 +1,18 @@
 <div class="page-title">
     <h2><?php echo __('Modifier une classe'); ?></h2>
-    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à la classe'), '/classrooms/view/'.$this->data['Classroom']['id'], array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à la classe'), '/classrooms/view/'.$classroom->id, array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
 <?php 
 
-echo $this->Form->create('Classroom', array(
-    'inputDefaults' => array(
-        'div' => 'form-group',
-        'label' => array(
-            'class' => 'col col-md-2 control-label'
-        ),
-        'wrapInput' => 'col col-md-3',
-        'class' => 'form-control'
-    ),
-    'class' => 'form-horizontal'
-));
+echo $this->Form->create($classroom, [
+    'align' => [
+        'md' => [
+            'left' => 2,
+            'middle' => 3,
+            'right' => 7,
+        ]]
+]);
 
 echo $this->Form->input('id');
 
@@ -30,13 +27,9 @@ echo $this->Form->input('user_id', array(
     'label' => array(
         'text' => 'Enseignant titulaire'
     )
-)); 
+));
 
-echo $this->Form->hidden('year_id');
-
-echo $this->Form->hidden('establishment_id');
-
-echo $this->Form->input('User', array(
+echo $this->Form->input('users._ids', array(
 	'class'=>'chzn-select form-control',
 	'data-placeholder'=>'Int extérieurs, mis-tps, décharge ...',
     'label' => array(

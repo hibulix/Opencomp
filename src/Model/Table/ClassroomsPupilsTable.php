@@ -67,4 +67,28 @@ class ClassroomsPupilsTable extends Table
         $rules->add($rules->existsIn(['level_id'], 'Levels'));
         return $rules;
     }
+
+    public function returnPupilsWithLevelsForClassroom($id){
+        return $this->find('all', array(
+            'conditions' => array('ClassroomsPupils.classroom_id' => $id),
+            'fields' => array('Pupils.id','Pupils.first_name','Pupils.name','Pupils.sex','Pupils.birthday','Levels.title'),
+            'order' => array('Pupils.name','Pupils.first_name'),
+            'join' => array(
+                array('table' => 'levels',
+                    'alias' => 'Levels',
+                    'type' => 'LEFT',
+                    'conditions' => array(
+                        'Levels.id = ClassroomsPupils.level_id',
+                    ),
+                ),
+                array('table' => 'pupils',
+                    'alias' => 'Pupils',
+                    'type' => 'LEFT',
+                    'conditions' => array(
+                        'Pupils.id = ClassroomsPupils.pupil_id',
+                    ),
+                )
+            )
+        ));
+    }
 }

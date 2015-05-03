@@ -2,16 +2,16 @@
 
 <ul class="nav nav-pills">
   <li class="active">
-    <?php echo $this->Html->link(__('Élèves'), array('controller' => 'classrooms', 'action' => 'view', $classroom['Classroom']['id'])); ?>
+    <?php echo $this->Html->link(__('Élèves'), array('controller' => 'classrooms', 'action' => 'view', $classroom->id)); ?>
   </li>
-  <li><?php echo $this->Html->link(__('Évaluations'), array('controller' => 'classrooms', 'action' => 'viewtests', $classroom['Classroom']['id'])); ?></li>
-  <li><?php echo $this->Html->link(__('Items non évalués'), array('controller' => 'classrooms', 'action' => 'viewunrateditems', $classroom['Classroom']['id'])); ?></li>
-  <li><?php echo $this->Html->link(__('Bulletins'), array('controller' => 'classrooms', 'action' => 'viewreports', $classroom['Classroom']['id'])); ?></li>
+  <li><?php echo $this->Html->link(__('Évaluations'), array('controller' => 'classrooms', 'action' => 'viewtests', $classroom->id)); ?></li>
+  <li><?php echo $this->Html->link(__('Items non évalués'), array('controller' => 'classrooms', 'action' => 'viewunrateditems', $classroom->id)); ?></li>
+  <li><?php echo $this->Html->link(__('Bulletins'), array('controller' => 'classrooms', 'action' => 'viewreports', $classroom->id)); ?></li>
 </ul>
 
 <div class="page-title">
-    <h3><?php echo count($ClassroomsPupil).' '.__('élève(s) associé(s) à cette classe'); ?></h3>
-    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un élève'), '/classroomspupils/addnew/classroom_id:'.$classroom['Classroom']['id'], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+    <h3><?php echo count($classroomsPupils->toArray()).' '.__('élève(s) associé(s) à cette classe'); ?></h3>
+    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un élève'), '/classroomspupils/addnew/classroom_id:'.$classroom->id, array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
     <div class="btn-group ontitle">
         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
             <i class="fa fa-arrow-up"></i> Exporter
@@ -35,7 +35,7 @@
         </ul>
     </div>
 </div>
-<?php if (!empty($ClassroomsPupil)): ?>
+<?php if (count($classroomsPupils->toArray())): ?>
 <table class="table table-striped table-condensed">
 <tr>
 	<th><?php echo __('Prénom'); ?></th>
@@ -47,13 +47,13 @@
 </tr>
 <?php
 	$i = 0;
-	foreach ($ClassroomsPupil as $pupil): ?>
+	foreach ($classroomsPupils as $pupil): ?>
 	<tr>
-		<td><?php echo $pupil['Pupil']['first_name']; ?></td>
-		<td><?php echo $pupil['Pupil']['name']; ?></td>
-		<td><?php if($pupil['Pupil']['sex'] == 'M') echo 'Masculin'; else echo 'Féminin'; ?></td>
-		<td><?php echo $this->Time->format("d/m/Y",$pupil['Pupil']['birthday']); ?></td>
-		<td><?php echo $pupil['Level']['title']; ?></td>
+		<td><?php echo $pupil['Pupils']['first_name']; ?></td>
+		<td><?php echo $pupil['Pupils']['name']; ?></td>
+		<td><?php if($pupil['Pupils']['sex'] == 'M') echo '<i class="text-info fa fa-mars fa-fw"></i> Masculin'; else echo '<i class="text-danger fa fa-venus fa-fw"></i> Féminin'; ?></td>
+		<td><?php echo $this->Time->format($pupil['Pupils']['birthday'],"dd/MM/YYYY"); ?></td>
+		<td><?php echo $pupil['Levels']['title']; ?></td>
 		<td class="actions">
 		<?php 
 			echo $this->Html->link(
@@ -61,8 +61,8 @@
 				array(
 					'controller' => 'classroomsPupils', 
 					'action' => 'edit', 
-					'classroom_id' => $classroom['Classroom']['id'], 
-					$pupil['Pupil']['id']
+					'classroom_id' => $classroom->id,
+					$pupil['Pupils']['id']
 				), 
 				array('escape' => false)
 			); 
@@ -73,11 +73,13 @@
 				array(
 					'controller' => 'classroomsPupils', 
 					'action' => 'unlink', 
-					'classroom_id' => $classroom['Classroom']['id'], 
-					$pupil['Pupil']['id']
-				), 
-				array('escape' => false),
-				__('Êtes vous réellement sûr(e) de vouloir supprimer {0} de cette classe ?', $pupil['Pupil']['first_name'].' '.$pupil['Pupil']['name'])
+					'classroom_id' => $classroom->id,
+					$pupil['Pupils']['id']
+				),
+				array(
+                    'escape' => false,
+                    'confirm' => __('Êtes vous réellement sûr(e) de vouloir supprimer {0} de cette classe ?', $pupil['Pupils']['first_name'].' '.$pupil['Pupils']['name'])
+                )
 			); 
 		 ?>
 		</td>
