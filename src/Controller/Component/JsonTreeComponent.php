@@ -30,11 +30,11 @@ class JsonTreeComponent extends Component {
         $this->Competences = TableRegistry::get('Competences');
         $this->Items = TableRegistry::get('Items');
         $competences = $this->Competences->findAllCompetencesFromCompetenceId(array_unique($competence_ids));
-        $items = $this->Items->findAllItems($items_id);
+        $items = $this->Items->findAllItems($items_id, $this->request->session()->read('Auth.User.id'));
 
         $competences_items = array_merge($competences, $items);
 
-        $this->controller->set('json', json_encode($competences_items));
+        return json_encode($competences_items);
     }
 
     public function allLpcnodesToJson(){

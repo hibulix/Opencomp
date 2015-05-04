@@ -4,6 +4,7 @@ namespace app\Controller;
 use App\Controller\AppController;
 use Cake\Network\Exception\BadRequestException;
 use Cake\ORM\TableRegistry;
+use Cake\I18n\Time;
 /**
  * Classrooms Controller
  *
@@ -63,46 +64,37 @@ class ClassroomsController extends AppController {
 	
 	public function viewtests($id = null){
 		$this->set('title_for_layout', __('Visualiser une classe'));
-		$this->Classroom->id = $id;
 
-        if(isset($this->request->query['periods']) && $this->request->params['named']['periods'] == 'all')
-            $this->set('all', 'all');
+        $classroom = $this->Classrooms->get($id, ['contain' => 'Establishments']);
+        $current_period = $classroom->establishment->period_id;
+        $period = $this->Classrooms->Establishments->Periods->get($current_period);
 
-		$this->Classroom->contain(array('Establishment.current_period_id'));
-		$current_period = $this->Classroom->findById($id, 'Establishment.current_period_id');
-		$current_period = $current_period['Establishment']['current_period_id'];
-		
-		$period = $this->Classroom->Establishment->Period->find('first', array(
-			'conditions' => array('Period.id' => $current_period),
-			'recursive' => 0
-		));
-		
-		$datefinperiode = new DateTime($period['Period']['end']);
-		$datecourante = new DateTime('now');
+        if(Time::now() > $period->end)
+            $this->Flash->error('Il semblerait que la période sélectionnée soit inférieure à la date courante. Vous pouvez modifier cela en cliquant sur "établissement de la classe"');
 
-		if($datecourante > $datefinperiode)
-			$this->Flash->error('Il semblerait que la période sélectionnée soit inférieure à la date courante. Vous pouvez modifier cela en cliquant sur "établissement de la classe"');
-			
-		
-		if(isset($this->request->query['periods']) && $this->request->params['named']['periods'] == 'all') {
-			$this->Classroom->contain(array(
-				'Evaluation.created DESC', 'Evaluation.unrated=0', 'Evaluation.User', 'Evaluation.Result', 
-				'Evaluation.Pupil', 'Evaluation.Item', 'User', 'Establishment', 'Year'
-			));
-		}else{
-			$this->Classroom->contain(array(
-				'Evaluation.created DESC', 'Evaluation.period_id='.$current_period, 'Evaluation.unrated=0', 
-				'Evaluation.User', 'Evaluation.Result', 'Evaluation.Pupil', 'Evaluation.Item', 'User', 
-				'Establishment', 'Year'
-			));
-		}
-		
-		
-		$classroom = $this->Classroom->find('first', array(
-			'conditions' => array('Classroom.id' => $id)
-		));
-		$this->set('classroom', $classroom);
-			
+        $contain = [
+            'User', 'Establishments', 'Years',
+            'Evaluations' => function ($q) use ($current_period) {
+                return $q
+                    ->where(['Evaluations.unrated' => '0'])
+                    ->where(['Evaluations.period_id' => $current_period])
+                    ->order(['Evaluations.created' => 'DESC']);
+            },
+            'Evaluations.Users', 'Evaluations.Items', 'Evaluations.Results', 'Evaluations.Pupils'
+        ];
+
+        if(isset($this->request->query['periods']) && $this->request->query['periods'] == 'all')
+            $contain['Evaluations'] = function ($q) {
+                return $q
+                    ->where(['Evaluations.unrated' => '0'])
+                    ->order(['Evaluations.created' => 'DESC']);
+            };
+
+        $classroom = $this->Classrooms->get($id, array(
+            'contain' => $contain
+        ));
+
+        $this->set('classroom', $classroom);
 	}
 	
 	public function viewunrateditems($id = null){
@@ -203,7 +195,7 @@ class ClassroomsController extends AppController {
                 $this->Flash->success('La classe a été correctement modifiée.');
                 $this->redirect(array(
                     'controller'    => 'classrooms',
-                    'action'        => 'view', $classroom->id));
+                    'action'        => 'view', $classroom->establishment_id));
             } else {
                 $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
             }

@@ -56,7 +56,7 @@
 		</table>
 		<?php else: ?>
 		<div class="alert alert-info">
-	    	<i class="fa fa-info-circle"></i> Vous pouvez associer un utilisateur existant à cette classe en la <a href="/Opencomp/classrooms/edit/<?php echo $classroom['Classroom']['id']; ?>">modifiant</a>.
+	    	<i class="fa fa-info-circle"></i> Vous pouvez associer un utilisateur existant à cette classe en la <a href="/Opencomp/classrooms/edit/<?php echo $classroom->id; ?>">modifiant</a>.
 	    </div>
 		<?php endif; ?>
 

@@ -12,31 +12,28 @@ class EvaluationsItemsController extends AppController {
 	public $components = array('JsonTree');
 
 	public function usedItems($id = null){
-		$this->EvaluationsItem->Evaluation->Classroom->id = $id;
-		if (!$this->EvaluationsItem->Evaluation->Classroom->exists())
-			$this->redirect('/');
 
-		$classroom = $this->EvaluationsItem->Evaluation->Classroom->find('first', array(
-			'conditions' => array('Classroom.id' => $id)
-		));
-
+		$classroom = $this->EvaluationsItems->Evaluations->Classrooms->get($id, [
+            'contain' => ['User', 'Users', 'Establishments', 'Years']
+        ]);
 		$this->set('classroom', $classroom);
 
-		$this->EvaluationsItem->contain('Evaluation','Item');
-		$items_competences = $this->EvaluationsItem->find('list',[
-			'recursive' => -1,
+		$items_competences = $this->EvaluationsItems->find('list',[
+            'contain' => ['Evaluations','Items'],
+            'valueField' => 'Items.competence_id',
+            'keyField' => 'Items.id',
 			'fields' => [
-				'Item.id',
-				'Item.competence_id'
+				'Items.id',
+                'Items.title',
+                'Items.competence_id',
 			],
 			'conditions'=>[
-				'Evaluation.classroom_id' => $id,
-				'Evaluation.unrated' => 0
+				'Evaluations.classroom_id' => $id,
+				'Evaluations.unrated' => 0
 			]
-		]);
-
-		$this->JsonTree->passAllUsedItemsJsonTreeToView($items_competences, array_keys($items_competences));
-
+		])->hydrate(false)->toArray();
+		$json = $this->JsonTree->allUsedItemsToJson($items_competences, array_keys($items_competences));
+        $this->set(compact('json'));
 	}
 
 	public function attachitem(){
