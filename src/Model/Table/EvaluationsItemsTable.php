@@ -65,4 +65,13 @@ class EvaluationsItemsTable extends Table
         $rules->add($rules->existsIn(['item_id'], 'Items'));
         return $rules;
     }
+
+    public function isItemAlreadyAttachedToEvaluation($evaluation_id, $item_id){
+        return $this->find('all', array(
+            'conditions' => array(
+                'EvaluationsItems.evaluation_id' => $evaluation_id,
+                'EvaluationsItems.item_id' => $item_id
+            )
+        ))->first();
+    }
 }

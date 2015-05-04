@@ -66,9 +66,7 @@ class EvaluationsTable extends Table
             ->allowEmpty('id', 'create')
             ->requirePresence('title', 'create')
             ->notEmpty('title')
-            ->add('unrated', 'valid', ['rule' => 'boolean'])
-            ->requirePresence('unrated', 'create')
-            ->notEmpty('unrated');
+            ->add('unrated', 'valid', ['rule' => 'boolean']);
 
         return $validator;
     }

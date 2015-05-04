@@ -1,7 +1,7 @@
 <div class="page-title">
     <h2><?php echo __('Détails d\'une évaluation'); ?></h2>
-    <?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('modifier'), 'edit/'.$evaluation['Evaluation']['id'], array('class' => 'ontitle btn btn-primary', 'escape' => false)); ?>
-    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à la classe'), '/classrooms/viewtests/'.$evaluation['Classroom']['id'], array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('modifier'), '/evaluations/edit/'.$evaluation->id, array('class' => 'ontitle btn btn-primary', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à la classe'), '/classrooms/viewtests/'.$evaluation->classroom->id, array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
 <div class="row">
@@ -10,26 +10,26 @@
             <dl class="dl-horizontal">
                 <dt><?php echo __('Identifiant'); ?></dt>
                 <dd>
-                    <?php echo h('#'.$evaluation['Evaluation']['id']); ?>
+                    <?php echo h('#'.$evaluation->id); ?>
                     &nbsp;
                 </dd>
                 <dt><?php echo __('Titre'); ?></dt>
                 <dd>
-                    <?php echo h($evaluation['Evaluation']['title']); ?>
+                    <?php echo h($evaluation->title); ?>
                     &nbsp;
                 </dd>
                 <dt><?php echo __('Classe'); ?></dt>
                 <dd>
-                    <?php echo $this->Html->link($evaluation['Classroom']['title'], array('controller' => 'classrooms', 'action' => 'view', $evaluation['Classroom']['id'])); ?>
+                    <?php echo $this->Html->link($evaluation->classroom->title, array('controller' => 'classrooms', 'action' => 'view', $evaluation->classroom->id)); ?>
                     &nbsp;
                 </dd>
                 <dt><?php echo __('Évalué par'); ?></dt>
                 <dd>
-                    <i class="fa fa-user"></i> <?php echo $evaluation['User']['first_name'].'&nbsp;'.$evaluation['User']['name']; ?>
+                    <i class="fa fa-user"></i> <?php echo $evaluation->user->full_name; ?>
                 </dd>
                 <dt><?php echo __('Période'); ?></dt>
                 <dd>
-                    <?php echo $evaluation['Period']['wellnamed']; ?>
+                    <?php echo $evaluation->period->well_named ?>
                     &nbsp;
                 </dd>
                 <?php if(isset($resultats)): ?>
@@ -53,8 +53,8 @@
 
         <?php
         $pupils = '';
-        foreach($evaluation['Pupil'] as $pupil){
-            $pupils .= $pupil['first_name'].'&nbsp;'.$pupil['name'].', ';
+        foreach($evaluation->pupils as $pupil){
+            $pupils .= $pupil->full_name.', ';
         }
         $pupils = substr($pupils, 0, -2);
         $pupils .= '.';

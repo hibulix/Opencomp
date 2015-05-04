@@ -1,11 +1,11 @@
 <div class="page-title">
     <h2><?php echo __('Ajouter une évaluation'); ?></h2>
-    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à la classe'), '/classrooms/viewtests/'.$classroom_id, array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à la classe'), '/classrooms/viewtests/'.$classroom->id, array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
 <?php
 
-echo $this->Form->create('Evaluation', ['align' => [
+echo $this->Form->create($evaluation, ['align' => [
     'md' => [
         'left' => 2,
         'middle' => 5,
@@ -18,8 +18,6 @@ echo $this->Form->input('title', array(
         'text' => 'Titre de l\'évaluation'
     )
 ));
-
-echo $this->Form->hidden('classroom_id', array('value' => $classroom_id));
 
 echo $this->Form->input('user_id', array(
     'class'=>'chzn-select form-control',

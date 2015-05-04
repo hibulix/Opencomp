@@ -37,35 +37,33 @@ class EvaluationsItemsController extends AppController {
 	}
 
 	public function attachitem(){
-		//On vérifie que les paramètres nommés evaluation_id et item_id ont été fournis et qu'ils existent.
-        $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->query['evaluation_id']);
-        $item_id = $this->CheckParams->checkForNamedParam('Item','item_id', $this->request->query['item_id']);
 
-	    if($this->EvaluationsItem->isItemAlreadyAttachedToEvaluation($evaluation_id,$this->request->query['item_id'])){
+        $evaluation = $this->EvaluationsItems->Evaluations->get($this->request->query['evaluation_id']);
+        $item = $this->EvaluationsItems->Items->get($this->request->query['item_id']);
+
+	    if($this->EvaluationsItems->isItemAlreadyAttachedToEvaluation($evaluation->id,$item->id)){
 		    $this->Flash->error('Impossible d\'ajouter cet item à cette évaluation, il y est déjà associé.');
 			$this->redirect(array(
 			    'controller'    => 'competences',
 			    'action'        => 'attachitem', 
-			    'evaluation_id' => $evaluation_id));
+			    'evaluation_id' => $evaluation->id));
 	    }else{
-	    	$lastItemPosition = $this->EvaluationsItem->find('count', array(
-		        'conditions' => array('EvaluationsItem.evaluation_id' => $evaluation_id)
-		    ));
+	    	$lastItemPosition = $this->EvaluationsItems->find('all', array(
+		        'conditions' => array('EvaluationsItems.evaluation_id' => $evaluation->id)
+		    ))->count();
 			$nextItemPosition = $lastItemPosition+1;
 			
 		    $data = array(
-				'EvaluationsItem' => array(
-					'evaluation_id' => $evaluation_id,
-					'item_id' => $item_id,
-					'position' => $nextItemPosition
-				)
+				'evaluation_id' => $evaluation->id,
+				'item_id' => $item->id,
+				'position' => $nextItemPosition
 			);
 			
-			$this->EvaluationsItem->create();
-			$this->EvaluationsItem->save($data);
+			$evaluationItems = $this->EvaluationsItems->newEntity($data);
+			$this->EvaluationsItems->save($evaluationItems);
 			
 			$this->Flash->success('L\'item sélectionné a été correctement associé à l\'évaluation.');
-			$this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $this->request->query['evaluation_id']));
+			$this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation->id));
 	    }			
 	}
 
@@ -113,10 +111,9 @@ class EvaluationsItemsController extends AppController {
 	
 	public function additem(){	
 		$this->set('title_for_layout', __('Ajouter un item'));
-		
-		//On vérifie que les paramètres nommés evaluation_id et competence_id ont été fournis et qu'ils existent.
-        $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->query['evaluation_id']);
-        $competence_id = $this->CheckParams->checkForNamedParam('Competence','competence_id', $this->request->query['competence_id']);
+
+        $evaluation = $this->EvaluationsItems->Evaluations->get($this->request->query['evaluation_id']);
+        $item = $this->EvaluationsItems->Items->get($this->request->query['item_id']);
 
 		$levels = $this->EvaluationsItem->Item->Level->find('list', array('recursive' => 0));
 		$this->set('levels', $levels);
@@ -238,61 +235,47 @@ class EvaluationsItemsController extends AppController {
 		
 	}
 	
-	public function moveup(){
-		//On vérifie que les paramètres nommés evaluation_id et item_id ont été fournis et qu'ils existent.
-        $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->query['evaluation_id']);
-        $item_id = $this->CheckParams->checkForNamedParam('Item','item_id', $this->request->query['item_id']);
+	public function moveup($id = null){
+        $itemToEdit = $this->EvaluationsItems->get($id);
 
-		$itemToEdit = $this->EvaluationsItem->findByEvaluationIdAndItemId($evaluation_id, $item_id);
-		
-		if(empty($itemToEdit)){
-			throw new NotFoundException(__('The item_id and evaluation_id provided does not exist !'));
-		}else{
-			if($itemToEdit['EvaluationsItem']['position'] == 1){
-				$this->Flash->error('Impossible de déplacer cet item vers le haut, il est déjà à la première position !');
-				$this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation_id));
-			}else{
-				$secondItemToEdit = $this->EvaluationsItem->findByEvaluationIdAndPosition($evaluation_id, $itemToEdit['EvaluationsItem']['position']-1);
-				
-				$this->updatePositionItem($itemToEdit['EvaluationsItem']['id'], $itemToEdit['EvaluationsItem']['position']-1);
-				$this->updatePositionItem($secondItemToEdit['EvaluationsItem']['id'], $secondItemToEdit['EvaluationsItem']['position']+1);
-				
-				$this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation_id));
-			}
-		}				
+        if($itemToEdit->position == 1){
+            $this->Flash->error('Impossible de déplacer cet item vers le haut, il est déjà à la première position !');
+            $this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $itemToEdit->evaluation_id));
+        }else{
+            $secondItemToEdit = $this->EvaluationsItems->findByEvaluationIdAndPosition($itemToEdit->evaluation_id, $itemToEdit->position-1)->first();
+
+            $this->updatePositionItem($itemToEdit->id, $itemToEdit->position-1);
+            $this->updatePositionItem($secondItemToEdit->id, $secondItemToEdit->position+1);
+
+            $this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $itemToEdit->evaluation_id));
+        }
+
 	}
 	
-	public function movedown(){
-        //On vérifie que les paramètres nommés evaluation_id et item_id ont été fournis et qu'ils existent.
-        $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->query['evaluation_id']);
-        $item_id = $this->CheckParams->checkForNamedParam('Item','item_id', $this->request->query['item_id']);
+	public function movedown($id = null){
+        $itemToEdit = $this->EvaluationsItems->get($id);
 
-		$itemToEdit = $this->EvaluationsItem->findByEvaluationIdAndItemId($evaluation_id, $item_id);
-		
-		if(empty($itemToEdit)){
-			throw new NotFoundException(__('The item_id and evaluation_id provided does not exist !'));
-		}else{
-			$lastItemPosition = $this->EvaluationsItem->find('count', array(
-		        'conditions' => array('EvaluationsItem.evaluation_id' => $evaluation_id)
-		    ));
-			if($itemToEdit['EvaluationsItem']['position'] == $lastItemPosition){
-				$this->Flash->error('Impossible de déplacer cet item vers le bas, il est déjà à la dernière position !');
-				$this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation_id));
-			}else{
-				$secondItemToEdit = $this->EvaluationsItem->findByEvaluationIdAndPosition($evaluation_id, $itemToEdit['EvaluationsItem']['position']+1);
-				
-				$this->updatePositionItem($itemToEdit['EvaluationsItem']['id'], $itemToEdit['EvaluationsItem']['position']+1);
-				$this->updatePositionItem($secondItemToEdit['EvaluationsItem']['id'], $secondItemToEdit['EvaluationsItem']['position']-1);
-				
-				$this->redirect(array('controller'  => 'evaluations', 'action' => 'attacheditems', $evaluation_id));
-			}
-		}
+        $lastItemPosition = $this->EvaluationsItems->find('all', array(
+            'conditions' => array('EvaluationsItems.evaluation_id' => $itemToEdit->evaluation_id)
+        ))->count();
+
+        if($itemToEdit->position == $lastItemPosition){
+            $this->Flash->error('Impossible de déplacer cet item vers le bas, il est déjà à la dernière position !');
+            $this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $itemToEdit->evaluation_id));
+        }else{
+            $secondItemToEdit = $this->EvaluationsItems->findByEvaluationIdAndPosition($itemToEdit->evaluation_id, $itemToEdit->position+1)->first();
+
+            $this->updatePositionItem($itemToEdit->id, $itemToEdit->position+1);
+            $this->updatePositionItem($secondItemToEdit->id, $secondItemToEdit->position-1);
+
+            $this->redirect(array('controller'  => 'evaluations', 'action' => 'attacheditems', $itemToEdit->evaluation_id));
+        }
 	}
 	
 	private function updatePositionItem($itemId, $newPosition){
-    	$this->EvaluationsItem->read(null, $itemId);
-    	$this->EvaluationsItem->set('position', $newPosition);
-    	$this->EvaluationsItem->save();
+        $itemToEdit = $this->EvaluationsItems->get($itemId);
+        $itemToEdit->position = $newPosition;
+    	$this->EvaluationsItems->save($itemToEdit);
 	}
 	
 	public function unlinkitem(){

@@ -1,17 +1,17 @@
 <?php echo $this->element('EvaluationBase'); ?>
 
 <ul class="nav nav-pills">
-  <li class="active"><?php echo $this->Html->link(__('1. Définir les items évalués'), array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation['Evaluation']['id'])); ?></li>
-  <li><?php echo $this->Html->link(__('2. Saisir les résultats'), array('controller' => 'evaluations', 'action' => 'manageresults', $evaluation['Evaluation']['id'])); ?></li>
-  <li class="info" rel="tooltip" data-placement="bottom" data-original-title="Bientôt ..."><?php echo $this->Html->link(__('3. Analyser les résultats'), array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation['Evaluation']['id'])); ?></li>
+  <li class="active"><?php echo $this->Html->link(__('1. Définir les items évalués'), array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation->id)); ?></li>
+  <li><?php echo $this->Html->link(__('2. Saisir les résultats'), array('controller' => 'evaluations', 'action' => 'manageresults', $evaluation->id)); ?></li>
+  <li class="info" rel="tooltip" data-placement="bottom" data-original-title="Bientôt ..."><?php echo $this->Html->link(__('3. Analyser les résultats'), array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation->id)); ?></li>
 </ul>
 
 <div class="page-title">
     <h3><?php echo __('Items associés à cette évaluation'); ?></h3>
-    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un item évalué'), '/competences/attachitem/evaluation_id:'.$evaluation['Evaluation']['id'], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un item évalué'), '/competences/attachitem?evaluation_id='.$evaluation->id, array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
 </div>
 
-<?php if (!empty($items)): ?>
+<?php if (!empty($evaluation->items)): ?>
 	<table class="table table-stripped table-condensed">
 	<tr>
 		<th><?php echo __('Libellé de l\'item évalué'); ?></th>
@@ -19,28 +19,32 @@
 		<th style="width:100px;" class="actions"><?php echo __('Action'); ?></th>
 	</tr>
 	<?php
-		$nbitems = count($items);
-		foreach ($items as $item): ?>	
+		$nbitems = count($evaluation->items);
+		foreach ($evaluation->items as $item): ?>
 		<tr>
-			<td><?php echo $item['Item']['title']; 
-			if($item['Item']['type'] == 3)
+			<td><?php echo $item->title;
+			if($item->type == 3)
 				echo $this->Html->link(' <i class="fa fa-edit"></i>', '#editItem', 
 				array(
 				'onclick'=>"
-					$('#ItemTitle').val('".addslashes(html_entity_decode($item['Item']['title'], ENT_QUOTES))."'); 
+					$('#ItemTitle').val('".addslashes(html_entity_decode($item->title, ENT_QUOTES))."');
 					var attr = $('#ItemAttacheditemsForm').attr('action');
-					$('#ItemAttacheditemsForm').attr('action', attr + '/".$item['EvaluationsItem']['item_id']."');
-					$('#ItemEvaluationId').val('".$item['EvaluationsItem']['evaluation_id']."');", 
+					$('#ItemAttacheditemsForm').attr('action', attr + '/".$item->id."');
+					$('#ItemEvaluationId').val('".$evaluation->id."');",
 				'data-toggle' => 'modal', 
 				'escape' => false)); ?>
 			</td>
 			<td class="actions">
-				<?php if($item['EvaluationsItem']['position'] == 1) $style = 'padding-left: 54px;'; else $style = null; ?>
-				<?php if($item['EvaluationsItem']['position'] != 1) echo $this->Html->link('<i class="fa fa-arrow-up"></i> '.__('Monter'), '/evaluationsItems/moveup/evaluation_id:'.$item['EvaluationsItem']['evaluation_id'].'/item_id:'.$item['EvaluationsItem']['item_id'], array('escape' => false)); ?>&nbsp;&nbsp;
-				<?php if($item['EvaluationsItem']['position'] != $nbitems) echo $this->Html->link('<i class="fa fa-arrow-down"></i> '.__('Descendre'), '/evaluationsItems/movedown/evaluation_id:'.$item['EvaluationsItem']['evaluation_id'].'/item_id:'.$item['EvaluationsItem']['item_id'], array('style' => $style, 'escape' => false)); ?>
+				<?php if($item->_joinData->position == 1) $style = 'padding-left: 54px;'; else $style = null; ?>
+				<?php if($item->_joinData->position != 1) echo $this->Html->link('<i class="fa fa-arrow-up"></i> '.__('Monter'), '/evaluationsItems/moveup/'.$item->_joinData->id, array('escape' => false)); ?>&nbsp;&nbsp;
+				<?php if($item->_joinData->position != $nbitems) echo $this->Html->link('<i class="fa fa-arrow-down"></i> '.__('Descendre'), '/evaluationsItems/movedown/'.$item->_joinData->id, array('style' => $style, 'escape' => false)); ?>
 			</td>
 			<td class="actions">
-				<?php echo $this->Form->postLink('<i class="fa fa-trash-o"></i> '.__('Supprimer'), array('controller' => 'evaluationsItems', 'action' => 'unlinkitem', 'item_id' => $item['EvaluationsItem']['item_id'], 'evaluation_id' => $evaluation['Evaluation']['id']), array('escape' => false), __('Êtes vous sûr(e) de vouloir dissocier cet item de cette évaluation ?', $item['EvaluationsItem']['id'])); ?>
+				<?php echo $this->Form->postLink(
+                    '<i class="fa fa-trash-o"></i> '.__('Supprimer'),
+                    array('controller' => 'evaluationsItems', 'action' => 'unlinkitem', $item->_joinData->id),
+                    array('escape' => false, 'confirm' => __('Êtes vous sûr(e) de vouloir dissocier cet item de cette évaluation ? L\'ensemble des résultats qui auraient éventuellement été saisis pour cet item dans le cadre de cette évaluation seront perdus.'))
+                ); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>
@@ -48,7 +52,7 @@
 <?php else: ?>
 <div class="alert alert-info">
     <i class="fa fa-info-circle"></i> Pour le moment, vous n'avez associé aucun item à cette évaluation.<br />
-    Vous devriez commencer par <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un item'), '/competences/attachitem/evaluation_id:'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-xs btn-success', 'escape' => false)); ?> à cette évaluation.
+    Vous devriez commencer par <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un item'), '/competences/attachitem?evaluation_id='.$evaluation->id, array('class' => 'btn btn-xs btn-success', 'escape' => false)); ?> à cette évaluation.
 </div>
 <?php endif; ?>
 
@@ -74,7 +78,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
         	<?php
-            echo $this->Form->create('Item', array(
+            echo $this->Form->create(null, array(
                 'url' => array('controller' => 'items', 'action' => 'editTitle'),
                 'inputDefaults' => array(
                     'div' => 'form-group',

@@ -1,4 +1,4 @@
-<span id="id_evaluation" hidden><?php echo $evaluation_id; ?></span>
+<span id="id_evaluation" hidden><?php echo $eval->id; ?></span>
 
 <div class="page-title">
     <h2><?php echo __('Associer un item à une évaluation'); ?></h2>
@@ -6,11 +6,11 @@
 			<?php echo $this->Html->link('<i class="fa fa-expand"></i> '.__('Déplier l\'arbre'), '#', array('class' => 'btn btn-default', 'escape' => false, 'onclick' => "$('#tree_attach_item').jstree('open_all','',200);")); ?>
 			<?php echo $this->Html->link('<i class="fa fa-compress"></i> '.__('Replier l\'arbre'), '#', array('class' => 'btn btn-default', 'escape' => false, 'onclick' => "$('#tree_attach_item').jstree('close_all','',200);")); ?>
 		</div>
-		<?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à l\'évaluation'), '/evaluations/attacheditems/'.$eval['Evaluation']['id'], array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+		<?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à l\'évaluation'), '/evaluations/attacheditems/'.$eval->id, array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
 <div class="alert alert-info">
-  Vous êtes sur le point d'ajouter un item évalué à l'évaluation “<strong><?php echo h($eval['Evaluation']['title']) ?></strong>”.<br /><br />
+  Vous êtes sur le point d'ajouter un item évalué à l'évaluation “<strong><?php echo h($eval->title) ?></strong>”.<br /><br />
 
   Pour ajouter un item, dépliez les branches de l'arbre jusqu'à atteindre l'item souhaité, puis, double-cliquez dessus.<br />
   Si l'item évalué n'est pas encore présent dans l'arbre dépliez les branches jusqu'à atteindre la compétence souhaitée, puis, double-cliquez dessus pour créer un nouvel item.
@@ -53,7 +53,7 @@ $this->start('script');
 				"label" : "ajouter cet item à l'évaluation",
 				"icon" : "fa text-info fa-check",
 				"action" : function (obj){
-					window.location.href = $('#base_url').text()+'evaluationsItems/attachitem/evaluation_id:'+$('#id_evaluation').text()+'/item_id:'+idItem;
+					window.location.href = $('#base_url').text()+'evaluationsItems/attachitem?evaluation_id='+$('#id_evaluation').text()+'&item_id='+idItem;
 				},
 			},
 			"createNew" : {
@@ -61,7 +61,7 @@ $this->start('script');
 				"separator_before" : true,
 				"icon" : "fa text-success fa-plus",
 				"action" : function (obj){
-					window.location.href = $('#base_url').text()+'evaluationsItems/additem/evaluation_id:'+$('#id_evaluation').text()+'/competence_id:'+idCompetence;
+					window.location.href = $('#base_url').text()+'evaluationsItems/additem?evaluation_id='+$('#id_evaluation').text()+'&competence_id='+idCompetence;
 				}
 			}
 		};

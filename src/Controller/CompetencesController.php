@@ -109,24 +109,10 @@ class CompetencesController extends AppController {
 	public function attachitem() {
         $this->set('title_for_layout', __('Associer un item à une évaluation'));
 
-		//On vérifie qu'un paramètre nommé classroom_id a été fourni et qu'il existe.
-		if(isset($this->request->query['evaluation_id'])) {
-       		$evaluation_id = intval($this->request->query['evaluation_id']);
-       		$this->set('evaluation_id', $evaluation_id);
-       		$this->Competence->Item->Evaluation->id = $evaluation_id;
-			if (!$this->Competence->Item->Evaluation->exists()) {
-				throw new NotFoundException(__('The evaluation_id provided does not exist !'));
-			}else{
-				$evaluation = $this->Competence->Item->Evaluation->find('first', array(
-					'conditions' => array('Evaluation.id' => $evaluation_id),
-					'recursive' => -1
-				));
-				$this->set('eval', $evaluation);
-                $this->set('json',$this->JsonTree->allItemsToJson());
-			}
-		} else {
-			throw new NotFoundException(__('You must provide a evaluation_id in order to attach an item to this test !'));
-		}
+        $evaluation = $this->Competences->Items->Evaluations->get($this->request->query['evaluation_id']);
+
+        $this->set('eval', $evaluation);
+        $this->set('json',$this->JsonTree->allItemsToJson());
     }
 
     public function attachunrateditem() {
