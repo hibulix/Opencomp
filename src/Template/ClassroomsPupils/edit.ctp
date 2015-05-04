@@ -1,59 +1,51 @@
 <div class="page-title">
-    <h2><?php echo __('Ajouter/Modifier un élève'); ?></h2>
-    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à la classe'), '/classrooms/view/'.$this->data['ClassroomsPupil'][0]['classroom_id'], array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+    <h2><?php echo __('Modifier un élève de la classe '.$classroomPupil->classroom->title); ?></h2>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à la classe'), '/classrooms/view/'.$classroomPupil->classroom->id, array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
-<?php 
+<?php
 
-echo $this->Form->create('Classroom', array(
-    'inputDefaults' => array(
-        'div' => 'form-group',
-        'label' => array(
-            'class' => 'col col-md-2 control-label'
-        ),
-        'wrapInput' => 'col col-md-3',
-        'class' => 'form-control'
-    ),
-    'class' => 'form-horizontal'
+echo $this->Form->create($classroomPupil, [
+    'align' => [
+        'md' => [
+            'left' => 2,
+            'middle' => 3,
+            'right' => 7,
+        ]]
+]);
+
+echo $this->Form->input('id');
+
+echo $this->Form->input('pupil.first_name', array(
+    'label' => array(
+        'text' => 'Prénom'
+    )
 ));
 
-echo $this->Form->input('Pupil.id');
-
-echo $this->Form->input('Pupil.first_name', array(
+echo $this->Form->input('pupil.name', array(
     'label' => array(
-        'text' => 'Prénom de l\'élève'
+        'text' => 'Nom'
     )
-)); 
+));
 
-echo $this->Form->input('Pupil.name', array(
-    'label' => array(
-        'text' => 'Nom de l\'élève'
-    )
-)); 
+?> <div class="form-group required"> <?php
 
-echo $this->Form->input('Pupil.sex', array(
-	'type' => 'select',
-    'options' => array('M'=>'Masculin','F'=>'Féminin'),
-    'label' => array(
-        'text' => 'Sexe de l\'élève'
-    )
-)); 
+    echo $this->Form->label('pupil.sex', 'Sexe');
+    ?> <div class="col-md-3"> <?php
+        echo $this->Form->radio('sex',
+            ['M' => 'Masculin', 'F' => 'Féminin'],
+            ['value' => $classroomPupil->pupil->sex]
+        );
+        ?> </div></div> <?php
 
-echo $this->Form->input('Pupil.birthday', array(
-    'beforeInput' => '<div class="input-group">',
-    'afterInput' => '<span class="input-group-addon"><i class="fa fa-calendar"></i></span></div>',
-    'class' => 'form-control startdate',
-    'type' => 'text',
-    'readonly' => 'readonly',
+echo $this->Form->input('pupil.birthday', array(
+    'minYear' => '1990',
     'label' => array(
         'text' => 'Date de naissance'
     )
-)); 
+));
 
-echo $this->Form->hidden('ClassroomsPupil.classroom_id', array('value' => $classroom_id));
-
-echo $this->Form->input('ClassroomsPupil.level_id', array(
-	'selected' => $this->data['ClassroomsPupil'][0]['level_id'],
+echo $this->Form->input('level_id', array(
     'label' => array(
         'text' => 'Niveau scolaire'
     )
@@ -62,7 +54,7 @@ echo $this->Form->input('ClassroomsPupil.level_id', array(
 ?>
 
 <div class="form-group">
-    <?php echo $this->Form->submit('Modifier l\'élève', array(
+    <?php echo $this->Form->submit('Modifier cet élève', array(
         'div' => 'col col-md-9 col-md-offset-2',
         'class' => 'btn btn-primary'
     )); ?>

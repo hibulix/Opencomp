@@ -71,7 +71,7 @@ class ClassroomsPupilsTable extends Table
     public function returnPupilsWithLevelsForClassroom($id){
         return $this->find('all', array(
             'conditions' => array('ClassroomsPupils.classroom_id' => $id),
-            'fields' => array('Pupils.id','Pupils.first_name','Pupils.name','Pupils.sex','Pupils.birthday','Levels.title'),
+            'fields' => array('ClassroomsPupils.id','Pupils.id','Pupils.first_name','Pupils.name','Pupils.sex','Pupils.birthday','Levels.title'),
             'order' => array('Pupils.name','Pupils.first_name'),
             'join' => array(
                 array('table' => 'levels',

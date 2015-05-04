@@ -11,7 +11,7 @@
 
 <div class="page-title">
     <h3><?php echo count($classroomsPupils->toArray()).' '.__('élève(s) associé(s) à cette classe'); ?></h3>
-    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un élève'), '/classroomspupils/addnew/classroom_id:'.$classroom->id, array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un élève'), ['controller' => 'pupils', 'action' => 'add', 'classroom_id' => $classroom->id], array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
     <div class="btn-group ontitle">
         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
             <i class="fa fa-arrow-up"></i> Exporter
@@ -19,7 +19,7 @@
         </a>
         <ul class="dropdown-menu">
             <li>
-                <?php echo $this->Html->link('<i class="fa fa-table"></i> '.__('au format OASIS OpenDocument Spreadsheet'), array('controller' => 'ClassroomsPupils', 'action' => 'excelExport', 'classroom_id' => $classroom['Classroom']['id']),array('escape' => false)); ?>
+                <?php echo $this->Html->link('<i class="fa fa-table"></i> '.__('au format OASIS OpenDocument Spreadsheet'), array('controller' => 'ClassroomsPupils', 'action' => 'opendocumentExport', 'classroom_id' => $classroom->id),array('escape' => false)); ?>
             </li>
         </ul>
     </div>
@@ -30,7 +30,7 @@
         </a>
         <ul class="dropdown-menu">
             <li>
-                <?php echo $this->Html->link('<i class="fa fa-file-text-o"></i> '.__('depuis un export .csv BE1D'), array('controller' => 'pupils', 'action' => 'import', 'classroom_id' => $classroom['Classroom']['id']),array('escape' => false)); ?>
+                <?php echo $this->Html->link('<i class="fa fa-file-text-o"></i> '.__('depuis un export .csv BE1D'), array('controller' => 'pupils', 'action' => 'import', 'classroom_id' => $classroom->id),array('escape' => false)); ?>
             </li>
         </ul>
     </div>
@@ -55,26 +55,24 @@
 		<td><?php echo $this->Time->format($pupil['Pupils']['birthday'],"dd/MM/YYYY"); ?></td>
 		<td><?php echo $pupil['Levels']['title']; ?></td>
 		<td class="actions">
-		<?php 
+		<?php
 			echo $this->Html->link(
 				'<i class="fa fa-pencil"></i> Modifier', 
 				array(
 					'controller' => 'classroomsPupils', 
-					'action' => 'edit', 
-					'classroom_id' => $classroom->id,
-					$pupil['Pupils']['id']
+					'action' => 'edit',
+					$pupil['id']
 				), 
 				array('escape' => false)
 			); 
 		?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<?php 
-			echo $this->Html->link(
+			echo $this->Form->postLink(
 				'<i class="fa fa-trash-o"></i> Supprimer', 
 				array(
 					'controller' => 'classroomsPupils', 
-					'action' => 'unlink', 
-					'classroom_id' => $classroom->id,
-					$pupil['Pupils']['id']
+					'action' => 'unlink',
+					$pupil['id']
 				),
 				array(
                     'escape' => false,

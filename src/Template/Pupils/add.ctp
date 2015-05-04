@@ -1,32 +1,62 @@
-<div class="pupils form">
-<?php echo $this->Form->create('Pupil'); ?>
-	<fieldset>
-		<legend><?php echo __('Add Pupil'); ?></legend>
-	<?php
-		echo $this->Form->input('name');
-		echo $this->Form->input('first_name');
-		echo $this->Form->input('sex');
-		echo $this->Form->input('birthday');
-		echo $this->Form->input('state');
-		echo $this->Form->input('tutor_id');
-		echo $this->Form->input('level_id');
-		echo $this->Form->input('ClassroomsPupil');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<div class="page-title">
+    <h2><?php echo __('Ajouter un élève à la classe '.$classroom->title); ?></h2>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à la classe'), '/classrooms/view/'.$classroom->id, array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
 
-		<li><?php echo $this->Html->link(__('List Pupils'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Tutors'), array('controller' => 'tutors', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Tutor'), array('controller' => 'tutors', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Levels'), array('controller' => 'levels', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Level'), array('controller' => 'levels', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Results'), array('controller' => 'results', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Result'), array('controller' => 'results', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Classrooms'), array('controller' => 'classrooms', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Classroom'), array('controller' => 'classrooms', 'action' => 'add')); ?> </li>
-	</ul>
+<?php
+
+echo $this->Form->create($pupil, [
+    'align' => [
+        'md' => [
+            'left' => 2,
+            'middle' => 3,
+            'right' => 7,
+        ]]
+]);
+
+echo $this->Form->input('id');
+
+echo $this->Form->input('first_name', array(
+    'label' => array(
+        'text' => 'Prénom'
+    )
+));
+
+echo $this->Form->input('name', array(
+    'label' => array(
+        'text' => 'Nom'
+    )
+));
+
+?> <div class="form-group required"> <?php
+
+echo $this->Form->label('sex', 'Sexe');
+?> <div class="col-md-3"> <?php
+echo $this->Form->radio('sex',
+    ['M'=>'Masculin', 'F'=>'Féminin']
+);
+?> </div></div> <?php
+
+echo $this->Form->input('birthday', array(
+    'minYear' => '1990',
+    'label' => array(
+        'text' => 'Date de naissance'
+    )
+));
+
+echo $this->Form->input('level_id', array(
+    'label' => array(
+        'text' => 'Niveau scolaire'
+    )
+));
+
+?>
+
+<div class="form-group">
+    <?php echo $this->Form->submit('Ajouter cet élève', array(
+        'div' => 'col col-md-9 col-md-offset-2',
+        'class' => 'btn btn-primary'
+    )); ?>
 </div>
+
+<?php echo $this->Form->end();
