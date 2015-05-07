@@ -1,8 +1,6 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\EvaluationsItem;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -81,7 +79,7 @@ class EvaluationsItemsTable extends Table
      * à une évaluation (par exemple après la dissociation d'un item).
      * @param int $evaluation_id L'id de l'évaluation concerné par l'opération
      * @param int $position À partir de quel position faut il renuméroter ?
-     * @return mixed
+     * @return integer
      */
     public function renumberItemsEvaluation($evaluation_id, $position){
         return $this->updateAll(

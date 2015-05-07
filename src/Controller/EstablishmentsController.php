@@ -68,7 +68,7 @@ class EstablishmentsController extends AppController {
     /**
      * add method
      *
-     * @return void
+     * @return \Cake\Network\Response|null
      */
 	public function add() {
 	    $this->set('title_for_layout', __('Ajouter un établissement scolaire'));
@@ -100,7 +100,7 @@ class EstablishmentsController extends AppController {
      *
      * @throws NotFoundException
      * @param string $id
-     * @return void
+     * @return \Cake\Network\Response|null
      */
 	public function edit($id = null) {
 	    $this->set('title_for_layout', __('Modifier un établissement scolaire'));
