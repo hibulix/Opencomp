@@ -5,16 +5,14 @@
 
 <?php
 
-echo $this->Form->create('Report', array(
-    'inputDefaults' => array(
-        'div' => 'form-group',
-        'label' => array(
-            'class' => 'col col-md-2 control-label'
-        ),
-        'wrapInput' => 'col col-md-7',
-        'class' => 'form-control'
-    ),
-    'class' => 'form-horizontal'
+echo $this->Form->create($report, array(
+    'align' => [
+        'md' => [
+            'left' => 2,
+            'middle' => 5,
+            'right' => 5,
+        ]
+    ]
 ));
 
 echo $this->Form->input('id');
@@ -23,11 +21,10 @@ echo $this->Form->input('title', array(
     'label' => array(
         'text' => 'Titre du bulletin'
     ),
-    'afterInput' => '<span style="font-style: italic; margin-top:10px;" class="help-block"><i class="fa fa-lightbulb-o"></i> '.__("Le titre vous permet d'identifier le bulletin mais n'est pas utilisé pour la génération du document").'</span>',
+    'help' => '<i class="fa fa-lightbulb-o"></i> '.__("Le titre vous permet d'identifier le bulletin mais n'est pas utilisé pour la génération du document"),
 ));
 
 echo $this->Form->input('period_id', array(
-    'error' => array('multiple' => __('Vous devez sélectionner au moins une période !')),
     'type' => 'select',
     'class' => false,
     'data-placeholder' => 'Cliquez pour choisir les périodes à générer',
@@ -43,14 +40,14 @@ echo $this->Form->input('header', array(
     'label' => array(
         'text' => 'En-tête de première page'
     ),
-    'afterInput' => '<span style="font-style: italic;" class="help-block"><i class="fa fa-lightbulb-o"></i> Vous pouvez utiliser les marqueurs #NOM# et #PRENOM# pour insérer le nom et le prénom de l\'élève</span>'
+    'help' => '<i class="fa fa-lightbulb-o"></i> Vous pouvez utiliser les marqueurs #NOM# et #PRENOM# pour insérer le nom et le prénom de l\'élève'
 ));
 
 echo $this->Form->input('footer', array(
     'label' => array(
         'text' => 'Pied de page'
     ),
-    'afterInput' => '<span style="font-style: italic;" class="help-block"><i class="fa fa-lightbulb-o"></i> Vous pouvez utiliser les marqueurs #NOM# et #PRENOM# pour insérer le nom et le prénom de l\'élève<br />&nbsp;&nbsp;&nbsp;Le numéro de la page est automatiquement inséré en fin de ligne</span>'
+    'help' => '<i class="fa fa-lightbulb-o"></i> Vous pouvez utiliser les marqueurs #NOM# et #PRENOM# pour insérer le nom et le prénom de l\'élève<br />&nbsp;&nbsp;&nbsp;Le numéro de la page est automatiquement inséré en fin de ligne'
 ));
 
 echo $this->Form->input('page_break', array(
@@ -61,15 +58,15 @@ echo $this->Form->input('page_break', array(
     'options' => $competences,
     'multiple' => "multiple",
     'class' => 'chzn-select form-control',
-    'afterInput' => '<span style="font-style: italic; margin-top:10px;" class="help-block"><i class="fa fa-lightbulb-o"></i> '.__("Dans certains cas, il peut être utile d'insérer des sauts de pages avants certaines catégories de compétences pour améliorer la mise en page.").'</span>',
+    'help' => '<i class="fa fa-lightbulb-o"></i> '.__("Dans certains cas, il peut être utile d'insérer des sauts de pages avants certaines catégories de compétences pour améliorer la mise en page."),
 ));
 
-echo $this->Form->input('duplex_printing', array(
-    'before' => '<label class="col col-md-2 control-label">Prêt pour le recto-verso</label>',
-    'label' => false,
-    'class' => false,
-    'after' => '<span style="font-style: italic; margin-top:30px; padding-left:15px;" class="help-block col-md-offset-2"><i class="fa fa-lightbulb-o"></i> '.__("Si vous cochez la case, des pages blanches seront insérées automatiquement au PDF pour permettre l'impression recto-vero.").'</span>'
-));
+?> <div class="form-group"> <?php
+
+    echo $this->Form->label('duplex_printing', 'Prêt pour le recto-verso');
+    ?> <div class="col-md-3"> <?php
+        echo $this->Form->checkbox('duplex_printing');
+        ?> </div></div> <?php
 
 echo $this->Form->hidden('classroom_id', array('value' => $classroom_id));
 

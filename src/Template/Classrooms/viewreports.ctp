@@ -1,15 +1,15 @@
 <?php echo $this->element('ClassroomBase'); ?>
 
 <ul class="nav nav-pills">
-  <li><?php echo $this->Html->link(__('Élèves'), array('controller' => 'classrooms', 'action' => 'view', $classroom['Classroom']['id'])); ?></li>
-  <li><?php echo $this->Html->link(__('Évaluations'), array('controller' => 'classrooms', 'action' => 'viewtests', $classroom['Classroom']['id'])); ?></li>
-  <li><?php echo $this->Html->link(__('Items non évalués'), array('controller' => 'classrooms', 'action' => 'viewunrateditems', $classroom['Classroom']['id'])); ?></li>
-  <li class="active"><?php echo $this->Html->link(__('Bulletins'), array('controller' => 'classrooms', 'action' => 'viewreports', $classroom['Classroom']['id'])); ?></li>
+  <li><?php echo $this->Html->link(__('Élèves'), array('controller' => 'classrooms', 'action' => 'view', $classroom->id)); ?></li>
+  <li><?php echo $this->Html->link(__('Évaluations'), array('controller' => 'classrooms', 'action' => 'viewtests', $classroom->id)); ?></li>
+  <li><?php echo $this->Html->link(__('Items non évalués'), array('controller' => 'classrooms', 'action' => 'viewunrateditems', $classroom->id)); ?></li>
+  <li class="active"><?php echo $this->Html->link(__('Bulletins'), array('controller' => 'classrooms', 'action' => 'viewreports', $classroom->id)); ?></li>
 </ul>
 
 <div class="page-title">
     <h3><?php echo __('Bulletins de la classe'); ?></h3>
-    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('créer un bulletin'), array('controller'=>'reports', 'action'=>'add','classroom_id'=>$classroom['Classroom']['id']), array(
+    <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('créer un bulletin'), array('controller'=>'reports', 'action'=>'add','classroom_id'=>$classroom->id), array(
     'class' => 'ontitle btn btn-success', 
     'data-toggle' => 'modal',
     'escape' => false
@@ -17,7 +17,7 @@
 </div>
 
 
-<?php if (!empty($classroom['Report'])): ?>
+<?php if (!empty($classroom->reports)): ?>
 <table class="table table-striped table-condensed">
 <tr>
 	<th><?php echo __('Titre'); ?></th>
@@ -26,22 +26,22 @@
 </tr>
 <?php
 	$i = 0;
-	foreach ($classroom['Report'] as $report):?>
+	foreach ($classroom->reports as $report):?>
 	
 	<tr>
-		<td><?php echo h($report['title']); ?></td>
+		<td><?php echo h($report->title); ?></td>
 		<td>
 		<?php 
-		foreach($report['period_id'] as $period)
-		echo h($periods[$period])."<br />"; 			
+		foreach(explode(',',$report->period_id) as $period)
+		echo $periods[$period]."<br />";
 		?>		
 		</td>		
 		<td class="actions">
-			<?php echo $this->Html->link('<i class="fa fa-magic"></i> '.__('Générer'), array('controller' => 'reports', 'action' => 'requestGeneration', $report['id']), array('escape' => false)); ?>
+			<?php echo $this->Html->link('<i class="fa fa-magic"></i> '.__('Générer'), array('controller' => 'reports', 'action' => 'requestGeneration', $report->id), array('escape' => false)); ?>
 			&nbsp;&nbsp;&nbsp;&nbsp;
-			<?php echo $this->Html->link('<i class="fa fa-bar-chart-o"></i> '.__('Analyser les résultats'), array('controller' => 'results', 'action' => 'analyseresults', $report['id']), array('escape' => false)); ?>
+			<?php echo $this->Html->link('<i class="fa fa-bar-chart-o"></i> '.__('Analyser les résultats'), array('controller' => 'results', 'action' => 'analyseresults', $report->id), array('escape' => false)); ?>
 			&nbsp;&nbsp;&nbsp;&nbsp;
-			<?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('Modifier'), array('controller' => 'reports', 'action' => 'edit', $report['id']), array('escape' => false)); ?>
+			<?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('Modifier'), array('controller' => 'reports', 'action' => 'edit', $report->id), array('escape' => false)); ?>
 			&nbsp;&nbsp;&nbsp;&nbsp;
             <?php
             echo $this->Form->postLink(
@@ -49,10 +49,12 @@
                 array(
                     'controller' => 'reports',
                     'action' => 'delete',
-                    $report['id']
+                    $report->id
                 ),
-                array('escape' => false),
-                __('Êtes vous réellement sûr(e) de vouloir supprimer {0} ?', $report['title'])
+                array(
+                    'escape' => false,
+                    'confirm' => __('Êtes vous réellement sûr(e) de vouloir supprimer le bulletin {0} ? La suppression d\'un bulletin ne supprime pas les résultats, évaluations, périodes et élèves associés.', $report->title)
+                )
             );
             ?>
 		</td>

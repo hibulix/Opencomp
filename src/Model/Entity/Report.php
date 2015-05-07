@@ -23,6 +23,6 @@ class Report extends Entity
         'period_id' => true,
         'duplex_printing' => true,
         'classroom' => true,
-        'period' => true,
     ];
+
 }

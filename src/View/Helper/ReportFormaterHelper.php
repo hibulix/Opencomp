@@ -53,25 +53,25 @@ class ReportFormaterHelper extends AppHelper
      * @return mixed array Identique à l'entrée mais avec une clé couleur en plus
      */
     public function itemWithResultColor($item){
-        $item['Result']['color'] = "#FFFFFF";
-        switch($item['Result']['result']){
+        $item['color'] = "#FFFFFF";
+        switch($item['result']){
             case 'A':
-                $item['Result']['color'] = '#eeffcc';
+                $item['color'] = '#eeffcc';
                 break;
             case 'B':
-                $item['Result']['color'] = '#ffffbb';
+                $item['color'] = '#ffffbb';
                 break;
             case 'C':
-                $item['Result']['color'] = '#ffddaa';
+                $item['color'] = '#ffddaa';
                 break;
             case 'D':
-                $item['Result']['color'] = '#ffbbaa';
+                $item['color'] = '#ffbbaa';
                 break;
             case 'ABS':
-                $item['Result']['color'] = '#eeeeee';
+                $item['color'] = '#eeeeee';
                 break;
             case 'X':
-                $item['Result']['result'] = '<img src="'.WWW_ROOT.'img/tick.png" alt="tick" />';
+                $item['result'] = '<img src="'.WWW_ROOT.'img/tick.png" alt="tick" />';
         }
         return $item;
     }
@@ -82,9 +82,9 @@ class ReportFormaterHelper extends AppHelper
      * @return string Titre du bulletin avec le nom et le prénom de l'élève remplacés.
      */
     public function formatHeader(){
-        $header = $this->report['Report']['header'];
-        $header = str_replace("#PRENOM#", $this->items[0]['Pupil']['first_name'], $header);
-        $header = str_replace("#NOM#", $this->items[0]['Pupil']['name'], $header);
+        $header = $this->report->header;
+        $header = str_replace("#PRENOM#", $this->items[0]['pupil']['first_name'], $header);
+        $header = str_replace("#NOM#", $this->items[0]['pupil']['name'], $header);
         return $header;
     }
 
@@ -94,9 +94,9 @@ class ReportFormaterHelper extends AppHelper
      * @return string Pied de page du bulletin avec le nom et le prénom de l'élève remplacés.
      */
     public function formatFooter(){
-        $footer = $this->report['Report']['footer'];
-        $footer = str_replace("#PRENOM#", $this->items[0]['Pupil']['first_name'], $footer);
-        $footer = str_replace("#NOM#", $this->items[0]['Pupil']['name'], $footer);
+        $footer = $this->report->footer;
+        $footer = str_replace("#PRENOM#", $this->items[0]['pupil']['first_name'], $footer);
+        $footer = str_replace("#NOM#", $this->items[0]['pupil']['name'], $footer);
         return $footer;
     }
 
@@ -108,7 +108,7 @@ class ReportFormaterHelper extends AppHelper
     public function getContent(){
         $html = "";
         foreach($this->competences as $competence){
-            if(in_array($competence['id'], $this->report['Report']['page_break']))
+            if(in_array($competence['id'], explode(',',$this->report->page_break)))
                 $html .= '<div style="page-break-after: always;"></div>';
             $html .= $this->returnHtmlFormattedCompetence($competence['id'], $competence['depth'], $competence['title'], $this->items);
         }
@@ -158,11 +158,11 @@ class ReportFormaterHelper extends AppHelper
     public function returnHtmlItemsTableRows($competence_id, $items){
         $itemlist = null;
         foreach($items as $item){
-            if($item['Item']['competence_id'] == $competence_id && $item['Result']['result'] != ""){
+            if($item['item']['competence_id'] == $competence_id && $item['result'] != ""){
                 $item = $this->itemWithResultColor($item);
                 $itemlist[] = '<tr>
-                                    <td>'.$item['Item']['title'].'</td>
-                                    <td style="text-align:center; background-color:'.$item['Result']['color'].';width:60px;">'.$item['Result']['result'].'</td>
+                                    <td>'.$item['item']['title'].'</td>
+                                    <td style="text-align:center; background-color:'.$item['color'].';width:60px;">'.$item['result'].'</td>
                                 </tr>';
             }
         }
@@ -183,9 +183,9 @@ class ReportFormaterHelper extends AppHelper
     public function renderPdf($html, $pupil_id){
         if(!defined('DOMPDF_ENABLE_AUTOLOAD'))
             define('DOMPDF_ENABLE_AUTOLOAD', false);
-        App::import('Vendor', 'Dompdf', array('file' => 'dompdf' . DS . 'dompdf' . DS . 'dompdf_config.inc.php'));
+        require_once ROOT . DS . 'vendor' . DS . 'dompdf' . DS . 'dompdf' . DS . 'dompdf_config.inc.php';
 
-        $dompdf = new DOMPDF();
+        $dompdf = new \ DOMPDF();
         $dompdf->set_paper("a4");
         $dompdf->load_html($html);
         $dompdf->render();
@@ -198,7 +198,7 @@ class ReportFormaterHelper extends AppHelper
                 $dompdf->get_canvas()->new_page();
 
         $pdfoutput = $dompdf->output();
-        $filename = APP . "files/reports/".$this->report['Report']['id']."_".$pupil_id.".pdf";
+        $filename = APP . "files/reports/".$this->report->id."_".$pupil_id.".pdf";
         $fp = fopen($filename, "a");
         fwrite($fp, $pdfoutput);
         fclose($fp);

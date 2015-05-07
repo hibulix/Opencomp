@@ -162,30 +162,28 @@ class ResultsController extends AppController {
 	}
 
 	public function analyseresults($id = null) {
-		//On charge le modèle report et on récupère les infos du bulletin à générer.
-		$this->loadModel('Report');
-		$this->Report->id = $id;
-		if (!$this->Report->exists()) {
-			throw new NotFoundException(__('The report_id provided does not exist !'));
-		}
-		$report = $this->Report->find('first', array(
-			'conditions' => array('Report.id' => $id)
-		));
+        $this->Reports = TableRegistry::get('Reports');
+		$report = $this->Reports->get($id);
 		$this->set('report', $report);
 
-		$results = $this->Result->find('all', array(
-			'fields' => array('sum_grade_a', 'sum_grade_b', 'sum_grade_c', 'sum_grade_d'),
-			'order' => array('Pupil.name', 'Pupil.first_name'),
-			'group' => array('Pupil.id'),
+        $results = $this->Results->find();
+		$results = $this->Results->find('all', array(
+			'fields' => array(
+                'Pupils.name', 'Pupils.first_name',
+                'sum_grade_a' => $results->func()->sum('grade_a'),
+                'sum_grade_b' => $results->func()->sum('grade_b'),
+                'sum_grade_c' => $results->func()->sum('grade_c'),
+                'sum_grade_d' => $results->func()->sum('grade_d')
+            ),
+			'order' => array('Pupils.name', 'Pupils.first_name'),
+			'group' => array('Pupils.id'),
 			'conditions' => array(
-				'Evaluation.period_id' => $report['Report']['period_id'],
-				'Evaluation.classroom_id' => $report['Classroom']['id']
+				'Evaluations.period_id IN' => $report->period_id,
+				'Evaluations.classroom_id' => $report->classroom_id
 			),
 			'contain' => array(
-				'Evaluation',
-				'Pupil.id',
-				'Pupil.first_name',
-				'Pupil.name'
+				'Evaluations',
+				'Pupils'
 			)
 		));
 

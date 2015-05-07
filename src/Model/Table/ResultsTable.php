@@ -78,4 +78,28 @@ class ResultsTable extends Table
         $rules->add($rules->existsIn(['item_id'], 'Items'));
         return $rules;
     }
+
+    public function findResultsForReport($pupil_id, $classroom_id, $period_id){
+        return $this->find('all', array(
+            'fields' => array(
+                'Items.title',
+                'Items.competence_id',
+                'Pupils.id',
+                'Pupils.name',
+                'Pupils.first_name',
+                'result'
+            ),
+            'conditions' => array(
+                'Pupils.id' => $pupil_id,
+                'Evaluations.period_id IN' => $period_id,
+                'Evaluations.classroom_id' => $classroom_id
+            ),
+            'contain' => array(
+                'Items',
+                'Pupils',
+                'Evaluations.Periods',
+                'Evaluations.Classrooms'
+            )
+        ));
+    }
 }

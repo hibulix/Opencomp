@@ -122,18 +122,12 @@ class ClassroomsController extends AppController {
 	
 	public function viewreports($id = null) {
 		$this->set('title_for_layout', __('Bulletins d\'une classe'));
-		$this->Classroom->id = $id;
 
-		$this->Classroom->contain(array('User', 'Establishment', 'Year', 'Report'));
-		$classroom = $this->Classroom->find('first', array(
-			'conditions' => array('Classroom.id' => $id)
-		));
-		
+		$classroom = $this->Classrooms->get($id, ['contain' => ['User', 'Establishments', 'Years', 'Reports']]);
 		$this->set('classroom', $classroom);
 		
-		$periods = $this->Classroom->Evaluation->Period->find('list', array(
-			'conditions' => array('establishment_id' => $classroom['Classroom']['establishment_id']),
-			'recursive' => 0));
+		$periods = $this->Classrooms->Evaluations->Periods->find('list', array(
+			'conditions' => array('establishment_id' => $classroom->establishment_id)))->toArray();
 		$this->set('periods', $periods);
 	}
 

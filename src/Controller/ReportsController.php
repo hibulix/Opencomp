@@ -3,7 +3,9 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
+use Pheanstalk\Exception;
 use Pheanstalk\Pheanstalk;
 
 class ReportsController extends AppController {
@@ -18,69 +20,58 @@ class ReportsController extends AppController {
     public function add() {
         $this->set('title_for_layout', __('Ajouter un bulletin'));
 
-        if(isset($this->request->query['classroom_id'])) {
-            $classroom_id = intval($this->request->query['classroom_id']);
-            $this->set('classroom_id', $classroom_id);
-            $this->Report->Classroom->id = $classroom_id;
-            if (!$this->Report->Classroom->exists()) {
-                throw new NotFoundException(__('The classroom_id provided does not exist !'));
-            }
-        } else {
-            throw new NotFoundException(__('You must provide a classroom_id in order to add a test to this classroom !'));
-        }
+        $report = $this->Reports->newEntity();
+        $classroom = $this->Reports->Classrooms->get($this->request->query['classroom_id']);
 
-        if ($this->request->is('post') || $this->request->is('put')) {
-
-            if ($this->Report->save($this->request->data)) {
-                $this->Flash->success('Le bulletin a été correctement ajouté.');
-                $this->redirect(array('controller' => 'classrooms','action' => 'viewreports', $this->request->data['Report']['classroom_id']));
+        if ($this->request->is('post')) {
+            $report = $this->Reports->newEntity($this->request->data);
+            $report->period_id = implode(',',$this->request->data['period_id']);
+            $report->page_break = implode(',',$this->request->data['page_break']);
+            $report->classroom_id = $classroom->id;
+            if ($this->Reports->save($report)) {
+                $this->Flash->success('Le bulletin a été correctement mis à jour.');
+                $this->redirect(array('controller' => 'classrooms','action' => 'viewreports', $classroom->id));
             } else {
-                $classroom_id = $this->request->data['Report']['classroom_id'];
-                $this->set('classroom_id', $classroom_id);
+                $classroom_id = $this->request->query['classroom_id'];
+                $this->set('classroom_id', $classroom->id);
                 $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
             }
-        } else {
-            $this->set('classroom_id', $classroom_id);
         }
 
-        $this->getReportAssociatedInfos($classroom_id);
+        $this->set('classroom_id', $report->classroom_id);
+        $this->set('report', $report);
+        $this->getReportAssociatedInfos($classroom->id);
     }
 
     public function requestGeneration($id = null){
-        $this->Report->id = $id;
-        if (!$this->Report->exists()) {
-            throw new NotFoundException(__('The report_id provided does not exist !'));
-        }
 
-        $report = $this->Report->find('first', array(
-            'conditions' => array('Report.id' => $id)
-        ));
+        $report = $this->Reports->get($id);
 
-        if(!$report['Report']['beanstalkd_finished'])
+        if($report->beanstalkd_finished !== 1)
             $this->redirect(['action'=>'generationProgress',$id]);
 
-        $this->loadModel('Result');
-        $ReqPupils = $this->Result->find('all', array(
+        $this->Results = TableRegistry::get('Results');
+        $ReqPupils = $this->Results->find('all', array(
             'fields' => array('pupil_id'),
             'order' => array('name', 'first_name'),
             'conditions' => array(
-                'Evaluation.period_id' => $report['Report']['period_id'],
-                'Evaluation.classroom_id' => $report['Classroom']['id']
+                'Evaluations.period_id' => $report->period_id,
+                'Evaluations.classroom_id' => $report->classroom_id
             ),
             'contain' => array(
-                'Pupil.id',
-                'Evaluation.Period.id',
-                'Evaluation.Classroom.id'
+                'Pupils',
+                'Evaluations.Periods',
+                'Evaluations.Classrooms'
             )
         ));
 
         foreach($ReqPupils as $pupils){
-            $pup[] = $pupils['Pupil']['id'];
+            $pup[] = $pupils->pupil_id;
         }
 
         if(!isset($pup)){
             $this->Flash->error('Aucun résultat saisi pour la/les période(s) configurée(s). Génération annulée !');
-            $this->redirect(array('controller' => 'classrooms', 'action' => 'viewreports', $report['Classroom']['id']));
+            $this->redirect(array('controller' => 'classrooms', 'action' => 'viewreports', $report->classroom_id));
         }
 
         $pup = array_values(array_unique($pup));
@@ -91,28 +82,27 @@ class ReportsController extends AppController {
         foreach($pup as $id){
             $jobId = $pheanstalk
                 ->useTube('generate-report')
-                ->put(json_encode(['action'=>'generate', 'pupil_id'=>$id, 'report_id'=>$report['Report']['id']]));
+                ->put(json_encode(['action'=>'generate', 'pupil_id'=>$id, 'report_id'=>$report->id]));
             $pupilsJobs[$id] = $jobId;
         }
 
         $jobId = $pheanstalk
             ->useTube('generate-report')
-            ->put(json_encode(['action'=>'concatenate', 'report_id'=>$report['Report']['id']]));
+            ->put(json_encode(['action'=>'concatenate', 'report_id'=>$report->id]));
 
         $pupilsJobs['concatenate'] = $jobId;
 
-        $this->Report->id = $report['Report']['id'];
-        $this->Report->saveField('beanstalkd_jobs', serialize($pupilsJobs));
-        $this->Report->saveField('beanstalkd_finished', 0);
+        $this->Reports->id = $report['Report']['id'];
+        $report->beanstalkd_jobs = serialize($pupilsJobs);
+        $report->beanstalkd_finished = 0;
+        $this->Reports->save($report);
 
         $this->redirect(array('controller' => 'reports', 'action' => 'generationProgress', $report['Report']['id']));
     }
 
     public function generationProgress($id = null){
-        $report = $this->Report->findById($id);
-        $classroom = $this->Report->Classroom->find('first', array(
-            'conditions' => array('Classroom.id' => $report['Report']['classroom_id'])
-        ));
+        $report = $this->Reports->get($id);
+        $classroom = $this->Reports->Classrooms->get($report->classroom_id, ['contain' => ['Establishments', 'User', 'Users', 'Years']]);
         $this->set('classroom', $classroom);
         $this->set('report', $report);
     }
@@ -120,24 +110,15 @@ class ReportsController extends AppController {
     public function generationProgressWidget($id = null){
         $this->layout = 'ajax';
 
-        $this->Report->id = $id;
-        if (!$this->Report->exists()) {
-            throw new NotFoundException(__('Invalid report'));
-        }
+        $report = $this->Reports->get($id);
+        $jobsIds = unserialize($report->beanstalkd_jobs);
 
-        $report = $this->Report->read('beanstalkd_jobs', $id);
-        $jobsIds = unserialize($report['Report']['beanstalkd_jobs']);
-
-        $this->loadModel('Pupil');
-        $pupils = $this->Pupil->find('list',[
-            'fields' => [
-                'id', 'wellnamed'
-            ],
+        $this->Pupils = TableRegistry::get('Pupils');
+        $pupils = $this->Pupils->find('list',[
             'conditions' => [
                 'id IN' => array_keys($jobsIds)
-            ],
-            'recursive' => -1
-        ]);
+            ]
+        ])->toArray();
 
         $pupilsStatus = [];
         $pheanstalk = new Pheanstalk('127.0.0.1');
@@ -178,29 +159,28 @@ class ReportsController extends AppController {
 	public function edit($id = null) {
 		$this->set('title_for_layout', __('Modifier un bulletin'));
 		
-		$this->Report->id = $id;
-		if (!$this->Report->exists()) {
-			throw new NotFoundException(__('Invalid report'));
-		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			
-			if ($this->Report->save($this->request->data)) {
+		$report = $this->Reports->get($id);
+        //@TODO Essayer de voir les lifecycle events mais c'est chiant :(
+        $report->period_id = explode(',',$report->period_id);
+        $report->page_break = explode(',',$report->page_break);
+        $this->set('report', $report);
+
+		if ($this->request->is(['post', 'patch', 'put'])) {
+			$report = $this->Reports->patchEntity($report, $this->request->data);
+            $report->period_id = implode(',',$this->request->data['period_id']);
+            $report->page_break = implode(',',$this->request->data['page_break']);
+			if ($this->Reports->save($report)) {
 				$this->Flash->success('Le bulletin a été correctement mis à jour.');
-				$this->redirect(array('controller' => 'classrooms','action' => 'viewreports', $this->request->data['Report']['classroom_id']));
+				$this->redirect(array('controller' => 'classrooms','action' => 'viewreports', $this->request->data['classroom_id']));
 			} else {
-				$classroom_id = $this->request->data['Report']['classroom_id'];
+				$classroom_id = $this->request->data['classroom_id'];
 				$this->set('classroom_id', $classroom_id);
 				$this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
 			}
-		} else {
-			$this->request->data = $this->Report->read(null, $id);
-			
-			$classroom_id = $this->request->data['Classroom']['id'];
-			$this->set('report_id', $id);
-			$this->set('classroom_id', $classroom_id);
 		}
-		
-		$this->getReportAssociatedInfos($classroom_id);
+
+        $this->set('classroom_id', $report->classroom_id);
+		$this->getReportAssociatedInfos($report->classroom_id);
 	}
 
     /**
@@ -210,37 +190,30 @@ class ReportsController extends AppController {
      * @return void
      */
     private function getReportAssociatedInfos($classroom_id) {
-        $this->loadModel('Competence');
-        $competences = $this->Competence->generateTreeList(null, null, null, '',-1);
+        $this->Competences = TableRegistry::get('Competences');
+        $competences = $this->Competences->find('treeList');
 
-        $this->loadModel('Classroom');
-        $this->Classroom->recursive = 0;
-        $this->Classroom->id = $classroom_id;
-        $classroom = $this->Classroom->read();
+        $this->Classrooms = TableRegistry::get('Classrooms');
+        $classroom = $this->Classrooms->get($classroom_id);
 
-        $this->loadModel('Setting');
-        $currentYear = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'currentYear')));
+        $this->Settings = TableRegistry::get('Settings');
+        $currentYear = $this->Settings->find('all', array('conditions' => array('Settings.key' => 'currentYear')))->first();
 
-        $this->loadModel('Period');
-        $periods = $this->Period->find('list', array(
-            'conditions' => array('establishment_id' => $classroom['Classroom']['establishment_id'], 'year_id' => $currentYear['Setting']['value']),
-            'recursive' => 0));
+        $this->Periods = TableRegistry::get('Periods');
+        $periods = $this->Periods->find('list', array(
+            'conditions' => array('establishment_id' => $classroom->establishment_id, 'year_id' => $currentYear->value)));
 
         $this->set(compact('classrooms', 'users', 'periods', 'pupils', 'competences'));
     }
 
     public function download($id) {
-        $this->Report->id = $id;
-        if (!$this->Report->exists()) {
-            throw new NotFoundException(__('Invalid report'));
-        }
 
-        $report = $this->Report->findById($id);
+        $report = $this->Reports->get($id);
 
         $this->response->file(APP . "files" . DS . "reports" . DS . $id.".pdf",
             [
                 'download' => true,
-                'name' => Inflector::slug($report['Report']['title']).".pdf"
+                'name' => Inflector::slug($report->title).".pdf"
             ]
         );
 
@@ -256,25 +229,19 @@ class ReportsController extends AppController {
      * @return void
      */
     public function delete($id = null) {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->Report->id = $id;
-        if (!$this->Report->exists()) {
-            throw new NotFoundException(__('Invalid report'));
-        }
-        $classroom_id = $this->Report->read('Report.classroom_id', $id);
-        if ($this->Report->delete()) {
+        $report = $this->Reports->get($id);
+        $this->request->allowMethod(['post', 'delete']);
+        $classroom_id = $report->classroom_id;
+        if ($this->Reports->delete($report)) {
             $this->Flash->success('Le bulletin a été correctement supprimé');
-            $this->redirect(array(
-                'controller'    => 'classrooms',
-                'action'        => 'viewreports',
-                $classroom_id['Report']['classroom_id']));
+        } else {
+            $this->Flash->error('Le bulletin n\'a pas pu être supprimée en raison d\'une erreur interne');
         }
-        $this->Flash->error('Le bulletin n\'a pas pu être supprimée en raison d\'une erreur interne');
+
         $this->redirect(array(
             'controller'    => 'classrooms',
-            'action'        => 'viewreports'));
+            'action'        => 'viewreports',
+            $classroom_id));
     }
 	
 }
