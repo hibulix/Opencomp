@@ -27,11 +27,12 @@ $(document).ready(function() {
 
     //Envoyer automatiquement le focus au premier champ visible de la page
     $('form').find('input[type=text],textarea,select').filter(':visible:first').focus();
+    $('form').find('input[type=text],textarea,select').filter(':visible:first').select();
 
     $('.send').change(function(event) {
         var pupil_id = $(event.delegateTarget).val();
         $(event.delegateTarget).val(pupil_id);
-        $('#ResultSelectpupilForm').submit();
+        $('form').submit();
     });
 
     $('.send').focus(function(event) {
@@ -66,7 +67,7 @@ $(document).ready(function() {
             $(event.delegateTarget).css("background-color", "#ffb9b9");
         }
         if($('form').find('input[type=text],textarea,select').filter(':visible:last').attr("id") == $(event.delegateTarget).attr("id")){
-            $('#ResultsAddForm').submit();
+            $('form').submit();
         }
     });
 });

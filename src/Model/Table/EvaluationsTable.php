@@ -7,7 +7,6 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\ORM\TableRegistry;
-use Cake\Database\Expression\QueryExpression;
 
 /**
  * Evaluations Model
@@ -174,5 +173,30 @@ class EvaluationsTable extends Table
             return $resultats;
         }
 
+    }
+
+    public function findItemsByPosition($evaluation_id){
+        $items = $this->find('all', array(
+            'join' => array(
+                array('table' => 'evaluations_items',
+                    'alias' => 'EvaluationsItems',
+                    'type' => 'LEFT',
+                    'conditions' => array(
+                        'Evaluations.id = EvaluationsItems.evaluation_id',
+                    )
+                ),
+                array('table' => 'items',
+                    'alias' => 'Items',
+                    'type' => 'LEFT',
+                    'conditions' => array(
+                        'EvaluationsItems.item_id = Items.id',
+                    )
+                )
+            ),
+            'fields' => array('EvaluationsItems.position','Items.title','Items.id', 'Evaluations.title'),
+            'conditions' => array('Evaluations.id' => $evaluation_id),
+            'order' => array('EvaluationsItems.position'),
+        ));
+        return $items;
     }
 }
