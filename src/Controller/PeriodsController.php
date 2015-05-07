@@ -26,7 +26,7 @@ class PeriodsController extends AppController {
      *
      * @throws NotFoundException
      * @param string $id
-     * @return void
+     * @return \Cake\Network\Response|null
      */
 	public function edit($id = null) {
         $this->set('title_for_layout', __('Modifier une période'));

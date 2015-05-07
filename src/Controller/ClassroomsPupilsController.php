@@ -38,7 +38,7 @@ class ClassroomsPupilsController extends AppController {
 	/**
      * import method
      *
-     * @return void
+     * @return \Cake\Network\Response
      */
     public function opendocumentExport() {
 
