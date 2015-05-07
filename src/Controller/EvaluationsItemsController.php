@@ -112,43 +112,37 @@ class EvaluationsItemsController extends AppController {
 	public function additem(){	
 		$this->set('title_for_layout', __('Ajouter un item'));
 
-        $evaluation = $this->EvaluationsItems->Evaluations->get($this->request->query['evaluation_id']);
-        $item = $this->EvaluationsItems->Items->get($this->request->query['item_id']);
+		$item = $this->EvaluationsItems->Items->newEntity();
+		$evaluation = $this->EvaluationsItems->Evaluations->get($this->request->query['evaluation_id']);
+        $competence = $this->EvaluationsItems->Items->Competences->get($this->request->query['competence_id']);
+		$levels = $this->EvaluationsItems->Items->Levels->find('list');
+		$this->set(compact('levels', 'evaluation', 'competence', 'item'));
 
-		$levels = $this->EvaluationsItem->Item->Level->find('list', array('recursive' => 0));
-		$this->set('levels', $levels);
-		
-		$eval = $this->EvaluationsItem->Evaluation->find('first', array(
-	        'conditions' => array('id' => $evaluation_id),
-	        'recursive' => -1
-	    ));
-	    $this->set('eval', $eval);
-		
-		$this->set('path', $this->tabPathToString($this->EvaluationsItem->Item->Competence->getPath($competence_id)));
+		$this->set('path', $this->tabPathToString($this->EvaluationsItems->Items->Competences->find('path', ['for' => $competence->id])));
 
-		$this->JsonTree->passAllLpcnodesToView();
+		$this->set('json', $this->JsonTree->allLpcnodesToJson());
 		
-		if ($this->request->is('post')) {			
-			$lastItemPosition = $this->EvaluationsItem->find('count', array(
-		        'conditions' => array('EvaluationsItem.evaluation_id' => $evaluation_id)
-		    ));
+		if ($this->request->is('post')) {
+			if(empty($this->request->data['levels']['_ids']))
+				$item->errors('levels', 'Vous devez sélectionner au moins un niveau.');
+			$lastItemPosition = $this->EvaluationsItems->find('all', array(
+		        'conditions' => array('EvaluationsItems.evaluation_id' => $evaluation->id)
+		    ))->count();
 			$nextItemPosition = $lastItemPosition+1;
 			
-			$this->EvaluationsItem->Item->create();
-			if ($this->EvaluationsItem->Item->save($this->request->data)) {
+			$newItem = $this->EvaluationsItems->Items->newEntity($this->request->data);
+			if ($this->EvaluationsItems->Items->save($newItem)) {
 				$data = array(
-					'EvaluationsItem' => array(
-						'evaluation_id' => $evaluation_id,
-						'item_id' => $this->EvaluationsItem->Item->id,
-						'position' => $nextItemPosition
-					)
+					'evaluation_id' => $evaluation->id,
+					'item_id' => $newItem->id,
+					'position' => $nextItemPosition
 				);
 				
-				$this->EvaluationsItem->create();
-				$this->EvaluationsItem->save($data);
+				$evaluationItem = $this->EvaluationsItems->newEntity($data);
+				$this->EvaluationsItems->save($evaluationItem);
 				
 				$this->Flash->success('L\'item a été correctement créé et associé à l\'évaluation.');
-				$this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation_id));
+				$this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation->id));
 			} else {
 				$this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
 			}
@@ -158,7 +152,7 @@ class EvaluationsItemsController extends AppController {
 	private function tabPathToString($path){
 	    $mypath = '';
 	    foreach($path as $competence){
-	    	$mypath .= $competence['Competence']['title'].' <i class="fa fa-chevron-right"></i> ';
+	    	$mypath .= $competence->title.' <i class="fa fa-chevron-right"></i> ';
 	    }
 	    $mypath = substr($mypath, 0, -36);
 	    
@@ -278,24 +272,21 @@ class EvaluationsItemsController extends AppController {
     	$this->EvaluationsItems->save($itemToEdit);
 	}
 	
-	public function unlinkitem(){
-        //On vérifie que les paramètres nommés evaluation_id et item_id ont été fournis et qu'ils existent.
-        $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->query['evaluation_id']);
-        $item_id = $this->CheckParams->checkForNamedParam('Item','item_id', $this->request->query['item_id']);
+	public function unlinkitem($id = null){
 		
-		$association = $this->EvaluationsItem->find('first', array(
-	        'conditions' => array('EvaluationsItem.evaluation_id' => $evaluation_id, 'EvaluationsItem.item_id' => $item_id)
-	    ));
-	    
-	    if($association){
-	    	$this->EvaluationsItem->delete($association['EvaluationsItem']['id']);
-	    	$this->EvaluationsItem->renumberItemsEvaluation($evaluation_id, $association['EvaluationsItem']['position']);
+		$evaluationItem = $this->EvaluationsItems->get($id);
+		$this->request->allowMethod(['post', 'delete']);
+		$evaluationId = $evaluationItem->evaluation_id;
+		$position = $evaluationItem->position;
+
+		if($this->EvaluationsItems->delete($evaluationItem)){
+	    	$this->EvaluationsItems->renumberItemsEvaluation($evaluationId, $position);
 	    	
 	    	$this->Flash->success('L\'item a été correctement dissocié de cette évaluation.');
-			$this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation_id));
+			$this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluationId));
 	    }else{
 		    $this->Flash->error('Cette association n\'existe pas');
-			$this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation_id));
+			$this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluationId));
 	    }
 	}
 }

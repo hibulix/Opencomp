@@ -1,6 +1,6 @@
 <div class="page-title">
     <h2><?php echo __('Ajouter un item'); ?></h2>
-    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à l\'arbre de compétences'), array('controller' => 'competences', 'action' => 'attachitem', 'evaluation_id' => $evaluation_id), array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à l\'arbre de compétences'), array('controller' => 'competences', 'action' => 'attachitem', 'evaluation_id' => $evaluation->id), array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
 <div class="alert alert-info">
@@ -11,23 +11,20 @@
 
 <?php 
 
-echo $this->Form->create('Item', array(
-    'class' => 'form-horizontal',
+echo $this->Form->create($item, array(
+    'align' => [
+        'md' => [
+            'left' => 2,
+            'middle' => 5,
+            'right' => 5,
+        ],
+    ],
     'url' => array(
     	'controller' => 'evaluationsItems',
     	'action' => 'additem',
-    	'evaluation_id' => $evaluation_id,
-    	'competence_id' => $competence_id
+    	'evaluation_id' => $evaluation->id,
+    	'competence_id' => $competence->id
     ),
-    'inputDefaults' => array(
-        'div' => 'form-group',
-        'label' => array(
-            'class' => 'col col-md-2 control-label'
-        ),
-        'wrapInput' => 'col col-md-3',
-        'class' => 'form-control'
-    ),
-    'class' => 'form-horizontal'
 ));
 
 echo $this->Form->input('title', array(
@@ -37,7 +34,7 @@ echo $this->Form->input('title', array(
     )
 )); 
 
-echo $this->Form->input('Level', array(
+echo $this->Form->input('levels._ids', array(
     'class'=>'chzn-select form-control',
     'data-placeholder' => 'Sélectionnez un/des niveau(x) ...',
     'style'=>'width : 220px;',
@@ -59,9 +56,9 @@ echo $this->Form->input('Level', array(
 </div>
 <?php
 
-echo $this->Form->hidden('competence_id', array('value' => $competence_id));
-echo $this->Form->hidden('classroom_id', array('value' => $eval['Evaluation']['classroom_id']));
-echo $this->Form->hidden('user_id', array('value' => AuthComponent::user('id')));
+echo $this->Form->hidden('competence_id', array('value' => $competence->id));
+echo $this->Form->hidden('classroom_id', array('value' => $evaluation->classroom_id));
+echo $this->Form->hidden('user_id', array('value' => $this->request->session()->read('Auth.User.id')));
 echo $this->Form->hidden('type', array('value' => 3));
     
 ?>
@@ -78,12 +75,10 @@ echo $this->Form->hidden('type', array('value' => 3));
 $this->start('script');
 ?>
 <script type='text/javascript'>
-    var role = '<?php echo AuthComponent::user('role'); ?>';
+    var role = '<?php echo $this->request->session()->read('Auth.User.role'); ?>';
     var data = <?php echo $json; ?>;
 
     $("#jumelage_lpc").jstree({
-        'state' : { 'key' : 'jumelage_lpc' },
-        'plugins' : [ 'state' ],
         'core' : {
             'multiple' : false,
             'check_callback' : true,

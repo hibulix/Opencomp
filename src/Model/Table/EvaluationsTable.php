@@ -7,6 +7,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\ORM\TableRegistry;
+use Cake\Database\Expression\QueryExpression;
 
 /**
  * Evaluations Model
@@ -134,4 +135,44 @@ class EvaluationsTable extends Table
 
 		return $pupilsLevels;
 	}
+
+    function resultsForAnEvaluation($id_evaluation){
+        $result = $this->Results->find();
+        $result = $this->Results->find('all', array(
+            'fields' => array('result','count' => $result->func()->count('result')),
+            'conditions' => array(
+                'evaluation_id' => $id_evaluation
+            ),
+            'group' => array('result'),
+        ));
+
+        $resultats['A'] = 0;
+        $resultats['B'] = 0;
+        $resultats['C'] = 0;
+        $resultats['D'] = 0;
+        $resultats['ABS'] = 0;
+
+
+        foreach($result as $infos){
+            $resultats[$infos->result] = intval($infos->count);
+        }
+
+        $resultats['TOT'] = $resultats['A'] + $resultats['B'] + $resultats['C'] + $resultats['D'];
+        if($resultats['TOT'] != 0){
+            $resultats['pourcent_A'] = $resultats['A'] * 100 / $resultats['TOT'];
+            $resultats['pourcent_B'] = $resultats['B'] * 100 / $resultats['TOT'];
+            $resultats['pourcent_C'] = $resultats['C'] * 100 / $resultats['TOT'];
+            $resultats['pourcent_D'] = $resultats['D'] * 100 / $resultats['TOT'];
+
+            return $resultats;
+        }else{
+            $resultats['pourcent_A'] = 0;
+            $resultats['pourcent_B'] = 0;
+            $resultats['pourcent_C'] = 0;
+            $resultats['pourcent_D'] = 0;
+
+            return $resultats;
+        }
+
+    }
 }

@@ -6,6 +6,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Database\Expression\QueryExpression;
 
 /**
  * EvaluationsItems Model
@@ -73,5 +74,20 @@ class EvaluationsItemsTable extends Table
                 'EvaluationsItems.item_id' => $item_id
             )
         ))->first();
+    }
+
+    /**
+     * Cette fonction permet de renuméroter la position des items associés
+     * à une évaluation (par exemple après la dissociation d'un item).
+     * @param int $evaluation_id L'id de l'évaluation concerné par l'opération
+     * @param int $position À partir de quel position faut il renuméroter ?
+     * @return mixed
+     */
+    public function renumberItemsEvaluation($evaluation_id, $position){
+        return $this->updateAll(
+            array(new QueryExpression('evaluations_items.position = evaluations_items.position - 1')),
+            array('evaluations_items.evaluation_id' => $evaluation_id,
+                'evaluations_items.position >' => $position)
+        );
     }
 }

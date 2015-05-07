@@ -6,6 +6,8 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use App\Model\Table\Event;
+use App\Model\Table\ArrayObject;
 
 /**
  * Items Model
@@ -70,7 +72,10 @@ class ItemsTable extends Table
             ->notEmpty('title')
             ->add('type', 'valid', ['rule' => 'numeric'])
             ->requirePresence('type', 'create')
-            ->notEmpty('type');
+            ->notEmpty('type')
+            ->add('levels', 'valid', ['rule' => ['multiple', ['min'=>1]]])
+            ->requirePresence('levels', 'create')
+            ->notEmpty('levels');
 
         return $validator;
     }

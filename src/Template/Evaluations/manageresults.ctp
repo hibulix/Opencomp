@@ -6,7 +6,7 @@
   <li class="info" rel="tooltip" data-placement="bottom" data-original-title="Bientôt ..."><?php echo $this->Html->link(__('3. Analyser les résultats'), '#'); ?></li>
 </ul>
 
-<?php if (!empty($evaluation['Item'])): ?>
+<?php if (!empty($evaluation->items)): ?>
 	<div class="page-title">
 	    <h3><?php echo __('Résultats de cette évaluation'); ?></h3>
         <div class="btn-group ontitle">
@@ -22,13 +22,13 @@
 		<th style="width:20%;"><?php echo __('Action'); ?></th>
 	</tr>
 	<?php
-		$total = count($evaluation['Item']);
-		foreach ($evaluation['Pupil'] as $pupil): 
-		$pupilres = count($pupil['Result']);
+		$total = count($evaluation->items);
+		foreach ($evaluation->pupils as $pupil):
+		$pupilres = count($pupil->results);
 		$progress = $pupilres*100/$total; ?>
 		<tr>
-			<td><?php echo $pupil['first_name']; ?></td>
-			<td><?php echo $pupil['name']; ?></td>
+			<td><?php echo $pupil->first_name; ?></td>
+			<td><?php echo $pupil->name; ?></td>
 			<td style="padding-right:5%;"><div style="height:10px; margin-top:4px; margin-bottom:0px;" class="progress active"><div class="progress-bar" style="font-size: 10px; vertical-align:top; width: <?php echo $progress; ?>%;"><span style="position:relative; top: -5px;"><?php if(intval($progress) > 10) echo intval($progress).'%'; ?></span></div></div></td>
 			<td class="actions">
 				<?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('Compléter ou modifier la saisie'), array('controller' => 'results', 'action' => 'add', 'pupil_id' => $pupil['id'], 'evaluation_id' => $evaluation['Evaluation']['id'], 'manual' => 'true'), array('escape' => false)); ?>

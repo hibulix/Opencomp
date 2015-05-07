@@ -74,10 +74,17 @@ class EvaluationsController extends AppController {
 	}
 
 	public function manageresults($id = null) {
-		$this->Evaluation->id = $id;
-		$this->Evaluation->contain(array('User', 'Period', 'Classroom', 'Pupil.Result.evaluation_id = '.$id, 'Item'));
-		$evaluation = $this->Evaluation->findById($id);
-		$result = $this->Evaluation->resultsForAnEvaluation($id);
+
+		$evaluation = $this->Evaluations->get($id, [
+            'contain' => [
+                'Users', 'Periods', 'Classrooms', 'Items',
+                'Pupils.Results' => function ($q) use ($id) {
+                    return $q
+                        ->where(['evaluation_id' => $id]);
+                }
+            ]
+        ]);
+		$result = $this->Evaluations->resultsForAnEvaluation($id);
 		$this->set('resultats', $result);
 		$this->set('evaluation', $evaluation);
 	}
