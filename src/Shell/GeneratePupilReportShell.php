@@ -116,6 +116,9 @@ HTML;
         $this->Reports->save($report);
     }
 
+    /**
+     * @param string $key
+     */
     private function arrayValueRecursive($key, array $arr){
         $val = array();
         array_walk_recursive($arr, function($v, $k) use($key, &$val){

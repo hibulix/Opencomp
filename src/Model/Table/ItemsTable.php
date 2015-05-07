@@ -1,13 +1,9 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Item;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use App\Model\Table\Event;
-use App\Model\Table\ArrayObject;
 
 /**
  * Items Model
