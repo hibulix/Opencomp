@@ -1,8 +1,6 @@
 <?php
 namespace app\View\Helper;
 
-use App\View\Helper\AppHelper;
-
 class UtilsHelper extends AppHelper {
    
    /**

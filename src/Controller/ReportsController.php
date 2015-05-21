@@ -2,7 +2,6 @@
 
 namespace app\Controller;
 
-use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use Pheanstalk\Exception;

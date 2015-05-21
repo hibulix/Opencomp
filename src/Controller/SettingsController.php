@@ -1,9 +1,8 @@
 <?php
 namespace app\Controller;
 
-use App\Controller\AppController;
-use Cake\Core\App;
 use Cake\Database\ConnectionManager;
+
 /**
  * Settings Controller
  *

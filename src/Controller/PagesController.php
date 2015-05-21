@@ -20,7 +20,6 @@
  */
 namespace app\Controller;
 
-use App\Controller\AppController;
 use Cake\Utility\Inflector;
 
 

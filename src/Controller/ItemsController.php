@@ -1,7 +1,6 @@
 <?php
 namespace app\Controller;
 
-use App\Controller\AppController;
 /**
  * Items Controller
  *

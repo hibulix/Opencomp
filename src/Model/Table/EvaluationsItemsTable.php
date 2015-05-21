@@ -1,12 +1,10 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\EvaluationsItem;
-use Cake\ORM\Query;
+use Cake\Database\Expression\QueryExpression;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Cake\Database\Expression\QueryExpression;
 
 /**
  * EvaluationsItems Model

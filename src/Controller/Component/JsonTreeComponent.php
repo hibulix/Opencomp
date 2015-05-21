@@ -3,7 +3,6 @@
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Controller\Controller;
 use Cake\ORM\TableRegistry;
 
 class JsonTreeComponent extends Component {
