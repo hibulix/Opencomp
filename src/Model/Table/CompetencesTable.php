@@ -159,4 +159,20 @@ class CompetencesTable extends Table
         }
         return $tab;
     }
+
+    /**
+     * Méthode permettant de formatter un tableau en émulant le renvoie de la méthode GenerateTreeListWithDepth.
+     *
+     * @param array $dataset Un resultset CakePHP contenant plusieurs tableaux Competence.
+     * @return array Un tableau en émulant le format de renvoie de la méthode GenerateTreeListWithDepth
+     */
+    private function formatTreeHelperWay($dataset){
+        $tab = array();
+        foreach($dataset as $num=>$c){
+            $tab[$num]['id'] = $c['id'];
+            $tab[$num]['title'] = $c['title'];
+            $tab[$num]['depth'] = $c['depth'];
+        }
+        return $tab;
+    }
 }
