@@ -15,7 +15,7 @@ class PupilsController extends AppController {
     /**
      * add method
      *
-     * @return void
+     * @return \Cake\Network\Response|null
      */
 	public function add() {
         $classroom = $this->Pupils->Classrooms->get($this->request->query['classroom_id']);

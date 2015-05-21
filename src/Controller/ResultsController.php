@@ -142,6 +142,9 @@ class ResultsController extends AppController {
 		}
 	}
 
+	/**
+	 * @param integer $iteration
+	 */
 	private function setResult($data, $iteration, $grade){
 		switch($grade){
 			case 'A':

@@ -13,7 +13,6 @@ class ReportsController extends AppController {
      * edit method
      *
      * @throws NotFoundException
-     * @param string $id
      * @return void
      */
     public function add() {

@@ -63,7 +63,7 @@ class AcademiesController extends AppController {
 /**
  * add method
  *
- * @return void
+ * @return \Cake\Network\Response|null
  */
 	public function add() {
 	    $this->set('title_for_layout', __('Ajouter une académie'));
@@ -87,7 +87,7 @@ class AcademiesController extends AppController {
  *
  * @throws NotFoundException
  * @param string $id
- * @return void
+ * @return \Cake\Network\Response|null
  */
 	public function edit($id = null) {
 		$this->set('title_for_layout', __('Modifier une académie'));
@@ -113,7 +113,7 @@ class AcademiesController extends AppController {
  * @throws MethodNotAllowedException
  * @throws NotFoundException
  * @param string $id
- * @return void
+ * @return \Cake\Network\Response|null
  */
 	public function delete($id = null) {
         $academy = $this->Academies->get($id);
