@@ -127,16 +127,16 @@
         },
         {
             "name": "cakephp/cakephp",
-            "version": "3.0.4",
+            "version": "3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "22976db9856c1d6dea8b94136030cf8804609035"
+                "reference": "a4ad1cbd81ab8623bb5ea34aaab2d9f7a3eaad3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/22976db9856c1d6dea8b94136030cf8804609035",
-                "reference": "22976db9856c1d6dea8b94136030cf8804609035",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/a4ad1cbd81ab8623bb5ea34aaab2d9f7a3eaad3a",
+                "reference": "a4ad1cbd81ab8623bb5ea34aaab2d9f7a3eaad3a",
                 "shasum": ""
             },
             "require": {
@@ -155,6 +155,7 @@
                 "cakephp/database": "self.version",
                 "cakephp/datasource": "self.version",
                 "cakephp/event": "self.version",
+                "cakephp/filesystem": "self.version",
                 "cakephp/i18n": "self.version",
                 "cakephp/log": "self.version",
                 "cakephp/orm": "self.version",
@@ -163,7 +164,8 @@
             },
             "require-dev": {
                 "cakephp/cakephp-codesniffer": "dev-master",
-                "phpunit/phpunit": "*"
+                "phpunit/phpunit": "*",
+                "phpunit/phpunit-mock-objects": "2.3.1"
             },
             "type": "library",
             "extra": {
@@ -197,7 +199,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2015-05-08 01:45:39"
+            "time": "2015-05-28 14:55:30"
         },
         {
             "name": "cakephp/migrations",
@@ -791,17 +793,17 @@
         },
         {
             "name": "symfony/config",
-            "version": "v2.6.6",
+            "version": "v2.6.9",
             "target-dir": "Symfony/Component/Config",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Config.git",
-                "reference": "d91be01336605db8da21b79bc771e46a7276d1bc"
+                "reference": "2696c5bc7c31485a482c10865d713de9fcc7aa31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Config/zipball/d91be01336605db8da21b79bc771e46a7276d1bc",
-                "reference": "d91be01336605db8da21b79bc771e46a7276d1bc",
+                "url": "https://api.github.com/repos/symfony/Config/zipball/2696c5bc7c31485a482c10865d713de9fcc7aa31",
+                "reference": "2696c5bc7c31485a482c10865d713de9fcc7aa31",
                 "shasum": ""
             },
             "require": {
@@ -828,31 +830,31 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony Config Component",
-            "homepage": "http://symfony.com",
-            "time": "2015-03-30 15:54:10"
+            "homepage": "https://symfony.com",
+            "time": "2015-05-15 13:32:45"
         },
         {
             "name": "symfony/console",
-            "version": "v2.6.6",
+            "version": "v2.6.9",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "5b91dc4ed5eb08553f57f6df04c4730a73992667"
+                "reference": "b5ec0c11a204718f2b656357f5505a8e578f30dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/5b91dc4ed5eb08553f57f6df04c4730a73992667",
-                "reference": "5b91dc4ed5eb08553f57f6df04c4730a73992667",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/b5ec0c11a204718f2b656357f5505a8e578f30dd",
+                "reference": "b5ec0c11a204718f2b656357f5505a8e578f30dd",
                 "shasum": ""
             },
             "require": {
@@ -886,35 +888,34 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony Console Component",
-            "homepage": "http://symfony.com",
-            "time": "2015-03-30 15:54:10"
+            "homepage": "https://symfony.com",
+            "time": "2015-05-29 14:42:58"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v2.6.6",
-            "target-dir": "Symfony/Component/Filesystem",
+            "version": "v2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Filesystem.git",
-                "reference": "4983964b3693e4f13449cb3800c64a9112c301b4"
+                "reference": "ae4551fd6d4d4f51f2e7390fbc902fbd67f3b7ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/4983964b3693e4f13449cb3800c64a9112c301b4",
-                "reference": "4983964b3693e4f13449cb3800c64a9112c301b4",
+                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/ae4551fd6d4d4f51f2e7390fbc902fbd67f3b7ba",
+                "reference": "ae4551fd6d4d4f51f2e7390fbc902fbd67f3b7ba",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.3.9"
             },
             "require-dev": {
                 "symfony/phpunit-bridge": "~2.7"
@@ -922,11 +923,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
+                "psr-4": {
                     "Symfony\\Component\\Filesystem\\": ""
                 }
             },
@@ -936,31 +937,31 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony Filesystem Component",
-            "homepage": "http://symfony.com",
-            "time": "2015-03-22 16:55:57"
+            "homepage": "https://symfony.com",
+            "time": "2015-05-15 13:33:16"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.6.6",
+            "version": "v2.6.9",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "174f009ed36379a801109955fc5a71a49fe62dd4"
+                "reference": "f157ab074e453ecd4c0fa775f721f6e67a99d9e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/174f009ed36379a801109955fc5a71a49fe62dd4",
-                "reference": "174f009ed36379a801109955fc5a71a49fe62dd4",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/f157ab074e453ecd4c0fa775f721f6e67a99d9e2",
+                "reference": "f157ab074e453ecd4c0fa775f721f6e67a99d9e2",
                 "shasum": ""
             },
             "require": {
@@ -986,36 +987,39 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony Yaml Component",
-            "homepage": "http://symfony.com",
-            "time": "2015-03-30 15:54:10"
+            "homepage": "https://symfony.com",
+            "time": "2015-05-02 15:18:45"
         },
         {
             "name": "zendframework/zend-memory",
-            "version": "2.4.0",
+            "version": "2.4.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/zendframework/Component_ZendMemory.git",
-                "reference": "3153bac4d685eece09fbc7a92cc4d5f3d7fc8e6d"
+                "url": "https://github.com/zendframework/zend-memory.git",
+                "reference": "45f0e6024a5eafa80b9fb338a17ab1db19f17f41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/Component_ZendMemory/zipball/3153bac4d685eece09fbc7a92cc4d5f3d7fc8e6d",
-                "reference": "3153bac4d685eece09fbc7a92cc4d5f3d7fc8e6d",
+                "url": "https://api.github.com/repos/zendframework/zend-memory/zipball/45f0e6024a5eafa80b9fb338a17ab1db19f17f41",
+                "reference": "45f0e6024a5eafa80b9fb338a17ab1db19f17f41",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.23"
             },
             "require-dev": {
+                "fabpot/php-cs-fixer": "1.7.*",
+                "phpunit/phpunit": "~4.0",
+                "satooshi/php-coveralls": "dev-master",
                 "zendframework/zend-cache": "self.version"
             },
             "suggest": {
@@ -1024,44 +1028,47 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev",
-                    "dev-develop": "2.4-dev"
+                    "dev-master": "2.4-dev",
+                    "dev-develop": "2.5-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Zend\\Memory\\": ""
+                    "Zend\\Memory\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
-            "homepage": "https://github.com/zendframework/zf2",
+            "homepage": "https://github.com/zendframework/zend-memory",
             "keywords": [
                 "memory",
                 "zf2"
             ],
-            "time": "2015-04-01 18:09:27"
+            "time": "2015-05-07 14:55:31"
         },
         {
             "name": "zendframework/zend-stdlib",
-            "version": "2.4.0",
+            "version": "2.4.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/zendframework/Component_ZendStdlib.git",
-                "reference": "eab586f4c18af3fa63c977611939f1f4a3cf1030"
+                "url": "https://github.com/zendframework/zend-stdlib.git",
+                "reference": "a5dd7fd2ba6e8f6c6ea5a12db0605d3aa48af1e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/Component_ZendStdlib/zipball/eab586f4c18af3fa63c977611939f1f4a3cf1030",
-                "reference": "eab586f4c18af3fa63c977611939f1f4a3cf1030",
+                "url": "https://api.github.com/repos/zendframework/zend-stdlib/zipball/a5dd7fd2ba6e8f6c6ea5a12db0605d3aa48af1e7",
+                "reference": "a5dd7fd2ba6e8f6c6ea5a12db0605d3aa48af1e7",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.23"
             },
             "require-dev": {
+                "fabpot/php-cs-fixer": "1.7.*",
+                "phpunit/phpunit": "~4.0",
+                "satooshi/php-coveralls": "dev-master",
                 "zendframework/zend-eventmanager": "self.version",
                 "zendframework/zend-filter": "self.version",
                 "zendframework/zend-serializer": "self.version",
@@ -1076,25 +1083,25 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev",
-                    "dev-develop": "2.4-dev"
+                    "dev-master": "2.4-dev",
+                    "dev-develop": "2.5-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Zend\\Stdlib\\": ""
+                    "Zend\\Stdlib\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
-            "homepage": "https://github.com/zendframework/zf2",
+            "homepage": "https://github.com/zendframework/zend-stdlib",
             "keywords": [
                 "stdlib",
                 "zf2"
             ],
-            "time": "2015-04-01 18:09:29"
+            "time": "2015-05-07 14:55:31"
         },
         {
             "name": "zendframework/zendpdf",
@@ -1142,16 +1149,16 @@
     "packages-dev": [
         {
             "name": "cakephp/bake",
-            "version": "1.0.6",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/bake.git",
-                "reference": "44a56985f8f85898e11f27afbaf331a38afcf51e"
+                "reference": "3fd850acabd68ef9674706c0ac9a0c56fffa35ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/bake/zipball/44a56985f8f85898e11f27afbaf331a38afcf51e",
-                "reference": "44a56985f8f85898e11f27afbaf331a38afcf51e",
+                "url": "https://api.github.com/repos/cakephp/bake/zipball/3fd850acabd68ef9674706c0ac9a0c56fffa35ea",
+                "reference": "3fd850acabd68ef9674706c0ac9a0c56fffa35ea",
                 "shasum": ""
             },
             "require": {
@@ -1184,20 +1191,20 @@
                 "bake",
                 "cakephp"
             ],
-            "time": "2015-05-05 07:57:21"
+            "time": "2015-05-24 14:07:25"
         },
         {
             "name": "cakephp/debug_kit",
-            "version": "3.1.0",
+            "version": "3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/debug_kit.git",
-                "reference": "e32cdd081afb85616f56c6504a6cb00faeaa8922"
+                "reference": "e16052f7da172c38e03f410be5f38c85e988992c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/e32cdd081afb85616f56c6504a6cb00faeaa8922",
-                "reference": "e32cdd081afb85616f56c6504a6cb00faeaa8922",
+                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/e16052f7da172c38e03f410be5f38c85e988992c",
+                "reference": "e16052f7da172c38e03f410be5f38c85e988992c",
                 "shasum": ""
             },
             "require": {
@@ -1244,7 +1251,7 @@
                 "debug",
                 "kit"
             ],
-            "time": "2015-04-26 14:17:35"
+            "time": "2015-05-29 20:52:25"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
