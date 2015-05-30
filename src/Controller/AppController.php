@@ -22,8 +22,8 @@
 namespace app\Controller;
 
 use Cake\Controller\Controller;
-use Cake\I18n\I18n;
 use Cake\I18n\Time;
+use Cake\I18n\I18n;
 
 /**
  * Application Controller

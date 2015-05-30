@@ -1,10 +1,12 @@
 <?php
 namespace App\Model\Table;
 
-use Cake\Datasource\ConnectionManager;
+use App\Model\Entity\Competence;
+use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Datasource\ConnectionManager;
 
 /**
  * Competences Model

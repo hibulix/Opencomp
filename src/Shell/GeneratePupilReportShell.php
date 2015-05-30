@@ -2,8 +2,8 @@
 
 namespace App\Shell;
 
-use App\View\Helper;
 use Cake\Console\Shell;
+use App\View\Helper;
 use Cake\View\View;
 use Pheanstalk\Pheanstalk;
 use ZendPdf;

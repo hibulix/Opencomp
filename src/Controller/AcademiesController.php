@@ -1,6 +1,8 @@
 <?php
 namespace app\Controller;
 
+use App\Controller\AppController;
+
 /**
   * AcademiesController.php
   *

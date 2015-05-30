@@ -1,6 +1,7 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
+use App\Model\Table\PupilsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 

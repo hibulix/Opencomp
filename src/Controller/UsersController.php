@@ -1,10 +1,10 @@
 <?php
 namespace app\Controller;
 
+use App\Controller\AppController;
 use Cake\Auth\WeakPasswordHasher;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
-
 /**
  * Users Controller
  *

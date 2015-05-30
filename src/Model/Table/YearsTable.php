@@ -1,6 +1,9 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Entity\Year;
+use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
