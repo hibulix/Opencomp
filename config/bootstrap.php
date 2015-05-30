@@ -40,7 +40,6 @@ if (!extension_loaded('intl')) {
 
 use Cake\Cache\Cache;
 use Cake\Console\ConsoleErrorHandler;
-use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Configure\Engine\PhpConfig;
 use Cake\Core\Plugin;
@@ -50,7 +49,6 @@ use Cake\Log\Log;
 use Cake\Network\Email\Email;
 use Cake\Network\Request;
 use Cake\Routing\DispatcherFactory;
-use Cake\Utility\Inflector;
 use Cake\Utility\Security;
 
 /**
@@ -61,17 +59,9 @@ use Cake\Utility\Security;
  * idea to create multiple configuration files, and separate the configuration
  * that changes from configuration that does not. This makes deployment simpler.
  */
-try {
-    Configure::config('default', new PhpConfig());
-    Configure::load('app', 'default', false);
-} catch (\Exception $e) {
-    die($e->getMessage() . "\n");
-}
+Configure::config('default', new PhpConfig());
+Configure::load('app', 'default', false);
 
-// Load an environment local configuration file.
-// You can use a file like app_local.php to provide local overrides to your
-// shared configuration.
-//Configure::load('app_local', 'default');
 
 // When debug = false the metadata cache should last
 // for a very very long time, as we don't want
@@ -91,12 +81,6 @@ date_default_timezone_set('UTC');
  * Configure the mbstring extension to use the correct encoding.
  */
 mb_internal_encoding(Configure::read('App.encoding'));
-
-/**
- * Set the default locale. This controls how dates, number and currency is
- * formatted and sets the default language to use for translations.
- */
-ini_set('intl.default_locale', 'fr_FR');
 
 /**
  * Register application error and exception handlers.
@@ -138,13 +122,6 @@ Email::configTransport(Configure::consume('EmailTransport'));
 Email::config(Configure::consume('Email'));
 Log::config(Configure::consume('Log'));
 Security::salt(Configure::consume('Security.salt'));
-
-/**
- * The default crypto extension in 3.0 is OpenSSL.
- * If you are migrating from 2.x uncomment this code to
- * use a more compatible Mcrypt based implementation
- */
-// Security::engine(new \Cake\Utility\Crypto\Mcrypt());
 
 /**
  * Setup detectors for mobile and tablet.

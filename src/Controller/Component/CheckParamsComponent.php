@@ -3,6 +3,7 @@
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
+use App\Controller\Component\ClassRegistry;
 
 class CheckParamsComponent extends Component {
 

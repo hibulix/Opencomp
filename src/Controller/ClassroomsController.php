@@ -6,6 +6,7 @@ use Cake\Network\Exception\BadRequestException;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Cake\I18n\Time;
+use Cake\Network\Exception\MethodNotAllowedException;
 /**
  * Classrooms Controller
  *

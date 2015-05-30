@@ -2,6 +2,7 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
+use Cake\Network\Exception\NotFoundException;
 /**
  * Lpcnodes Controller
  *

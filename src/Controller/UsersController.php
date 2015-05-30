@@ -5,10 +5,15 @@ use App\Controller\AppController;
 use Cake\Auth\WeakPasswordHasher;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
+use Cake\Network\Exception\NotFoundException;
+
 /**
  * Users Controller
  *
  * @property User $User
+ * @property bool|object Users
+ * @property string layout
+ * @property bool|object action
  */
 class UsersController extends AppController {
 
