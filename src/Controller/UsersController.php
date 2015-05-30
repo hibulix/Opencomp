@@ -6,6 +6,7 @@ use Cake\Auth\WeakPasswordHasher;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Network\Exception\MethodNotAllowedException;
 
 /**
  * Users Controller

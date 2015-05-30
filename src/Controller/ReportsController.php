@@ -158,7 +158,6 @@ class ReportsController extends AppController {
 		$this->set('title_for_layout', __('Modifier un bulletin'));
 		
 		$report = $this->Reports->get($id);
-        //@TODO Essayer de voir les lifecycle events mais c'est chiant :(
         $report->period_id = explode(',',$report->period_id);
         $report->page_break = explode(',',$report->page_break);
         $this->set('report', $report);
