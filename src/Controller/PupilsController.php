@@ -2,7 +2,6 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
-use App\Model\Entity\Pupil;
 
 /**
  * Pupils Controller

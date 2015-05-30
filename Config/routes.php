@@ -41,7 +41,7 @@ use Cake\Routing\Router;
  */
 Router::defaultRouteClass('Route');
 
-Router::scope('/', function ($routes) {
+Router::scope('/', function (Cake\Routing\RouteBuilder $routes) {
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
      * its action called 'display', and we pass a param to select the view file

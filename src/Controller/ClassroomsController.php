@@ -3,6 +3,7 @@ namespace app\Controller;
 
 use App\Controller\AppController;
 use Cake\Network\Exception\BadRequestException;
+use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Cake\I18n\Time;
 /**
@@ -74,7 +75,7 @@ class ClassroomsController extends AppController {
 
         $contain = [
             'User', 'Establishments', 'Years',
-            'Evaluations' => function ($q) use ($current_period) {
+            'Evaluations' => function (Query $q) use ($current_period) {
                 return $q
                     ->where(['Evaluations.unrated' => '0'])
                     ->where(['Evaluations.period_id' => $current_period])
@@ -84,7 +85,7 @@ class ClassroomsController extends AppController {
         ];
 
         if(isset($this->request->query['periods']) && $this->request->query['periods'] == 'all')
-            $contain['Evaluations'] = function ($q) {
+            $contain['Evaluations'] = function (Query $q) {
                 return $q
                     ->where(['Evaluations.unrated' => '0'])
                     ->order(['Evaluations.created' => 'DESC']);

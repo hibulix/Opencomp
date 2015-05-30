@@ -2,7 +2,6 @@
 namespace app\View\Helper;
 
 use App\View\Helper\AppHelper;
-use Cake\Core\App;
 
 /**
  * ReportFormaterHelper.php

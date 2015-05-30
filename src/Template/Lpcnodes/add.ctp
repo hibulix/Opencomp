@@ -50,11 +50,10 @@ if(isset($idnode)) {
 
 ?>
 
-<div class="form-group">
-	<?php echo $this->Form->submit('Ajouter et nouveau', array(
-		'div' => 'col col-md-9 col-md-offset-2',
-		'class' => 'btn btn-primary'
-	)); ?>
-</div>
+
+<?php echo $this->Form->submit('Ajouter et nouveau', array(
+    'class' => 'btn btn-primary'
+)); ?>
+
 
 <?php echo $this->Form->end();

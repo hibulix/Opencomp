@@ -64,7 +64,7 @@ class EvaluationsController extends AppController {
 		$evaluation = $this->Evaluations->get($id, [
             'contain' => [
                 'Users', 'Periods', 'Classrooms', 'Pupils',
-                'Items' => function ($q) {
+                'Items' => function (Query $q) {
                     return $q
                         ->order(['EvaluationsItems.position' => 'ASC']);
                 },
@@ -78,7 +78,7 @@ class EvaluationsController extends AppController {
 		$evaluation = $this->Evaluations->get($id, [
             'contain' => [
                 'Users', 'Periods', 'Classrooms', 'Items',
-                'Pupils.Results' => function ($q) use ($id) {
+                'Pupils.Results' => function (Query $q) use ($id) {
                     return $q
                         ->where(['evaluation_id' => $id]);
                 }

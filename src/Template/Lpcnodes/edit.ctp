@@ -4,14 +4,13 @@
 
 <?php
 
-echo $this->Form->create($lpcnode, array(
-    'type' => 'post',
-    'url' => array(
-        'controller' => 'lpcnodes',
-        'action' => 'edit',
-        $lpcnode->id
-    ),
-));
+echo $this->Form->create($lpcnode, ['align' => [
+    'md' => [
+        'left' => 2,
+        'middle' => 3,
+        'right' => 7,
+    ],
+]]);
 
 echo $this->Form->input('title', array(
     'label' => array('text' => 'Nom du noeud'),

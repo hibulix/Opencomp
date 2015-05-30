@@ -14,6 +14,7 @@
  */
 namespace App\Console;
 
+use Composer\IO\IOInterface;
 use Composer\Script\Event;
 use Exception;
 
@@ -73,10 +74,10 @@ class Installer
      * Create the config/app.php file if it does not exist.
      *
      * @param string $dir The application's root directory.
-     * @param \Composer\IO\IOInterface $io IO interface to write to console.
+     * @param IOInterface $io IO interface to write to console.
      * @return void
      */
-    public static function createAppConfig($dir, $io)
+    public static function createAppConfig($dir, IOInterface $io)
     {
         $appConfig = $dir . '/config/app.php';
         $defaultConfig = $dir . '/config/app.default.php';
@@ -90,10 +91,10 @@ class Installer
      * Create the `logs` and `tmp` directories.
      *
      * @param string $dir The application's root directory.
-     * @param \Composer\IO\IOInterface $io IO interface to write to console.
+     * @param IOInterface $io IO interface to write to console.
      * @return void
      */
-    public static function createWritableDirectories($dir, $io)
+    public static function createWritableDirectories($dir, IOInterface $io)
     {
         $paths = [
             'logs',
@@ -121,13 +122,13 @@ class Installer
      * This is not the most secure default, but it gets people up and running quickly.
      *
      * @param string $dir The application's root directory.
-     * @param \Composer\IO\IOInterface $io IO interface to write to console.
+     * @param IOInterface $io IO interface to write to console.
      * @return void
      */
-    public static function setFolderPermissions($dir, $io)
+    public static function setFolderPermissions($dir, IOInterface $io)
     {
         // Change the permissions on a path and output the results.
-        $changePerms = function ($path, $perms, $io) {
+        $changePerms = function ($path, $perms, IOInterface $io) {
             // Get current permissions in decimal format so we can bitmask it.
             $currentPerms = octdec(substr(sprintf('%o', fileperms($path)), -4));
             if (($currentPerms & $perms) == $perms) {
@@ -166,10 +167,10 @@ class Installer
      * Set the security.salt value in the application's config file.
      *
      * @param string $dir The application's root directory.
-     * @param \Composer\IO\IOInterface $io IO interface to write to console.
+     * @param IOInterface $io IO interface to write to console.
      * @return void
      */
-    public static function setSecuritySalt($dir, $io)
+    public static function setSecuritySalt($dir, IOInterface $io)
     {
         $config = $dir . '/config/app.php';
         $content = file_get_contents($config);

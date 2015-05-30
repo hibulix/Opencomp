@@ -108,7 +108,7 @@ class LpcnodesController extends AppController {
 
 		$lpcnode = $this->Lpcnodes->get($id);
 
-		if ($this->request->is('post')) {
+		if ($this->request->is(['patch', 'post', 'put'])) {
             $lpcnode = $this->Lpcnodes->patchEntity($lpcnode, $this->request->data);
 			if ($this->Lpcnodes->save($lpcnode)) {
 				$this->Flash->success('Le noeud LPC a été correctement modifé');

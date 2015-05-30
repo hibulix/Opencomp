@@ -31,7 +31,6 @@ class ReportsController extends AppController {
                 $this->Flash->success('Le bulletin a été correctement mis à jour.');
                 $this->redirect(array('controller' => 'classrooms','action' => 'viewreports', $classroom->id));
             } else {
-                $classroom_id = $this->request->query['classroom_id'];
                 $this->set('classroom_id', $classroom->id);
                 $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
             }

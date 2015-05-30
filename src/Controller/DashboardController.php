@@ -2,6 +2,7 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 
 class DashboardController extends AppController {
@@ -16,7 +17,7 @@ class DashboardController extends AppController {
 
 		$classrooms = $classroomsTable->find('all', [
 			'contain' => [
-				'Evaluations' => function ($q) {
+				'Evaluations' => function (Query $q) {
 			        return $q->where(['Evaluations.unrated' => 0]);
 			    },
 				'Evaluations.Results',
