@@ -26,6 +26,7 @@
 $this->start('script');
 ?>
     <script type='text/javascript'>
+        var role = '<?php echo AuthComponent::user('role'); ?>';
         var data = <?php echo $json; ?>;
 
         function returnContextMenu(node){
@@ -49,7 +50,7 @@ $this->start('script');
                 }
             };
 
-            if (node.data.type == "noeud" || $("#"+node.id+" i").hasClass("text-danger")) {
+            if ((node.data.type == "noeud" || $("#"+node.id+" i").hasClass("text-danger")) && role !== 'admin') {
 
                 delete items.choose;
             }

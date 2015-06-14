@@ -13,7 +13,7 @@
         "cakephp/cakephp": "2.6.7",
     	"slywalker/boost_cake": "1.0.6",
     	"zendframework/zendpdf": "2.0.2",
-    	"enygma/yubikey": "3.2.0",
+    	"enygma/yubikey": "3.2",
     	"dompdf/dompdf": "0.6.1",
         "fusonic/spreadsheet-export": "0.1.1",
         "pda/pheanstalk": "3.0.2"
