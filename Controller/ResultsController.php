@@ -161,7 +161,7 @@ class ResultsController extends AppController {
 		$this->set('report', $report);
 
 		$results = $this->Result->find('all', array(
-			'fields' => array('sum_grade_a', 'sum_grade_b', 'sum_grade_c', 'sum_grade_d'),
+			'fields' => array('SUM(grade_a)', 'SUM(grade_b)', 'SUM(grade_c)', 'SUM(grade_d)'),
 			'order' => array('Pupil.name', 'Pupil.first_name'),
 			'group' => array('Pupil.id'),
 			'conditions' => array(
