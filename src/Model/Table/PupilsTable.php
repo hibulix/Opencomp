@@ -36,6 +36,11 @@ class PupilsTable extends Table
             'className' => 'ClassroomsPupils',
             'foreignKey' => 'pupil_id',
         ]);
+        $this->belongsToMany('Levels', [
+            'foreignKey' => 'pupil_id',
+            'targetForeignKey' => 'level_id',
+            'joinTable' => 'classrooms_pupils'
+        ]);
         $this->belongsToMany('Evaluations', [
             'foreignKey' => 'pupil_id',
             'targetForeignKey' => 'evaluation_id',

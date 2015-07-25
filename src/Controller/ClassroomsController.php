@@ -2,11 +2,14 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
+use App\Model\Entity\User;
+use Cake\Event\Event;
 use Cake\Network\Exception\BadRequestException;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Cake\I18n\Time;
 use Cake\Network\Exception\MethodNotAllowedException;
+use Cake\Datasource\Exception\RecordNotFoundException;
 /**
  * Classrooms Controller
  *
@@ -41,6 +44,52 @@ class ClassroomsController extends AppController {
             }
         }
         return false;
+    }
+
+    function beforeFilter(Event $event) {
+        parent::beforeFilter($event);
+        $this->Auth->allow('getJson');
+    }
+
+    public function getJson($apikey = null, $classroom_id = null){
+
+        $this->layout = 'ajax';
+        $this->response->type(array('json' => 'application/json'));
+        $this->response->type('json');
+
+        $user = $this->Classrooms->Users->find('all', [
+            'conditions' => [
+                'apikey' => $this->request->params['pass'][0]
+            ]
+        ])->first();
+
+        if(!isset($user))
+            $json = ['error' => 'INVALID_APIKEY'];
+        else{
+            try{
+                $classroom = $this->Classrooms->get($this->request->params['pass'][1],['contain' => ['Pupils', 'Pupils.Levels']]);
+
+                if($user->role == 'admin' || $user->id === $classroom->user_id){
+                    $json['error'] = 'NONE';
+                    foreach($classroom->pupils as $pupil){
+                        $json['pupils'][] = [
+                            'id' => '*00' . $pupil->id . '*',
+                            'name' => $pupil->name,
+                            'first_name' => $pupil->first_name,
+                            'birthday' => $pupil->birthday->i18nFormat('dd/MM/YYYY'),
+                            'level' => $pupil->levels[0]->title
+                        ];
+                    }
+                }
+                else{
+                    $json['error'] = 'UNAUTHORIZED';
+                }
+            }catch(RecordNotFoundException $e){
+                $json['error'] = 'UNKNOWN_CLASSROOM';
+            }
+        }
+
+        $this->set('json',json_encode($json,JSON_PRETTY_PRINT));
     }
 
 /**
