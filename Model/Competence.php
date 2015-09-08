@@ -109,9 +109,13 @@ class Competence extends AppModel {
 		$competence_bounds = $this->returnBoundsFromCompetenceId($ids_array);
 		$sql_string = "SELECT * FROM competences AS Competence WHERE ";
 
-		$id_competences = implode(',',$ids_array);
-		$sql_string .= "id IN ( $id_competences ) OR ";
-
+        if(is_array($ids_array)){
+            $id_competences = implode(',',$ids_array);
+            $sql_string .= "id IN ( $id_competences ) OR ";
+        }else{
+            $sql_string .= "id = $ids_array OR ";
+        }
+        
 		foreach($competence_bounds as $lft => $rght){
 			$sql_string .= "(lft < $lft AND rght > $rght) OR ";
 		}
