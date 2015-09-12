@@ -131,5 +131,9 @@
         ));
 	    echo $this->fetch('script');
     ?>
+    <script type="text/javascript" src="https://s3.amazonaws.com/assets.freshdesk.com/widget/freshwidget.js"></script>
+    <script type="text/javascript">
+        FreshWidget.init("", {"queryString": "&widgetType=popup&formTitle=Envoyer+une+demande+d'assistance.", "utf8": "✓", "widgetType": "popup", "buttonType": "text", "buttonText": "Aide et support", "buttonColor": "white", "buttonBg": "#EB8B00", "alignment": "4", "offset": "300px", "formHeight": "500px", "url": "https://opencomp.freshdesk.com"} );
+    </script>
   </body>
 </html>
