@@ -9,6 +9,48 @@ class ItemsController extends AppController {
 
 	public $components = array('JsonTree');
 
+	public function add($competence_id = null){
+
+        if($this->Auth->user('role') !== 'admin'){
+            $this->Session->setFlash(__('L\'ajout d\'item provenant des IO ne peut être effectué que par l\'administrateur.'), 'flash_success');
+            $this->redirect(array('controller' => 'competences', 'action' => 'index', $competence_id));
+        }
+
+		$this->set('title_for_layout', __('Ajouter un item'));
+
+		//On vérifie que le paramètre nommé competence_id a été fourni et qu'il existe.
+		$competence_id = $this->CheckParams->checkForNamedParam('Competence','competence_id', $competence_id);
+
+		$levels = $this->Item->Level->find('list', array('recursive' => 0));
+		$this->set('levels', $levels);
+
+		$this->set('path', $this->tabPathToString($this->Item->Competence->getPath($competence_id)));
+
+		$this->JsonTree->passAllLpcnodesToView();
+
+		if ($this->request->is('post')) {
+
+			$this->Item->create();
+			if ($this->Item->save($this->request->data)) {
+
+				$this->Session->setFlash(__('L\'item a été correctement créé.'), 'flash_success');
+				$this->redirect(array('controller' => 'items', 'action' => 'add', $competence_id));
+			} else {
+				$this->Session->setFlash(__('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.'), 'flash_error');
+			}
+		}
+	}
+
+    private function tabPathToString($path){
+        $mypath = '';
+        foreach($path as $competence){
+            $mypath .= $competence['Competence']['title'].' <i class="fa fa-chevron-right"></i> ';
+        }
+        $mypath = substr($mypath, 0, -36);
+
+        return $mypath;
+    }
+
 	public function edit($id = null, $classroom_id){
 		$this->Item->id = $id;
 		if (!$this->Item->exists()) {
