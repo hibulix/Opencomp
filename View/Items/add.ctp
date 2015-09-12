@@ -50,6 +50,7 @@ echo $this->Form->input('Level', array(
 <div class="form-group">
     <label class="col col-md-2 control-label">Jumelage LPC</label>
     <div class="col col-md-10">
+        <button style="margin-top: 7px;" class="btn btn-default btn-xs" id="no-lpc"><i class="fa fa-remove"></i> Supprimer l'association</button>
         <?php echo $this->Form->hidden('lpcnode_id'); ?>
         <div id="jumelage_lpc" class="jstree-default" style="margin-top:20px;">
 
@@ -80,7 +81,6 @@ $this->start('script');
 
     $("#jumelage_lpc").jstree({
         'state' : { 'key' : 'jumelage_lpc' },
-        'plugins' : [ 'state' ],
         'core' : {
             'multiple' : false,
             'check_callback' : true,

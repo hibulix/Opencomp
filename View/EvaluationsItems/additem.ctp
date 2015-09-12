@@ -83,7 +83,6 @@ $this->start('script');
 
     $("#jumelage_lpc").jstree({
         'state' : { 'key' : 'jumelage_lpc' },
-        'plugins' : [ 'state' ],
         'core' : {
             'multiple' : false,
             'check_callback' : true,
