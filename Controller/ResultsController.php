@@ -63,6 +63,19 @@ class ResultsController extends AppController {
 
         $pupil_id = $this->CheckParams->checkForNamedParam('Pupil','pupil_id', $this->request->params['named']['pupil_id']);
 
+		$pupilHasTakenEvaluation = $this->Result->Evaluation->EvaluationsPupil->find('first', array(
+            'conditions' => array(
+                'evaluation_id' => $evaluation_id,
+                'pupil_id' => $this->request->params['named']['pupil_id']
+            ),
+            'recursive' => 0
+        ));
+
+        if(empty($pupilHasTakenEvaluation)){
+            $this->Session->setFlash(__('Impossible de saisir des résultats, cet élève n\'est pas associé à cette évaluation !'), 'flash_error');
+            $this->redirect(array('controller' => 'evaluations', 'action' => 'manageresults', $evaluation_id));
+        }
+
 		$hasItems = $this->Result->Evaluation->EvaluationsItem->find('all', array(
 	        'conditions' => array('evaluation_id' => $evaluation_id),
 	        'recursive' => 0
