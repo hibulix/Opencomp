@@ -5,6 +5,9 @@
         <?php echo $this->Html->link('<i class="fa fa-compress"></i> '.__('Replier l\'arbre'), '#', array('class' => 'btn btn-default', 'escape' => false, 'onclick' => "$('#competences').jstree('close_all','',200);")); ?>
     </div>
 </div>
+<div class="col-md-3 pull-right">
+    <input type="text" id="search" class="form-control" placeholder="🔍 chercher dans le référentiel" />
+</div>
 
 <?php if(AuthComponent::user('role') !== 'admin'){ ?>
 	<div class="alert alert-info">
@@ -28,6 +31,7 @@
 
 $this->start('script');
 ?>
+
 <script type='text/javascript'>
 	var role = '<?php echo AuthComponent::user('role'); ?>';
 	var data = <?php echo $json; ?>;
@@ -105,7 +109,8 @@ $this->start('script');
 		'contextmenu' : {
 			'items' : returnContextMenuAdminCompetence
 		},
-		'plugins' : [ 'contextmenu' ],
+        'state' : { 'key' : 'referentiel_io' },
+		'plugins' : [ 'contextmenu','search','state' ],
 		'core' : {
 			'strings' : {
 				'Loading ...' : 'Veuillez patienter ...'
@@ -113,6 +118,14 @@ $this->start('script');
 			'data' : data
 		}
 	});
+    var to = false;
+    $('#search').keyup(function () {
+        if(to) { clearTimeout(to); }
+        to = setTimeout(function () {
+            var v = $('#search').val();
+            $('#competences').jstree(true).search(v);
+        }, 250);
+    });
 </script>
 <?php
 $this->end();
