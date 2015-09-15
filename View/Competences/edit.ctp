@@ -32,6 +32,8 @@ echo $this->Form->input('title', array(
 echo $this->Form->input('parent_id', array(
         'options'=>$cid,
         'class'=>'chzn-select form-control',
+        'empty'=>true,
+        'data-placeholder'=>'Pas de compétence parent',
         'label' => array(
             'text' => 'Compétence parente'
         ))
