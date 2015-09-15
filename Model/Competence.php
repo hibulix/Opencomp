@@ -121,6 +121,8 @@ class Competence extends AppModel {
 		}
 
 		$sql_string = substr($sql_string,0,-3);
+        if($this->Auth->role == "admin")
+            $sql_string .= "AND deleted = false ";
 		$sql_string .= "ORDER BY lft;";
 
 		$competences = $this->query($sql_string);
@@ -136,8 +138,14 @@ class Competence extends AppModel {
 	 * @return array Un tableau prêt à être JSONifié pour passer à JsTree.
      */
 	public function findAllCompetences(){
+
+        $conditions = [];
+        if(AuthComponent::user('role') !== 'admin')
+            $conditions['Competence.deleted'] = '0';
+
 		$competences = $this->find('all',[
 			'order' => ['Competence.lft'],
+            'conditions' => $conditions,
 			'recursive' => -1
 		]);
 
@@ -160,6 +168,12 @@ class Competence extends AppModel {
 			else
 				$tab[$num]['parent'] = "#";
 			$tab[$num]['icon'] = 'fa fa-lg fa-cubes';
+
+			if($c['Competence']['deleted']){
+				$tab[$num]['a_attr']['style'] = 'color:#cacaca; text-decoration:line-through;';
+                $tab[$num]['data']['deleted'] = "true";
+			}
+
 			$tab[$num]['text'] = $c['Competence']['title'];
 			$tab[$num]['data']['type'] = "noeud";
 			$tab[$num]['li_attr']['data-type'] = "noeud";

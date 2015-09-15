@@ -151,6 +151,9 @@ class Item extends AppModel {
 		else{
 			$conditions['OR']['Item.user_id'] = AuthComponent::user('id');
 			$conditions['OR']['Item.type IN'] = ['1','2'];
+
+			if(AuthComponent::user('role') !== 'admin')
+				$conditions['AND']['Item.deleted'] = '0';
 		}
 
 		$items = $this->find('all',[
@@ -169,6 +172,12 @@ class Item extends AppModel {
 			$tab[$num]['data']['id'] = $item['Item']['id'];
 			$tab[$num]['li_attr']['data-type'] = "feuille";
 			$tab[$num]['li_attr']['data-id'] = $item['Item']['id'];
+
+			if($item['Item']['deleted']){
+				$tab[$num]['a_attr']['style'] = 'color:#cacaca; text-decoration:line-through;';
+				$tab[$num]['data']['deleted'] = "true";
+			}
+
 			$num++;
 		}
 
@@ -192,6 +201,10 @@ class Item extends AppModel {
 	}
 
 	private function returnItemClassType($item){
+
+		if($item['Item']['deleted'])
+			return "";
+
 		switch ($item['Item']['type']) {
 			case 1:
 				return "text-danger";

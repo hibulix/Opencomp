@@ -45,6 +45,7 @@ $this->start('script');
 		else if(node.data.type == "noeud"){
 			var competence = $('#'+node.id+'>a').text();
 			var idCompetence = node.id;
+			var deleted = node.data.deleted;
 		}
 
 		var items = {
@@ -76,6 +77,20 @@ $this->start('script');
 					window.location.href = $('#base_url').text()+'items/edit/'+idItem;
 				}
 			},
+			"softDelete" : {
+				"label" : "ne plus afficher cette compétence dans le référentiel",
+				"icon" : "fa text-danger fa-eye-slash",
+				"action" : function (obj){
+					window.location.href = $('#base_url').text()+'competences/softDelete/'+idCompetence;
+				}
+			},
+			"softUnDelete" : {
+				"label" : "réintégrer cette compétence dans le référentiel",
+				"icon" : "fa text-success fa-eye",
+				"action" : function (obj){
+					window.location.href = $('#base_url').text()+'competences/softUnDelete/'+idCompetence;
+				}
+			},
 			"moveTop" : {
 				"label" : "déplacer vers le haut",
 				"icon" : "fa text-info fa-arrow-up",
@@ -96,10 +111,16 @@ $this->start('script');
 			delete items.createNew;
             delete items.createItem;
 			delete items.edit;
+			delete items.softDelete;
+			delete items.softUnDelete;
 			delete items.moveTop;
 			delete items.moveDown;
 		}else{
 			delete items.editItem;
+			if(deleted)
+				delete items.softDelete;
+			else
+				delete items.softUnDelete;
 		}
 
 		return items;

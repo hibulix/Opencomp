@@ -144,5 +144,33 @@ class CompetencesController extends AppController {
 		$this->JsonTree->passAllItemsJsonTreeToView();
     }
 
+	public function softDelete($id = null) {
+		$this->switchSoftDelete($id, true);
+	}
+
+    public function softUnDelete($id = null) {
+        $this->switchSoftDelete($id, false);
+    }
+
+    private function switchSoftDelete($id, $switch){
+        $allChildren = $this->Competence->children($id, false, ['id']);
+        $competencesIds = [];
+        $competencesIds[] = $id;
+        foreach($allChildren as $competence){
+            $competencesIds[] = $competence['Competence']['id'];
+        }
+
+        $this->Competence->updateAll(
+            array('Competence.deleted' => $switch),
+            array('Competence.id' => $competencesIds)
+        );
+
+        $this->Competence->Item->updateAll(
+            array('Item.deleted' => $switch),
+            array('Item.competence_id' => $competencesIds)
+        );
+
+        $this->redirect(array('action' => 'index'));
+    }
 
 }
