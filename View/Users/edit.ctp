@@ -22,7 +22,13 @@ echo $this->Form->input('username', array(
     'label' => array(
         'text' => 'Nom d\'utilisateur'
     )
-));     
+));
+echo $this->Form->input('password', array(
+    'value' => '',
+    'label' => array(
+        'text' => 'Mot de passe'
+    )
+));
 echo $this->Form->input('first_name', array(
     'label' => array(
         'text' => 'Prénom'

@@ -1,5 +1,6 @@
 <?php
 App::uses('AppModel', 'Model');
+App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
 /**
  * User Model
  *
@@ -33,18 +34,19 @@ class User extends AppModel {
 			),
 		),
 		'password' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				'on'   => 'create'
 			),
 		),
 		'first_name' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 			),
 		),
 		'name' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 			),
 		),
 		'email' => array(
@@ -53,8 +55,8 @@ class User extends AppModel {
 			),
 		),
 		'role' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 			),
 		),
 	);
@@ -170,6 +172,19 @@ class User extends AppModel {
 		}
 
 		return $result;
+	}
+
+	public function beforeSave($options = array()) {
+		if (!empty($this->data[$this->alias]['password'])) {
+			$passwordHasher = new SimplePasswordHasher(array('hashType' => 'sha1'));
+			$this->data[$this->alias]['password'] = $passwordHasher->hash(
+					$this->data[$this->alias]['password']
+			);
+		}else{
+			$this->id = $this->data['User']['id'];
+			$this->data[$this->alias]['password'] = $this->field('password');
+		}
+		return true;
 	}
 
 }
