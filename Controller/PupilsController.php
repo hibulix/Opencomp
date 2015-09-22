@@ -51,28 +51,20 @@ class PupilsController extends AppController {
     }
 
     public function parseimport(){
-        //On vérifie qu'un paramètre nommé classroom_id a été fourni et qu'il existe.
-        $classroom_id = $this->CheckParams->checkForNamedParam('Classroom','classroom_id', $this->request->params['named']['classroom_id']);
+		$import = $this->parsecsv();
+		$this->set('preview',$import);
+	}
 
-        if(file_exists(APP.'files/import_be1d_'.$classroom_id.'.csv')){
-            $csv_file = file(APP.'files/import_be1d_'.$classroom_id.'.csv');
-            array_shift($csv_file);
-            foreach($csv_file as $line)
-                $csv_array[] = str_getcsv($line,';','"');
+	public function previewimport(){
+		$import = $this->parsecsv(true);
 
-            $this->set('preview', $this->Encoding->convertArrayToUtf8($csv_array));
-        }else{
-            $this->Session->setFlash(__('Le fichier n\'a pas été correctement importé.'), 'flash_error');
-            $this->redirect(array('controller' => 'pupils', 'action' => 'import', 'classroom_id' => $classroom_id));
-        }
-
-        if(isset($this->request->params['named']['step']) && $this->request->params['named']['step'] == 'go')
-            $this->runImport($this->Encoding->convertArrayToUtf8($csv_array));
-    }
+		$this->set('preview', $import);
+		$this->set('column', $this->request->data['Pupil']);
+	}
     
-    private function runImport($import){
-        $classroom_id = $this->request->params['named']['classroom_id'];
-
+    public function runimport(){
+        $import = $this->parsecsv(true);
+		$classroom_id = $this->request->params['named']['classroom_id'];
         $niveaux = $this->Pupil->ClassroomsPupil->Level->find('all', array('recursive' => -1));
         foreach($niveaux as $niveau){
             $levels[$niveau['Level']['title']] = $niveau['Level']['id'];
@@ -82,15 +74,15 @@ class PupilsController extends AppController {
         foreach($import as $line){
             $data = array(
                 'Pupil' => array(
-                    'name' => $line[0],
-                    'first_name' => $line[1],
-                    'sex' => $line[13],
-                    'birthday' => substr($line[9],6,4).'-'.substr($line[9],3,2).'-'.substr($line[9],0,2)
+                    'name' => $line[$this->request->data['Pupil']['name']],
+                    'first_name' => $line[$this->request->data['Pupil']['first_name']],
+                    'sex' => $line[$this->request->data['Pupil']['sex']],
+                    'birthday' => $line[$this->request->data['Pupil']['birthday']]
                 ),
                 'ClassroomsPupil' => array(
                     array(
                         'classroom_id' => $classroom_id,
-                        'level_id' => $levels[$line[2]]
+                        'level_id' => $levels[$line[$this->request->data['Pupil']['level']]]
                     )
                 )
             );
@@ -107,6 +99,27 @@ class PupilsController extends AppController {
             $this->redirect(array('controller' => 'pupils', 'action' => 'parseimport', 'classroom_id' => $classroom_id));
         }
     }
+
+	private function parsecsv($remove_first_line = false){
+		$classroom_id = $this->request->params['named']['classroom_id'];
+
+		if(file_exists(APP.'files/import_be1d_'.$classroom_id.'.csv')){
+			$csv_file = file(APP.'files/import_be1d_'.$classroom_id.'.csv');
+
+			if($remove_first_line){
+				array_shift($csv_file);
+			}
+			foreach($csv_file as $line)
+				$csv_array[] = str_getcsv($line,';','"');
+
+			$this->set('classroom_id',$classroom_id);
+
+			return $this->Encoding->convertArrayToUtf8($csv_array);
+		}else{
+			$this->Session->setFlash(__('Le fichier n\'a pas été correctement importé.'), 'flash_error');
+			$this->redirect(array('controller' => 'pupils', 'action' => 'import', 'classroom_id' => $classroom_id));
+		}
+	}
 
 /**
  * edit method

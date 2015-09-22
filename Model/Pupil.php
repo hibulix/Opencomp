@@ -30,17 +30,17 @@ class Pupil extends AppModel {
 	public $validate = array(
 		'name' => array(
 			'minlength' => array(
-				'rule' => array('notempty'),
+				'rule' => array('notBlank'),
 			),
 		),
 		'first_name' => array(
 			'minlength' => array(
-				'rule' => array('notempty'),
+				'rule' => array('notBlank'),
 			),
 		),
 		'sex' => array(
 			'inlist' => array(
-				'rule' => array('notempty'),
+				'rule' => array('notBlank'),
 			),
 		),
 		'birthday' => array(

@@ -1,45 +1,57 @@
 <div class="page-title">
-    <h2><i class="fa fa-hand-o-right"></i> <?php  echo __('Prévisialisation, vérifiez les données à importer'); ?></h2>
+    <h2><i class="fa fa-arrows-h"></i> <?php  echo __('Faire correspondre les colonnes'); ?></h2>
 </div>
 
-<div class="alert alert-info">
-    En cas de données incohérentes, assurez vous d'avoir un fichier .csv provenant bien de BE1D.</br>
-    Pour plus d'informations sur les imports .csv, consultez la base de connaissances à l'adresse <a target="_blank" href="http://kb.opencomp.fr">http://kb.opencomp.fr/index.php?solution_id=1003</a>
-</div>
-
-<table class="table">
-    <thead>
-    <tr>
-        <th>Prénom</th>
-        <th>Nom</th>
-        <th>Date de naissance</th>
-        <th>Niveau</th>
-        <th>Sexe</th>
-    </tr>
-    </thead>
-    <tbody>
-
-<?php foreach($preview as $line): ?>
-    <tr>
-        <td><?php echo $line[1]; ?></td>
-        <td><?php echo $line[0]; ?></td>
-        <td><?php echo $line[9]; ?></td>
-        <td><?php echo $line[2]; ?></td>
-        <td><?php echo $line[13]; ?></td>
-    </tr>
-<?php endforeach;
-
-$to = $this->Html->url(array(
-    "controller" => "pupils",
-    "action" => "parseimport",
-    "classroom_id" => $classroom_id,
-    "step" => "go"
+<?php
+echo $this->Form->create('Pupil', array(
+    'action' => 'previewimport/classroom_id:'.$classroom_id,
+    'inputDefaults' => array(
+        'div' => 'form-group',
+        'label' => array(
+            'class' => 'col col-md-2 control-label'
+        ),
+        'wrapInput' => 'col col-md-3',
+        'class' => 'form-control'
+    ),
+    'class' => 'form-horizontal'
+));
+echo $this->Form->input('first_name', array(
+    'type' => 'select',
+    'options' => $preview[0],
+    'label' => array(
+        'text' => 'Prénom'
+    )
+));
+echo $this->Form->input('name', array(
+    'type' => 'select',
+    'options' => $preview[0],
+    'label' => array(
+        'text' => 'Nom'
+    )
+));
+echo $this->Form->input('birthday', array(
+    'type' => 'select',
+    'options' => $preview[0],
+    'label' => array(
+        'text' => 'Date de naissance'
+    )
+));
+echo $this->Form->input('level', array(
+    'type' => 'select',
+    'options' => $preview[0],
+    'label' => array(
+        'text' => 'Niveau'
+    )
+));
+echo $this->Form->input('sex', array(
+    'type' => 'select',
+    'options' => $preview[0],
+    'label' => array(
+        'text' => 'Sexe'
+    )
 ));
 
-?>
-    </tbody>
-</table>
-
-<div class="form-actions">
-    <a href="<?php echo $to ?>" class="btn btn-large btn-success pull-right"><i class="fa fa-check"></i> Valider et importer</a>
-</div>
+echo $this->Form->submit('Prévisualiser l\'import', array(
+    'div' => 'col col-md-9 col-md-offset-2',
+    'class' => 'btn btn-primary'
+));
