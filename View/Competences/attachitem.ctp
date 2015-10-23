@@ -20,11 +20,15 @@
 	<ul class="list-unstyled">
 		<li><i class="fa fa-chevron-right"></i> <strong>Légende :</strong></li>
 		<ul class="fa-ul" style="margin-left:35px; margin-top:10px;">
-			<li><i class="fa-li fa fa-lg fa-cube text-danger"></i> Signale un item extrait des instructions officielles de l'<em>éducation nationale</em> (programmes 2008).</li>
+			<li><i class="fa-li fa fa-lg fa-cube text-danger"></i> Signale un item extrait des instructions officielles de l'<em>éducation nationale</em> (programmes 2008, progressions 2012 et EMC 2015).</li>
 			<li><i class="fa-li fa fa-lg fa-cube text-info"></i> Signale un item commun à l'ensemble des enseignants de l'<em>établissement</em>.</li>
 			<li><i class="fa-li fa fa-lg fa-cube text-success"></i> Signale un item <em>personnel</em> que vous avez ajouté.</li>
 		</ul>
 	</ul>
+</div>
+
+<div class="col-md-3 pull-right">
+    <input type="text" id="search" class="form-control" placeholder="🔍 chercher dans le référentiel" />
 </div>
 
 <div id="tree_attach_item" class="jstree-default" style="width:1140px; overflow: hidden;">
@@ -79,7 +83,7 @@ $this->start('script');
 			//'show_at_node' : false,
 			'items' : returnContextMenu
 		},
-		'plugins' : [ 'state', 'contextmenu' ],
+		'plugins' : [ 'state', 'search', 'contextmenu' ],
 		'core' : {
 			'check_callback' : true,
 			'strings' : {
@@ -87,6 +91,15 @@ $this->start('script');
 			},
 			'data' : data
 		}
+	});
+
+	var to = false;
+	$('#search').keyup(function () {
+		if(to) { clearTimeout(to); }
+		to = setTimeout(function () {
+			var v = $('#search').val();
+			$('#tree_attach_item').jstree(true).search(v);
+		}, 250);
 	});
 
 </script>
