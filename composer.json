@@ -16,7 +16,8 @@
     	"enygma/yubikey": "3.2",
     	"dompdf/dompdf": "0.6.1",
         "fusonic/spreadsheet-export": "0.1.1",
-        "pda/pheanstalk": "3.0.2"
+        "pda/pheanstalk": "3.0.2",
+        "sandreu/cake-sentry": "*@dev"
     },
     "require-dev": {
     	"cakephp/debug_kit": "2.2.5",
