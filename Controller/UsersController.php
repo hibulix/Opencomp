@@ -208,4 +208,19 @@ class UsersController extends AppController {
 		$this->Session->setFlash(__('L\'utilisateur n\'a pas pu être supprimé'), 'flash_error');
 		$this->redirect(array('action' => 'index'));
 	}
+
+	public function preferences(){
+        $this->set('title_for_layout','Préférences utilisateur');
+        $this->set('levels',$this->User->Item->Level->find('list'));
+        $this->User->id = $this->Auth->user('id');
+
+        $this->set('preferences',unserialize($this->User->field('user_preferences')));
+
+        if ($this->request->is('post')) {
+            $this->User->saveField('user_preferences', serialize($this->request->data('User')));
+            $this->Session->write('Auth.User.user_preferences', serialize($this->request->data('User')));
+            $this->Session->setFlash('Vos préférences ont été correctement enregistrées.', 'flash_success');
+            $this->redirect('preferences');
+        }
+    }
 }

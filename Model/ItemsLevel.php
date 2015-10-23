@@ -26,4 +26,17 @@ class ItemsLevel extends AppModel {
 			'foreignKey' => 'level_id',
 		)
 	);
+
+	public function findItemsIdsFromLevelIds($level_ids){
+		if(count($level_ids) > 1){
+			$conditions['level_id IN'] = $level_ids;
+		}else{
+			$conditions['level_id'] = $level_ids;
+		}
+
+		return array_unique($this->find('list',[
+			'fields' => ['item_id','item_id'],
+			'conditions' => $conditions
+		]));
+	}
 }

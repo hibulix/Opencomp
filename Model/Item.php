@@ -143,18 +143,29 @@ class Item extends AppModel {
 
     }
 
-	function findAllItems($item_ids = null){
+	function findCompetenceIdFromItemsIds($items_ids){
+		return array_unique($this->find('list',[
+			'fields' => ['competence_id','competence_id'],
+			'conditions' => [
+				'Item.id IN' => $items_ids,
+				'Item.deleted' => false
+			]
+		]));
+	}
+
+	function findAllItems($item_ids = null)
+	{
 		$this->contain('Level');
 
-		if(isset($item_ids))
+		if (isset($item_ids)){
 			$conditions['Item.id IN'] = $item_ids;
-		else{
-			$conditions['OR']['Item.user_id'] = AuthComponent::user('id');
-			$conditions['OR']['Item.type IN'] = ['1','2'];
-
-			if(AuthComponent::user('role') !== 'admin')
-				$conditions['AND']['Item.deleted'] = '0';
 		}
+
+		$conditions['OR']['Item.user_id'] = AuthComponent::user('id');
+		$conditions['OR']['Item.type'] = '1';
+
+		if(AuthComponent::user('role') !== 'admin')
+			$conditions['AND']['Item.deleted'] = '0';
 
 		$items = $this->find('all',[
 			'conditions' => $conditions

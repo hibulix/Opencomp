@@ -18,8 +18,16 @@ class JsonTreeComponent extends Component {
     public function passAllItemsJsonTreeToView(){
         $this->Competence = ClassRegistry::init('Competence');
         $this->Item = ClassRegistry::init('Item');
-        $competences = $this->Competence->findAllCompetences();
-        $items = $this->Item->findAllItems();
+        $this->ItemsLevel = ClassRegistry::init('ItemsLevel');
+        $user_preferences = unserialize($this->controller->Session->read('Auth.User.user_preferences'));
+        if(!empty($user_preferences['levels'])){
+            $items = $this->Item->findAllItems($this->ItemsLevel->findItemsIdsFromLevelIds($user_preferences['levels']));
+            $competences = $this->Competence->findAllCompetencesFromCompetenceId($this->Item->findCompetenceIdFromItemsIds($this->ItemsLevel->findItemsIdsFromLevelIds($user_preferences['levels'])));
+        }else{
+            $items = $this->Item->findAllItems();
+            $competences = $this->Competence->findAllCompetences();
+        }
+
 
         $competences_items = array_merge($competences, $items);
 
