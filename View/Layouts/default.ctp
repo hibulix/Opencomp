@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <?php echo $this->Html->charset(); ?>
 	<title>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                    	<li><?php echo $this->Html->link('<i class="fa fa-lg fa-dashboard"></i> '.__('Bureau'), '/dashboard', array('escape' => false)); ?></li>
+                    	<li><?php echo $this->Html->link('<i class="fa fa-lg fa-home"></i> '.__('Mes classes'), '/dashboard', array('escape' => false)); ?></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-lg fa-list"></i> <?php echo __('Référentiels') ?> <b class="caret"></b></a>
                             <ul class="dropdown-menu">
@@ -77,14 +77,6 @@
                                 </ul>
                             </li>
                             <?php } ?>
-                            <li class="dropdown">
-                   <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-lg fa-support"></i> <?php echo __('Aide et support') ?> <b class="caret"></b></a>
-
-            	<ul class="dropdown-menu">
-                	<li><a href="http://kb.opencomp.fr" target="_blank"><i class="fa fa-book"></i> <?php echo __('Chercher une solution dans la base de connaissance') ; ?></a></li>
-                	<li><a href="http://projets.opencomp.fr/opencomp/issues/new" target="_blank"><i class="fa fa-bug"></i> <?php echo __('Signaler une anomalie, demander une fonctionnalité') ; ?></a></li>
-            	</ul>
-            	</li>
 
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -134,6 +126,19 @@
     <script type="text/javascript" src="https://s3.amazonaws.com/assets.freshdesk.com/widget/freshwidget.js"></script>
     <script type="text/javascript">
         FreshWidget.init("", {"queryString": "&widgetType=popup&formTitle=Envoyer+une+demande+d'assistance.", "utf8": "✓", "widgetType": "popup", "buttonType": "text", "buttonText": "Aide et support", "buttonColor": "white", "buttonBg": "#EB8B00", "alignment": "4", "offset": "300px", "formHeight": "500px", "url": "https://opencomp.freshdesk.com"} );
+    </script>
+    <script type="text/javascript">
+        var _urq = _urq || [];
+        _urq.push(['initSite', '7fe5e472-5532-48f9-a7bd-189c96579a7c']);
+        (function() {
+            var ur = document.createElement('script'); ur.type = 'text/javascript'; ur.async = true;
+            ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
+        })();
+    </script>
+    <script type="text/javascript">
+        window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var n=t.forceSSL||"https:"===document.location.protocol,a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=(n?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+e+".js";var o=document.getElementsByTagName("script")[0];o.parentNode.insertBefore(a,o);for(var r=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["clearEventProperties","identify","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=r(p[c])};
+        heap.load("1925018954");
     </script>
   </body>
 </html>
