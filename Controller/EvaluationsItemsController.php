@@ -33,8 +33,12 @@ class EvaluationsItemsController extends AppController {
 			]
 		]);
 
-		$this->JsonTree->passAllUsedItemsJsonTreeToView($items_competences, array_keys($items_competences));
+		if(empty($items_competences)){
+			$this->Session->setFlash(__('Impossible d\'afficher cette vue car vous n\'avez encore évalué aucun item.'), 'flash_error');
+			$this->redirect(array('controller' => 'classrooms', 'action' => 'viewtests', $id));
+		}
 
+		$this->JsonTree->passAllUsedItemsJsonTreeToView($items_competences, array_keys($items_competences));
 	}
 
 	public function attachitem(){

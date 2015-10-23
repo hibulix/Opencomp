@@ -136,8 +136,19 @@ class EvaluationsController extends AppController {
                 'year_id' => $currentYear['Setting']['value'],
             ),
 			'recursive' => 0));
+
+		if(empty($periods)){
+			$this->Session->setFlash(__('Votre directeur doit saisir les périodes de l\'établissement avant que vous ne puissiez créer une évaluation'), 'flash_error');
+			$this->redirect(array('controller' => 'classrooms','action' => 'viewtests', $classroom_id));
+		}
 		
 		$pupils = $this->Evaluation->findPupilsByLevelsInClassroom($classroom_id);
+
+		if(!isset($pupils)){
+			$this->Session->setFlash(__('Vous devez saisir les élèves de votre classe avant de pouvoir créer une évaluation'), 'flash_error');
+			$this->redirect(array('controller' => 'classrooms','action' => 'view', $classroom_id));
+		}
+
 		$this->set(compact('classrooms', 'users', 'periods', 'pupils', 'current_period'));
 	}
 

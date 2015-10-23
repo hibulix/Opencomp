@@ -97,13 +97,14 @@ class ClassroomsController extends AppController {
 			'conditions' => array('Period.id' => $current_period),
 			'recursive' => 0
 		));
-		
+
+		/*
 		$datefinperiode = new DateTime($period['Period']['end']);
 		$datecourante = new DateTime('now');
 
 		if($datecourante > $datefinperiode)
 			$this->Session->setFlash(__('Il semblerait que la période sélectionnée soit inférieure à la date courante. Vous pouvez modifier cela en cliquant sur "établissement de la classe"'), 'flash_error');
-			
+		*/
 		
 		if(isset($this->request->params['named']['periods']) && $this->request->params['named']['periods'] == 'all') {
 			$this->Classroom->contain(array(
