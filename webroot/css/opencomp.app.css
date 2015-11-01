@@ -261,3 +261,9 @@ i.red {
 .jstree-anchor::selection, .jstree-icon::selection, .label::selection{
     background: transparent;
 }
+
+.numbers-kickstart{
+  font-size: 70px; 
+  line-height:70px; 
+  font-family: 'Open Sans'
+}

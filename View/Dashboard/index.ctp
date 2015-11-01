@@ -10,23 +10,27 @@
     	</div>
     </div>
     <div class="col-md-2">
-    	<div class="well" style="height:157px;">
-	    	<?php echo $this->Html->image('logo-opencomp.png', array('style' => 'height:100px; opacity:0.04; margin-left:15px; float: left;','alt' => 'Logo Opencomp')); ?>
+    	<div class="well" style="height:157px; padding:10px;">
+    		<p class="text-center text-warning"><span class="numbers-kickstart">1 </span><i class="fa fa-5x fa-pencil-square-o"></i></p>
+	    	<p><?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Comment conçevoir les évaluations de mes élèves ? <i class="fa fa-external-link"></i>', 'https://opencomp.freshdesk.com/support/solutions/folders/1000218480', array('escape'=>false, 'target'=>'_blank')); ?></p>
     	</div>
     </div>
     <div class="col-md-2">
-    	<div class="well" style="height:157px;">
-	    	<?php echo $this->Html->image('logo-opencomp.png', array('style' => 'height:100px; opacity:0.06; margin-left:15px; float: left;','alt' => 'Logo Opencomp')); ?>
+    	<div class="well" style="height:157px; padding:10px;">
+    		<p class="text-center text-primary"><span class="numbers-kickstart">2 </span><i class="fa fa-5x fa-file-text-o"></i></p>
+	    	<p><?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Comment saisir les évaluations et définir les items évalués ? <i class="fa fa-external-link"></i>', 'https://opencomp.freshdesk.com/support/solutions/folders/1000218495', array('escape'=>false, 'target'=>'_blank')); ?></p>
     	</div>
     </div>
     <div class="col-md-2">
-    	<div class="well" style="height:157px;">
-	    	<?php echo $this->Html->image('logo-opencomp.png', array('style' => 'height:100px; opacity:0.08; margin-left:15px; float: left;','alt' => 'Logo Opencomp')); ?>
+    	<div class="well" style="height:157px; padding:10px;">
+    		<p class="text-center text-success"><span class="numbers-kickstart">3 </span><i class="fa fa-5x fa-check-square-o"></i></p>
+	    	<p><?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Comment saisir les résultats d\'une évaluation ? <i class="fa fa-external-link"></i>', 'https://opencomp.freshdesk.com/support/solutions/folders/1000218481', array('escape'=>false, 'target'=>'_blank')); ?></p>
     	</div>
     </div>
     <div class="col-md-2">
-    	<div class="well" style="height:157px;">
-	    	<?php echo $this->Html->image('logo-opencomp.png', array('style' => 'height:100px; opacity:0.1; margin-left:15px; float: left;','alt' => 'Logo Opencomp')); ?>
+    	<div class="well" style="height:157px; padding:10px;">
+    		<p class="text-center text-danger"><span class="numbers-kickstart">4 </span><i class="fa fa-5x fa-file-pdf-o"></i></p>
+	    	<p><?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Comment générer les bulletins élèves en fin de période ? <i class="fa fa-external-link"></i>', 'https://opencomp.freshdesk.com/support/solutions/folders/1000218496', array('escape'=>false, 'target'=>'_blank')); ?></p>
     	</div>
     </div>
 </div>

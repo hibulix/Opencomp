@@ -12,8 +12,8 @@
 <div class="alert alert-info">
   Vous êtes sur le point d'ajouter un item évalué à l'évaluation “<strong><?php echo h($eval['Evaluation']['title']) ?></strong>”.<br /><br />
 
-  Pour ajouter un item, dépliez les branches de l'arbre jusqu'à atteindre l'item souhaité, puis, double-cliquez dessus.<br />
-  Si l'item évalué n'est pas encore présent dans l'arbre dépliez les branches jusqu'à atteindre la compétence souhaitée, puis, double-cliquez dessus pour créer un nouvel item.
+  Pour ajouter un item, dépliez les branches de l'arbre jusqu'à atteindre l'item souhaité, puis, effectuez un clic droit dessus et sélectionnez "ajouter cet item à l'évaluation".<br />
+  Si l'item évalué n'est pas encore présent dans l'arbre dépliez les branches jusqu'à atteindre la compétence souhaitée, puis, effectuez un clic droit dessus et sélectionnez "créer un nouvel item dans xx".
 </div>
 
 <div class="well">
