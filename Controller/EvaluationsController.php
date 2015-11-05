@@ -168,6 +168,9 @@ class EvaluationsController extends AppController {
 				$this->Session->setFlash(__('L\'évaluation a été correctement mise à jour.'), 'flash_success');
 				$this->redirect(array('controller' => 'evaluations','action' => 'attacheditems', $id));
 			} else {
+				$classroom_id = $this->request->data['Evaluation']['classroom_id'];
+				$this->set('evaluation_id', $id);
+				$this->set('classroom_id', $classroom_id);
 				$this->Session->setFlash(__('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.'), 'flash_error');
 			}
 		} else {
