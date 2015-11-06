@@ -108,6 +108,8 @@ class ResultsController extends AppController {
 
 		if ($this->request->is('post')) {
 			$iteration=0;
+			$delete = array();
+
 			foreach($this->request->data['Results'] as $key => $value){
 				if(isset($value) && !empty($value)){
 					$data[$iteration]['Result']['pupil_id'] = $pupil_id;
@@ -116,11 +118,21 @@ class ResultsController extends AppController {
 					$data[$iteration]['Result']['result'] = $value;
 					$data = $this->setResult($data, $iteration, $value);
 					$iteration++;
+				}else{
+					$delete[] = $key;
 				}
 			}
 
-			$this->Result->create();
-			$this->Result->saveMany($data, array('validate' => 'all'));
+			if(isset($data)){
+				$this->Result->create();
+				$this->Result->saveMany($data, array('validate' => 'all'));
+			}
+
+			if(count($delete) > 0){
+				foreach ($delete as $id) {
+					$this->Result->deleteAll(array('Result.pupil_id' => $pupil_id, 'Result.evaluation_id' => $evaluation_id, 'item_id' => $id), false);
+				}
+			}
 
 			if(count($this->Result->invalidFields()) == 0){
 				$this->Session->setFlash(__('Les résultats de <code>'.$pupil['Pupil']['first_name'].' '.$pupil['Pupil']['name'].'</code> pour l\'évaluation <code>'.$items[0]['Evaluation']['title'].'</code> ont bien été enregistrés.'), 'flash_success');
