@@ -29,7 +29,7 @@ class Item extends AppModel {
 	public $validate = array(
 		'title' => array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => array('notBlank'),
 				'message' => 'Vous devez renseigner ce champ !',
 			),
 		),
@@ -157,8 +157,10 @@ class Item extends AppModel {
 	{
 		$this->contain('Level');
 
-		if (isset($item_ids)){
+		if (isset($item_ids) && is_array($item_ids) && count($item_ids) > 1){
 			$conditions['Item.id IN'] = $item_ids;
+		}else{
+			$conditions['Item.id'] = $item_ids;
 		}
 
 		$conditions['OR']['Item.user_id'] = AuthComponent::user('id');

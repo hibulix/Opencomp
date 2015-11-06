@@ -74,7 +74,7 @@ class Competence extends AppModel {
 	 * @return array|null Un tableau avec en clés les bornes gauches et en valeurs les bornes droites.
      */
 	private function returnBoundsFromCompetenceId($ids_array){
-		if(is_array($ids_array)){
+		if(is_array($ids_array) && count($ids_array) > 1){
 			return $this->find('list',[
 					'fields' => [
 							'Competence.lft',
