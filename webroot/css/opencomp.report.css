@@ -19,7 +19,7 @@ time, mark, audio, video {
     vertical-align: baseline;
 }
 @page { margin: 0; }
-#copyright {
+.copyright {
     -o-transform: rotate(270deg);
     -webkit-transform: rotate(270deg);
     -moz-transform: rotate(270deg);
@@ -31,8 +31,8 @@ time, mark, audio, video {
     margin-left:60px;
     font: 500 8px Helvetica;
 }
-#footer { position: fixed; text-align: center; bottom: 20px; height: 30px; font: italic 500 14px Helvetica; }
-#footer .page:after { content: counter(page, decimal); }
+.footer { position: fixed; text-align: center; bottom: 20px; height: 30px; font: italic 500 14px Helvetica; }
+.footer .page:after { content: counter(page, decimal); }
 body {
     width: 694px;
     box-sizing: border-box;

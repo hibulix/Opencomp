@@ -61,8 +61,8 @@ class GeneratePupilReportShell extends AppShell {
 
                 </head>
                 <body>
-                    <div id='copyright'>Opencomp system v 1.0</div>
-                    <div id='footer'>
+                    <div class='copyright'>Opencomp system v 1.0</div>
+                    <div class='footer'>
                         <p class='page'>$footer</p>
                     </div>
                     <div id='content'>

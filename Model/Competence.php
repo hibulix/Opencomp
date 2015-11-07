@@ -121,7 +121,7 @@ class Competence extends AppModel {
 		}
 
 		$sql_string = substr($sql_string,0,-3);
-        if(AuthComponent::user('role') == "admin")
+        if(class_exists('AuthComponent') && AuthComponent::user('role') == "admin")
             $sql_string .= "AND deleted = false ";
 		$sql_string .= "ORDER BY lft;";
 
@@ -140,7 +140,7 @@ class Competence extends AppModel {
 	public function findAllCompetences(){
 
         $conditions = [];
-        if(AuthComponent::user('role') !== 'admin')
+        if(class_exists('AuthComponent') && AuthComponent::user('role') !== 'admin')
             $conditions['Competence.deleted'] = '0';
 
 		$competences = $this->find('all',[
