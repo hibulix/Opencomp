@@ -157,10 +157,11 @@ class Item extends AppModel {
 	{
 		$this->contain('Level');
 
-		if (isset($item_ids) && is_array($item_ids) && count($item_ids) > 1){
-			$conditions['Item.id IN'] = $item_ids;
-		}else{
-			$conditions['Item.id'] = $item_ids;
+		if (isset($item_ids) && is_array($item_ids)){
+			if(count($item_ids) > 1)
+				$conditions['Item.id IN'] = $item_ids;
+			else
+				$conditions['Item.id'] = $item_ids;
 		}
 
 		$conditions['OR']['Item.user_id'] = AuthComponent::user('id');
