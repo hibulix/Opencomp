@@ -21,4 +21,11 @@ class DashboardController extends AppController {
 		$this->set('classrooms', $classrooms);
 	}
 
+	public function changelog(){
+		$this->loadModel('User');
+		$this->User->id = $this->Auth->user('id');
+		$this->User->saveField('new_notifications', false);
+		$this->Session->write('Auth.User.new_notifications', false);
+	}
+
 }

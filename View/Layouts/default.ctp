@@ -79,7 +79,16 @@
                             <?php } ?>
 
                     </ul>
+                    <?php $new_notifications = ($this->Session->read('Auth.User.new_notifications') == true) ? 'color:gold;' : ''; ?>
                     <ul class="nav navbar-nav navbar-right">
+                        <li><?php echo $this->Html->link('<i class="fa fa-lg fa-bell"></i>', '/dashboard/changelog', array(
+                            'class' => 'info',
+                            'style' => $new_notifications,
+                            'data-toggle' => 'tooltip',
+                            'data-placement' => 'bottom',
+                            'data-original-title' => 'voir les nouveautés',
+                            'escape' => false
+                        )); ?></li>
                         <li class="dropdown">
                             <?php $first_name = $this->Session->read('Auth.User.first_name');
                             $name = $this->Session->read('Auth.User.name'); ?>
