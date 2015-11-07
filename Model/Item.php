@@ -156,6 +156,7 @@ class Item extends AppModel {
 	function findAllItems($item_ids = null)
 	{
 		$this->contain('Level');
+		$conditions = array();
 
 		if (isset($item_ids) && is_array($item_ids)){
 			if(count($item_ids) > 1)
@@ -174,6 +175,10 @@ class Item extends AppModel {
 			'conditions' => $conditions
 		]);
 
+		return $this->returnFormattedItems($items);
+	}
+
+	private function returnFormattedItems($items){
 		$tab = array();
 		$num = 0;
 
