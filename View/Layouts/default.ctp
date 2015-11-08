@@ -76,6 +76,13 @@
                                     <li><?php echo $this->Html->link('<i class="fa fa-cogs"></i> '.__('Paramètres de l\'application'), '/settings/', array('escape' => false)); ?></li>
                                 </ul>
                             </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-lg fa-support"></i> <?php echo __('Aide et support') ?> <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><?php echo $this->Html->link('<i class="fa fa-book"></i> '.__('Obtenir de l\'aide'), '/pages/help', array('escape' => false)); ?></a></li>
+                                    <li><?php echo $this->Html->link('<i class="fa fa-lightbulb-o"></i> '.__('Partager une idée'), '/pages/idea', array('escape' => false)); ?></a></li>
+                                </ul>
+                            </li>
                             <?php } ?>
 
                     </ul>
@@ -132,22 +139,17 @@
         ));
 	    echo $this->fetch('script');
     ?>
-    <script type="text/javascript" src="https://s3.amazonaws.com/assets.freshdesk.com/widget/freshwidget.js"></script>
-    <script type="text/javascript">
-        FreshWidget.init("", {"queryString": "&widgetType=popup&formTitle=Envoyer+une+demande+d'assistance.", "utf8": "✓", "widgetType": "popup", "buttonType": "text", "buttonText": "Aide et support", "buttonColor": "white", "buttonBg": "#EB8B00", "alignment": "4", "offset": "300px", "formHeight": "500px", "url": "https://opencomp.freshdesk.com"} );
-    </script>
-    <script type="text/javascript">
-        var _urq = _urq || [];
-        _urq.push(['initSite', '7fe5e472-5532-48f9-a7bd-189c96579a7c']);
-        (function() {
-            var ur = document.createElement('script'); ur.type = 'text/javascript'; ur.async = true;
-            ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
-        })();
-    </script>
     <script type="text/javascript">
         window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var n=t.forceSSL||"https:"===document.location.protocol,a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=(n?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+e+".js";var o=document.getElementsByTagName("script")[0];o.parentNode.insertBefore(a,o);for(var r=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["clearEventProperties","identify","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=r(p[c])};
         heap.load("1925018954");
+        <?php 
+        $id = $this->Session->read('Auth.User.id');
+        $name = $this->Session->read('Auth.User.first_name').' '.$this->Session->read('Auth.User.name'); 
+        $email = $this->Session->read('Auth.User.email') 
+        ?>
+        heap.identify({handle: '<?php echo $id ?>',
+            name: '<?php echo $name ?>',
+            email: '<?php echo $email ?>'});
     </script>
   </body>
 </html>
