@@ -3,6 +3,11 @@
 </div>
 
 <div class="well">
+	<h3>Dimanche 8 Novembre 2015</h3>
+	<ul class="fa-ul">
+	  <li><i class="fa-li fa fa-lg fa-plus-circle text-success"></i>Il est maintenant possible de supprimer un item non évalué ajouté par erreur.</li>
+	</ul>
+
 	<h3>Samedi 7 Novembre 2015</h3>
 	<ul class="fa-ul">
 	  <li><i class="fa-li fa fa-lg fa-bug text-danger"></i>Correction d'une anomalie empêchant la génération de bulletin.</li>
@@ -11,7 +16,7 @@
 
 	<h3>Vendredi 6 Novembre 2015</h3>
 	<ul class="fa-ul">
-	  <li><i class="fa-li fa fa-lg fa-bug text-danger"></i>Correction d'une anomalie survenant lors de l'enregisrement de résultats partiels.</li>
+	  <li><i class="fa-li fa fa-lg fa-bug text-danger"></i>Correction d'une anomalie survenant lors de l'enregistrement de résultats partiels.</li>
 	</ul>
 
 	<h3>Jeudi 5 Novembre 2015</h3>

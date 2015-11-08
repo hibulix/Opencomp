@@ -312,9 +312,15 @@ class EvaluationsItemsController extends AppController {
 	    if($association){
 	    	$this->EvaluationsItem->delete($association['EvaluationsItem']['id']);
 	    	$this->EvaluationsItem->renumberItemsEvaluation($evaluation_id, $association['EvaluationsItem']['position']);
-	    	
-	    	$this->Session->setFlash(__('L\'item a été correctement dissocié de cette évaluation.'), 'flash_success');
-			$this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation_id));
+
+	    	if($association['Evaluation']['unrated'] === true){
+	    		$this->EvaluationsItem->Evaluation->delete($association['Evaluation']['id']);
+	    		$this->Session->setFlash(__('L\'item travaillé a bien été dissocié de cette classe et période.'), 'flash_success');
+	    		$this->redirect(array('controller' => 'classrooms', 'action' => 'viewunrateditems', $evaluation_id));
+	    	}else{
+	    		$this->Session->setFlash(__('L\'item a été correctement dissocié de cette évaluation.'), 'flash_success');
+				$this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation_id));
+	    	}
 	    }else{
 		    $this->Session->setFlash(__('Cette association n\'existe pas'), 'flash_error');
 			$this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation_id));

@@ -20,20 +20,21 @@
 <?php if (!empty($classroom['Evaluation'])): ?>
 <table class="table table-striped table-condensed">
 <tr>
-	<th><?php echo __('Période'); ?></th>
+	<th style="width:200px;"><?php echo __('Période'); ?></th>
 	<th><?php echo __('Libellé de l\'item'); ?></th>
-	<th class="actions"><?php echo __('Actions'); ?></th>
+	<th style="width:100px;" class="actions"><?php echo __('Actions'); ?></th>
 </tr>
 <?php
 	$i = 0;
-	foreach ($classroom['Evaluation'] as $evaluations): 
+	foreach ($classroom['Evaluation'] as $evaluations):         
 	foreach ($evaluations['Item'] as $item):?>
+    
 	
 	<tr>
 		<td><?php echo h($evaluations['Period']['wellnamed']); ?></td>
 		<td><?php echo h($item['title']); ?></td>		
 		<td class="actions">
-			
+			<?php echo $this->Form->postLink('<i class="fa fa-trash-o"></i> '.__('Supprimer'), array('controller' => 'evaluationsItems', 'action' => 'unlinkitem', 'item_id' => $item['id'], 'evaluation_id' => $evaluations['id']), array('escape' => false), __('Êtes vous sûr(e) de vouloir dissocier cet item de cette évaluation ?', $item['id'])); ?>
 		</td>
 	</tr>
 	<?php endforeach; ?>
