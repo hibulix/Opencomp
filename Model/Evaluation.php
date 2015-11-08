@@ -26,7 +26,7 @@ class Evaluation extends AppModel {
  */
 	public $validate = array(
 		'title' => array(
-			'notempty' => array(
+			'notBlank' => array(
 				'rule' => array('notBlank'),
 				'message' => 'Vous devez saisir un titre pour la nouvelle évaluation.',
 			),

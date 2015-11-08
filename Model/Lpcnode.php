@@ -34,8 +34,8 @@ class Lpcnode extends AppModel {
 			),
 		),
 		'title' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 			),
 		)
 	);

@@ -23,8 +23,8 @@ class Level extends AppModel {
  */
 	public $validate = array(
 		'title' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 			),
 		),
 		'cycle_id' => array(

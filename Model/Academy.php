@@ -38,14 +38,14 @@ App::uses('AppModel', 'Model');
  */
 	public $validate = array(
 		'name' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 				'message' => 'Vous devez renseigner ce champ obligatoire.'
 			),
 		),
 		'type' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 			),
 		),
 	);

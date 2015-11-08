@@ -25,12 +25,12 @@ class Establishment extends AppModel {
  */
 	public $validate = array(
 		'name' => array(
-			'notempty' => array(
+			'notBlank' => array(
 				'rule' => array('notBlank'),
 			),
 		),
 		'address' => array(
-			'notempty' => array(
+			'notBlank' => array(
 				'rule' => array('notBlank'),
 			),
 		),
@@ -40,7 +40,7 @@ class Establishment extends AppModel {
 			),
 		),
 		'town' => array(
-			'notempty' => array(
+			'notBlank' => array(
 				'rule' => array('notBlank'),
 			),
 		),

@@ -29,8 +29,8 @@ class Classroom extends AppModel {
  */
 	public $validate = array(
 		'title' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 			),
 		),
 		'user_id' => array(

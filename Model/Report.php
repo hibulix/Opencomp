@@ -13,8 +13,8 @@ class Report extends AppModel {
 
 	public $validate = array(
 		'title' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 				'message' => 'Vous devez compléter ce champ.',
 			),
 		),
@@ -26,14 +26,14 @@ class Report extends AppModel {
 		    )
 		),
 		'header' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 				'message' => 'Vous devez compléter ce champ.',
 			),
 		),
 		'footer' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 				'message' => 'Vous devez compléter ce champ.',
 			),
 		),

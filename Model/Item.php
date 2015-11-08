@@ -28,7 +28,7 @@ class Item extends AppModel {
  */
 	public $validate = array(
 		'title' => array(
-			'notempty' => array(
+			'notBlank' => array(
 				'rule' => array('notBlank'),
 				'message' => 'Vous devez renseigner ce champ !',
 			),
