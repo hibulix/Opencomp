@@ -79,7 +79,8 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-lg fa-support"></i> <?php echo __('Aide et support') ?> <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><?php echo $this->Html->link('<i class="fa fa-book"></i> '.__('Obtenir de l\'aide'), '/pages/help', array('escape' => false)); ?></a></li>
+                                    <li><?php echo $this->Html->link('<i class="fa fa-book"></i> '.__('Base de connaissance et support email'), '/pages/help', array('escape' => false)); ?></a></li>
+                                    <li><?php echo $this->Html->link('<i class="fa fa-comment"></i> '.__('Obtenir une assistance en direct'), '/pages/livechat', array('escape' => false)); ?></a></li>
                                     <li><?php echo $this->Html->link('<i class="fa fa-lightbulb-o"></i> '.__('Partager une idée'), '/pages/idea', array('escape' => false)); ?></a></li>
                                 </ul>
                             </li>

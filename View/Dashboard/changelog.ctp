@@ -5,6 +5,7 @@
 <div class="well">
 	<h3>Dimanche 8 Novembre 2015</h3>
 	<ul class="fa-ul">
+	  <li><i class="fa-li fa fa-lg fa-plus-circle text-success"></i>Il est maintenant possible de lancer une discussion en direct pour obtenir de l'aide (Aide et support > Obtenir une assistance en direct).</li>
 	  <li><i class="fa-li fa fa-lg fa-pencil text-warning"></i>Les widgets d'aide et support et de partage d'idées ont été déplacés dans des pages distinctes accessibles depuis le menu "Aide et support".</li>	
 	  <li><i class="fa-li fa fa-lg fa-plus-circle text-success"></i>Il est maintenant possible de supprimer un item non évalué ajouté par erreur.</li>
 	</ul>
