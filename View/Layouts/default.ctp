@@ -33,6 +33,20 @@
 
     <!-- Le fav icon -->
     <?php echo $this->Html->meta('icon'); ?>
+
+    <!-- start Mixpanel -->
+    <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+        for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+        mixpanel.init("0b927716f255a2354e51c5ab603f7fa4");
+        mixpanel.identify("<?php echo $this->Session->read('Auth.User.id') ?>");
+        mixpanel.people.set({
+            $email: "<?php echo $this->Session->read('Auth.User.email') ?>",
+            $first_name: "<?php echo $this->Session->read('Auth.User.first_name') ?>",
+            $last_name: "<?php echo $this->Session->read('Auth.User.name') ?>"
+        });
+    </script>
+    <!-- end Mixpanel -->
+
   </head>
 
   <body>
@@ -140,17 +154,5 @@
         ));
 	    echo $this->fetch('script');
     ?>
-    <script type="text/javascript">
-        window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var n=t.forceSSL||"https:"===document.location.protocol,a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=(n?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+e+".js";var o=document.getElementsByTagName("script")[0];o.parentNode.insertBefore(a,o);for(var r=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["clearEventProperties","identify","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=r(p[c])};
-        heap.load("1925018954");
-        <?php 
-        $id = $this->Session->read('Auth.User.id');
-        $name = $this->Session->read('Auth.User.first_name').' '.$this->Session->read('Auth.User.name'); 
-        $email = $this->Session->read('Auth.User.email') 
-        ?>
-        heap.identify({handle: '<?php echo $id ?>',
-            name: '<?php echo $name ?>',
-            email: '<?php echo $email ?>'});
-    </script>
   </body>
 </html>
