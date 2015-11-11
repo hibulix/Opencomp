@@ -43,6 +43,7 @@ echo $this->Form->end();
 
 $this->start('script'); ?>
 <script type="text/javascript" />
+$('.info').tooltip();
 $('.focus').focus();
 </script>
 <?php $this->end();
