@@ -89,7 +89,8 @@
                                     <li><?php echo $this->Html->link('<i class="fa fa-user"></i> '.__('Gestion des utilisateurs'), '/users', array('escape' => false)); ?></li>
                                     <li><?php echo $this->Html->link('<i class="fa fa-cogs"></i> '.__('Paramètres de l\'application'), '/settings/', array('escape' => false)); ?></li>
                                 </ul>
-                            </li>
+                            </li>                            
+                            <?php } ?>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-lg fa-support"></i> <?php echo __('Aide et support') ?> <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
@@ -98,8 +99,6 @@
                                     <li><?php echo $this->Html->link('<i class="fa fa-lightbulb-o"></i> '.__('Partager une idée'), '/pages/idea', array('escape' => false)); ?></a></li>
                                 </ul>
                             </li>
-                            <?php } ?>
-
                     </ul>
                     <?php $new_notifications = ($this->Session->read('Auth.User.new_notifications') == true) ? 'color:gold;' : ''; ?>
                     <ul class="nav navbar-nav navbar-right">
