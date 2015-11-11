@@ -53,7 +53,7 @@ $(document).ready(function() {
         } else if ($(event.delegateTarget).val() === 'DDD' || $(event.delegateTarget).val() === 'D' || $(event.delegateTarget).val() === 'd') {
             $(event.delegateTarget).val('D');
             $(event.delegateTarget).css("background-color", "#e4ffcb");
-        } else if ($(event.delegateTarget).val() === 'NEV' || $(event.delegateTarget).val() === 'NE' || $(event.delegateTarget).val() === 'ne') {
+        } else if ($(event.delegateTarget).val() === 'NEE' || $(event.delegateTarget).val() === 'NE' || $(event.delegateTarget).val() === 'ne') {
             $(event.delegateTarget).val('NE');
             $(event.delegateTarget).css("background-color", "#e4ffcb");
         } else if ($(event.delegateTarget).val() === 'ABS' || $(event.delegateTarget).val() === 'abs') {

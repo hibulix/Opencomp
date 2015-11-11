@@ -158,7 +158,7 @@ class ReportFormaterHelper extends AppHelper
             if($item['Item']['competence_id'] == $competence_id && $item['Result']['result'] != ""){
                 $item = $this->itemWithResultColor($item);
                 $itemlist[] = '<tr>
-                                    <td>'.$item['Item']['title'].'</td>
+                                    <td>'.ucfirst($item['Item']['title']).'</td>
                                     <td style="text-align:center; background-color:'.$item['Result']['color'].';width:60px;">'.$item['Result']['result'].'</td>
                                 </tr>';
             }
