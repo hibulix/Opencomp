@@ -32,7 +32,29 @@
     <![endif]-->
 
     <!-- Le fav icon -->
-    <?php echo $this->Html->meta('icon'); ?>
+    <?php 
+    echo $this->Html->meta('icon'); 
+    echo $this->Html->meta(array(
+        'rel' => 'apple-touch-icon',
+        'link' => '/img/apple-touch-icon-iphone.png',
+    ));
+    echo $this->Html->meta(array(
+        'rel' => 'apple-touch-icon',
+        'sizes' => '76x76',
+        'link' => '/img/apple-touch-icon-ipad.png',
+    ));
+    echo $this->Html->meta(array(
+        'rel' => 'apple-touch-icon',
+        'sizes' => '120x120',
+        'link' => '/img/apple-touch-icon-iphone-retina.png',
+    ));
+    echo $this->Html->meta(array(
+        'rel' => 'apple-touch-icon',
+        'sizes' => '152x152',
+        'link' => '/img/apple-touch-icon-ipad-retina.png',
+    ));
+    ?>
+
   </head>
 
   <body>
