@@ -17,7 +17,8 @@
     	"dompdf/dompdf": "0.6.1",
         "fusonic/spreadsheet-export": "0.1.1",
         "pda/pheanstalk": "3.0.2",
-        "sandreu/cake-sentry": "*@dev"
+        "sandreu/cake-sentry": "*@dev",
+        "whichbrowser/parser": "^1.0"
     },
     "require-dev": {
     	"cakephp/debug_kit": "2.2.5",

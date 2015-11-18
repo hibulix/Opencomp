@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ac4a02fbb573cfa2297eb3bfb8215418",
-    "content-hash": "655945dc3892fdc93d56e278a6d9958c",
+    "hash": "6873b473df16b40150aa68ccccf797ab",
+    "content-hash": "b8f4e36b662859c8414040fbe7c5a8be",
     "packages": [
         {
             "name": "cakephp/cakephp",
@@ -496,6 +496,48 @@
                 "twitter"
             ],
             "time": "2014-11-07 10:36:43"
+        },
+        {
+            "name": "whichbrowser/parser",
+            "version": "v1.0.1045",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WhichBrowser/Parser.git",
+                "reference": "936846b0e46c08c1ce43e88048c6cf3035a06056"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WhichBrowser/Parser/zipball/936846b0e46c08c1ce43e88048c6cf3035a06056",
+                "reference": "936846b0e46c08c1ce43e88048c6cf3035a06056",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/parser.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Niels Leenheer",
+                    "email": "niels@leenheer.nl",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Useragent sniffing library for PHP",
+            "homepage": "http://whichbrowser.net",
+            "keywords": [
+                "browser",
+                "useragent"
+            ],
+            "time": "2015-11-17 23:21:20"
         },
         {
             "name": "zendframework/zend-hydrator",

@@ -73,5 +73,36 @@ class AppController extends Controller {
         if($this->name == 'CakeError') {
             $this->layout = 'error';
         }
+
+        if($this->Auth->user()){
+            $this->logevent();
+        }
+    }
+
+    private function logevent(){
+        $browser = new WhichBrowser\Parser(getallheaders());
+        $object_id = isset($this->request->params['pass'][0]) ? $this->request->params['pass'][0] : null;
+        $parameters =  !empty($this->request->params['named']) ? json_encode($this->request->params['named'], JSON_PRETTY_PRINT) : null;
+
+        $this->loadModel('Log');
+        $this->Log->save(
+            array(
+                'user_id' => $this->Auth->user('id'),
+                'remote_addr' => $this->request->clientIp(),
+                'controller' => $this->request->params['controller'],
+                'action' => $this->request->params['action'],
+                'object_id' => $object_id,
+                'parameters' => $parameters,
+                'device_type' => $browser->device->type,
+                'os_name' => $browser->os->name,
+                'os_version' => $browser->os->version->value,
+                'os_version_nickname' => $browser->os->version->nickname,
+                'browser_name' => $browser->browser->name,
+                'browser_version' => $browser->browser->version->value,
+                'browser_engine' => $browser->engine->name,
+                'session_id' => Security::hash(session_id())
+            )
+        );
     }
 }
+

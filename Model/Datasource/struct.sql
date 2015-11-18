@@ -1,13 +1,13 @@
 # ************************************************************
 # Sequel Pro SQL dump
-# Version 4096
+# Version 4499
 #
 # http://www.sequelpro.com/
 # http://code.google.com/p/sequel-pro/
 #
 # Hôte: 127.0.0.1 (MySQL 5.6.21)
 # Base de données: opencomp
-# Temps de génération: 2015-02-22 20:22:46 +0000
+# Temps de génération: 2015-11-18 22:15:46 +0000
 # ************************************************************
 
 
@@ -430,6 +430,32 @@ CREATE TABLE `years` (
   `title` varchar(9) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+# Affichage de la table logs
+# ------------------------------------------------------------
+
+CREATE TABLE `logs` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `remote_addr` varchar(255) DEFAULT NULL,
+  `controller` varchar(50) DEFAULT NULL,
+  `action` varchar(50) DEFAULT NULL,
+  `object_id` int(11) unsigned DEFAULT NULL,
+  `parameters` text,
+  `device_type` varchar(50) DEFAULT NULL,
+  `os_name` varchar(50) DEFAULT NULL,
+  `os_version` varchar(50) DEFAULT NULL,
+  `os_version_nickname` varchar(50) DEFAULT NULL,
+  `browser_name` varchar(100) DEFAULT NULL,
+  `browser_version` varchar(50) DEFAULT NULL,
+  `browser_engine` varchar(50) DEFAULT NULL,
+  `session_id` varchar(40) DEFAULT NULL,
+  `tstamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 
 
