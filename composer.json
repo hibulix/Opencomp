@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "cakephp/cakephp": "2.7.3",
+        "cakephp/cakephp": "2.7.6",
     	"slywalker/boost_cake": "1.0.6",
     	"zendframework/zendpdf": "2.0.2",
     	"enygma/yubikey": "3.2",
