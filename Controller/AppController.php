@@ -80,6 +80,21 @@ class AppController extends Controller {
     }
 
     private function logevent(){
+        if (!function_exists('getallheaders')) 
+        { 
+            function getallheaders() 
+            { 
+                   $headers = ''; 
+               foreach ($_SERVER as $name => $value) 
+               { 
+                   if (substr($name, 0, 5) == 'HTTP_') 
+                   { 
+                       $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value; 
+                   } 
+               } 
+               return $headers; 
+            } 
+        } 
         $browser = new WhichBrowser\Parser(getallheaders());
         $object_id = isset($this->request->params['pass'][0]) ? $this->request->params['pass'][0] : null;
         $parameters =  !empty($this->request->params['named']) ? json_encode($this->request->params['named'], JSON_PRETTY_PRINT) : null;
