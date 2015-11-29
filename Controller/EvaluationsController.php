@@ -99,9 +99,23 @@ class EvaluationsController extends AppController {
         $this->Evaluation->Classroom->id = $classroom_id;
         $this->set('classroom_id', intval($classroom_id));
 
+		if(isset($this->request->params['named']['evaluation_id'])){
+			$evaluation = $this->checkEvaluationId($this->request->params['named']['evaluation_id'], $classroom_id);
+			$this->set('evaluation', $evaluation);
+		}
+
 		if ($this->request->is('post')) {
 			$this->Evaluation->create();
 			if ($this->Evaluation->save($this->request->data)) {
+				if($evaluation){
+					$data = [];
+					foreach($evaluation['EvaluationsItem'] as $num => $item){
+						$data[$num]['evaluation_id'] = $this->Evaluation->getLastInsertID();
+						$data[$num]['item_id'] = $item['item_id'];
+						$data[$num]['position'] = $item['position'];
+					}
+					$this->Evaluation->EvaluationsItem->saveAll($data);
+				}
 				$this->Session->setFlash(__('La nouvelle évaluation a été correctement ajoutée.'), 'flash_success');
 				$this->redirect(array('controller' => 'evaluations','action' => 'attacheditems', $this->Evaluation->id));
 			} else {
@@ -152,6 +166,17 @@ class EvaluationsController extends AppController {
 		$this->set(compact('classrooms', 'users', 'periods', 'pupils', 'current_period'));
 	}
 
+	private function checkEvaluationId($id, $classroom_id){
+		$evaluation_id = intval($id);
+		$evaluation = $this->Evaluation->find('first',['conditions' => ['Evaluation.id' => $evaluation_id], 'contain' => ['EvaluationsItem']]);
+		if(isset($evaluation) && $evaluation['Evaluation']['user_id'] == $this->Auth->user('id')){
+			return $evaluation;
+		}else{
+			$this->Session->setFlash(__('Vous devez avoir créé l\'évaluation pour créer une copie.'), 'flash_error');
+			$this->redirect(array('controller' => 'classrooms','action' => 'viewtests', $classroom_id));
+		}
+	}
+
 /**
  * edit method
  *
@@ -197,9 +222,10 @@ class EvaluationsController extends AppController {
 		$periods = $this->Evaluation->Period->find('list', array(
 			'conditions' => array('establishment_id' => $etab['Classroom']['establishment_id']),
 			'recursive' => 0));
-		
-		$pupils = $this->Evaluation->findPupilsByLevelsInClassroom($classroom_id);
-		$this->set(compact('classrooms', 'users', 'periods', 'pupils'));
+
+		$this->set('pupils', $this->Evaluation->Pupil->find('list'));
+		$group_pupils = $this->Evaluation->findPupilsByLevelsInClassroom($classroom_id);
+		$this->set(compact('classrooms', 'users', 'periods', 'group_pupils'));
 	}
 
 /**

@@ -3,6 +3,14 @@
     <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à la classe'), '/classrooms/viewtests/'.$classroom_id, array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
+<?php if(isset($evaluation)): ?>
+    <div class="alert alert-info role="alert">
+        <h4><i class="fa fa-files-o"></i> Vous allez créer une nouvelle évaluation à partir d'une évaluation existante.</h4>
+        <p>Une fois créée, les items de l'évaluation <code><?= $evaluation['Evaluation']['title'] ?></code> seront automatiquement associés à cette évaluation.</p>
+</div>
+<?php endif; ?>
+
+
 <?php
 
 echo $this->Form->create('Evaluation', array(

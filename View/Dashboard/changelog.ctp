@@ -3,6 +3,12 @@
 </div>
 
 <div class="well">
+	<h3>Dimanche 29 Novembre 2015</h3>
+	<ul class="fa-ul">
+		<li><i class="fa-li fa fa-lg fa-plus-circle text-success"></i>Il est maintenant possible de copier les items associés à une évaluation lors de la création d'une nouvelle évaluation.</li>
+		<li><i class="fa-li fa fa-lg fa-bug text-danger"></i>Lors de l'édition d'une évaluation, les élèves associés à l'évaluation sont désormais correctement récupérés.</li>
+	</ul>
+
 	<h3>Dimanche 8 Novembre 2015</h3>
 	<ul class="fa-ul">
 	  <li><i class="fa-li fa fa-lg fa-plus-circle text-success"></i>Il est maintenant possible de lancer une discussion en direct pour obtenir de l'aide (Aide et support > Obtenir une assistance en direct).</li>

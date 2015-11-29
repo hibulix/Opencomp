@@ -79,6 +79,7 @@
 	            <li><li><?php echo $this->Html->link('<i class="fa fa-bar-chart-o"></i> '.__('Commencer la saisie des résultats'), array('controller' => 'evaluations', 'action' => 'manageresults', $evaluation['id']), array('escape' => false)); ?></li></li>
 	            <?php endif; ?> 
 	            <li class="divider"></li>
+				<li><?php echo $this->Html->link('<i class="fa fa-copy"></i> '.__('Copier'), array('controller' => 'evaluations', 'action' => 'add', 'classroom_id' => $classroom['Classroom']['id'], 'evaluation_id' => $evaluation['id']), array('escape' => false)); ?></li>
 	            <li><?php echo $this->Html->link('<i class="fa fa-pencil"></i> '.__('Modifier'), array('controller' => 'evaluations', 'action' => 'edit', $evaluation['id']), array('escape' => false)); ?></li>
 	            <li><?php echo $this->Form->postLink('<i class="fa fa-trash-o"></i> '.__('Supprimer'), array('controller' => 'evaluations', 'action' => 'delete', $evaluation['id']), array('escape' => false), __('Are you sure you want to delete # %s?', $evaluation['id'])); ?></li>
 
