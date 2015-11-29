@@ -41,7 +41,7 @@ $(document).ready(function() {
     $('.focus').focus();
 
     $('.result').blur(function(event) {
-        if ($(event.delegateTarget).val() === 'AAA' || $(event.delegateTarget).val() === 'A' || $(event.delegateTarget).val() === 'a') {
+        if ($(event.delegateTarget).val() === 'AAA' || $(event.delegateTarget).val() === 'QQQ' || $(event.delegateTarget).val() === 'A' || $(event.delegateTarget).val() === 'a') {
             $(event.delegateTarget).val('A');
             $(event.delegateTarget).css("background-color", "#e4ffcb");
         } else if ($(event.delegateTarget).val() === 'BBB' || $(event.delegateTarget).val() === 'B' || $(event.delegateTarget).val() === 'b') {
@@ -56,7 +56,7 @@ $(document).ready(function() {
         } else if ($(event.delegateTarget).val() === 'NEE' || $(event.delegateTarget).val() === 'NE' || $(event.delegateTarget).val() === 'ne') {
             $(event.delegateTarget).val('NE');
             $(event.delegateTarget).css("background-color", "#e4ffcb");
-        } else if ($(event.delegateTarget).val() === 'ABS' || $(event.delegateTarget).val() === 'abs') {
+        } else if ($(event.delegateTarget).val() === 'ABS' || $(event.delegateTarget).val() === 'QBS' || $(event.delegateTarget).val() === 'abs') {
             $(event.delegateTarget).val('ABS');
             $(event.delegateTarget).css("background-color", "#e4ffcb");
         } else if ($(event.delegateTarget).val() === '') {
