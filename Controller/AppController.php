@@ -74,7 +74,7 @@ class AppController extends Controller {
             $this->layout = 'error';
         }
 
-        if($this->Auth->user()){
+        if($this->Auth->user() && $this->request->params['action'] !== 'generationProgressWidget'){
             $this->logevent();
         }
     }

@@ -82,11 +82,12 @@ class ReportFormaterHelper extends AppHelper
         $header = $this->report['Report']['header'];
         $header = str_replace("#PRENOM#", $this->items[0]['Pupil']['first_name'], $header);
         $header = str_replace("#NOM#", $this->items[0]['Pupil']['name'], $header);
+        $header = str_replace("#NIVEAU#", $this->items[0]['Level']['title'], $header);
         return $header;
     }
 
     /**
-     * Cette méthode permet de remplacer les marqueurs définis par l'utilisateur dans le pried de page d'un bulletin.
+     * Cette méthode permet de remplacer les marqueurs définis par l'utilisateur dans le pied de page d'un bulletin.
      *
      * @return string Pied de page du bulletin avec le nom et le prénom de l'élève remplacés.
      */
@@ -94,6 +95,7 @@ class ReportFormaterHelper extends AppHelper
         $footer = $this->report['Report']['footer'];
         $footer = str_replace("#PRENOM#", $this->items[0]['Pupil']['first_name'], $footer);
         $footer = str_replace("#NOM#", $this->items[0]['Pupil']['name'], $footer);
+        $footer = str_replace("#NIVEAU#", $this->items[0]['Level']['title'], $footer);
         return $footer;
     }
 

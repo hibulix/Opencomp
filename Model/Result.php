@@ -63,11 +63,30 @@ class Result extends AppModel {
 
 	public function findResultsForReport($pupil_id, $classroom_id, $period_id){
 		return $this->find('all', array(
-			'fields' => array('result'),
+			'fields' => array('result','Level.title'),
 			'conditions' => array(
 				'Pupil.id' => $pupil_id,
 				'Evaluation.period_id' => $period_id,
 				'Evaluation.classroom_id' => $classroom_id
+			),
+			'joins' => array(
+				array(
+					'table' => 'classrooms_pupils',
+					'alias' => 'ClassroomsPupil',
+					'type' => 'INNER',
+					'conditions' => array(
+							'ClassroomsPupil.pupil_id = Pupil.id',
+							'ClassroomsPupil.classroom_id = Evaluation.classroom_id'
+					)
+				),
+				array(
+					'table' => 'levels',
+					'alias' => 'Level',
+					'type' => 'INNER',
+					'conditions' => array(
+							'ClassroomsPupil.level_id = Level.id'
+					)
+				)
 			),
 			'contain' => array(
 				'Item.title',
