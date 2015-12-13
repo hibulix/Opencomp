@@ -43,14 +43,14 @@ echo $this->Form->input('header', array(
     'label' => array(
         'text' => 'En-tête de première page'
     ),
-    'afterInput' => '<span style="font-style: italic;" class="help-block"><i class="fa fa-lightbulb-o"></i> Vous pouvez utiliser les marqueurs #NOM# et #PRENOM# pour insérer le nom et le prénom de l\'élève</span>'
+    'afterInput' => '<span style="font-style: italic;" class="help-block"><i class="fa fa-lightbulb-o"></i> Vous pouvez utiliser les marqueurs #NOM#, #PRENOM# et #NIVEAU# pour insérer le nom, le prénom et le niveau de l\'élève.</span>'
 ));
 
 echo $this->Form->input('footer', array(
     'label' => array(
         'text' => 'Pied de page'
     ),
-    'afterInput' => '<span style="font-style: italic;" class="help-block"><i class="fa fa-lightbulb-o"></i> Vous pouvez utiliser les marqueurs #NOM# et #PRENOM# pour insérer le nom et le prénom de l\'élève<br />&nbsp;&nbsp;&nbsp;Le numéro de la page est automatiquement inséré en fin de ligne</span>'
+    'afterInput' => '<span style="font-style: italic;" class="help-block"><i class="fa fa-lightbulb-o"></i> Vous pouvez utiliser les marqueurs #NOM#, #PRENOM# et #NIVEAU# pour insérer le nom, le prénom et le niveau de l\'élève. Le numéro de la page est automatiquement inséré en fin de ligne</span>'
 ));
 
 echo $this->Form->input('page_break', array(
