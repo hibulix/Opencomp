@@ -10,19 +10,19 @@
         }
     ],
     "require": {
-        "cakephp/cakephp": "2.7.6",
+        "cakephp/cakephp": "2.8.0",
     	"slywalker/boost_cake": "1.0.6",
     	"zendframework/zendpdf": "2.0.2",
     	"enygma/yubikey": "3.2",
-    	"dompdf/dompdf": "0.6.1",
+    	"dompdf/dompdf": "0.6.2",
         "fusonic/spreadsheet-export": "0.1.1",
-        "pda/pheanstalk": "3.0.2",
+        "pda/pheanstalk": "3.1.0",
         "sandreu/cake-sentry": "*@dev",
-        "whichbrowser/parser": "^1.0"
+        "whichbrowser/parser": "^2.0"
     },
     "require-dev": {
-    	"cakephp/debug_kit": "2.2.5",
-        "phpunit/phpunit": "3.7.32"
+    	"cakephp/debug_kit": "2.2.6",
+        "phpunit/phpunit": "3.7.38"
     },
     "config": {
         "vendor-dir": "Vendor/"

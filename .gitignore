@@ -4,13 +4,9 @@ database.php
 tmp/cache/cake_toolbar_cache*
 tmp/cache/models/myapp_cake*
 tmp/cache/persistent/myapp_cake*
-.project
-.PHPEditProject
-Opencomp.esproj/
 files/
 webroot/files
 webroot/components
 composer.phar
-.idea/
 Vendor/*
 Plugin/*
