@@ -267,3 +267,118 @@ i.red {
   line-height:70px; 
   font-family: 'Open Sans'
 }
+
+.table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #ddd;
+}
+.table-responsive > .table {
+    margin-bottom: 0;
+}
+.table-responsive > .table > thead > tr > th,
+.table-responsive > .table > tbody > tr > th,
+.table-responsive > .table > tfoot > tr > th,
+.table-responsive > .table > thead > tr > td,
+.table-responsive > .table > tbody > tr > td,
+.table-responsive > .table > tfoot > tr > td {
+    white-space: nowrap;
+}
+.table-responsive > .table-bordered {
+    border: 0;
+}
+.table-responsive > .table-bordered > thead > tr > th:first-child,
+.table-responsive > .table-bordered > tbody > tr > th:first-child,
+.table-responsive > .table-bordered > tfoot > tr > th:first-child,
+.table-responsive > .table-bordered > thead > tr > td:first-child,
+.table-responsive > .table-bordered > tbody > tr > td:first-child,
+.table-responsive > .table-bordered > tfoot > tr > td:first-child {
+    border-left: 0;
+}
+.table-responsive > .table-bordered > thead > tr > th:last-child,
+.table-responsive > .table-bordered > tbody > tr > th:last-child,
+.table-responsive > .table-bordered > tfoot > tr > th:last-child,
+.table-responsive > .table-bordered > thead > tr > td:last-child,
+.table-responsive > .table-bordered > tbody > tr > td:last-child,
+.table-responsive > .table-bordered > tfoot > tr > td:last-child {
+    border-right: 0;
+}
+.table-responsive > .table-bordered > tbody > tr:last-child > th,
+.table-responsive > .table-bordered > tfoot > tr:last-child > th,
+.table-responsive > .table-bordered > tbody > tr:last-child > td,
+.table-responsive > .table-bordered > tfoot > tr:last-child > td {
+    border-bottom: 0;
+}
+
+.breadcrumb {
+    padding: 0px;
+    background: #D4D4D4;
+    list-style: none;
+    overflow: hidden;
+    margin-top: 20px;
+}
+.breadcrumb>li+li:before {
+    padding: 0;
+}
+.breadcrumb li {
+    float: left;
+}
+.breadcrumb li.active a {
+    color: white;                 /* fallback color */
+    background: #2656ba ;
+}
+.breadcrumb li.completed a {
+    color: white;                 /* fallback color */
+    background: hsla(153, 57%, 51%, 1);
+}
+.breadcrumb li.active a:after {
+    border-left: 30px solid #2656ba;
+}
+.breadcrumb li.completed a:after {
+    border-left: 30px solid hsla(153, 57%, 51%, 1);
+}
+
+.breadcrumb li a {
+    color: dimgrey;
+    text-decoration: none;
+    padding: 10px 0 10px 45px;
+    position: relative;
+    display: block;
+    float: left;
+}
+.breadcrumb li a:after {
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;           /* Go big on the size, and let overflow hide */
+    border-bottom: 50px solid transparent;
+    border-left: 30px solid hsla(0, 0%, 83%, 1);
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    left: 100%;
+    z-index: 2;
+}
+.breadcrumb li a:before {
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;           /* Go big on the size, and let overflow hide */
+    border-bottom: 50px solid transparent;
+    border-left: 30px solid white;
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    margin-left: 1px;
+    left: 100%;
+    z-index: 1;
+}
+.breadcrumb li:first-child a {
+    padding-left: 15px;
+}
+.breadcrumb li a:hover { background: #2656ba; color:white; }
+.breadcrumb li a:hover:after { border-left-color: #2656ba   !important; }

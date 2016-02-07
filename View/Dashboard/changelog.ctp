@@ -3,6 +3,12 @@
 </div>
 
 <div class="well">
+	<h3>Lundi 8 Février 2016</h3>
+	<ul class="fa-ul">
+		<li><i class="fa-li fa fa-lg fa-star" style="color:gold;"></i>Bonne année du singe de feu !</li>
+		<li><i class="fa-li fa fa-lg fa-plus-circle text-success"></i>L'étape <strong>Analyser les résultats</strong> d'une évaluation permet maintenant de visualiser les résultats sous forme de graphiques.</li>
+	</ul>
+
 	<h3>Dimanche 13 Décembre 2015</h3>
 	<ul class="fa-ul">
 		<li><i class="fa-li fa fa-lg fa-plus-circle text-success"></i>Il est maintenant possible d'utiliser le marqueur <code>#NIVEAU#</code> dans les en-têtes et pieds de pages des bulletins pour indiquer le niveau scolaire de l'élève.</li>

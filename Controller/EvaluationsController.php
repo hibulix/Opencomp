@@ -82,8 +82,6 @@ class EvaluationsController extends AppController {
 		$this->Evaluation->id = $id;
 		$this->Evaluation->contain(array('User', 'Period', 'Classroom', 'Pupil.Result.evaluation_id = '.$id, 'Item'));
 		$evaluation = $this->Evaluation->findById($id);
-		$result = $this->Evaluation->resultsForAnEvaluation($id);
-		$this->set('resultats', $result);
 		$this->set('evaluation', $evaluation);
 	}
 
@@ -107,7 +105,7 @@ class EvaluationsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Evaluation->create();
 			if ($this->Evaluation->save($this->request->data)) {
-				if($evaluation){
+				if(isset($evaluation)){
 					$data = [];
 					foreach($evaluation['EvaluationsItem'] as $num => $item){
 						$data[$num]['evaluation_id'] = $this->Evaluation->getLastInsertID();
@@ -225,6 +223,26 @@ class EvaluationsController extends AppController {
 
 		$pupils = $this->Evaluation->findPupilsByLevelsInClassroom($classroom_id);
 		$this->set(compact('classrooms', 'users', 'periods', 'pupils'));
+	}
+
+	public function analyseresults($id = null){
+		$id = (intval($id));
+		$this->Evaluation->id = $id;
+		$this->Evaluation->contain(array('User', 'Period', 'Classroom', 'Pupil.Result.evaluation_id = '.$id, 'Item', 'Result'));
+		$evaluation = $this->Evaluation->findById($id);
+
+		$itemx = '';
+		foreach($evaluation['Item'] as $item){
+			$itemno = $item['EvaluationsItem']['position'];
+			$itemx .= "'item $itemno', ";
+		}
+
+		$item_division = $this->Evaluation->Result->findItemDivision($id);
+		$global_results = $this->Evaluation->Result->globalResults($id);
+
+		$this->set(compact('evaluation', 'global_results'));
+		$this->set('x',substr($itemx, 0, -2));
+		$this->set('y',$item_division);
 	}
 
 /**

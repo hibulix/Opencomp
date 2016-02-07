@@ -1,9 +1,9 @@
 <?php echo $this->element('EvaluationBase'); ?>
 
-<ul class="nav nav-pills">
-  <li class="active"><?php echo $this->Html->link(__('1. Définir les items évalués'), array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation['Evaluation']['id'])); ?></li>
-  <li><?php echo $this->Html->link(__('2. Saisir les résultats'), array('controller' => 'evaluations', 'action' => 'manageresults', $evaluation['Evaluation']['id'])); ?></li>
-  <li class="info" rel="tooltip" data-placement="bottom" data-original-title="Bientôt ..."><?php echo $this->Html->link(__('3. Analyser les résultats'), array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation['Evaluation']['id'])); ?></li>
+<ul class="breadcrumb">
+    <li class="active"><?php echo $this->Html->link(__('1. Définir les items évalués'), array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation['Evaluation']['id'])); ?></li>
+    <li><?php echo $this->Html->link(__('2. Saisir les résultats'), array('controller' => 'evaluations', 'action' => 'manageresults', $evaluation['Evaluation']['id'])); ?></li>
+    <li><?php echo $this->Html->link(__('3. Analyser les résultats'), array('controller' => 'evaluations', 'action' => 'analyseresults', $evaluation['Evaluation']['id'])); ?></li>
 </ul>
 
 <div class="page-title">

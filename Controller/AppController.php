@@ -80,22 +80,7 @@ class AppController extends Controller {
     }
 
     private function logevent(){
-        if (!function_exists('getallheaders')) 
-        { 
-            function getallheaders() 
-            { 
-                   $headers = ''; 
-               foreach ($_SERVER as $name => $value) 
-               { 
-                   if (substr($name, 0, 5) == 'HTTP_') 
-                   { 
-                       $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value; 
-                   } 
-               } 
-               return $headers; 
-            } 
-        } 
-        $browser = new WhichBrowser\Parser(getallheaders());
+        $browser = new WhichBrowser\Parser($this->getallheaders());
         $object_id = isset($this->request->params['pass'][0]) ? $this->request->params['pass'][0] : null;
         $parameters =  !empty($this->request->params['named']) ? json_encode($this->request->params['named'], JSON_PRETTY_PRINT) : null;
 
@@ -110,14 +95,33 @@ class AppController extends Controller {
                 'parameters' => $parameters,
                 'device_type' => $browser->device->type,
                 'os_name' => $browser->os->name,
-                'os_version' => $browser->os->version->value,
-                'os_version_nickname' => $browser->os->version->nickname,
+                'os_version' => isset($browser->os->version->value) ? $browser->os->version->value : null,
+                'os_version_nickname' => isset($browser->os->version->nickname) ? $browser->os->version->nickname : null,
                 'browser_name' => $browser->browser->name,
-                'browser_version' => $browser->browser->version->value,
+                'browser_version' => isset($browser->browser->version->value) ? $browser->browser->version->value : null,
                 'browser_engine' => $browser->engine->name,
                 'session_id' => Security::hash(session_id())
             )
         );
     }
+
+    private function getallheaders()
+    {
+        if (!function_exists('getallheaders'))
+        {
+            $headers = '';
+            foreach ($_SERVER as $name => $value)
+            {
+                if (substr($name, 0, 5) == 'HTTP_')
+                {
+                    $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+                }
+            }
+            return $headers;
+        }else{
+            return getallheaders();
+        }
+    }
+
 }
 

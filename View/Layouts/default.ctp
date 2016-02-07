@@ -157,21 +157,10 @@
             '../components/bootstrap-datepicker/js/bootstrap-datepicker',
             '../components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr',
             '../components/bootstrap-filestyle/src/bootstrap-filestyle',
+            '../components/plotly.js/dist/plotly.min',
             'opencomp.app'
         ));
 	    echo $this->fetch('script');
     ?>
-    <script type="text/javascript">
-        window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var n=t.forceSSL||"https:"===document.location.protocol,a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=(n?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+e+".js";var o=document.getElementsByTagName("script")[0];o.parentNode.insertBefore(a,o);for(var r=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["clearEventProperties","identify","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=r(p[c])};
-        heap.load("1925018954");
-        <?php 
-        $id = $this->Session->read('Auth.User.id');
-        $name = $this->Session->read('Auth.User.first_name').' '.$this->Session->read('Auth.User.name'); 
-        $email = $this->Session->read('Auth.User.email') 
-        ?>
-        heap.identify({handle: '<?php echo $id ?>',
-            name: '<?php echo $name ?>',
-            email: '<?php echo $email ?>'});
-    </script>
   </body>
 </html>

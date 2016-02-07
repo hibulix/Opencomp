@@ -32,17 +32,6 @@
                     <?php echo $evaluation['Period']['wellnamed']; ?>
                     &nbsp;
                 </dd>
-                <?php if(isset($resultats)): ?>
-                <dt><?php echo __('Résultats globaux'); ?></dt>
-                <dd>
-                    <div class="progress" style="margin-bottom:0px;">
-                        <div class="info progress-bar progress-bar-success" rel="tooltip" data-placement="bottom" title="<?php echo number_format($resultats['pourcent_A'],1) ?>% des items acquis <?php echo $resultats['A'] ?> A sur <?php echo $resultats['TOT'] ?> items évalués au total" style="width: <?php echo $resultats['pourcent_A'] ?>%;"></div>
-                        <div class="info progress-bar" rel="tooltip" data-placement="bottom" title="<?php echo number_format($resultats['pourcent_B'],1) ?>% des items à renforcer <?php echo $resultats['B'] ?> B sur <?php echo $resultats['TOT'] ?> items évalués au total" style="width: <?php echo $resultats['pourcent_B'] ?>%;"></div>
-                        <div class="info progress-bar progress-bar-warning" rel="tooltip" data-placement="bottom" title="<?php echo number_format($resultats['pourcent_C'],1) ?>% des items en cours d'acquisition <?php echo $resultats['C'] ?> C sur <?php echo $resultats['TOT'] ?> items évalués au total" style="width: <?php echo $resultats['pourcent_C'] ?>%;"></div>
-                        <div class="info progress-bar progress-bar-danger" rel="tooltip" data-placement="bottom" title="<?php echo number_format($resultats['pourcent_D'],1) ?>% des items non acquis <?php echo $resultats['D'] ?> D sur <?php echo $resultats['TOT'] ?> items évalués au total" style="width: <?php echo $resultats['pourcent_D'] ?>%;"></div>
-                    </div>
-                </dd>
-                <?php endif; ?>
             </dl>
         </div>
     </div>
