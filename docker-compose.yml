@@ -1,0 +1,19 @@
+web:
+  image: opencomp/opencomp:latest
+  ports:
+    - "8000:80"
+  links:
+    - db
+  volumes:
+    - ./:/var/www/html
+db:
+  image: mysql:5.7
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+  volumes_from:
+      - opencomp_data
+  ports:
+    - "3311:3306"
+    - "3306:3306"
+
+#docker create -v /var/lib/mysql --name opencomp_data tianon/true
