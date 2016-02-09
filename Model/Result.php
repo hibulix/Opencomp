@@ -105,13 +105,13 @@ class Result extends AppModel {
 			SELECT GROUP_CONCAT(a) a, GROUP_CONCAT(b) b, GROUP_CONCAT(c) c, GROUP_CONCAT(d) d, GROUP_CONCAT(ne) ne, GROUP_CONCAT(abs) abs
 			FROM
 			(
-				SELECT results.item_id as uid, SUM(COALESCE(`grade_a`,0)) as a, SUM(COALESCE(`grade_b`,0)) as b, SUM(COALESCE(`grade_c`,0)) as c, SUM(COALESCE(`grade_d`,0)) as d,
-				(SELECT COUNT(result) FROM results WHERE evaluation_id = $evaluation_id AND `item_id` = uid AND result='NE') as ne,
-				(SELECT COUNT(result) FROM results WHERE evaluation_id = $evaluation_id AND `item_id` = uid AND result='ABS') as abs
-				FROM results
-				INNER JOIN evaluations_items ON evaluations_items.item_id = results.item_id AND evaluations_items.evaluation_id = results.evaluation_id
-				WHERE results.evaluation_id = $evaluation_id
-				GROUP BY results.item_id
+				SELECT r1.item_id, SUM(COALESCE(`grade_a`,0)) as a, SUM(COALESCE(`grade_b`,0)) as b, SUM(COALESCE(`grade_c`,0)) as c, SUM(COALESCE(`grade_d`,0)) as d,
+				(SELECT COUNT(result) FROM results WHERE evaluation_id = $evaluation_id AND `item_id` = r1.item_id AND result='NE') as ne,
+				(SELECT COUNT(result) FROM results WHERE evaluation_id = $evaluation_id AND `item_id` = r1.item_id AND result='ABS') as abs
+				FROM results r1
+				INNER JOIN evaluations_items ON evaluations_items.item_id = r1.item_id AND evaluations_items.evaluation_id = r1.evaluation_id
+				WHERE r1.evaluation_id = $evaluation_id
+				GROUP BY r1.item_id, evaluations_items.position
 				ORDER BY evaluations_items.position ASC
 			) q
 		");
