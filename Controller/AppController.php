@@ -81,7 +81,10 @@ class AppController extends Controller {
 
     private function logevent(){
         $browser = new WhichBrowser\Parser($this->getallheaders());
-        $object_id = isset($this->request->params['pass'][0]) ? $this->request->params['pass'][0] : null;
+        $object_id = (
+            isset($this->request->params['pass'][0]) && 
+            is_int($this->request->params['pass'][0])
+        ) ? $this->request->params['pass'][0] : null;
         $parameters =  !empty($this->request->params['named']) ? json_encode($this->request->params['named'], JSON_PRETTY_PRINT) : null;
 
         $this->loadModel('Log');

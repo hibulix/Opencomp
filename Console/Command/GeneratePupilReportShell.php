@@ -8,7 +8,8 @@ class GeneratePupilReportShell extends AppShell {
     public $uses = array('Result','Report');
 
     public function main() {
-        $pheanstalk = new Pheanstalk('127.0.0.1');
+        $pheanstalk = new Pheanstalk(Configure::read('beanstalkd_host'));
+        $this->out("Le travailleur est démarré, en attente de la première tâche ...", 1, Shell::VERBOSE);
         while($job = $pheanstalk->watch('generate-report')->ignore('default')->reserve()){
             $data = json_decode($job->getData(), true);
 
@@ -22,12 +23,13 @@ class GeneratePupilReportShell extends AppShell {
             }
 
             $pheanstalk->delete($job);
+            $this->out("Fin du traitement de la tâche, en attente de la tâche suivante ...", 1, Shell::VERBOSE);
         }
     }
 
     private function generateReport($data){
         $report = $this->Report->findById($data['report_id']);
-        $this->out("<info>Génération du bulletin ".$report['Report']['id']." pour l'élève ".$data['pupil_id']."</info>", 1, Shell::NORMAL);
+        $this->out("<info>Génération de ".APP.$report['Report']['id']."_".$data['pupil_id'].".pdf</info>", 1, Shell::NORMAL);
         $items = $this->Result->findResultsForReport(
             $data['pupil_id'],
             $report['Classroom']['id'],
@@ -80,15 +82,19 @@ HTML;
         $pupils = unserialize($report['Report']['beanstalkd_jobs']);
         array_pop($pupils);
 
+        $this->out("<info>Fusion et création files/reports/".$data['report_id'].".pdf</info>", 1, Shell::NORMAL);
+
         $pdfMerged = new ZendPdf\PdfDocument();
 
         foreach(array_keys($pupils) as $pupil_id){
             // Load PDF Document
+            $this->out("<info>--- ouverture de ".APP . "files/reports/".$report['Report']['id']."_".$pupil_id.".pdf</info>", 1, Shell::VERBOSE);
             $OldPdf = ZendPdf\PdfDocument::load(APP . "files/reports/".$report['Report']['id']."_".$pupil_id.".pdf");
 
             // Clone each page and add to merged PDF
             $pages = count($OldPdf->pages);
             for($i=0; $i<$pages; ++$i){
+                $this->out("<info>------ ajout de la page ".$i."</info>", 1, Shell::VERBOSE);
                 $page = clone $OldPdf->pages[$i];
                 $pdfMerged->pages[] = $page;
             }
@@ -96,8 +102,10 @@ HTML;
 
         // Save changes to PDF
         $pdfMerged->save(APP . "files/reports/".$report['Report']['id'].".pdf");
+        $this->out("<info>files/reports/".$data['report_id'].".pdf créé</info>", 1, Shell::VERBOSE);
 
         foreach(array_keys($pupils) as $pupil_id){
+            $this->out(APP . "files/reports/".$report['Report']['id']."_".$pupil_id.".pdf supprimé", 1, Shell::VERBOSE);
             unlink(APP . "files/reports/".$report['Report']['id']."_".$pupil_id.".pdf");
         }
 

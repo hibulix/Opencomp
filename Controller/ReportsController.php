@@ -81,7 +81,7 @@ class ReportsController extends AppController {
 
         $pup = array_values(array_unique($pup));
 
-        $pheanstalk = new Pheanstalk('127.0.0.1');
+        $pheanstalk = new Pheanstalk(Configure::read('beanstalkd_host'));
         $pupilsJobs = [];
 
         foreach($pup as $id){
@@ -136,7 +136,7 @@ class ReportsController extends AppController {
         ]);
 
         $pupilsStatus = [];
-        $pheanstalk = new Pheanstalk('127.0.0.1');
+        $pheanstalk = new Pheanstalk(Configure::read('beanstalkd_host'));
 
         $concatenateJobId = array_pop($jobsIds);
         foreach($jobsIds as $pupil_id => $job_id){
