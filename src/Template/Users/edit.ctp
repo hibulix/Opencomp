@@ -1,21 +1,19 @@
 <div class="page-title">
     <h2><?php echo __('Modifier un utilisateur'); ?></h2>
-    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour aux utilisateurs'), 'index', array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour aux utilisateurs'), ['action'=>'index'], array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
 </div>
 
 <?php 
 
-echo $this->Form->create('User', array(
-    'inputDefaults' => array(
-        'div' => 'form-group',
-        'label' => array(
-            'class' => 'col col-md-2 control-label'
-        ),
-        'wrapInput' => 'col col-md-3',
-        'class' => 'form-control'
-    ),
-    'class' => 'form-horizontal'
-));
+echo $this->Form->create($user, ['novalidate',
+    'align' => [
+        'md' => [
+            'left' => 2,
+            'middle' => 3,
+            'right' => 7,
+        ],
+    ]
+]);
 
 echo $this->Form->input('id');
 echo $this->Form->input('username', array(
@@ -45,37 +43,38 @@ echo $this->Form->input('yubikeyID', array(
     )
 ));
 
-echo $this->Form->input('Academy', array(
+echo $this->Form->input('academy', array(
     'class'=>'chzn-select form-control',
     'data-placeholder'=>'Pas responsable d\'une académie',
+    'empty'=>true,
     'label' => array(
         'text' => 'Responsable de(s) l\'académie(s)'
         )
     )
 );
-echo $this->Form->input('Establishment', array(
+echo $this->Form->input('establishment', array(
     'class'=>'chzn-select form-control',
     'data-placeholder'=>'Pas titulaire d\'un établissement',
-    'empty'=>'',
+    'empty'=>true,
     'label' => array(
         'text' => 'Directeur de l\'établissement scolaire'
         )
     )
 );
-echo $this->Form->input('Classroom', array(
+echo $this->Form->input('classrooms._ids', array(
     'class'=>'chzn-select form-control',
     'data-placeholder'=>'Pas titulaire d\'une classe',
-    'empty'=>'',
     'label' => array(
         'text' => 'Enseignant principal de la classe'
         )
     )
 );
 
-echo $this->Form->submit('Modifier cet utilisateur', array(
-    'div' => 'col col-md-9 col-md-offset-2',
-    'class' => 'btn btn-primary'
-)); 
-        
+?><div class="form-group"><?php
+    echo $this->Form->submit('Modifier cet utilisateur', array(
+        'class' => 'btn btn-primary'
+    ));
+    ?></div><?php
+
 echo $this->Form->end();
 

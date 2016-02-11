@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Entity;
 
+use Cake\Auth\WeakPasswordHasher;
 use Cake\ORM\Entity;
 
 /**
@@ -34,5 +35,14 @@ class User extends Entity
     {
         return  $this->_properties['first_name'] . ' ' .
                 $this->_properties['name'];
+    }
+
+    /**
+     * @param $password
+     * @return string
+     */
+    protected function _setPassword($password)
+    {
+        return (new WeakPasswordHasher())->hash($password);
     }
 }

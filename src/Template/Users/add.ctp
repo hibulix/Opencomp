@@ -5,17 +5,15 @@
 
 <?php 
 
-echo $this->Form->create('User', array(
-    'inputDefaults' => array(
-        'div' => 'form-group',
-        'label' => array(
-            'class' => 'col col-md-2 control-label'
-        ),
-        'wrapInput' => 'col col-md-3',
-        'class' => 'form-control'
-    ),
-    'class' => 'form-horizontal'
-));
+echo $this->Form->create($user, ['novalidate',
+    'align' => [
+        'md' => [
+            'left' => 2,
+            'middle' => 3,
+            'right' => 7,
+        ],
+    ]
+]);
 
 echo $this->Form->input('username', array(
     'label' => array(
@@ -43,26 +41,25 @@ echo $this->Form->input('email', array(
     )
 ));
 
-echo $this->Form->input('Academy', array(
-    'class'=>'chzn-select form-control',
+echo $this->Form->input('academy', array(
+    'class'=>'chzn-select',
     'data-placeholder'=>'Pas responsable d\'une académie',
-    'style'=>'width : 250px;',
+    'empty'=>true,
     'label' => array(
         'text' => 'Responsable de(s) l\'académie(s)'
         )
     )
 );
-echo $this->Form->input('Establishment', array(
+echo $this->Form->input('establishment', array(
     'class'=>'chzn-select form-control',
-    'data-placeholder'=>'Pas titulaire d\'un établissement',
-    'style'=>'width : 250px;',
-    'empty'=>'',
+    'data-placeholder'=>'Pas directreur d\'un établissement',
+    'empty'=>true,
     'label' => array(
         'text' => 'Directeur de l\'établissement scolaire'
     )
 ));
-echo $this->Form->input('Classroom', array(
-    'class'=>'chzn-select form-control',
+echo $this->Form->input('classrooms._ids', array(
+    'class'=>'chzn-select',
     'data-placeholder'=>'Pas titulaire d\'une classe',
     'style'=>'width : 250px;',
     'empty'=>'',
@@ -70,10 +67,12 @@ echo $this->Form->input('Classroom', array(
         'text' => 'Enseignant principal de la classe',
     )
 ));
+
+?><div class="form-group"><?php
 echo $this->Form->submit('Ajouter cet utilisateur', array(
-    'div' => 'col col-md-9 col-md-offset-2',
     'class' => 'btn btn-primary'
-)); 
-        
+));
+?></div><?php
+
 echo $this->Form->end();
 

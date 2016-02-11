@@ -7,6 +7,7 @@ use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\NotFoundException;
 use Cake\Network\Exception\MethodNotAllowedException;
+use Cake\Utility\Security;
 
 /**
  * Users Controller
@@ -51,7 +52,8 @@ class UsersController extends AppController {
 		if(!empty($iduser))
 			$this->redirect(array('controller' => 'dashboard', 'action' => 'index'));
 
-		$this->layout = 'auth';
+		$this->viewBuilder()->layout('auth');
+
 		if($this->request->is('post')){
 
 			$users = $this->Users->find('all', array(
@@ -124,24 +126,7 @@ class UsersController extends AppController {
  */
 	public function index() {
         $this->set('title_for_layout', __('Liste des utilisateurs'));
-		$this->User->recursive = 0;
 		$this->set('users', $this->paginate());
-	}
-
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
-	    $this->set('title_for_layout', __('Détail d\'utilisateur'));
-		$this->User->id = $id;
-		if (!$this->User->exists()) {
-			throw new NotFoundException(__('L\'utilisateur demandé n\'existe pas !'));
-		}
-		$this->set('user', $this->User->read(null, $id));
 	}
 
 /**
@@ -151,20 +136,22 @@ class UsersController extends AppController {
  */
 	public function add() {
 	    $this->set('title_for_layout', __('Ajouter un utilisateur'));
+		$user = $this->Users->newEntity();
+
 		if ($this->request->is('post')) {
-			$this->User->create();
-			if ($this->User->save($this->request->data)) {
+            $user = $this->Users->newEntity($this->request->data);
+            $user->set('role','');
+			if ($this->Users->save($user)) {
 				$this->Flash->success('Le nouvel utilisateur a été correctement ajouté');
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
 			}
 		}
-		$academies = $this->User->Academy->find('list');
-		$classrooms = $this->User->Classroom->find('list');
-		$competences = $this->User->Competence->find('list');
-		$establishments = $this->User->Establishment->find('list');
-		$this->set(compact('academies', 'classrooms', 'competences', 'establishments'));
+		$academies = $this->Users->Academies->find('list');
+		$classrooms = $this->Users->Classrooms->find('list');
+		$establishments = $this->Users->Establishments->find('list');
+		$this->set(compact('academies', 'classrooms', 'establishments', 'user'));
 	}
 
 /**
@@ -176,25 +163,21 @@ class UsersController extends AppController {
  */
 	public function edit($id = null) {
 	    $this->set('title_for_layout', __('Modifier un utilisateur'));
-		$this->Users->id = $id;
-		if (!$this->Users->exists()) {
-			throw new NotFoundException(__('L\'utilisateur demandé n\'existe pas !'));
-		}
+
+        $user = $this->Users->get($id,['contain'=>['Establishments','Academies','Classrooms']]);
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Users->save($this->request->data)) {
+            $user = $this->Users->patchEntity($user, $this->request->data);
+			if ($this->Users->save($user)) {
 				$this->Flash->success('L\'utilisateur a été correctement mis à jour');
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
 			}
-		} else {
-			$this->request->data = $this->Users->read(null, $id);
 		}
-		$academies = $this->Users->Academy->find('list');
-		$classrooms = $this->Users->Classroom->find('list');
-		$competences = $this->Users->Competence->find('list');
-		$establishments = $this->Users->Establishment->find('list');
-		$this->set(compact('academies', 'classrooms', 'competences', 'establishments'));
+		$academies = $this->Users->Academies->find('list');
+		$classrooms = $this->Users->Classrooms->find('list');
+		$establishments = $this->Users->Establishments->find('list');
+		$this->set(compact('academies', 'classrooms', 'establishments', 'user'));
 	}
 
 /**
@@ -209,15 +192,12 @@ class UsersController extends AppController {
 		if (!$this->request->is('post')) {
 			throw new MethodNotAllowedException();
 		}
-		$this->User->id = $id;
-		if (!$this->User->exists()) {
-			throw new NotFoundException(__('L\'utilisateur demandé n\'existe pas !'));
-		}
-		if ($this->User->delete()) {
+        $user = $this->Users->get($id);
+		if ($this->Users->delete($user)) {
 			$this->Flash->success('L\'utilisateur a été correctement supprimé');
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->Flash->error('L\'utilisateur n\'a pas pu être supprimé');
-		$this->redirect(array('action' => 'index'));
+		}else{
+            $this->Flash->error('L\'utilisateur n\'a pas pu être supprimé');
+        }
+        $this->redirect(array('action' => 'index'));
 	}
 }
