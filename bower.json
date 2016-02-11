@@ -2,11 +2,11 @@
     "name": "Opencomp",
     "dependencies": {
         "jquery": "2.1.4",
-        "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.1.0/chosen_v1.1.0.zip",
-        "jstree": "3.1.0",
-        "bootstrap": "3.3.4",
+        "chosen": "1.4.2",
+        "jstree": "3.2.0",
+        "bootstrap": "3.3.5",
         "bootstrap-datepicker": "1.4.0",
-        "bootstrap-filestyle": "1.1.2",
-        "fontawesome": "4.3.0"
+        "bootstrap-filestyle": "1.2.1",
+        "fontawesome": "4.4.0"
     }
 }

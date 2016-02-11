@@ -2,6 +2,12 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
+use Cake\Core\Configure;
+use Cake\Core\Configure\Engine\PhpConfig;
+use Cake\Datasource\ConnectionManager;
+use Cake\Filesystem\Folder;
+use ReflectionClass;
+use ReflectionMethod;
 
 /**
  * Settings Controller
@@ -23,112 +29,81 @@ class SettingsController extends AppController {
 
 	public function index(){
 	
-		$this->loadModel('Year');	
-		$years = $this->Year->find('list');
+		$this->loadModel('Years');
+		$years = $this->Years->find('list');
 		$this->set('years', $years);
-		
-		$currentYear = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'currentYear')));
-	    $lastYear = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'lastYear')));
-	    $pathMysqldump = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'pathMysqldump')));
-	    $pathBackup = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'pathBackup')));
-	    $saveOnExit = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'saveOnExit')));
-	    $yubikeyClientId = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'yubikeyClientID')));
-	    $yubikeySecretKey = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'yubikeySecretKey')));
-	    
-	    if(empty($currentYear))
-			$this->set('currentYear', null);
-		else
-			$this->set('currentYear', $currentYear['Setting']['value']);
-			
-			
-		if(empty($lastYear))
-			$this->set('lastYear', null);
-		else
-			$this->set('lastYear', $lastYear['Setting']['value']);
-			
-		if(empty($saveOnExit))
-			$this->set('saveOnExit', null);
-		else
-			$this->set('saveOnExit', $saveOnExit['Setting']['value']);
-			
-		if(empty($pathMysqldump))
-			$this->set('pathMysqldump', null);
-		else
-			$this->set('pathMysqldump', $pathMysqldump['Setting']['value']);
-		
-		if(empty($pathBackup))
-			$this->set('pathBackup', null);
-		else
-			$this->set('pathBackup', $pathBackup['Setting']['value']);
-			
-		if(empty($yubikeyClientId))
-			$this->set('yubikeyClientId', null);
-		else
-			$this->set('yubikeyClientId', $yubikeyClientId['Setting']['value']);
-			
-		if(empty($yubikeySecretKey))
-			$this->set('yubikeySecretKey', null);
-		else
-			$this->set('yubikeySecretKey', $yubikeySecretKey['Setting']['value']);
-	
-		if ($this->request->is('post') || $this->request->is('put')) {
-		    
-		    $error = 0;
-		    
-		    if($this->data['Setting']['currentYear'] == $this->data['Setting']['lastYear']){
-			    $this->Flash->error('L\'année scolaire courante ne peut pas être identique à l\'année scolaire précédente !');
-			    $error = 1;
-		    }
-		    
-		    if(!is_writable($this->data['Setting']['pathBackup'])){
-			    $this->Flash->error('Le répertoire de sauvegarde n\'est pas inscriptible !');
-			    $error = 1;
-		    }
-		    
-		    if(!file_exists($this->data['Setting']['pathMysqldump'])){
-			    $this->Flash->error('Le chemin de l\'exécutable mysqldump est invalide !');
-			    $error = 1;
-		    }
-		    
-		    if($error == 0){
-			    $this->Setting->read(null, $currentYear['Setting']['id']);
-				$this->Setting->set(array('value' => $this->data['Setting']['currentYear']));
-				$this->Setting->save();
-				
-				$this->Setting->read(null, $lastYear['Setting']['id']);
-				$this->Setting->set(array('value' => $this->data['Setting']['lastYear']));
-				$this->Setting->save();
-				
-				$this->Setting->read(null, $saveOnExit['Setting']['id']);
-				$this->Setting->set(array('value' => $this->data['Setting']['saveOnExit']));
-				$this->Setting->save();
 
-				$this->Setting->read(null, $pathMysqldump['Setting']['id']);
-				$this->Setting->set(array('value' => $this->data['Setting']['pathMysqldump']));
-				$this->Setting->save();
-				
-				$this->Setting->read(null, $pathBackup['Setting']['id']);
-				$this->Setting->set(array('value' => $this->data['Setting']['pathBackup']));
-				$this->Setting->save();
-				
-				$this->Setting->read(null, $yubikeyClientId['Setting']['id']);
-				$this->Setting->set(array('value' => $this->data['Setting']['yubikeyClientId']));
-				$this->Setting->save();
-				
-				$this->Setting->read(null, $yubikeySecretKey['Setting']['id']);
-				$this->Setting->set(array('value' => $this->data['Setting']['yubikeySecretKey']));
-				$this->Setting->save();		
-				
-				$this->Flash->success('Les paramètres ont été correctement mis à jour.');
-				$this->redirect(array('action'=> 'index'));
-		    }	  
-	    }  	
+        Configure::config('default', new PhpConfig());
+        Configure::load('opencomp', 'default');
+		$currentYear = Configure::read('Opencomp.currentYear');
+	    $lastYear = Configure::read('Opencomp.lastYear');
+	    $yubikeyClientId = Configure::read('Opencomp.yubikeyClientId');
+	    $yubikeySecretKey = Configure::read('Opencomp.yubikeySecretKey');
+
+        if ($this->request->is('post')) {
+
+            Configure::config('default', new PhpConfig());
+            Configure::write([
+                'Opencomp.currentYear' => $this->request->data['Setting']['currentYear'],
+                'Opencomp.lastYear' => $this->request->data['Setting']['lastYear'],
+                'Opencomp.yubikeyClientId' => $this->request->data['Setting']['yubikeyClientId'],
+                'Opencomp.yubikeySecretKey' => $this->request->data['Setting']['yubikeySecretKey']
+            ]);
+            Configure::dump('opencomp', 'default', ['Opencomp']);
+
+        }
+
+        $this->set(compact('currentYear', 'lastYear', 'yubikeyClientId', 'yubikeySecretKey'));
 	}
-	
-	public function save(){
 
-			$this->redirect(array('controller'=>'users','action'=> 'logout'));
+    public function extractMethods(){
 
-		
-	}
+        $saved_metas = $this->Settings->getMetadatas();
+
+        $controllers_dir = new Folder('../src/Controller');
+        $controllers = $controllers_dir->find('.*Controller\.php');
+
+        if(($key = array_search('AppController.php', $controllers)) !== false) {
+            unset($controllers[$key]);
+        }
+
+        $actions = [];
+        foreach($controllers as $controller){
+            require_once($controller);
+            $classname = 'app\Controller\\'.substr($controller,0,-4);
+            $object = new $classname;
+            $class = new ReflectionClass($object);
+
+            $methods = $class->getMethods(ReflectionMethod::IS_PUBLIC);
+
+            foreach($methods as $method){
+                if(!in_array($method->name,['isAuthorized','beforeFilter','login','logout','generationProgressWidget','needYubikeyToken','setAuthorizedClassroomsId'],true))
+                    $actions[substr($method->class, 15, -10)][] = $method->name;
+            }
+        }
+        unset($actions['App']);
+        unset($actions['Pages']);
+        unset($actions['\\']);
+
+        $this->set(compact('actions', 'saved_metas'));
+
+        if ($this->request->is('post')) {
+            $connection = ConnectionManager::get('default');
+            foreach($this->request->data as $controller => $methods){
+                foreach($methods as $method => $label){
+                    $label = $connection->quote($label);
+                    if($method === 'ControllerName' && !empty($label)){
+                        $connection->execute("INSERT INTO metadatas (controller,value)
+                                              VALUES ('$controller',$label)
+                                              ON DUPLICATE KEY UPDATE value=$label;");
+                    }elseif(!empty($label)){
+                        $connection->execute("INSERT INTO metadatas (controller,action,value)
+                                              VALUES ('$controller','$method',$label)
+                                              ON DUPLICATE KEY UPDATE value=$label;");
+                    }
+                }
+            }
+            $this->redirect(['action' => 'extractmethods']);
+        }
+    }
 }
