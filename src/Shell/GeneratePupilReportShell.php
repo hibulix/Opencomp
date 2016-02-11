@@ -4,6 +4,7 @@ namespace App\Shell;
 
 use Cake\Console\Shell;
 use App\View\Helper;
+use Cake\Core\Configure;
 use Cake\View\View;
 use Pheanstalk\Pheanstalk;
 use ZendPdf;
@@ -18,7 +19,7 @@ class GeneratePupilReportShell extends Shell {
     }
 
     public function main() {
-        $pheanstalk = new Pheanstalk('127.0.0.1');
+        $pheanstalk = new Pheanstalk(Configure::read('beanstalkd_host'));
         while($job = $pheanstalk->watch('generate-report')->ignore('default')->reserve()){
             $data = json_decode($job->getData(), true);
 

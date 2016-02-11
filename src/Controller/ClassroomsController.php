@@ -117,7 +117,7 @@ class ClassroomsController extends AppController {
 		$this->set('title_for_layout', __('Visualiser une classe'));
 
         $classroom = $this->Classrooms->get($id, ['contain' => 'Establishments']);
-        $current_period = $classroom->establishment->period_id;
+        $current_period = $classroom->establishment->current_period_id;
         $period = $this->Classrooms->Establishments->Periods->get($current_period);
 
         if(Time::now() > $period->end)
@@ -150,21 +150,20 @@ class ClassroomsController extends AppController {
 	
 	public function viewunrateditems($id = null){
 		$this->set('title_for_layout', __('Visualiser une classe'));
-		$this->Classroom->id = $id;
+		$this->Classrooms->id = $id;
 
-		$this->Classroom->contain(array('Evaluation.created DESC', 'Evaluation.unrated=1', 'Evaluation.Item', 'Evaluation.Period', 'User', 'Establishment', 'Year'));
-		$classroom = $this->Classroom->find('first', array(
-			'conditions' => array('Classroom.id' => $id)
-		));
+        $classroom = $this->Classrooms->get($id, [
+            'contain' => ['User','Years','Establishments']
+        ]);
 		$this->set('classroom', $classroom);
 
-        $this->loadModel('Setting');
-        $currentYear = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'currentYear')));
+        $this->loadModel('Settings');
+        $currentYear = $this->Settings->find('all', array('conditions' => array('Settings.key' => 'currentYear')))->first();
 		
-		$periods = $this->Classroom->Evaluation->Period->find('list', array(
+		$periods = $this->Classrooms->Evaluations->Periods->find('list', array(
 			'conditions' => array(
-                'establishment_id' => $classroom['Classroom']['establishment_id'],
-                'year_id' => $currentYear['Setting']['value']
+                'establishment_id' => $classroom['Classrooms']['establishment_id'],
+                'year_id' => $currentYear['Settings']['value']
             ),
 			'recursive' => 0));
 		$this->set('periods', $periods);

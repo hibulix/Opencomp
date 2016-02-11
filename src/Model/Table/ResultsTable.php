@@ -89,7 +89,7 @@ class ResultsTable extends Table
             ),
             'conditions' => array(
                 'Pupils.id' => $pupil_id,
-                'Evaluations.period_id IN' => $period_id,
+                'Evaluations.period_id IN' => explode(',',$period_id),
                 'Evaluations.classroom_id' => $classroom_id
             ),
             'contain' => array(

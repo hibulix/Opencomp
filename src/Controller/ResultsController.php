@@ -181,7 +181,7 @@ class ResultsController extends AppController {
 			'order' => array('Pupils.name', 'Pupils.first_name'),
 			'group' => array('Pupils.id'),
 			'conditions' => array(
-				'Evaluations.period_id IN' => $report->period_id,
+				'Evaluations.period_id IN' => explode(',',$report->period_id),
 				'Evaluations.classroom_id' => $report->classroom_id
 			),
 			'contain' => array(

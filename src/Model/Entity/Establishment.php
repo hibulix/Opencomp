@@ -24,7 +24,7 @@ class Establishment extends Entity
         'period_id' => true,
         'users' => true,
         'academy' => true,
-        'current_period' => true,
+        'current_period_id' => true,
         'classrooms' => true,
         'items' => true,
         'periods' => true,

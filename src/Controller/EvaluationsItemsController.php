@@ -32,6 +32,12 @@ class EvaluationsItemsController extends AppController {
 				'Evaluations.unrated' => 0
 			]
 		])->hydrate(false)->toArray();
+
+		if(empty($items_competences)){
+			$this->Flash->error('Impossible d\'afficher ce rapport car vous n\'avez encore évalué aucun item.');
+			return $this->redirect(array('controller' => 'classrooms', 'action' => 'viewtests', $id));
+		}
+
 		$json = $this->JsonTree->allUsedItemsToJson($items_competences, array_keys($items_competences));
         $this->set(compact('json'));
 	}

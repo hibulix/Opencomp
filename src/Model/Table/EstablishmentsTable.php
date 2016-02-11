@@ -86,7 +86,6 @@ class EstablishmentsTable extends Table
     {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['academy_id'], 'Academies'));
-        $rules->add($rules->existsIn(['current_period_id'], 'CurrentPeriods'));
         return $rules;
     }
 }

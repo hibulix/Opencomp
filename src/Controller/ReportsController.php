@@ -3,6 +3,7 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
+use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use Pheanstalk\Exception;
@@ -53,7 +54,7 @@ class ReportsController extends AppController {
             'fields' => array('pupil_id'),
             'order' => array('name', 'first_name'),
             'conditions' => array(
-                'Evaluations.period_id' => $report->period_id,
+                'Evaluations.period_id IN' => explode(',', $report->period_id),
                 'Evaluations.classroom_id' => $report->classroom_id
             ),
             'contain' => array(
@@ -74,7 +75,7 @@ class ReportsController extends AppController {
 
         $pup = array_values(array_unique($pup));
 
-        $pheanstalk = new Pheanstalk('127.0.0.1');
+        $pheanstalk = new Pheanstalk(Configure::read('beanstalkd_host'));
         $pupilsJobs = [];
 
         foreach($pup as $id){
@@ -106,7 +107,7 @@ class ReportsController extends AppController {
     }
 
     public function generationProgressWidget($id = null){
-        $this->layout = 'ajax';
+        $this->viewBuilder()->layout('ajax');
 
         $report = $this->Reports->get($id);
         $jobsIds = unserialize($report->beanstalkd_jobs);
@@ -119,7 +120,7 @@ class ReportsController extends AppController {
         ])->toArray();
 
         $pupilsStatus = [];
-        $pheanstalk = new Pheanstalk('127.0.0.1');
+        $pheanstalk = new Pheanstalk(Configure::read('beanstalkd_host'));
 
         $concatenateJobId = array_pop($jobsIds);
         foreach($jobsIds as $pupil_id => $job_id){

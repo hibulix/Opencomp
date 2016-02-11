@@ -10,7 +10,6 @@
 		echo $this->Html->css(array(
             '../components/bootstrap/dist/css/bootstrap.min',
             '../components/bootstrap/dist/css/bootstrap-theme.min',
-            '../components/bootstrap-datepicker/css/datepicker3',
             '../components/fontawesome/css/font-awesome.min',
             '../components/chosen/chosen.min',
             'chosen.bootstrap.css',

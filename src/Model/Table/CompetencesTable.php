@@ -107,7 +107,13 @@ class CompetencesTable extends Table
     public function findAllCompetencesFromCompetenceId($ids_array, $format = 'jstree'){
         $competence_bounds = $this->returnBoundsFromCompetenceId($ids_array);
         $sql_string = "SELECT * FROM competences AS Competences WHERE ";
-        $id_competences = implode(',',$ids_array);
+
+        if(count($ids_array) > 1){
+            $id_competences = implode(',',$ids_array);
+        }else{
+            $id_competences = $ids_array;
+        }
+
         $sql_string .= "id IN ( $id_competences ) OR ";
         foreach($competence_bounds as $lft => $rght){
             $sql_string .= "(lft < $lft AND rght > $rght) OR ";

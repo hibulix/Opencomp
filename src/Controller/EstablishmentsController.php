@@ -124,7 +124,7 @@ class EstablishmentsController extends AppController {
     public function setDefaultPeriod($id = null) {
         if ($this->request->is(['patch', 'post', 'put'])) {
             $establishment = $this->Establishments->get($id);
-            $establishment->period_id = $this->request->data('period_id');
+            $establishment->current_period_id = $this->request->data('period_id');
             if ($this->Establishments->save($establishment)) {
                 $this->Flash->success('La nouvelle période courante a bien été sauvegardée.');
             } else {
