@@ -93,7 +93,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo($first_name.' '.$name); ?> <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li class="disabled"><?php echo $this->Html->link('<i class="fa fa-edit"></i> '.__('Mon compte (bientôt)'), '', array('escape' => false)); ?></li>
-                                <li><?php echo $this->Html->link('<i class="fa fa-sign-out"></i> '.__('Se déconnecter'), '/settings/save', array('escape' => false)); ?></li>
+                                <li><?php echo $this->Html->link('<i class="fa fa-sign-out"></i> '.__('Se déconnecter'), '/users/logout', array('escape' => false)); ?></li>
                             </ul>
                         </li>
                     </ul>

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "92b8883ff6ab9fbeff0032abe0508457",
-    "content-hash": "9f2396b628e892b7986b468cd69e5555",
+    "hash": "9db91d4c8ff25dced9b80c6917694a01",
+    "content-hash": "2c0758fb080bfeb0cc203c4df3477984",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -128,16 +128,16 @@
         },
         {
             "name": "cakephp/cakephp",
-            "version": "3.2.1",
+            "version": "3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "d272cc93627e098a7d781138ca850d91e54e6f62"
+                "reference": "ef134e0691dd124ff4cd35747252ae1c9da77305"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/d272cc93627e098a7d781138ca850d91e54e6f62",
-                "reference": "d272cc93627e098a7d781138ca850d91e54e6f62",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/ef134e0691dd124ff4cd35747252ae1c9da77305",
+                "reference": "ef134e0691dd124ff4cd35747252ae1c9da77305",
                 "shasum": ""
             },
             "require": {
@@ -193,7 +193,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2016-01-31 02:56:35"
+            "time": "2016-02-12 03:14:21"
         },
         {
             "name": "cakephp/chronos",
@@ -342,16 +342,16 @@
         },
         {
             "name": "dompdf/dompdf",
-            "version": "v0.6.1",
+            "version": "v0.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dompdf/dompdf.git",
-                "reference": "cf7d8a0a27270418850cc7d7ea532159e5eeb3eb"
+                "reference": "cc06008f75262510ee135b8cbb14e333a309f651"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/cf7d8a0a27270418850cc7d7ea532159e5eeb3eb",
-                "reference": "cf7d8a0a27270418850cc7d7ea532159e5eeb3eb",
+                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/cc06008f75262510ee135b8cbb14e333a309f651",
+                "reference": "cc06008f75262510ee135b8cbb14e333a309f651",
                 "shasum": ""
             },
             "require": {
@@ -379,7 +379,7 @@
             ],
             "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
             "homepage": "https://github.com/dompdf/dompdf",
-            "time": "2014-03-11 01:59:52"
+            "time": "2015-12-07 04:07:13"
         },
         {
             "name": "enygma/yubikey",
@@ -432,23 +432,22 @@
         },
         {
             "name": "friendsofcake/bootstrap-ui",
-            "version": "v0.3.5",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfCake/bootstrap-ui.git",
-                "reference": "8b52d5ebcfcc05f08f4500e46427a2c1bfa72f62"
+                "reference": "a696d5acaa2f3fc8bc2c8b77ef429791081be926"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfCake/bootstrap-ui/zipball/8b52d5ebcfcc05f08f4500e46427a2c1bfa72f62",
-                "reference": "8b52d5ebcfcc05f08f4500e46427a2c1bfa72f62",
+                "url": "https://api.github.com/repos/FriendsOfCake/bootstrap-ui/zipball/a696d5acaa2f3fc8bc2c8b77ef429791081be926",
+                "reference": "a696d5acaa2f3fc8bc2c8b77ef429791081be926",
                 "shasum": ""
             },
             "require": {
                 "cakephp/cakephp": "~3.0"
             },
             "require-dev": {
-                "cakephp/cakephp-codesniffer": "dev-master",
                 "phpunit/phpunit": "4.1.*"
             },
             "type": "cakephp-plugin",
@@ -479,7 +478,7 @@
                 "cakephp",
                 "twitter"
             ],
-            "time": "2016-02-10 19:43:30"
+            "time": "2016-02-13 07:09:35"
         },
         {
             "name": "fusonic/spreadsheet-export",

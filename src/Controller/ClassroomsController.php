@@ -2,7 +2,6 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
-use App\Model\Entity\User;
 use Cake\Event\Event;
 use Cake\Network\Exception\BadRequestException;
 use Cake\ORM\Query;

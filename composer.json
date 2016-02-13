@@ -12,7 +12,7 @@
         "cakephp/plugin-installer": "*",
         "zendframework/zendpdf": "~2.0",
         "enygma/yubikey": "~3.0",
-        "dompdf/dompdf": "0.6.1",
+        "dompdf/dompdf": "0.6.2",
         "fusonic/spreadsheet-export": "0.1.1",
         "pda/pheanstalk": "3.0.2",
         "friendsofcake/bootstrap-ui": "~0.3"
