@@ -52,7 +52,8 @@ class ClassroomsController extends AppController {
 
     public function getJson($apikey = null, $classroom_id = null){
 
-        $this->layout = 'ajax';
+        $this->viewBuilder()->layout('ajax');
+
         $this->response->type(array('json' => 'application/json'));
         $this->response->type('json');
 
