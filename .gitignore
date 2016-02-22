@@ -4,3 +4,4 @@ webroot/components
 /config/app.php
 /tmp/*
 /logs/*
+java_servlets/ODBGenerator/WEB-INF/*.odb
