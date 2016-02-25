@@ -34,6 +34,11 @@
 <?php
 $this->start('script');
 ?>
+<style type="text/css">
+	[data-type="noeud"] > a > i.jstree-checkbox{
+		display:none;
+	}
+</style>
 <script type='text/javascript'>
 	var data = <?php echo $json; ?>;
 
@@ -48,12 +53,20 @@ $this->start('script');
 			var idCompetence = node.id;
 		}
 
+		var selected = $("#tree_attach_item").jstree("get_selected");
+		var arrayLength = selected.length;
+		for (var i = 0; i < arrayLength; i++) {
+			var re = /item-/gi;
+			selected[i] = selected[i].replace(re, "");
+
+		}
+
 		var items = {
-			"choose" : {
-				"label" : "ajouter cet item à l'évaluation",
-				"icon" : "fa text-info fa-check",
+			"add-selection" : {
+				"label" : "ajouter ma sélection à l'évaluation (<strong>"+arrayLength+" item(s)</strong> sélectionné(s))",
+				"icon" : "fa text-info fa-check-square-o",
 				"action" : function (obj){
-					window.location.href = $('#base_url').text()+'evaluationsItems/attachitem?evaluation_id='+$('#id_evaluation').text()+'&item_id='+idItem;
+					window.location.href = $('#base_url').text()+'evaluationsItems/attachitem?evaluation_id='+$('#id_evaluation').text()+'&item_id='+selected.join();
 				},
 			},
 			"createNew" : {
@@ -74,12 +87,21 @@ $this->start('script');
 	}
 
 	$("#tree_attach_item").jstree({
-		'state' : { 'key' : 'tree_attach_item' },
+		'state' : {
+			'key' : 'tree_attach_item' ,
+			'events' : 'open_node.jstree close_node.jstree'
+		},
 		'contextmenu' : {
-			//'show_at_node' : false,
+			'show_at_node' : false,
 			'items' : returnContextMenu
 		},
-		'plugins' : [ 'state', 'contextmenu' ],
+		'checkbox' : {
+			'three_state' : false
+		},
+		'conditionalselect' : function (node) {
+			return node.data.type == "noeud" ? false : true;
+		},
+		'plugins' : [ 'state', 'contextmenu', 'checkbox', 'conditionalselect' ],
 		'core' : {
 			'check_callback' : true,
 			'strings' : {

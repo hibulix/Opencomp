@@ -45,32 +45,27 @@ class EvaluationsItemsController extends AppController {
 	public function attachitem(){
 
         $evaluation = $this->EvaluationsItems->Evaluations->get($this->request->query['evaluation_id']);
-        $item = $this->EvaluationsItems->Items->get($this->request->query['item_id']);
+        $items = explode(',',$this->request->query['item_id']);
+		foreach($items as $itemid){
+			$item = $this->EvaluationsItems->Items->get($itemid);
+			if(!$this->EvaluationsItems->isItemAlreadyAttachedToEvaluation($evaluation->id,$item->id)){
+				$lastItemPosition = $this->EvaluationsItems->find('all', array(
+					'conditions' => array('EvaluationsItems.evaluation_id' => $evaluation->id)
+				))->count();
+				$nextItemPosition = $lastItemPosition+1;
 
-	    if($this->EvaluationsItems->isItemAlreadyAttachedToEvaluation($evaluation->id,$item->id)){
-		    $this->Flash->error('Impossible d\'ajouter cet item à cette évaluation, il y est déjà associé.');
-			$this->redirect(array(
-			    'controller'    => 'competences',
-			    'action'        => 'attachitem', 
-			    'evaluation_id' => $evaluation->id));
-	    }else{
-	    	$lastItemPosition = $this->EvaluationsItems->find('all', array(
-		        'conditions' => array('EvaluationsItems.evaluation_id' => $evaluation->id)
-		    ))->count();
-			$nextItemPosition = $lastItemPosition+1;
-			
-		    $data = array(
-				'evaluation_id' => $evaluation->id,
-				'item_id' => $item->id,
-				'position' => $nextItemPosition
-			);
-			
-			$evaluationItems = $this->EvaluationsItems->newEntity($data);
-			$this->EvaluationsItems->save($evaluationItems);
-			
-			$this->Flash->success('L\'item sélectionné a été correctement associé à l\'évaluation.');
-			$this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation->id));
-	    }			
+				$data = array(
+					'evaluation_id' => $evaluation->id,
+					'item_id' => $item->id,
+					'position' => $nextItemPosition
+				);
+
+				$evaluationItems = $this->EvaluationsItems->newEntity($data);
+				$this->EvaluationsItems->save($evaluationItems);
+			}
+		}
+		$this->Flash->success('Votre sélection d\'items a été correctement associée à l\'évaluation.');
+		$this->redirect(array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation->id));
 	}
 
 	public function attachunrateditem(){
