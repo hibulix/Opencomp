@@ -13,6 +13,24 @@ echo $this->Form->create('Settings', [
         ]]
 ]);
 
+?> <h3><i class="fa fa-server"></i> Paramètres de passerelles</h3><hr /> <?php
+
+echo $this->Form->input('Setting.beanstalkdHost', array(
+    'label' => array(
+        'text' => 'Hôte du serveur beanstalkd',
+    ),
+    'class' => 'input-small',
+    'value' => $beanstalkdHost
+));
+
+echo $this->Form->input('Setting.tomcatHost', array(
+    'label' => array(
+        'text' => 'Hôte du serveur tomcat',
+    ),
+    'class' => 'input-small',
+    'value' => $tomcatHost
+));
+
 ?> <h3><i class="fa fa-clock-o"></i> Paramètres de temps</h3><hr /> <?php
 
 echo $this->Form->input('Setting.currentYear', array(

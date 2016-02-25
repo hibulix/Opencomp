@@ -35,6 +35,8 @@ class SettingsController extends AppController {
 
         Configure::config('default', new PhpConfig());
         Configure::load('opencomp', 'default');
+        $beanstalkdHost = Configure::read('Opencomp.beanstalkdHost');
+        $tomcatHost = Configure::read('Opencomp.tomcatHost');
 		$currentYear = Configure::read('Opencomp.currentYear');
 	    $lastYear = Configure::read('Opencomp.lastYear');
 	    $yubikeyClientId = Configure::read('Opencomp.yubikeyClientId');
@@ -44,6 +46,8 @@ class SettingsController extends AppController {
 
             Configure::config('default', new PhpConfig());
             Configure::write([
+                'Opencomp.beanstalkdHost' => $this->request->data['Setting']['beanstalkdHost'],
+                'Opencomp.tomcatHost' => $this->request->data['Setting']['tomcatHost'],
                 'Opencomp.currentYear' => $this->request->data['Setting']['currentYear'],
                 'Opencomp.lastYear' => $this->request->data['Setting']['lastYear'],
                 'Opencomp.yubikeyClientId' => $this->request->data['Setting']['yubikeyClientId'],
@@ -53,7 +57,7 @@ class SettingsController extends AppController {
 
         }
 
-        $this->set(compact('currentYear', 'lastYear', 'yubikeyClientId', 'yubikeySecretKey'));
+        $this->set(compact('beanstalkdHost', 'tomcatHost', 'currentYear', 'lastYear', 'yubikeyClientId', 'yubikeySecretKey'));
 	}
 
     public function extractMethods(){

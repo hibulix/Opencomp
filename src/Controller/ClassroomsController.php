@@ -2,6 +2,8 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
+use Cake\Core\Configure;
+use Cake\Core\Configure\Engine\PhpConfig;
 use Cake\Event\Event;
 use Cake\Network\Exception\BadRequestException;
 use Cake\ORM\Query;
@@ -111,8 +113,11 @@ class ClassroomsController extends AppController {
 
 		$this->set(compact('classroom','classroomsPupils'));
 
+        Configure::config('default', new PhpConfig());
+        Configure::load('opencomp', 'default');
+        $this->set('odbUrl', 'http://'.Configure::read('Opencomp.tomcatHost').'/ODBGenerator/generateODB?apikey='.$this->Auth->user('apikey').'&classroom_id='.$id);
 	}
-	
+
 	public function viewtests($id = null){
 		$this->set('title_for_layout', __('Visualiser une classe'));
 

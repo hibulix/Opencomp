@@ -19,8 +19,14 @@
         </a>
         <ul class="dropdown-menu">
             <li>
-                <?php echo $this->Html->link('<i class="fa fa-table"></i> '.__('au format OASIS OpenDocument Spreadsheet'), array('controller' => 'ClassroomsPupils', 'action' => 'opendocumentExport', 'classroom_id' => $classroom->id),array('escape' => false)); ?>
+                <?php echo $this->Html->link('<i class="fa fa-table"></i> '.__('au format OASIS OpenDocument Spreadsheet (.ods)'), array('controller' => 'ClassroomsPupils', 'action' => 'opendocumentExport', 'classroom_id' => $classroom->id),array('escape' => false)); ?>
             </li>
+			<li>
+				<?php echo $this->Html->link('<i class="fa fa-database"></i> '.__('au format OASIS OpenDocument Database (.odb)'), $odbUrl ,array('escape' => false)); ?>
+			</li>
+			<li>
+				<?php echo $this->Html->link('<i class="fa fa-question-circle"></i> '.__('quel format choisir ? (obtenir de l\'aide sur les différents exports)'), '#' ,array('escape' => false)); ?>
+			</li>
         </ul>
     </div>
     <div class="btn-group ontitle">
