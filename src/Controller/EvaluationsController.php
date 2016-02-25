@@ -115,7 +115,7 @@ class EvaluationsController extends AppController {
 
 		$users = $this->Evaluations->Users->find('list', [
 			    'conditions' => [
-                    'id' => $this->Evaluations->Users->findAllUsersInClassroom($classroom->id)
+                    'id IN' => $this->Evaluations->Users->findAllUsersInClassroom($classroom->id)
                 ]
         ]);
 
