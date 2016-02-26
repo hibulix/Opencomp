@@ -48,8 +48,8 @@ $this->start('script');
             idCompetence = $('#'+node.parent).attr('data-id');
         }
         else if(node.data.type == "noeud"){
-            competence = $('#'+node.data.id+'>a').text();
-            idCompetence = node.data.id;
+            var competence = $('#'+node.id+'>a').text();
+            var idCompetence = node.id;
         }
 
         var items = {
