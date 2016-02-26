@@ -311,6 +311,11 @@ class EvaluationsItemsController extends AppController {
 	    	$this->EvaluationsItem->delete($association['EvaluationsItem']['id']);
 	    	$this->EvaluationsItem->renumberItemsEvaluation($evaluation_id, $association['EvaluationsItem']['position']);
 
+			$this->EvaluationsItem->Evaluation->Result->deleteAll([
+				'evaluation_id' => $evaluation_id,
+				'item_id' => $item_id
+			]);
+
 	    	if($association['Evaluation']['unrated'] === true){
 	    		$this->Session->setFlash(__('L\'item travaillé a bien été dissocié de cette classe et période.'), 'flash_success');
 	    		$this->redirect(array('controller' => 'classrooms', 'action' => 'viewunrateditems', $evaluation_id));
