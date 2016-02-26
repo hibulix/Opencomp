@@ -1,37 +1,34 @@
 version: '2'
+
 services:
   web:
     image: opencomp/web:latest
-    restart: always
+    #build: ../Dockerfiles/web
     ports:
       - "80:80"
-      - "8000:80"
     depends_on:
       - db
-      - message_queue 
+      - message_queue
     volumes:
       - ./:/var/www/html
   message_queue:
     image: schickling/beanstalkd:latest
-    restart: always
   pdf_worker:
-    image: opencomp/pdf_worker:latest
-    restart: always
+    image: opencomp/pdf_worker:cake2
+    #build: ../Dockerfiles/pdf_worker
     depends_on:
       - message_queue
       - db
-    command: /var/www/html/Console/cake generate_pupil_report -v
     volumes:
       - ./:/var/www/html
   db:
     image: mysql:5.7
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-    volumes_from:
-        - container:opencomp_data
+    volumes:
+        - data:/var/lib/mysql
     ports:
-      - "3311:3306"
       - "3306:3306"
 
-#docker create -v /var/lib/mysql --name opencomp_data tianon/true
+volumes:
+  data:
