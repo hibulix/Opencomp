@@ -382,3 +382,26 @@ i.red {
 }
 .breadcrumb li a:hover { background: #2656ba; color:white; }
 .breadcrumb li a:hover:after { border-left-color: #2656ba   !important; }
+
+[data-type="noeud"] > a > i.jstree-checkbox{
+    display:none;
+}
+
+dd, dt {
+    line-height: 2;
+}
+
+.new-notification i{
+    color:gold;
+}
+
+.new-notification::after{
+    content:"1";
+    color: #fff;
+    background-color: #dd0000;
+    position: relative;
+    top:8px;
+    right:7px;
+    padding: 0 5px 0 4px;
+    border-radius: 50px;
+}

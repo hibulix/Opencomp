@@ -108,11 +108,10 @@
                                 </ul>
                             </li>
                     </ul>
-                    <?php $new_notifications = ($this->Session->read('Auth.User.new_notifications') == true) ? 'color:gold;' : ''; ?>
+                    <?php $new_notifications = ($this->Session->read('Auth.User.new_notifications') == true) ? 'new-notification' : ''; ?>
                     <ul class="nav navbar-nav navbar-right">
                         <li><?php echo $this->Html->link('<i class="fa fa-lg fa-bell"></i>', '/dashboard/changelog', array(
-                            'class' => 'info',
-                            'style' => $new_notifications,
+                            'class' => 'info '.$new_notifications,
                             'data-toggle' => 'tooltip',
                             'data-placement' => 'bottom',
                             'data-original-title' => 'voir les nouveautés',
