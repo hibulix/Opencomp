@@ -1,0 +1,101 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+@page { margin: 0; }
+.copyright {
+    -o-transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    position: fixed;
+    bottom:60px;
+    left: 694px;
+    width:60px;
+    margin-left:60px;
+    font: 500 8px Helvetica;
+}
+.footer { position: fixed; text-align: center; bottom: 20px; height: 30px; font: italic 500 14px Helvetica; }
+.footer .page:after { content: counter(page, decimal); }
+body {
+    width: 694px;
+    box-sizing: border-box;
+    padding: 50px;
+}
+td {
+    border:thin solid black;
+    padding: 3px 3px 3px 5px;
+    font: 13px "Helvetica";
+}
+th {
+    padding: 0 0 5px 0;
+    font: italic 500 15px Helvetica;
+    text-align: left;
+}
+.niveau1{
+    font: 25px Helvetica;
+    border-bottom: 1px solid black;
+    padding-top: 30px;
+    page-break-after: avoid;
+}
+.niveau2{
+    margin: 0 0 20px 0;
+    padding: 20px 0 0 0;
+    font: 20px Helvetica;
+    border-bottom: 1px dashed black;
+}
+.niveau3{
+    margin: 0 0 0 30px;
+    padding: 0 0 5px 0;
+    font: italic 500 15px Helvetica;
+}
+.niveau4{
+    margin: 10px 0 0 60px;
+    padding: 0 0 5px 0;
+    font: italic 500 15px Helvetica;
+}
+table{
+    border-collapse:collapse;
+    border-bottom: 1px solid black;
+    width:100%;
+}
+.tabniv2{
+    margin: 0 0 0 0;
+}
+.tabniv3{
+    margin: 0 0 15px 23px;
+    width: 685px;
+}
+.tabniv4{
+    margin: 0 0 15px 46px;
+    width: 678px;
+}
+.tabniv5{
+    margin: 0 0 15px 69px;
+    width: 671px;
+}
+.tabniv6{
+    margin: 0 0 15px 46px;
+    width: 664px;
+}
+.title{
+    font: italic 500 23px Helvetica;
+    border: 1px solid black;
+    padding: 0 0 3px 10px;
+}

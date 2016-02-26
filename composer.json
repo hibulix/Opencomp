@@ -1,0 +1,30 @@
+{
+    "name": "jtraulle/opencomp",
+    "description": "Application de gestion d'acquisition de compétences",
+    "type": "project",
+    "license": "AGPL-3.0",
+    "repositories": [
+        {
+            "type": "pear",
+            "url": "http://pear.cakephp.org"
+        }
+    ],
+    "require": {
+        "cakephp/cakephp": "2.8.0",
+    	"slywalker/boost_cake": "1.0.6",
+    	"zendframework/zendpdf": "2.0.2",
+    	"enygma/yubikey": "3.2",
+    	"dompdf/dompdf": "0.6.2",
+        "fusonic/spreadsheet-export": "0.1.1",
+        "pda/pheanstalk": "3.1.0",
+        "sandreu/cake-sentry": "*@dev",
+        "whichbrowser/parser": "^2.0"
+    },
+    "require-dev": {
+    	"cakephp/debug_kit": "2.2.6",
+        "phpunit/phpunit": "3.7.38"
+    },
+    "config": {
+        "vendor-dir": "Vendor/"
+    }
+}

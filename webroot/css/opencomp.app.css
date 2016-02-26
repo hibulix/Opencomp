@@ -1,0 +1,407 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+
+html,
+body {
+height: 100%;
+/* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+min-height: 100%;
+height: auto !important;
+height: 100%;
+/* Negative indent footer by it's height */
+margin: 0 auto -30px;
+}
+
+/* Set the fixed height of the footer here */
+#push,
+#footer {
+height: 30px;
+}
+#footer {
+background-color: #f5f5f5;
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+#footer {
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+}
+
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+#wrap > .container {
+	padding-top: 60px;
+}
+
+.container .credit {
+margin: 6px 0;
+letter-spacing: 1px;
+}
+
+.normal-spacing {
+	letter-spacing: normal;
+}
+
+code {
+font-size: 80%;
+}
+ 
+
+body{
+	font-size: 13px;
+}
+
+.btn-large{
+	font-size: 15px;
+}
+
+h1, h2, h3 {
+	line-height: 15px;
+}
+
+h3 {
+	font-size: 20px;
+}
+
+h2 {
+	font-size: 25px;
+}
+
+/* Style pour les titres de pages */
+.page-title{
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#cacaca;
+	margin-bottom : 25px;
+	font-size: 0.8em;
+}
+
+.page-title > h2,h3 {
+    font-family: 'Titillium Web', sans-serif;
+}
+
+/* Style pour positionner les boutons Call to action des titres de modules */
+.ontitle{
+	float:right;
+	position: relative;
+	top: -17px;
+	margin-left:10px;
+}
+
+/* Surcharge de la classe success pour afficher en gras le texte des boutons */
+a.btn-success {
+	font-weight:bold;
+}
+
+.flash {
+	text-shadow: 3px 1px 23px #ff0000;
+
+	-webkit-animation-name: glow;
+	-moz-animation-name: glow;
+	-o-animation-name: glow;
+	animation-name: glow;
+	-webkit-animation-duration: 1100ms;
+
+	-webkit-animation-iteration-count: infinite;
+	-moz-animation-iteration-count: infinite;
+	-o-animation-iteration-count: infinite;
+	animation-iteration-count: infinite;
+
+	-webkit-animation-timing-function: linear;
+	-moz-animation-timing-function: linear;
+	-o-animation-timing-function: linear;
+	animation-timing-function: linear;
+}
+
+@keyframes "glow" {
+ 0% {
+    text-shadow: 3px 1px 23px #ffffff;
+ }
+ 50% {
+    text-shadow: 3px 1px 23px rgba(255,0,0,0.74);
+ }
+ 100% {
+    text-shadow: 3px 1px 23px #ff0000;
+ }
+
+}
+
+@-moz-keyframes glow {
+ 0% {
+   text-shadow: 3px 1px 23px #ffffff;
+ }
+ 50% {
+   text-shadow: 3px 1px 23px rgba(255,0,0,0.74);
+ }
+ 100% {
+   text-shadow: 3px 1px 23px #ff0000;
+ }
+
+}
+
+@-webkit-keyframes "glow" {
+ 0% {
+   text-shadow: 3px 1px 23px #ffffff;
+ }
+ 50% {
+   text-shadow: 3px 1px 23px rgba(255,0,0,0.74);
+ }
+ 100% {
+   text-shadow: 3px 1px 23px #ff0000;
+ }
+
+}
+
+@-o-keyframes "glow" {
+ 0% {
+   text-shadow: 3px 1px 23px #ffffff;
+ }
+ 50% {
+   text-shadow: 3px 1px 23px rgba(255,0,0,0.74);
+ }
+ 100% {
+   text-shadow: 3px 1px 23px #ff0000;
+ }
+
+}
+
+.modal-open .modal,.btn:focus{
+    outline:none!important;
+}​
+
+.help-inline .error-message{
+	font-weight: bold !important;
+}
+
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+}
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  transform: translate(-300px, 0) scale(4);
+  font-size: 23px;
+  direction: ltr;
+  cursor: pointer;
+}
+.fileupload-buttonbar .btn,
+.fileupload-buttonbar .toggle {
+  margin-bottom: 5px;
+}
+.progress-animated .progress-bar,
+.progress-animated .bar {
+  background: url(../img/progressbar.gif) !important;
+  filter: none;
+}
+.fileupload-loading {
+  float: right;
+  width: 32px;
+  height: 32px;
+  background: url(../img/loading.gif) center no-repeat;
+  background-size: contain;
+  display: none;
+}
+.fileupload-processing .fileupload-loading {
+  display: block;
+}
+.files audio,
+.files video {
+  max-width: 300px;
+}
+
+@media (max-width: 767px) {
+  .fileupload-buttonbar .toggle,
+  .files .toggle,
+  .files .btn span {
+    display: none;
+  }
+  .files .name {
+    width: 80px;
+    word-wrap: break-word;
+  }
+  .files audio,
+  .files video {
+    max-width: 80px;
+  }
+}
+
+.jstree-default{
+    background-color: transparent !important;
+}
+
+.jstree a{
+    height:auto !important;
+    white-space:normal !important;
+    user-select: none;
+}
+
+i.red {
+  color:red;
+}
+
+.datepicker{z-index:1151 !important;}
+
+.jstree-anchor::selection, .jstree-icon::selection, .label::selection{
+    background: transparent;
+}
+
+.numbers-kickstart{
+  font-size: 70px; 
+  line-height:70px; 
+  font-family: 'Open Sans'
+}
+
+.table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #ddd;
+}
+.table-responsive > .table {
+    margin-bottom: 0;
+}
+.table-responsive > .table > thead > tr > th,
+.table-responsive > .table > tbody > tr > th,
+.table-responsive > .table > tfoot > tr > th,
+.table-responsive > .table > thead > tr > td,
+.table-responsive > .table > tbody > tr > td,
+.table-responsive > .table > tfoot > tr > td {
+    white-space: nowrap;
+}
+.table-responsive > .table-bordered {
+    border: 0;
+}
+.table-responsive > .table-bordered > thead > tr > th:first-child,
+.table-responsive > .table-bordered > tbody > tr > th:first-child,
+.table-responsive > .table-bordered > tfoot > tr > th:first-child,
+.table-responsive > .table-bordered > thead > tr > td:first-child,
+.table-responsive > .table-bordered > tbody > tr > td:first-child,
+.table-responsive > .table-bordered > tfoot > tr > td:first-child {
+    border-left: 0;
+}
+.table-responsive > .table-bordered > thead > tr > th:last-child,
+.table-responsive > .table-bordered > tbody > tr > th:last-child,
+.table-responsive > .table-bordered > tfoot > tr > th:last-child,
+.table-responsive > .table-bordered > thead > tr > td:last-child,
+.table-responsive > .table-bordered > tbody > tr > td:last-child,
+.table-responsive > .table-bordered > tfoot > tr > td:last-child {
+    border-right: 0;
+}
+.table-responsive > .table-bordered > tbody > tr:last-child > th,
+.table-responsive > .table-bordered > tfoot > tr:last-child > th,
+.table-responsive > .table-bordered > tbody > tr:last-child > td,
+.table-responsive > .table-bordered > tfoot > tr:last-child > td {
+    border-bottom: 0;
+}
+
+.breadcrumb {
+    padding: 0px;
+    background: #D4D4D4;
+    list-style: none;
+    overflow: hidden;
+    margin-top: 20px;
+}
+.breadcrumb>li+li:before {
+    padding: 0;
+}
+.breadcrumb li {
+    float: left;
+}
+.breadcrumb li.active a {
+    color: white;                 /* fallback color */
+    background: #2656ba ;
+}
+.breadcrumb li.completed a {
+    color: white;                 /* fallback color */
+    background: hsla(153, 57%, 51%, 1);
+}
+.breadcrumb li.active a:after {
+    border-left: 30px solid #2656ba;
+}
+.breadcrumb li.completed a:after {
+    border-left: 30px solid hsla(153, 57%, 51%, 1);
+}
+
+.breadcrumb li a {
+    color: dimgrey;
+    text-decoration: none;
+    padding: 10px 0 10px 45px;
+    position: relative;
+    display: block;
+    float: left;
+}
+.breadcrumb li a:after {
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;           /* Go big on the size, and let overflow hide */
+    border-bottom: 50px solid transparent;
+    border-left: 30px solid hsla(0, 0%, 83%, 1);
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    left: 100%;
+    z-index: 2;
+}
+.breadcrumb li a:before {
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;           /* Go big on the size, and let overflow hide */
+    border-bottom: 50px solid transparent;
+    border-left: 30px solid white;
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    margin-left: 1px;
+    left: 100%;
+    z-index: 1;
+}
+.breadcrumb li:first-child a {
+    padding-left: 15px;
+}
+.breadcrumb li a:hover { background: #2656ba; color:white; }
+.breadcrumb li a:hover:after { border-left-color: #2656ba   !important; }
+
+[data-type="noeud"] > a > i.jstree-checkbox{
+    display:none;
+}
+
+dd, dt {
+    line-height: 2;
+}
+
+.new-notification i{
+    color:gold;
+}
+
+.new-notification::after{
+    content:"1";
+    color: #fff;
+    background-color: #dd0000;
+    position: relative;
+    top:8px;
+    right:7px;
+    padding: 0 5px 0 4px;
+    border-radius: 50px;
+}
