@@ -56,7 +56,7 @@ class ResultsController extends AppController {
 
 	public function add_manual($evaluation_id = null){
 		$evaluation = $this->Result->Evaluation->find('first', ['conditions' => ['Evaluation.id' => $evaluation_id]]);
-		$pupils = $this->Result->Evaluation->findPupilsByLevelsInClassroom($evaluation['Evaluation']['classroom_id']);
+		$pupils = $this->Result->Evaluation->findPupilsByLevelsInEvaluation($evaluation['Evaluation']['id']);
 		$items = $this->Result->Evaluation->findItemsByPosition($evaluation_id);
 		$results = $this->Result->find('all', [
 			'conditions' => [

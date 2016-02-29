@@ -90,7 +90,12 @@ class Pupil extends AppModel {
 			'className' => 'ClassroomsPupil',
 			'foreignKey' => 'pupil_id',
 			'dependent' => false,
-		)
+		),
+		'EvaluationsPupil' => array(
+			'className' => 'EvaluationsPupil',
+			'foreignKey' => 'pupil_id',
+			'dependent' => false,
+		),
 	);
 
 	public function isUploadedFile($params) {
