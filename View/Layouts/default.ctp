@@ -12,7 +12,7 @@
             '../components/bootstrap/dist/css/bootstrap-theme.min',
             '../components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min',
             '../components/fontawesome/css/font-awesome.min',
-            '../components/chosen/chosen.min',
+            '../components/chosen/chosen',
             'chosen.bootstrap.css',
             '../components/jstree/dist/themes/default/style.min',
 		    'opencomp.app'
@@ -151,7 +151,7 @@
     <?php
     	echo $this->Html->script(array(
             '../components/jstree/dist/jstree.min',
-            '../components/chosen/chosen.jquery.min',
+            '../components/chosen/chosen.jquery',
             '../components/bootstrap/dist/js/bootstrap.min',
             '../components/bootstrap-datepicker/js/bootstrap-datepicker',
             '../components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr',

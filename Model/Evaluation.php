@@ -181,7 +181,10 @@ class Evaluation extends AppModel {
 			            'Level.id = ClassroomsPupil.level_id',
 			        ),
 			    )
-			 )
+			 ),
+			'order' => array(
+				'Level.id', 'Pupil.name', 'Pupil.first_name'
+			)
 		));
 		
 		foreach($pupils as $pupil){

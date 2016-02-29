@@ -54,6 +54,27 @@ class ResultsController extends AppController {
         $this->set('pupils', $pupils);
     }
 
+	public function add_manual($evaluation_id = null){
+		$evaluation = $this->Result->Evaluation->find('first', ['conditions' => ['Evaluation.id' => $evaluation_id]]);
+		$pupils = $this->Result->Evaluation->findPupilsByLevelsInClassroom($evaluation['Evaluation']['classroom_id']);
+		$items = $this->Result->Evaluation->findItemsByPosition($evaluation_id);
+		$results = $this->Result->find('all', [
+			'conditions' => [
+				'evaluation_id' =>$evaluation_id
+			],
+			'recursive' => -1
+		]);
+		$json_results = [];
+		foreach($results as $num => $result){
+			$json_results[$num]['item_id'] = $result['Result']['item_id'];
+			$json_results[$num]['pupil_id'] = $result['Result']['pupil_id'];
+			$json_results[$num]['result'] = $result['Result']['result'];
+		}
+		$json_results = json_encode($json_results);
+
+		$this->set(compact('pupils', 'items', 'evaluation', 'json_results'));
+	}
+
 	public function add(){
 		//On vérifie qu'un paramètre nommé evaluation_id a été fourni et qu'il existe.
         $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->params['named']['evaluation_id']);
