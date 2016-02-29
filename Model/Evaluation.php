@@ -203,25 +203,6 @@ class Evaluation extends AppModel {
 			'recursive' => -1
 		));
 
-		$levels = $this->Pupil->ClassroomsPupil->Level->find('list', array(
-			'conditions' => array(
-				'ClassroomsPupil.classroom_id' => $evaluation['Evaluation']['classroom_id']
-			),
-			'recursive' => -1,
-			'fields' => 'ClassroomsPupil.level_id',
-			'joins' => array(
-				array('table' => 'classrooms_pupils',
-					'alias' => 'ClassroomsPupil',
-					'type' => 'LEFT',
-					'conditions' => array(
-						'Level.id = ClassroomsPupil.level_id',
-					),
-				)
-			)
-		));
-
-
-
 		$pupils = $this->Pupil->EvaluationsPupil->find('all', array(
 			'conditions' => array(
 				'EvaluationsPupil.evaluation_id' => $id_evaluation
