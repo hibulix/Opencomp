@@ -256,6 +256,22 @@ class Evaluation extends AppModel {
         ));
     }
 
+	function connectedUserIsOwnerOrAdmin($id_evaluation){
+		$evaluation = $this->find('first',['conditions'=>['Evaluation.id' => $id_evaluation]]);
+		return $evaluation['Evaluation']['user_id'] == AuthComponent::user('id') || AuthComponent::user('role') == 'admin';
+	}
+
+	function itemBelongsToEvaluation($id_evaluation, $id_item){
+		if ($this->EvaluationsItem->hasAny([
+			'EvaluationsItem.evaluation_id' => $id_evaluation,
+			'EvaluationsItem.item_id' => $id_item
+		])){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
     function autoGenerateTestForUnratedItems($classroom_id, $period_id){
         $data = array(
             'Evaluation' => array(

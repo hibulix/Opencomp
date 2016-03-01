@@ -10,6 +10,44 @@ class ResultsController extends AppController {
 
 	public $helpers = array('ReportFormater');
 
+	public function setresultforspecificitem($evaluationid = null, $itemid = null, $result = null){
+		$this->layout = 'ajax';
+
+		//Existance et permissions
+		if(!$this->Result->Evaluation->exists($evaluationid))
+			throw new NotFoundException('Impossible de trouver cette évaluation !');
+		if(!$this->Result->Evaluation->connectedUserIsOwnerOrAdmin($evaluationid))
+			throw new UnauthorizedException('Vous n\'avez pas la permission d\'effectuer cette action !');
+		if(!$this->Result->Evaluation->itemBelongsToEvaluation($evaluationid, $itemid))
+			throw new NotFoundException('L\'item spécifié en paramètre n\'est pas associé à cette évaluation !');
+		if(!in_array($result, ['A', 'B', 'C', 'D', 'NE']))
+			throw new BadRequestException('Le résultat renseigné est invalide.');
+
+
+		$this->Result->deleteAll(['evaluation_id' => $evaluationid, 'item_id' => $itemid]);
+		$pupils = $this->Result->Evaluation->EvaluationsPupil->find('list',[
+			'fields' => ['pupil_id', 'pupil_id'],
+			'conditions'=>['evaluation_id' => $evaluationid]
+		]);
+
+		$iteration=0;
+		foreach($pupils as $pupilid){
+			$result_record = [];
+			$data[$iteration]['Result']['evaluation_id'] = $evaluationid;
+			$data[$iteration]['Result']['pupil_id'] = $pupilid;
+			$data[$iteration]['Result']['item_id'] = $itemid;
+			$data[$iteration]['Result']['result'] = $result;
+			$data = $this->setResult($data, $iteration, $result);
+			$iteration++;
+		}
+		$this->Result->saveMany($data, ['atomic' => true]);
+
+		$this->response->statusCode(201);
+		$this->response->type('application/json');
+		$this->response->body(json_encode(['error' => false, 'message' => 'results created'],JSON_PRETTY_PRINT));
+		return $this->response;
+	}
+
 	public function selectpupil(){
 		//On vérifie qu'un paramètre nommé evaluation_id a été fourni et qu'il existe.
         $evaluation_id = $this->CheckParams->checkForNamedParam('Evaluation','evaluation_id', $this->request->params['named']['evaluation_id']);
