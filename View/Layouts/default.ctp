@@ -156,6 +156,7 @@
             '../components/bootstrap-datepicker/js/bootstrap-datepicker',
             '../components/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr',
             '../components/bootstrap-filestyle/src/bootstrap-filestyle',
+            '../components/bootbox.js/bootbox.js',
             '../components/plotly.js/dist/plotly.min',
             'opencomp.app'
         ));

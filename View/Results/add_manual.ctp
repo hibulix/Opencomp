@@ -8,13 +8,14 @@
 
 <div class="row">
 <div class="col-md-2 col-xs-2" style="padding-right:0px;">
-    <div class="table-responsive">
+    <div class="table-responsive" style="overflow:hidden;">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th style="height:35px;">
-                    <span class="text-success" style="display:none;"><i class="fa fa-check"></i> <small>résultats sauvegardés</small></span>
-                    <span class="text-muted" style="display:none;"><i class="fa fa-spinner fa-pulse"></i> <small>sauvegarde des résultats</small></span>
+                    <span id="error" class="text-danger info" style="display:none;" data-container="body" data-toggle="tooltip" data-placement="bottom" title="Marquer « non évalué » pour l'ensemble des items de l'évaluation"><i class="fa fa-times"></i> <small>une erreur est survenue</small></span>
+                    <span id="saved" class="text-success" style="display:none;"><i class="fa fa-check"></i> <small>résultats sauvegardés</small></span>
+                    <span id="saving" class="text-muted" style="display:none;"><i class="fa fa-spinner fa-pulse"></i> <small>sauvegarde des résultats</small></span>
                 </th>
             </tr>
             </thead>
@@ -154,15 +155,30 @@
     });
 
     function saveResultForSpecificItem(itemid, result){
-        if (confirm("Voulez-vous vraiment attribuer "+result.toUpperCase()+" à tous les élèves de la classe pour cet item ? \nLes résultats qui auraient précédement été renseignés seront perdus.") == true) {
-            var color = "btn-" + colors[result];
-            $('button[data-itemid="'+itemid+'"]')
-                .removeClass('btn-success').removeClass('btn-warning').removeClass('btn-danger').removeClass('btn-info')
-                .removeClass('btn-dark')
-                .not('button[data-type="global"]').removeClass('active').removeClass('btn-default').addClass('btn-default')
-                .filter('button[data-result="'+result+'"]')
-                .removeClass('btn-default').addClass(color).addClass('active');
-        }
+        bootbox.confirm("Voulez-vous vraiment attribuer "+result.toUpperCase()+" à tous les élèves de la classe pour cet item ? <br />Les résultats qui auraient précédement été renseignés seront perdus.", function(res) {
+            if (res == true) {
+                var color = "btn-" + colors[result];
+                $('#saving').show();
+                $('#saved').hide();
+                $('#error').hide();
+                $.getJSON( "/results/setresultforspecificitem/<?= $this->params['pass'][0] ?>/"+itemid+"/"+result.toUpperCase(), function( data ) {
+                    $('button[data-itemid="'+itemid+'"]')
+                        .removeClass('btn-success').removeClass('btn-warning').removeClass('btn-danger').removeClass('btn-info')
+                        .removeClass('btn-dark')
+                        .not('button[data-type="global"]').removeClass('active').removeClass('btn-default').addClass('btn-default')
+                        .filter('button[data-result="'+result+'"]')
+                        .removeClass('btn-default').addClass(color).addClass('active');
+                    $('#saving').hide();
+                    $('#saved').show();
+                    setTimeout(function() {
+                        $("#saved").fadeOut();
+                    }, 5000);
+                }).fail(function( data ) {
+                    $('#saving').hide();
+                    $('#error').prop('title',data.message).show();
+                });
+            }
+        });
     }
 
     function saveResultForSpecificItemAndLevel(itemid, level, result){

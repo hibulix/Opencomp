@@ -100,7 +100,7 @@ class AppController extends Controller {
                 'os_name' => $browser->os->name,
                 'os_version' => isset($browser->os->version->value) ? $browser->os->version->value : null,
                 'os_version_nickname' => isset($browser->os->version->nickname) ? $browser->os->version->nickname : null,
-                'browser_name' => $browser->browser->name,
+                'browser_name' => isset($browser->browser->name) ? $browser->browser->name : null,
                 'browser_version' => isset($browser->browser->version->value) ? $browser->browser->version->value : null,
                 'browser_engine' => $browser->engine->name,
                 'session_id' => Security::hash(session_id())
