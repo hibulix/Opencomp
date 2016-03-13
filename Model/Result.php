@@ -100,6 +100,107 @@ class Result extends AppModel {
 		));
 	}
 
+	/**
+	 * Function used to save multiple results at once for all pupils
+	 * associted with an evaluation_id for a specific item_id.
+	 *
+	 * @param int $evaluation_id evaluation_id related to the results
+	 * @param int $item_id item_id related to the results
+	 * @param string $result result to save : A, B, C, D, NE or ABS
+	 *
+	 * @return boolean whether the results has been saved or not
+	 */
+	public function saveGlobalResultEvaluationItem($evaluation_id, $item_id, $result){
+		$this->deleteAll(['evaluation_id' => $evaluation_id, 'item_id' => $item_id]);
+		$pupils = $this->Evaluation->EvaluationsPupil->find('list',[
+			'fields' => ['pupil_id', 'pupil_id'],
+			'conditions'=>['evaluation_id' => $evaluation_id]
+		]);
+
+		$iteration=0;
+		foreach($pupils as $pupil_id){
+			$data[$iteration]['Result']['evaluation_id'] = $evaluation_id;
+			$data[$iteration]['Result']['pupil_id'] = $pupil_id;
+			$data[$iteration]['Result']['item_id'] = $item_id;
+			$data[$iteration]['Result']['result'] = $result;
+			$data = $this->setResult($data, $iteration, $result);
+			$iteration++;
+		}
+		return $this->saveMany($data, ['atomic' => true]);
+	}
+
+	/**
+	 * Function used to save multiple results at once for all pupils
+	 * associted with an evaluation_id for a specific item_id.
+	 *
+	 * @param int $evaluation_id evaluation_id related to the results
+	 * @param int $item_id item_id related to the results
+	 * @param mixed $parameter [description]
+	 * @param string $result result to save : A, B, C, D, NE or ABS
+	 *
+	 * @return boolean whether the results has been saved or not
+	 */
+	public function saveGlobalResultEvaluationItemLevel($evaluation_id, $item_id, $level_id, $result){
+		$evaluationPupils = $this->Evaluation->findPupilsByLevelsInEvaluation($evaluation_id);
+		$targetedPupils = array_keys($evaluationPupils[intval($level_id)]['pupils']);
+		$this->deleteAll(['evaluation_id' => $evaluation_id, 'item_id' => $item_id, 'pupil_id IN' => $targetedPupils]);
+
+		$iteration=0;
+		foreach($targetedPupils as $pupil_id){
+			$data[$iteration]['Result']['evaluation_id'] = $evaluation_id;
+			$data[$iteration]['Result']['pupil_id'] = $pupil_id;
+			$data[$iteration]['Result']['item_id'] = $item_id;
+			$data[$iteration]['Result']['result'] = $result;
+			$data = $this->setResult($data, $iteration, $result);
+			$iteration++;
+		}
+		return $this->saveMany($data, ['atomic' => true]);
+	}
+
+	public function saveResultEvaluationItemPupil($evaluation_id, $item_id, $pupil_id, $result){
+		$this->deleteAll(['evaluation_id' => $evaluation_id, 'item_id' => $item_id, 'pupil_id' => $pupil_id]);
+		$data[0]['Result']['evaluation_id'] = $evaluation_id;
+		$data[0]['Result']['pupil_id'] = $pupil_id;
+		$data[0]['Result']['item_id'] = $item_id;
+		$data[0]['Result']['result'] = $result;
+		$data = $this->setResult($data, 0, $result);
+		return $this->saveMany($data, ['atomic' => true]);
+	}
+
+	public function saveGlobalResultEvaluationPupil($evaluation_id, $pupil_id, $result){
+		$this->deleteAll(['evaluation_id' => $evaluation_id, 'pupil_id' => $pupil_id]);
+		$evaluationItems = $this->Evaluation->findItemsByPosition($evaluation_id);
+
+		$iteration=0;
+		foreach($evaluationItems as $item){
+			$data[$iteration]['Result']['evaluation_id'] = $evaluation_id;
+			$data[$iteration]['Result']['pupil_id'] = $pupil_id;
+			$data[$iteration]['Result']['item_id'] = $item['Item']['id'];
+			$data[$iteration]['Result']['result'] = $result;
+			$data = $this->setResult($data, $iteration, $result);
+			$iteration++;
+		}
+		return $this->saveMany($data, ['atomic' => true]);
+	}
+
+	private function setResult($data, $iteration, $grade){
+		switch($grade){
+			case 'A':
+				$data[$iteration]['Result']['grade_a'] = 1;
+				break;
+			case 'B':
+				$data[$iteration]['Result']['grade_b'] = 1;
+				break;
+			case 'C':
+				$data[$iteration]['Result']['grade_c'] = 1;
+				break;
+			case 'D':
+				$data[$iteration]['Result']['grade_d'] = 1;
+				break;
+		}
+		return $data;
+	}
+
 	public function findItemDivision($evaluation_id){
 		$item_division = $this->Evaluation->query("
 			SELECT GROUP_CONCAT(a) a, GROUP_CONCAT(b) b, GROUP_CONCAT(c) c, GROUP_CONCAT(d) d, GROUP_CONCAT(ne) ne, GROUP_CONCAT(abs) abs
@@ -134,14 +235,14 @@ class Result extends AppModel {
 
 		return implode(', ',$item_division[0][0]);
 	}
-	
+
 	public function beforeSave($options = array()){
 		$evaluation_id = $this->data['Result']['evaluation_id'];
 		$pupil_id = $this->data['Result']['pupil_id'];
 		$item_id = $this->data['Result']['item_id'];
-		
+
 		$this->deleteAll(array('Result.evaluation_id' => $evaluation_id, 'Result.pupil_id' => $pupil_id, 'Result.item_id' => $item_id), false);
-		
+
 		return true;
 	}
 }

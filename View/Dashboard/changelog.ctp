@@ -4,7 +4,23 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title"><i class="fa fa-lg fa-calendar"></i> &nbsp; <strong>v 2.5.0 — Samedi 27 Février 2016</strong></h3>
+		<h3 class="panel-title"><i class="fa fa-lg fa-rocket"></i> &nbsp; <strong>v 2.6.0 &nbsp; — &nbsp; <i class="fa fa-calendar"></i> Lundi 14 Mars 2016</strong></h3>
+	</div>
+	<div class="panel-body">
+		<dl class="dl-horizontal lead">
+			<dt><span class="label label-success"><i class="fa fa-lg fa-plus-circle"></i> Nouveauté</span></dt>
+			<dd>Saisie globale des résultats d'une évaluation à la souris !
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe src="https://www.youtube-nocookie.com/embed/O7T9cSNMPOE?showinfo=0&fs=1&vq=hd720&rel=0&modestbranding=1&theme=light&autoplay=1"></iframe>
+                </div>
+            </dd>
+		</dl>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title"><i class="fa fa-lg fa-rocket"></i> &nbsp; v 2.5.0 &nbsp; — &nbsp; <i class="fa fa-calendar"></i> Samedi 27 Février 2016</h3>
 	</div>
 	<div class="panel-body">
 		<dl class="dl-horizontal">
@@ -20,7 +36,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title"><i class="fa fa-lg fa-calendar"></i> &nbsp; v 2.4.0 — Lundi 8 Février 2016</h3>
+		<h3 class="panel-title"><i class="fa fa-lg fa-rocket"></i> &nbsp; v 2.4.0 &nbsp; — &nbsp; <i class="fa fa-calendar"></i> Lundi 8 Février 2016</h3>
 	</div>
 	<div class="panel-body">
 		<dl class="dl-horizontal">
@@ -34,7 +50,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title"><i class="fa fa-lg fa-calendar"></i> &nbsp; v 2.3.0 — Dimanche 13 Décembre 2015</h3>
+		<h3 class="panel-title"><i class="fa fa-lg fa-rocket"></i> &nbsp; v 2.3.0 &nbsp; — &nbsp; <i class="fa fa-calendar"></i> Dimanche 13 Décembre 2015</h3>
 	</div>
 	<div class="panel-body">
 		<dl class="dl-horizontal">
@@ -46,7 +62,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title"><i class="fa fa-lg fa-calendar"></i> &nbsp; v 2.2.0 — Dimanche 29 Novembre 2015</h3>
+		<h3 class="panel-title"><i class="fa fa-lg fa-rocket"></i> &nbsp; v 2.2.0 &nbsp; — &nbsp; <i class="fa fa-calendar"></i> Dimanche 29 Novembre 2015</h3>
 	</div>
 	<div class="panel-body">
 		<dl class="dl-horizontal">
@@ -60,7 +76,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title"><i class="fa fa-lg fa-calendar"></i> &nbsp; v 2.1.0 — Dimanche 8 Novembre 2015</h3>
+		<h3 class="panel-title"><i class="fa fa-lg fa-rocket"></i> &nbsp; v 2.1.0 &nbsp; — &nbsp; <i class="fa fa-calendar"></i> Dimanche 8 Novembre 2015</h3>
 	</div>
 	<div class="panel-body">
 		<dl class="dl-horizontal">
@@ -76,7 +92,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title"><i class="fa fa-lg fa-calendar"></i> &nbsp; v 2.0.3 — Samedi 7 Novembre 2015</h3>
+		<h3 class="panel-title"><i class="fa fa-lg fa-rocket"></i> &nbsp; v 2.0.3 &nbsp; — &nbsp; <i class="fa fa-calendar"></i> Samedi 7 Novembre 2015</h3>
 	</div>
 	<div class="panel-body">
 		<dl class="dl-horizontal">
@@ -90,7 +106,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title"><i class="fa fa-lg fa-calendar"></i> &nbsp; v 2.0.2 — Vendredi 6 Novembre 2015</h3>
+		<h3 class="panel-title"><i class="fa fa-lg fa-rocket"></i> &nbsp; v 2.0.2 &nbsp; — &nbsp; <i class="fa fa-calendar"></i> Vendredi 6 Novembre 2015</h3>
 	</div>
 	<div class="panel-body">
 		<dl class="dl-horizontal">
@@ -102,7 +118,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title"><i class="fa fa-lg fa-calendar"></i> &nbsp; v 2.0.1 — Jeudi 5 Novembre 2015</h3>
+		<h3 class="panel-title"><i class="fa fa-lg fa-rocket"></i> &nbsp; v 2.0.1 &nbsp; — &nbsp; <i class="fa fa-calendar"></i> Jeudi 5 Novembre 2015</h3>
 	</div>
 	<div class="panel-body">
 		<dl class="dl-horizontal">

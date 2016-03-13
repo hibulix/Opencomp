@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "041a0393133c9f916b624e73a46f2cc5",
-    "content-hash": "bf016850051f862c53b9b24aa687a421",
+    "hash": "222c02a8a2fdc592086ede41a0528294",
+    "content-hash": "307872bb26b273ab65e4cbc8b68481e5",
     "packages": [
         {
             "name": "cakephp/cakephp",
@@ -359,6 +359,52 @@
             "time": "2014-02-01 15:22:28"
         },
         {
+            "name": "psr/cache",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/cache.git",
+                "reference": "9e66031f41fbbdda45ee11e93c45d480ccba3eb3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/cache/zipball/9e66031f41fbbdda45ee11e93c45d480ccba3eb3",
+                "reference": "9e66031f41fbbdda45ee11e93c45d480ccba3eb3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Cache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for caching libraries",
+            "keywords": [
+                "cache",
+                "psr",
+                "psr-6"
+            ],
+            "time": "2015-12-11 02:52:07"
+        },
+        {
             "name": "raven/raven",
             "version": "0.13.0",
             "source": {
@@ -414,16 +460,16 @@
         },
         {
             "name": "sandreu/cake-sentry",
-            "version": "dev-master",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sandreu/cake-sentry.git",
-                "reference": "683f1dde1b2b05a384c0ff7686387350f24e0c88"
+                "reference": "000f60eba3359409d50c9b27cc5aec20a24ed678"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Sandreu/cake-sentry/zipball/683f1dde1b2b05a384c0ff7686387350f24e0c88",
-                "reference": "683f1dde1b2b05a384c0ff7686387350f24e0c88",
+                "url": "https://api.github.com/repos/Sandreu/cake-sentry/zipball/000f60eba3359409d50c9b27cc5aec20a24ed678",
+                "reference": "000f60eba3359409d50c9b27cc5aec20a24ed678",
                 "shasum": ""
             },
             "require": {
@@ -455,7 +501,7 @@
                 "log",
                 "sentry"
             ],
-            "time": "2015-02-26 12:54:51"
+            "time": "2016-02-15 10:06:52"
         },
         {
             "name": "slywalker/boost_cake",
@@ -500,24 +546,28 @@
         },
         {
             "name": "whichbrowser/parser",
-            "version": "2.0.9",
+            "version": "v2.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WhichBrowser/Parser.git",
-                "reference": "7fc5eaf2da1f423517bc7782fcd7b9c99fe3226f"
+                "reference": "b0daa6cc25ae084e631b9cbed519ba0cd9a4217b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WhichBrowser/Parser/zipball/7fc5eaf2da1f423517bc7782fcd7b9c99fe3226f",
-                "reference": "7fc5eaf2da1f423517bc7782fcd7b9c99fe3226f",
+                "url": "https://api.github.com/repos/WhichBrowser/Parser/zipball/b0daa6cc25ae084e631b9cbed519ba0cd9a4217b",
+                "reference": "b0daa6cc25ae084e631b9cbed519ba0cd9a4217b",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=5.4.0",
+                "psr/cache": "^1.0"
             },
             "require-dev": {
+                "cache/array-adapter": "^0.3.0",
+                "icomefromthenet/reverse-regex": "dev-master",
+                "league/csv": "^8.0",
                 "phpunit/php-code-coverage": "^2.2|^3.0",
-                "phpunit/phpunit": "^4.0|^5.0",
+                "phpunit/phpunit": "^4.0",
                 "satooshi/php-coveralls": "^0.6.1",
                 "squizlabs/php_codesniffer": "2.*",
                 "symfony/yaml": "^2.7"
@@ -529,10 +579,7 @@
                         "src/",
                         "tests/src/"
                     ]
-                },
-                "files": [
-                    "tests/src/polyfills.php"
-                ]
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -553,7 +600,7 @@
                 "ua",
                 "useragent"
             ],
-            "time": "2016-01-22 11:39:56"
+            "time": "2016-02-25 09:59:33"
         },
         {
             "name": "zendframework/zend-memory",
@@ -1155,9 +1202,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "sandreu/cake-sentry": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

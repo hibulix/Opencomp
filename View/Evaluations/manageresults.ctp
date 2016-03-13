@@ -10,8 +10,10 @@
 	<div class="page-title">
 	    <h3><?php echo __('Résultats de cette évaluation'); ?></h3>
         <div class="btn-group ontitle">
-	    <?php echo $this->Html->link('<i class="fa fa-keyboard-o"></i> '.__('saisie manuelle'), '/results/selectpupilmanual/evaluation_id:'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-default', 'escape' => false)); ?>
-        <?php echo $this->Html->link('<i class="fa fa-magic"></i> '.__('saisie automagique'), '/results/selectpupil/evaluation_id:'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-primary', 'escape' => false)); ?>
+			<?php echo $this->Html->link('<i class="fa fa-question-circle"></i>', '/results/add_manual/'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-default', 'escape' => false)); ?>
+			<?php echo $this->Html->link('<i class="fa fa-mouse-pointer"></i> '.__('saisir à la souris'), '/results/global/'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-default', 'escape' => false)); ?>
+			<?php echo $this->Html->link('<i class="fa fa-keyboard-o"></i> '.__('saisir au clavier'), '/results/selectpupilmanual/evaluation_id:'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-default', 'escape' => false)); ?>
+        	<?php echo $this->Html->link('<i class="fa fa-barcode"></i> '.__('saisir avec des codes à barres'), '/results/selectpupil/evaluation_id:'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-primary', 'escape' => false)); ?>
         </div>
 	</div>
 	<table class="table table-stripped table-condensed">
@@ -23,7 +25,7 @@
 	</tr>
 	<?php
 		$total = count($evaluation['Item']);
-		foreach ($evaluation['Pupil'] as $pupil): 
+		foreach ($evaluation['Pupil'] as $pupil):
 		$pupilres = count($pupil['Result']);
 		$progress = $pupilres*100/$total; ?>
 		<tr>
@@ -36,9 +38,22 @@
 		</tr>
 	<?php endforeach; ?>
 	</table>
-<?php else: ?>	
+<?php else: ?>
 <div class="alert alert-info">
     <i class="fa fa-info-circle"></i> Vous ne pouvez pas saisir les résultats de cette évaluation car vous ne lui avez pas encore associé d'items.<br />
     Commencez par <?php echo $this->Html->link(__('associer des items'), array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation['Evaluation']['id'])); ?> à cette évaluation.
 </div>
-<?php endif;
+<?php endif; ?>
+
+<script>
+	document.onkeydown = function (event) {
+		var held = false;
+		if (event.keyCode == 18) {held = true;}
+		if (held == true && event.keyCode == 81) {
+			alert('alt+q');
+		}
+		document.onkeyup = function(event) {
+			if (event.keyCode == 18) {held = false;}
+		}
+	}
+</script>

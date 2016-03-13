@@ -10,6 +10,8 @@ $(document).ready(function() {
         language: 'fr-FR',
         autoclose: true
     });
+    $('[data-toggle="popover"]').popover();
+
 
     $(".selectPupils").click(function(event){
         event.preventDefault();
@@ -26,7 +28,7 @@ $(document).ready(function() {
     });
 
     //Envoyer automatiquement le focus au premier champ visible de la page
-    $('form').find('input[type=text],textarea,select').filter(':visible:first').focus();
+    $('form').find('input[type=text],textarea,select').filter(':visible:first').focus().select();
 
     $('.send').change(function(event) {
         var pupil_id = $(event.delegateTarget).val();

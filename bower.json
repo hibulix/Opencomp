@@ -2,12 +2,13 @@
     "name": "Opencomp",
     "dependencies": {
         "jquery": "2.2.0",
-        "chosen": "1.4.2",
+        "chosen": "1.5.1",
         "jstree": "3.2.1",
         "bootstrap": "3.3.6",
         "bootstrap-datepicker": "1.6.0",
         "bootstrap-filestyle": "1.2.1",
+        "bootbox.js": "4.4.0",
         "fontawesome": "4.5.0",
-        "plotly.js": "1.5.1"
+        "plotly.js": "1.5.2"
     }
 }
