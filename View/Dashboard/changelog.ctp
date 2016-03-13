@@ -11,7 +11,7 @@
 			<dt><span class="label label-success"><i class="fa fa-lg fa-plus-circle"></i> Nouveauté</span></dt>
 			<dd>Saisie globale des résultats d'une évaluation à la souris !
                 <div class="embed-responsive embed-responsive-16by9">
-                    <iframe src="https://www.youtube-nocookie.com/embed/S91AEZxSc6A?showinfo=0&rel=0&modestbranding=1&theme=light&autoplay=1"></iframe>
+                    <iframe src="https://www.youtube-nocookie.com/embed/O7T9cSNMPOE?showinfo=0&fs=1&vq=hd720&rel=0&modestbranding=1&theme=light&autoplay=1"></iframe>
                 </div>
             </dd>
 		</dl>
