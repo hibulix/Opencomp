@@ -10,48 +10,144 @@ class ResultsController extends AppController {
 
 	public $helpers = array('ReportFormater');
 
-	public function setresultforspecificitem($evaluationid = null, $itemid = null, $result = null){
-		$this->layout = 'ajax';
+	/**
+	 * Set global result for all pupils that takes the evaluation (for a single item of an evaluation)
+	 *
+	 * @param string $evaluation_id the evaluation id related to the results
+	 * @param string $item_id the item related to the results
+	 * @param string $result the result (could be A, B, C, D, NE, ABS)
+	 *
+	 * @return CakeReponse a HTTP 201 JSON formatted response
+	 * @access public
+	 */
+	public function setresultforspecificitem($evaluation_id = null, $item_id = null, $result = null){
+		$this->gatekeeper(compact('evaluation_id', 'item_id', 'result'), true);
+		$this->Result->saveGlobalResultEvaluationItem($evaluation_id, $item_id, $result);
+
+		return $this->sendOKresponseJSON();
+	}
+
+	/**
+	 * Set global result for all pupils of the same level (for a single item of an evaluation)
+	 *
+	 * @param string $evaluation_id the evaluation id related to the results
+	 * @param string $item_id the item related to the results
+	 * @param string $level_id the level related to the results
+	 * @param string $result the result (could be A, B, C, D, NE, ABS)
+	 *
+	 * @return CakeReponse a HTTP 201 JSON formatted response
+	 * @access public
+	 */
+	public function setresultforspecificitemlevel($evaluation_id = null, $item_id = null, $level_id = null, $result = null){
+		$this->gatekeeper(compact('evaluation_id', 'item_id', 'level_id', 'result'), true);
+		$this->Result->saveGlobalResultEvaluationItemLevel($evaluation_id, $item_id, $level_id, $result);
+
+		return $this->sendOKresponseJSON();
+	}
+
+	/**
+	 * Set result for a particular pupil (for just a single item of an evaluation)
+	 *
+	 * @param string $evaluation_id the evaluation id related to the result
+	 * @param string $item_id the item related to the result
+	 * @param string $pupil_id the pupil id related to the result
+	 * @param string $result the result (could be A, B, C, D, NE, ABS)
+	 *
+	 * @return CakeReponse a HTTP 201 JSON formatted response
+	 * @access public
+	 */
+	public function setresultforspecificitempupil($evaluation_id = null, $item_id = null, $pupil_id = null, $result = null){
+		$this->gatekeeper(compact('evaluation_id', 'item_id', 'pupil_id', 'result'), true);
+		$this->Result->saveResultEvaluationItemPupil($evaluation_id, $item_id, $pupil_id, $result);
+
+		return $this->sendOKresponseJSON();
+	}
+
+	/**
+	 * Set global result for a particular pupil (for all items of an evaluation)
+	 *
+	 * @param string $evaluation_id the evaluation id related to the results
+	 * @param string $pupil_id the pupil id related to the results
+	 * @param string $result the result (could be A, B, C, D, NE, ABS)
+	 *
+	 * @return CakeReponse a HTTP 201 JSON formatted response
+	 * @access public
+	 */
+	public function setresultforspecificpupil($evaluation_id = null, $pupil_id = null, $result = null){
+		$this->gatekeeper(compact('evaluation_id', 'pupil_id', 'result'), true);
+		$this->Result->saveGlobalResultEvaluationPupil($evaluation_id, $pupil_id, $result);
+
+		return $this->sendOKresponseJSON();
+	}
+
+	/**
+	 * Utility function used to send an OK JSON response
+	 *
+	 * @param string $message custom message to display in JSON
+	 * 						  message key of the response.
+	 *
+	 * @return CakeReponse a HTTP 201 JSON formatted response
+	 * @access private
+	 */
+	private function sendOKresponseJSON($message = 'results created'){
+		$this->response->type('application/json');
+		$this->response->statusCode(201);
+		$this->response->body(json_encode(['error' => false, 'message' => $message],JSON_PRETTY_PRINT));
+
+		return $this->response;
+	}
+
+	/**
+     * Check that current user has permission to perform action
+     * and that passed parameters are valid/related records exists.
+     *
+     * @param array $parameters an array containing all parameters
+     * 							that must be checked/validated.
+     * @param bool $isXHR whether or not the action is performed through XHR
+     *
+     * @throws NotFoundException specified releted record has not been found
+     * @throws UnauthorizedException user does not have permission to perform the action
+     * @throws BadRequestException passed parameter value is incorrect
+     *
+     * @return void
+     * @access private
+     */
+	private function gatekeeper(array $parameters, $isXHR = false){
+		if($isXHR)
+			$this->layout = 'ajax';
 
 		try{
-			//Existance et permissions
-			if(!$this->Result->Evaluation->exists($evaluationid))
+			if(!$this->Result->Evaluation->exists($parameters['evaluation_id']))
 				throw new NotFoundException('Impossible de trouver cette évaluation !');
-			if(!$this->Result->Evaluation->connectedUserIsOwnerOrAdmin($evaluationid))
+			if(!$this->Result->Evaluation->connectedUserIsOwnerOrAdmin($parameters['evaluation_id']))
 				throw new UnauthorizedException('Vous n\'avez pas la permission d\'effectuer cette action !');
-			if(!$this->Result->Evaluation->itemBelongsToEvaluation($evaluationid, $itemid))
-				throw new NotFoundException('L\'item spécifié en paramètre n\'est pas associé à cette évaluation !');
-			if(!in_array($result, ['A', 'B', 'C', 'D', 'NE']))
+			if(!in_array($parameters['result'], ['A', 'B', 'C', 'D', 'NE', 'ABS']))
 				throw new BadRequestException('Le résultat renseigné est invalide.');
 
-
-			$this->Result->deleteAll(['evaluation_id' => $evaluationid, 'item_id' => $itemid]);
-			$pupils = $this->Result->Evaluation->EvaluationsPupil->find('list',[
-				'fields' => ['pupil_id', 'pupil_id'],
-				'conditions'=>['evaluation_id' => $evaluationid]
-			]);
-
-			$iteration=0;
-			foreach($pupils as $pupilid){
-				$result_record = [];
-				$data[$iteration]['Result']['evaluation_id'] = $evaluationid;
-				$data[$iteration]['Result']['pupil_id'] = $pupilid;
-				$data[$iteration]['Result']['item_id'] = $itemid;
-				$data[$iteration]['Result']['result'] = $result;
-				$data = $this->setResult($data, $iteration, $result);
-				$iteration++;
+			//We have an item_id so we also check that item belongs to evaluation
+			if(array_key_exists('item_id',$parameters)){
+				if(!$this->Result->Evaluation->itemBelongsToEvaluation($parameters['evaluation_id'], $parameters['item_id']))
+					throw new NotFoundException('L\'item spécifié en paramètre n\'est pas associé à cette évaluation !');
 			}
-			$this->Result->saveMany($data, ['atomic' => true]);
 
-			$this->response->statusCode(201);
-			$this->response->type('application/json');
-			$this->response->body(json_encode(['error' => false, 'message' => 'results created'],JSON_PRETTY_PRINT));
-			return $this->response;
+			//We have a level_id so we also check that level belongs to classroom
+			if(array_key_exists('level_id',$parameters)){
+				if(!$this->Result->Evaluation->levelBelongsToClassroom($parameters['evaluation_id'], $parameters['level_id']))
+					throw new NotFoundException('Aucun élève associé au niveau spécifié en paramètre pour cette classe !');
+			}
+
+			//We have a pupil_id so we also check that pupil belongs to evaluation
+			if(array_key_exists('pupil_id',$parameters)){
+				if(!$this->Result->Evaluation->pupilBelongsToEvaluation($parameters['evaluation_id'], $parameters['pupil_id']))
+					throw new NotFoundException('L\'élève spécifié en paramètre n\'a pas passé cette évaluation !');
+			}
 		}catch(Exception $e){
-			$this->response->statusCode(500);
+			$this->response = new CakeResponse;
 			$this->response->type('application/json');
+			$this->response->statusCode($e->getCode());
 			$this->response->body(json_encode(['error' => true, 'message' => $e->getMessage()],JSON_PRETTY_PRINT));
-			return $this->response;
+			$this->response->send();
+			exit();
 		}
 	}
 
@@ -99,7 +195,10 @@ class ResultsController extends AppController {
         $this->set('pupils', $pupils);
     }
 
-	public function add_manual($evaluation_id = null){
+	public function global($evaluation_id = null){
+
+		$this->set('title_for_layout', 'Saisie souris des résultats');
+
 		$evaluation = $this->Result->Evaluation->find('first', ['conditions' => ['Evaluation.id' => $evaluation_id]]);
 		$pupils = $this->Result->Evaluation->findPupilsByLevelsInEvaluation($evaluation['Evaluation']['id']);
 		$items = $this->Result->Evaluation->findItemsByPosition($evaluation_id);
@@ -182,7 +281,7 @@ class ResultsController extends AppController {
 					$data[$iteration]['Result']['evaluation_id'] = $evaluation_id;
 					$data[$iteration]['Result']['item_id'] = $key;
 					$data[$iteration]['Result']['result'] = $value;
-					$data = $this->setResult($data, $iteration, $value);
+					$data = $this->Result->setResult($data, $iteration, $value);
 					$iteration++;
 				}else{
 					$delete[] = $key;
@@ -221,24 +320,6 @@ class ResultsController extends AppController {
 		}
 	}
 
-	private function setResult($data, $iteration, $grade){
-		switch($grade){
-			case 'A':
-				$data[$iteration]['Result']['grade_a'] = 1;
-				break;
-			case 'B':
-				$data[$iteration]['Result']['grade_b'] = 1;
-				break;
-			case 'C':
-				$data[$iteration]['Result']['grade_c'] = 1;
-				break;
-			case 'D':
-				$data[$iteration]['Result']['grade_d'] = 1;
-				break;
-		}
-		return $data;
-	}
-
 	public function analyseresults($id = null) {
 		//On charge le modèle report et on récupère les infos du bulletin à générer.
 		$this->loadModel('Report');
@@ -268,7 +349,5 @@ class ResultsController extends AppController {
 		));
 
 		$this->set('results', $results);
-
 	}
-
 }

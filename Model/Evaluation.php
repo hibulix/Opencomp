@@ -113,7 +113,7 @@ class Evaluation extends AppModel {
 			'unique' => 'keepExisting',
 		)
 	);
-	
+
 	public function findItemsByPosition($evaluation_id){
 		$items = $this->find('all', array(
 	        'joins' => array(
@@ -140,7 +140,7 @@ class Evaluation extends AppModel {
 
 	    return $items;
 	}
-	
+
 	public function findPupilsByLevelsInClassroom($id_classroom){
 		$levels = $this->Pupil->ClassroomsPupil->Level->find('list', array(
 			'conditions' => array(
@@ -158,7 +158,7 @@ class Evaluation extends AppModel {
 			    )
 			 )
 		));
-		
+
 		$pupils = $this->Pupil->ClassroomsPupil->find('all', array(
 			'conditions' => array(
 				'ClassroomsPupil.classroom_id' => $id_classroom,
@@ -186,11 +186,11 @@ class Evaluation extends AppModel {
 				'Level.id', 'Pupil.name', 'Pupil.first_name'
 			)
 		));
-		
+
 		foreach($pupils as $pupil){
-			$pupilsLevels[$pupil['Level']['title']][$pupil['Pupil']['id']] = $pupil['Pupil']['first_name'].' '.$pupil['Pupil']['name'];				
+			$pupilsLevels[$pupil['Level']['title']][$pupil['Pupil']['id']] = $pupil['Pupil']['first_name'].' '.$pupil['Pupil']['name'];
 		}
-		
+
 		return $pupilsLevels;
 	}
 
@@ -208,7 +208,7 @@ class Evaluation extends AppModel {
 				'EvaluationsPupil.evaluation_id' => $id_evaluation
 			),
 			'recursive' => -1,
-			'fields' => array('Pupil.id','Pupil.first_name','Pupil.name','Level.title'),
+			'fields' => array('Pupil.id','Pupil.first_name','Pupil.name','Level.id','Level.title'),
 			'joins' => array(
 				array('table' => 'pupils',
 					'alias' => 'Pupil',
@@ -239,7 +239,8 @@ class Evaluation extends AppModel {
 		));
 
 		foreach($pupils as $pupil){
-			$pupilsLevels[$pupil['Level']['title']][$pupil['Pupil']['id']] = $pupil['Pupil']['first_name'].' '.$pupil['Pupil']['name'];
+			$pupilsLevels[$pupil['Level']['id']]['title'] = $pupil['Level']['title'];
+			$pupilsLevels[$pupil['Level']['id']]['pupils'][$pupil['Pupil']['id']] = $pupil['Pupil']['first_name'].' '.$pupil['Pupil']['name'];
 		}
 
 		return $pupilsLevels;
@@ -257,7 +258,7 @@ class Evaluation extends AppModel {
     }
 
 	function connectedUserIsOwnerOrAdmin($id_evaluation){
-		$evaluation = $this->find('first',['conditions'=>['Evaluation.id' => $id_evaluation]]);
+		$evaluation = $this->find('first',['conditions'=>['Evaluation.id' => $id_evaluation], 'recursive' => -1]);
 		return $evaluation['Evaluation']['user_id'] == AuthComponent::user('id') || AuthComponent::user('role') == 'admin';
 	}
 
@@ -265,6 +266,29 @@ class Evaluation extends AppModel {
 		if ($this->EvaluationsItem->hasAny([
 			'EvaluationsItem.evaluation_id' => $id_evaluation,
 			'EvaluationsItem.item_id' => $id_item
+		])){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	function levelBelongsToClassroom($id_evaluation, $id_level){
+		$evaluation = $this->find('first',['conditions'=>['Evaluation.id' => $id_evaluation], 'recursive' => -1]);
+		if($this->Classroom->ClassroomsPupil->hasAny([
+			'ClassroomsPupil.classroom_id' => $evaluation['Evaluation']['classroom_id'],
+			'ClassroomsPupil.level_id' => $id_level
+		])){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	function pupilBelongsToEvaluation($id_evaluation, $id_pupil){
+		if($this->EvaluationsPupil->hasAny([
+			'EvaluationsPupil.evaluation_id' => $id_evaluation,
+			'EvaluationsPupil.pupil_id' => $id_pupil
 		])){
 			return true;
 		}else{
@@ -288,7 +312,7 @@ class Evaluation extends AppModel {
 
         return $this->id;
     }
-	
+
 	function beforeValidate($options = array()) {
 	  if (!isset($this->data['Pupil']['Pupil'])
 	  || empty($this->data['Pupil']['Pupil'])) {

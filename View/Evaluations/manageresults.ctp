@@ -11,7 +11,7 @@
 	    <h3><?php echo __('Résultats de cette évaluation'); ?></h3>
         <div class="btn-group ontitle">
 			<?php echo $this->Html->link('<i class="fa fa-question-circle"></i>', '/results/add_manual/'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-default', 'escape' => false)); ?>
-			<?php echo $this->Html->link('<i class="fa fa-mouse-pointer"></i> '.__('saisir à la souris'), '/results/add_manual/'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-default', 'escape' => false)); ?>
+			<?php echo $this->Html->link('<i class="fa fa-mouse-pointer"></i> '.__('saisir à la souris'), '/results/global/'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-default', 'escape' => false)); ?>
 			<?php echo $this->Html->link('<i class="fa fa-keyboard-o"></i> '.__('saisir au clavier'), '/results/selectpupilmanual/evaluation_id:'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-default', 'escape' => false)); ?>
         	<?php echo $this->Html->link('<i class="fa fa-barcode"></i> '.__('saisir avec des codes à barres'), '/results/selectpupil/evaluation_id:'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-primary', 'escape' => false)); ?>
         </div>
@@ -25,7 +25,7 @@
 	</tr>
 	<?php
 		$total = count($evaluation['Item']);
-		foreach ($evaluation['Pupil'] as $pupil): 
+		foreach ($evaluation['Pupil'] as $pupil):
 		$pupilres = count($pupil['Result']);
 		$progress = $pupilres*100/$total; ?>
 		<tr>
@@ -38,7 +38,7 @@
 		</tr>
 	<?php endforeach; ?>
 	</table>
-<?php else: ?>	
+<?php else: ?>
 <div class="alert alert-info">
     <i class="fa fa-info-circle"></i> Vous ne pouvez pas saisir les résultats de cette évaluation car vous ne lui avez pas encore associé d'items.<br />
     Commencez par <?php echo $this->Html->link(__('associer des items'), array('controller' => 'evaluations', 'action' => 'attacheditems', $evaluation['Evaluation']['id'])); ?> à cette évaluation.
