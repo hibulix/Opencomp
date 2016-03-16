@@ -4,14 +4,26 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title"><i class="fa fa-lg fa-rocket"></i> &nbsp; <strong>v 2.6.0 &nbsp; — &nbsp; <i class="fa fa-calendar"></i> Lundi 14 Mars 2016</strong></h3>
+		<h3 class="panel-title"><i class="fa fa-lg fa-rocket"></i> &nbsp; <strong>v 2.6.1 &nbsp; — &nbsp; <i class="fa fa-calendar"></i> Mercredi 16 Mars 2016</strong></h3>
+	</div>
+	<div class="panel-body">
+		<dl class="dl-horizontal">
+			<dt><span class="label label-danger"><i class="fa fa-lg fa-bug"></i> Correction d'anomalie</span></dt>
+			<dd>Correction d'une anomalie empêchant l'enregistrement des résultats en mode clavier ou scan.</dd>
+		</dl>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title"><i class="fa fa-lg fa-rocket"></i> &nbsp; v 2.6.0 &nbsp; — &nbsp; <i class="fa fa-calendar"></i> Lundi 14 Mars 2016</h3>
 	</div>
 	<div class="panel-body">
 		<dl class="dl-horizontal lead">
 			<dt><span class="label label-success"><i class="fa fa-lg fa-plus-circle"></i> Nouveauté</span></dt>
 			<dd>Saisie globale des résultats d'une évaluation à la souris !
                 <div class="embed-responsive embed-responsive-16by9">
-                    <iframe src="https://www.youtube-nocookie.com/embed/O7T9cSNMPOE?showinfo=0&fs=1&vq=hd720&rel=0&modestbranding=1&theme=light&autoplay=1"></iframe>
+                    <iframe src="https://www.youtube-nocookie.com/embed/IBOSGariZAY?showinfo=0&fs=1&vq=hd720&rel=0&modestbranding=1"></iframe>
                 </div>
             </dd>
 		</dl>
