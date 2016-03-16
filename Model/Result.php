@@ -183,7 +183,7 @@ class Result extends AppModel {
 		return $this->saveMany($data, ['atomic' => true]);
 	}
 
-	private function setResult($data, $iteration, $grade){
+	public function setResult($data, $iteration, $grade){
 		switch($grade){
 			case 'A':
 				$data[$iteration]['Result']['grade_a'] = 1;
