@@ -4,7 +4,19 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title"><i class="fa fa-lg fa-rocket"></i> &nbsp; <strong>v 2.6.1 &nbsp; — &nbsp; <i class="fa fa-calendar"></i> Mercredi 16 Mars 2016</strong></h3>
+		<h3 class="panel-title"><i class="fa fa-lg fa-rocket"></i> &nbsp; <strong>v 2.6.2 &nbsp; — &nbsp; <i class="fa fa-calendar"></i> Dimanche 27 Mars 2016</strong></h3>
+	</div>
+	<div class="panel-body">
+		<dl class="dl-horizontal">
+			<dt><span class="label label-danger"><i class="fa fa-lg fa-bug"></i> Correction d'anomalie</span></dt>
+			<dd>Correction d'une anomalie bloquant la génération de bulletins lorsque un élève a été dé-associé de la classe en cours d'année.</dd>
+		</dl>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title"><i class="fa fa-lg fa-rocket"></i> &nbsp; v 2.6.1 &nbsp; — &nbsp; <i class="fa fa-calendar"></i> Mercredi 16 Mars 2016</h3>
 	</div>
 	<div class="panel-body">
 		<dl class="dl-horizontal">

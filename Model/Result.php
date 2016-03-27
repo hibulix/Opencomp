@@ -73,7 +73,7 @@ class Result extends AppModel {
 				array(
 					'table' => 'classrooms_pupils',
 					'alias' => 'ClassroomsPupil',
-					'type' => 'INNER',
+					'type' => 'LEFT',
 					'conditions' => array(
 							'ClassroomsPupil.pupil_id = Pupil.id',
 							'ClassroomsPupil.classroom_id = Evaluation.classroom_id'
@@ -82,7 +82,7 @@ class Result extends AppModel {
 				array(
 					'table' => 'levels',
 					'alias' => 'Level',
-					'type' => 'INNER',
+					'type' => 'LEFT',
 					'conditions' => array(
 							'ClassroomsPupil.level_id = Level.id'
 					)
