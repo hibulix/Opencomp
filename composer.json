@@ -1,5 +1,5 @@
 {
-    "name": "jtraulle/opencomp",
+    "name": "opencomp/opencomp",
     "description": "Application de gestion d'acquisition de compétences",
     "type": "project",
     "license": "AGPL-3.0",
@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "cakephp/cakephp": "2.8.0",
+        "cakephp/cakephp": "2.8.2",
     	"slywalker/boost_cake": "1.0.6",
     	"zendframework/zendpdf": "2.0.2",
     	"enygma/yubikey": "3.2",

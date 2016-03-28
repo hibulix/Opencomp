@@ -10,7 +10,7 @@
 	<div class="page-title">
 	    <h3><?php echo __('Résultats de cette évaluation'); ?></h3>
         <div class="btn-group ontitle">
-			<?php echo $this->Html->link('<i class="fa fa-question-circle"></i>', '/results/add_manual/'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-default', 'escape' => false)); ?>
+			<?php echo $this->Html->link('<i class="fa fa-question-circle"></i>', 'http://support.opencomp.fr/support/solutions/articles/1000227285', array('class' => 'btn btn-default', 'escape' => false, 'target' => '_blank')); ?>
 			<?php echo $this->Html->link('<i class="fa fa-mouse-pointer"></i> '.__('saisir à la souris'), '/results/global/'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-default', 'escape' => false)); ?>
 			<?php echo $this->Html->link('<i class="fa fa-keyboard-o"></i> '.__('saisir au clavier'), '/results/selectpupilmanual/evaluation_id:'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-default', 'escape' => false)); ?>
         	<?php echo $this->Html->link('<i class="fa fa-barcode"></i> '.__('saisir avec des codes à barres'), '/results/selectpupil/evaluation_id:'.$evaluation['Evaluation']['id'], array('class' => 'btn btn-primary', 'escape' => false)); ?>

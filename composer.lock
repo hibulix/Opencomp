@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "222c02a8a2fdc592086ede41a0528294",
-    "content-hash": "307872bb26b273ab65e4cbc8b68481e5",
+    "hash": "4337d16615b374752918c9095670a331",
+    "content-hash": "c177b37aa8acde43f9ed11423d972129",
     "packages": [
         {
             "name": "cakephp/cakephp",
-            "version": "2.8.0",
+            "version": "2.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "80f18448b510bcb1376c0b68bc70b98948e2b27a"
+                "reference": "22a2e93c4be27c28be41856dcb837cb5dd64dbce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/80f18448b510bcb1376c0b68bc70b98948e2b27a",
-                "reference": "80f18448b510bcb1376c0b68bc70b98948e2b27a",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/22a2e93c4be27c28be41856dcb837cb5dd64dbce",
+                "reference": "22a2e93c4be27c28be41856dcb837cb5dd64dbce",
                 "shasum": ""
             },
             "require": {
@@ -49,7 +49,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2016-02-07 01:59:33"
+            "time": "2016-03-14 03:01:17"
         },
         {
             "name": "composer/installers",
@@ -546,16 +546,16 @@
         },
         {
             "name": "whichbrowser/parser",
-            "version": "v2.0.14",
+            "version": "v2.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WhichBrowser/Parser.git",
-                "reference": "b0daa6cc25ae084e631b9cbed519ba0cd9a4217b"
+                "reference": "38d7b2b1fd2bf008e08ef0d4d1e44459c8d3d561"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WhichBrowser/Parser/zipball/b0daa6cc25ae084e631b9cbed519ba0cd9a4217b",
-                "reference": "b0daa6cc25ae084e631b9cbed519ba0cd9a4217b",
+                "url": "https://api.github.com/repos/WhichBrowser/Parser/zipball/38d7b2b1fd2bf008e08ef0d4d1e44459c8d3d561",
+                "reference": "38d7b2b1fd2bf008e08ef0d4d1e44459c8d3d561",
                 "shasum": ""
             },
             "require": {
@@ -600,7 +600,7 @@
                 "ua",
                 "useragent"
             ],
-            "time": "2016-02-25 09:59:33"
+            "time": "2016-03-22 15:10:51"
         },
         {
             "name": "zendframework/zend-memory",
@@ -1152,16 +1152,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.8.2",
+            "version": "v2.8.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "34c8a4b51e751e7ea869b8262f883d008a2b81b8"
+                "reference": "584e52cb8f788a887553ba82db6caacb1d6260bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/34c8a4b51e751e7ea869b8262f883d008a2b81b8",
-                "reference": "34c8a4b51e751e7ea869b8262f883d008a2b81b8",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/584e52cb8f788a887553ba82db6caacb1d6260bb",
+                "reference": "584e52cb8f788a887553ba82db6caacb1d6260bb",
                 "shasum": ""
             },
             "require": {
@@ -1197,7 +1197,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2016-01-13 10:28:07"
+            "time": "2016-03-04 07:54:35"
         }
     ],
     "aliases": [],
