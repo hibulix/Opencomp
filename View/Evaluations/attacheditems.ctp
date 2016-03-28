@@ -20,18 +20,18 @@
 	</tr>
 	<?php
 		$nbitems = count($items);
-		foreach ($items as $item): ?>	
+		foreach ($items as $item): ?>
 		<tr>
-			<td><?php echo $item['Item']['title']; 
+			<td><?php echo $item['Item']['title'];
 			if($item['Item']['type'] == 3)
-				echo $this->Html->link(' <i class="fa fa-edit"></i>', '#editItem', 
+				echo $this->Html->link(' <i class="fa fa-edit"></i>', '#editItem',
 				array(
 				'onclick'=>"
-					$('#ItemTitle').val('".addslashes(html_entity_decode($item['Item']['title'], ENT_QUOTES))."'); 
-					var attr = $('#ItemAttacheditemsForm').attr('action');
-					$('#ItemAttacheditemsForm').attr('action', attr + '/".$item['EvaluationsItem']['item_id']."');
-					$('#ItemEvaluationId').val('".$item['EvaluationsItem']['evaluation_id']."');", 
-				'data-toggle' => 'modal', 
+					$('#ItemTitle').val('".addslashes(html_entity_decode($item['Item']['title'], ENT_QUOTES))."');
+					var attr = $('#ItemEditTitleForm').attr('action');
+					$('#ItemEditTitleForm').attr('action', attr + '/".$item['EvaluationsItem']['item_id']."');
+					$('#ItemEvaluationId').val('".$item['EvaluationsItem']['evaluation_id']."');",
+				'data-toggle' => 'modal',
 				'escape' => false)); ?>
 			</td>
 			<td class="actions">
@@ -93,17 +93,17 @@
             </div>
             <div class="modal-body">
                 <div class="alert alert-info"><i class="fa fa-info-circle fa fa-3x pull-left"></i> Lorsque vous modifiez le libellé d'un item, vos corrections sont répercutées sur toutes les évaluations utilisant l'item.</div>
-                
+
                 <?php echo $this->Form->input('title', array(
                         'value' => '',
                         'label' => array(
                             'text' => 'Libellé de l\'item'
                         )
                     )
-                ); 
+                );
 
                 echo $this->Form->hidden('evaluation_id', array('value' => ''));  ?>
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
