@@ -1,0 +1,47 @@
+# Host node is tested with Ubuntu Trusty 14.4 LTS
+#
+# To BYON (Bring Your Own Node) you need to install
+# git and Docker Cloud Agent
+#
+# Sources must be git cloned from 
+# git@github.com:Opencomp/Opencomp.git to /root/Opencomp
+#
+# Edit src/Config/app.php accordingly
+
+db:
+  image: 'mysql:5.7'
+  environment:
+    - MYSQL_ROOT_PASSWORD=root
+  ports:
+    - '3306:3306'
+  volumes:
+    - '/root/data:/var/lib/mysql'
+java-servlets:
+  image: 'tomcat:7-jre8'
+  ports:
+    - '8080:8080'
+  volumes:
+    - '/root/Opencomp/java_servlets:/usr/local/tomcat/webapps'
+message-queue:
+  image: 'schickling/beanstalkd:latest'
+  expose:
+    - '11300'
+pdf-worker:
+  image: 'opencomp/pdf_worker:latest'
+  links:
+    - db
+    - message-queue
+  restart: always
+  target_num_containers: 5
+  volumes:
+    - '/root/Opencomp:/var/www/html'
+web:
+  image: 'opencomp/web:latest'
+  links:
+    - db
+    - message-queue
+  ports:
+    - '80:80'
+  volumes:
+    - '/root/Opencomp:/var/www/html'
+
