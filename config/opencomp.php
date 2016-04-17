@@ -7,6 +7,6 @@ return array (
     'yubikeyClientId' => '',
     'yubikeySecretKey' => '',
     'beanstalkdHost' => 'message_queue',
-    'tomcatHost' => '192.168.99.100:8080',
+    'tomcatHost' => '127.0.0.1:8080',
   ),
 );
