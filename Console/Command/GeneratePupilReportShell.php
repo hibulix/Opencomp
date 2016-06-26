@@ -3,6 +3,12 @@
 App::uses('ReportFormaterHelper', 'View/Helper');
 use Pheanstalk\Pheanstalk;
 
+/**
+ * GeneratePupilReportShell shell task
+ *
+ * @property Report $Report
+ * @property Result $Result
+ */
 class GeneratePupilReportShell extends AppShell {
 
     public $uses = array('Result','Report');
@@ -63,7 +69,7 @@ class GeneratePupilReportShell extends AppShell {
 
                 </head>
                 <body>
-                    <div class='copyright'>Opencomp system v 1.0</div>
+                    <div class='copyright'>Opencomp system v 2016.7.0</div>
                     <div class='footer'>
                         <p class='page'>$footer</p>
                     </div>

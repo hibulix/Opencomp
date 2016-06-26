@@ -24,7 +24,7 @@
 		echo $this->Html->script('../components/jquery/dist/jquery.min');
 	?>
 
-    <link href='https://fonts.googleapis.com/css?family=Titillium+Web|Open+Sans:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Titillium+Web|Open+Sans:300|Contrail+One' rel='stylesheet' type='text/css'>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>

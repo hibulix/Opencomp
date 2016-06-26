@@ -39,6 +39,31 @@ echo $this->Form->input('period_id', array(
     )
 ));
 
+foreach($pupils as $class => $list){
+    $btn_nvx[$class] = '<div class="btn-group">';
+    $btn_nvx[$class] .= $this->Form->button('Tous les '.$class, array('class'=> 'selectPupils btn btn-xs btn-default', 'value'=>$class, 'escape'=>false));
+    $btn_nvx[$class] .= $this->Form->button('<i class="fa fa-ban"></i>', array('class'=> 'unselectPupils btn btn-xs btn-default', 'value'=>$class, 'escape'=>false));
+    $btn_nvx[$class] .= '</div>';
+}
+
+$btn_nvx_string = '';
+
+foreach($btn_nvx as $btn)
+    $btn_nvx_string .= $btn;
+
+
+echo $this->Form->input('pupil_id', array(
+        'class'=>'chzn-select form-control',
+        'wrapInput' => 'col col-md-7',
+        'data-placeholder' => 'Cliquez ici ou sur les boutons de niveaux pour ajouter des élèves.',
+        'multiple' => 'multiple',
+        'afterInput' => '<div class="help-block btn-toolbar">'.$btn_nvx_string.'</div>',
+        'label' => array(
+            'text' => 'Restreindre aux élèves suivants'
+        )
+    )
+);
+
 echo $this->Form->input('header', array(
     'label' => array(
         'text' => 'En-tête de première page'

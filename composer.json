@@ -15,10 +15,12 @@
     	"zendframework/zendpdf": "2.0.2",
     	"enygma/yubikey": "3.2",
     	"dompdf/dompdf": "0.6.2",
+        "setasign/fpdf": "1.8.1",
         "fusonic/spreadsheet-export": "0.1.1",
         "pda/pheanstalk": "3.1.0",
         "sandreu/cake-sentry": "0.2.0",
-        "whichbrowser/parser": "^2.0"
+        "whichbrowser/parser": "^2.0",
+        "emanueleminotto/simple-html-dom": "1.5.0"
     },
     "require-dev": {
     	"cakephp/debug_kit": "2.2.6",
