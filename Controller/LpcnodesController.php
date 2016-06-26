@@ -229,24 +229,8 @@ class LpcnodesController extends AppController {
         foreach ($pupils as $classroom_label => $classroom){
             if($classroom_label == $level_id){
                 foreach ($classroom as $pupil_id => $pupil){
-
                     $page = 1;
-                    $lpc = $this->Lpcnode->getPDFLPCforPupilId($pupil_id,$palier,[2,3,4]);
-
-                    foreach ($lpc as $line){
-
-                        while($line['Lpcnode']['page'] != $page){
-                            $page++;
-                            $fpdf->AddPage("P", "A4");
-                            $fpdf->Image(WWW_ROOT.'img/lpc'.$palier.'-p'.$page.'.jpg', 0, 0, $fpdf->GetPageWidth(), $fpdf->GetPageHeight());
-                            $fpdf->SetFont('Arial','I',10);
-                            $fpdf->Text(85,283, utf8_decode($pupil)." - ". $classroom_label);
-                            $fpdf->SetFont('Arial','B',14);
-                        }
-
-                        $date = strtotime($line['LpcnodesPupil']['validation_date']);
-                        $fpdf->Text($line['Lpcnode']['X'],$line['Lpcnode']['Y'], date('d/m/Y',$date));
-                    }
+                    $this->outputDetail($fpdf, $pupil_id, $pupil, $classroom_label, $palier, $page);
                     $fpdf->AddPage("P", "A4");
                 }
             }
@@ -276,26 +260,7 @@ class LpcnodesController extends AppController {
 
                     $page = 1;
                     $this->outputCertificate($pupil_id, $pupil, $palier, $fpdf, $classroom_id);
-
-                    $fpdf->SetFont('Arial','B',14);
-
-                    $lpc = $this->Lpcnode->getPDFLPCforPupilId($pupil_id,$palier,[2,3,4]);
-
-                    foreach ($lpc as $line){
-
-                        while($line['Lpcnode']['page'] != $page){
-                            $page++;
-                            $fpdf->AddPage("P", "A4");
-                            $fpdf->Image(WWW_ROOT.'img/lpc'.$palier.'-p'.$page.'.jpg', 0, 0, $fpdf->GetPageWidth(), $fpdf->GetPageHeight());
-                            $fpdf->SetFont('Arial','I',10);
-                            $fpdf->Text(85,283, utf8_decode($pupil)." - ". $classroom_label);
-                            $fpdf->SetFont('Arial','B',14);
-                        }
-
-                        $date = strtotime($line['LpcnodesPupil']['validation_date']);
-                        $fpdf->Text($line['Lpcnode']['X'],$line['Lpcnode']['Y'], date('d/m/Y',$date));
-                    }
-
+                    $this->outputDetail($fpdf, $pupil_id, $pupil, $classroom_label, $palier, $page);
                 }
             }
         }
@@ -326,6 +291,7 @@ class LpcnodesController extends AppController {
         ));
 
         $fpdf->AddPage("P", "A4");
+        $fpdf->SetFont('Arial','B',14);
         $fpdf->Image(WWW_ROOT.'img/lpc'.$palier.'-p1.jpg', 0, 0, $fpdf->GetPageWidth(), $fpdf->GetPageHeight());
 
         if($palier == 1){
@@ -403,6 +369,25 @@ class LpcnodesController extends AppController {
                         break;
                 }
             }
+        }
+    }
+
+    private function outputDetail(FPDF $fpdf, $pupil_id, $pupil, $classroom_label, $palier, $page){
+        $lpc = $this->Lpcnode->getPDFLPCforPupilId($pupil_id,$palier,[2,3,4]);
+
+        foreach ($lpc as $line){
+
+            while($line['Lpcnode']['page'] != $page){
+                $page++;
+                $fpdf->AddPage("P", "A4");
+                $fpdf->Image(WWW_ROOT.'img/lpc'.$palier.'-p'.$page.'.jpg', 0, 0, $fpdf->GetPageWidth(), $fpdf->GetPageHeight());
+                $fpdf->SetFont('Arial','I',10);
+                $fpdf->Text(85,283, utf8_decode($pupil)." - ". $classroom_label);
+                $fpdf->SetFont('Arial','B',14);
+            }
+
+            $date = strtotime($line['LpcnodesPupil']['validation_date']);
+            $fpdf->Text($line['Lpcnode']['X'],$line['Lpcnode']['Y'], date('d/m/Y',$date));
         }
     }
 }

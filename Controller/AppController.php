@@ -71,8 +71,11 @@ class AppController extends Controller {
     	$this->Auth->authError = "Vous n'êtes pas autorisé à accéder à cette page !";
 
         if(file_exists(APP.'maintenance.html')){
-            echo file_get_contents(APP.'maintenance.html');
-            die();
+            $this->layout = 'ajax';
+            $this->response->body(file_get_contents(APP.'maintenance.html'));
+
+            $this->response->send();
+            $this->_stop();
         }
     }
 
