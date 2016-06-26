@@ -1,0 +1,18 @@
+<!doctype html>
+<title>Site Maintenance</title>
+<style>
+    body { text-align: center; padding: 150px; }
+    h1 { font-size: 50px; }
+    body { font: 20px Helvetica, sans-serif; color: #333; }
+    article { display: block; text-align: left; width: 650px; margin: 0 auto; }
+    a { color: #dc8100; text-decoration: none; }
+    a:hover { color: #333; text-decoration: none; }
+</style>
+
+<article>
+    <h1>Bientôt de retour !</h1>
+    <div>
+        <p>Nous sommes actuellement en train de réaliser une opération de maintenance. Ne vous inquiétez pas, nous savons ce que nous faisons, nous serons bientôt de retour ;)</p>
+        <p>&mdash; l'équipe Opencomp</p>
+    </div>
+</article>

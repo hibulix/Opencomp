@@ -6,6 +6,7 @@ App::uses('AppModel', 'Model');
  * @property Evaluation $Evaluation
  * @property Pupil $Pupil
  * @property Item $Item
+ * @property Classroom $Classroom
  */
 class Report extends AppModel {
 
@@ -55,6 +56,8 @@ class Report extends AppModel {
 			$this->data['Report']['period_id'] = implode(",",$this->data['Report']['period_id']);
 		if(isset($this->data['Report']['page_break']) && is_array($this->data['Report']['page_break']))
 			$this->data['Report']['page_break'] = implode(",",$this->data['Report']['page_break']);
+		if(isset($this->data['Report']['pupil_id']) && is_array($this->data['Report']['pupil_id']))
+			$this->data['Report']['pupil_id'] = implode(",",$this->data['Report']['pupil_id']);
 
 		return true;
 	}
@@ -63,7 +66,9 @@ class Report extends AppModel {
         if(isset($results[0]['Report']['period_id']))
             $results[0]['Report']['period_id'] = explode(",",$results[0]['Report']['period_id']);
 		if(isset($results[0]['Report']['page_break']))
-        $results[0]['Report']['page_break'] = explode(",",$results[0]['Report']['page_break']);
+        	$results[0]['Report']['page_break'] = explode(",",$results[0]['Report']['page_break']);
+		if(isset($results[0]['Report']['pupil_id']) && !empty($results[0]['Report']['pupil_id']))
+			$results[0]['Report']['pupil_id'] = explode(",",$results[0]['Report']['pupil_id']);
 		
 		return $results;
 	}

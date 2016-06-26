@@ -30,6 +30,8 @@ App::uses('Controller', 'Controller');
  *
  * @package       app.Controller
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
+ *
+ * @property PaginatorComponent $Paginator
  */
 class AppController extends Controller {
     public $components = array(
@@ -67,6 +69,11 @@ class AppController extends Controller {
     public function beforeFilter(){
     	$this->Auth->flash['element'] = "flash_error";
     	$this->Auth->authError = "Vous n'êtes pas autorisé à accéder à cette page !";
+
+        if(file_exists(APP.'maintenance.html')){
+            echo file_get_contents(APP.'maintenance.html');
+            die();
+        }
     }
 
     function beforeRender() {

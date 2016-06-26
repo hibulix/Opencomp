@@ -4,6 +4,8 @@ App::uses('AppController', 'Controller');
  * Classrooms Controller
  *
  * @property Classroom $Classroom
+ * @property LpcnodesPupil $LpcnodesPupil
+ * @property Lpcnode $Lpcnode
  */
 class ClassroomsController extends AppController {
 
@@ -152,6 +154,31 @@ class ClassroomsController extends AppController {
 			'conditions' => array('establishment_id' => $classroom['Classroom']['establishment_id']),
 			'recursive' => 0));
 		$this->set('periods', $periods);
+	}
+
+	public function viewlpc($id = null, $palier = '', $pupil_id = '') {
+		$this->set('title_for_layout', __('LPC d\'une classe'));
+
+        $this->loadModel('LpcnodesPupil');
+        $this->LpcnodesPupil->validateLPC();
+
+		$this->Classroom->id = $id;
+		$this->Classroom->contain(array('User', 'Establishment', 'Year', 'Report'));
+		$classroom = $this->Classroom->find('first', array(
+			'conditions' => array('Classroom.id' => $id)
+		));
+
+		$pupils = $this->Classroom->Evaluation->findPupilsByLevelsInClassroom($id);
+
+		$this->set(compact('pupils', 'palier', 'pupil_id', 'classroom'));
+
+		if((!empty($palier) && !empty($pupil_id)) && $this->Classroom->pupilIsLinkedToClassroom($id,$pupil_id)){
+			$this->loadModel('Lpcnode');
+			$lpc = $this->Lpcnode->getLPCforPupilId($pupil_id, $palier);
+            $this->set('lpc', $lpc);
+		}
+
+		$this->set('classroom_id', $id);
 	}
 
 /**

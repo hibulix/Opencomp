@@ -6,6 +6,9 @@ App::uses('AppModel', 'Model');
  * @property Lpcnode $ParentLpcnode
  * @property Item $Item
  * @property Lpcnode $ChildLpcnode
+ *
+ * @method int generateTreeList() generateTreeList(Model $Model, $conditions = null, $keyPath = null, $valuePath = null, $spacer = '_', $recursive = null) multiply two integers
+ * @method void contain() contain($Model)
  */
 class Lpcnode extends AppModel {
 
@@ -120,4 +123,135 @@ class Lpcnode extends AppModel {
 
 		return $tab;
 	}
+
+	public function getLpcnodeIdsFromLivrEvalIds($livreval_ids, $palier){
+		$matching = $this->find('list', [
+			'fields' => ['livreval_id','id'],
+			'conditions' => [
+				'livreval_id IN' => $livreval_ids,
+				'palier' => $palier
+			]
+		]);
+
+		return $matching;
+	}
+
+	public function getLPCforPupilId($pupil_id, $palier){
+
+		$lpc = $this->find('all', array(
+			'conditions' => array(
+				'Lpcnode.palier' => $palier,
+				'Lpcnode.parent_id IS NOT NULL'
+			),
+			'recursive' => -1,
+			'fields' => array('Lpcnode.title','Lpcnode.type','LpcnodesPupil.validation_date','LpcnodesPupil.type_val','Lpcnode.id'),
+			'joins' => array(
+				array('table' => 'lpcnodes_pupils',
+					'alias' => 'LpcnodesPupil',
+					'type' => 'LEFT',
+					'conditions' => array(
+						'Lpcnode.id = LpcnodesPupil.lpcnode_id',
+						'LpcnodesPupil.pupil_id' => $pupil_id,
+					),
+				)
+			),
+			'order' => array(
+				'Lpcnode.lft'
+			)
+		));
+
+		return $lpc;
+	}
+
+	public function getPDFLPCforPupilId($pupil_id, $palier, $type){
+
+		$lpc = $this->find('all', array(
+			'conditions' => array(
+				'Lpcnode.palier' => $palier,
+				'Lpcnode.parent_id IS NOT NULL',
+				'Lpcnode.type IN' => $type
+			),
+			'recursive' => -1,
+			'fields' => array(
+				'Lpcnode.id',
+				'Lpcnode.page',
+				'Lpcnode.X',
+				'Lpcnode.Y',
+				'LpcnodesPupil.validation_date'
+			),
+			'joins' => array(
+				array('table' => 'lpcnodes_pupils',
+					'alias' => 'LpcnodesPupil',
+					'type' => 'INNER',
+					'conditions' => array(
+						'Lpcnode.id = LpcnodesPupil.lpcnode_id',
+						'LpcnodesPupil.pupil_id' => $pupil_id,
+					),
+				)
+			),
+			'order' => array(
+				'Lpcnode.lft'
+			)
+		));
+
+		return $lpc;
+	}
+
+	private function getNbItemForCompetence($lpcnode_id){
+		$competence = $this->find('first', array(
+			'conditions' => array(
+				'id' => $lpcnode_id
+			),
+			'recursive' => -1
+		));
+
+		$nb = $this->find('count', array(
+			'conditions' => array(
+				'type' => 4,
+				'lft >' => $competence['Lpcnode']['lft'],
+				'rght <' => $competence['Lpcnode']['rght']
+			),
+			'recursive' => -1
+		));
+
+		return $nb;
+	}
+
+	private function getValidatedItemsForCompetence($lpcnode_id, $pupil_id){
+        $competence = $this->find('first', array(
+            'conditions' => array(
+                'id' => $lpcnode_id
+            ),
+            'recursive' => -1
+        ));
+
+        $nb = $this->find('count', array(
+            'conditions' => array(
+                'type' => 4,
+                'lft >' => $competence['Lpcnode']['lft'],
+                'rght <' => $competence['Lpcnode']['rght']
+            ),
+            'joins' => array(
+                array('table' => 'lpcnodes_pupils',
+                    'alias' => 'LpcnodesPupil',
+                    'type' => 'INNER',
+                    'conditions' => array(
+                        'Lpcnode.id = LpcnodesPupil.lpcnode_id',
+                        'LpcnodesPupil.pupil_id' => $pupil_id,
+                    ),
+                )
+            ),
+            'recursive' => -1
+        ));
+
+        return $nb;
+	}
+
+	public function getCompetenceValidationPercentage($lpcnode_id, $pupil_id){
+	    $nb_items = $this->getNbItemForCompetence($lpcnode_id);
+        $nb_items_validated = $this->getValidatedItemsForCompetence($lpcnode_id, $pupil_id);
+        $percent = $nb_items_validated * 100 / $nb_items;
+
+        return round($percent);
+    }
 }

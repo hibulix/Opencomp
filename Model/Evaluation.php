@@ -194,6 +194,37 @@ class Evaluation extends AppModel {
 		return $pupilsLevels;
 	}
 
+	public function findExistingLivrEvalPupilsByClassroom($id_classroom){
+
+		$pupils = $this->Pupil->ClassroomsPupil->find('all', array(
+			'conditions' => array(
+				'ClassroomsPupil.classroom_id' => $id_classroom,
+				'Pupil.livreval_id IS NOT NULL'
+			),
+			'recursive' => -1,
+			'fields' => array('Pupil.id','Pupil.livreval_id'),
+			'joins' => array(
+				array('table' => 'pupils',
+					'alias' => 'Pupil',
+					'type' => 'LEFT',
+					'conditions' => array(
+						'Pupil.id = ClassroomsPupil.pupil_id',
+					),
+				)
+			),
+			'order' => array(
+				'Pupil.name', 'Pupil.first_name'
+			)
+		));
+
+		$listPupils = [];
+		foreach($pupils as $pupil){
+			$listPupils[$pupil['Pupil']['livreval_id']] = $pupil['Pupil']['id'];
+		}
+
+		return $listPupils;
+	}
+
 	public function findPupilsByLevelsInEvaluation($id_evaluation){
 		$evaluation = $this->find('first', array(
 			'fields' => array('Evaluation.classroom_id'),

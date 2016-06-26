@@ -18,6 +18,7 @@ $(document).ready(function() {
         var classe= $(event.delegateTarget).val();
         $('optgroup[label='+classe+']').children().attr('selected', 'selected');
         $("#PupilPupil").trigger("chosen:updated");
+        $("#ReportPupilId").trigger("chosen:updated");
     });
 
     $(".unselectPupils").click(function(event){
@@ -25,6 +26,7 @@ $(document).ready(function() {
         var classe= $(event.delegateTarget).val();
         $('optgroup[label='+classe+'] > option[selected=selected]').removeAttr('selected');
         $("#PupilPupil").trigger("chosen:updated");
+        $("#ReportPupilId").trigger("chosen:updated");
     });
 
     //Envoyer automatiquement le focus au premier champ visible de la page

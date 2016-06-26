@@ -2,14 +2,20 @@
 
 use Pheanstalk\Pheanstalk;
 
+/**
+ * Reports Controller
+ *
+ * @property Report $Report
+ * @property Result $Result
+ * @property Period $Period
+ * @property Setting $Setting
+ */
 class ReportsController extends AppController {
 
     /**
-     * edit method
+     * add method
      *
-     * @throws NotFoundException
-     * @param string $id
-     * @return void
+     * @internal param string $id
      */
     public function add() {
         $this->set('title_for_layout', __('Ajouter un bulletin'));
@@ -56,19 +62,36 @@ class ReportsController extends AppController {
             $this->redirect(['action'=>'generationProgress',$id]);
 
         $this->loadModel('Result');
-        $ReqPupils = $this->Result->find('all', array(
-            'fields' => array('pupil_id'),
-            'order' => array('name', 'first_name'),
-            'conditions' => array(
-                'Evaluation.period_id' => $report['Report']['period_id'],
-                'Evaluation.classroom_id' => $report['Classroom']['id']
-            ),
-            'contain' => array(
-                'Pupil.id',
-                'Evaluation.Period.id',
-                'Evaluation.Classroom.id'
-            )
-        ));
+        if(empty($report['Report']['pupil_id'])){
+            $ReqPupils = $this->Result->find('all', array(
+                'fields' => array('pupil_id'),
+                'order' => array('name', 'first_name'),
+                'conditions' => array(
+                    'Evaluation.period_id' => $report['Report']['period_id'],
+                    'Evaluation.classroom_id' => $report['Classroom']['id']
+                ),
+                'contain' => array(
+                    'Pupil.id',
+                    'Evaluation.Period.id',
+                    'Evaluation.Classroom.id'
+                )
+            ));
+        }else{
+            $ReqPupils = $this->Result->find('all', array(
+                'fields' => array('pupil_id'),
+                'order' => array('name', 'first_name'),
+                'conditions' => array(
+                    'Evaluation.period_id' => $report['Report']['period_id'],
+                    'Evaluation.classroom_id' => $report['Classroom']['id'],
+                    'Result.pupil_id' => $report['Report']['pupil_id']
+                ),
+                'contain' => array(
+                    'Pupil.id',
+                    'Evaluation.Period.id',
+                    'Evaluation.Classroom.id'
+                )
+            ));
+        }
 
         foreach($ReqPupils as $pupils){
             $pup[] = $pupils['Pupil']['id'];
@@ -77,31 +100,31 @@ class ReportsController extends AppController {
         if(!isset($pup)){
             $this->Session->setFlash(__('Aucun résultat saisi pour la/les période(s) configurée(s). Génération annulée !'), 'flash_error');
             $this->redirect(array('controller' => 'classrooms', 'action' => 'viewreports', $report['Classroom']['id']));
-        }
+        }else{
+            $pup = array_values(array_unique($pup));
 
-        $pup = array_values(array_unique($pup));
+            $pheanstalk = new Pheanstalk(Configure::read('beanstalkd_host'));
+            $pupilsJobs = [];
 
-        $pheanstalk = new Pheanstalk(Configure::read('beanstalkd_host'));
-        $pupilsJobs = [];
+            foreach($pup as $id){
+                $jobId = $pheanstalk
+                    ->useTube('generate-report')
+                    ->put(json_encode(['action'=>'generate', 'pupil_id'=>$id, 'report_id'=>$report['Report']['id']]));
+                $pupilsJobs[$id] = $jobId;
+            }
 
-        foreach($pup as $id){
             $jobId = $pheanstalk
                 ->useTube('generate-report')
-                ->put(json_encode(['action'=>'generate', 'pupil_id'=>$id, 'report_id'=>$report['Report']['id']]));
-            $pupilsJobs[$id] = $jobId;
+                ->put(json_encode(['action'=>'concatenate', 'report_id'=>$report['Report']['id']]));
+
+            $pupilsJobs['concatenate'] = $jobId;
+
+            $this->Report->id = $report['Report']['id'];
+            $this->Report->saveField('beanstalkd_jobs', serialize($pupilsJobs));
+            $this->Report->saveField('beanstalkd_finished', 0);
+
+            $this->redirect(array('controller' => 'reports', 'action' => 'generationProgress', $report['Report']['id']));
         }
-
-        $jobId = $pheanstalk
-            ->useTube('generate-report')
-            ->put(json_encode(['action'=>'concatenate', 'report_id'=>$report['Report']['id']]));
-
-        $pupilsJobs['concatenate'] = $jobId;
-
-        $this->Report->id = $report['Report']['id'];
-        $this->Report->saveField('beanstalkd_jobs', serialize($pupilsJobs));
-        $this->Report->saveField('beanstalkd_finished', 0);
-
-        $this->redirect(array('controller' => 'reports', 'action' => 'generationProgress', $report['Report']['id']));
     }
 
     public function generationProgress($id = null){
@@ -113,6 +136,10 @@ class ReportsController extends AppController {
         $this->set('report', $report);
     }
 
+    /**
+     * @param null $id
+     * @return array
+     */
     public function generationProgressWidget($id = null){
         $this->layout = 'ajax';
 
@@ -139,6 +166,7 @@ class ReportsController extends AppController {
         $pheanstalk = new Pheanstalk(Configure::read('beanstalkd_host'));
 
         $concatenateJobId = array_pop($jobsIds);
+
         foreach($jobsIds as $pupil_id => $job_id){
             try{
                 $pupilsStatus[$pupil_id]['name'] = $pupils[$pupil_id];
@@ -150,18 +178,20 @@ class ReportsController extends AppController {
         }
 
         try{
-            $pupilsStatus[$pupil_id]['name'] = "Fusion des bulletins";
-            $pupilsStatus[$pupil_id]['state'] = $pheanstalk->statsJob($concatenateJobId)->state;
+            $pupilsStatus[count($pupil_id)]['name'] = "Fusion des bulletins";
+            $pupilsStatus[count($pupil_id)]['state'] = $pheanstalk->statsJob($concatenateJobId)->state;
         }catch(Exception $e){
-            $pupilsStatus[$pupil_id]['name'] = "Fusion des bulletins";
-            $pupilsStatus[$pupil_id]['state'] = 'done';
-        }
-
-        if ($this->request->is('requested')) {
-            return $pupilsStatus;
+            $pupilsStatus[count($pupil_id)]['name'] = "Fusion des bulletins";
+            $pupilsStatus[count($pupil_id)]['state'] = 'done';
         }
 
         $this->set('pupilsStates',$pupilsStatus);
+
+        if ($this->request->is('requested')) {
+            return $pupilsStatus;
+        }else{
+            return null;
+        }
     }
 
 /**
@@ -183,16 +213,17 @@ class ReportsController extends AppController {
 			if ($this->Report->save($this->request->data)) {
 				$this->Session->setFlash(__('Le bulletin a été correctement mis à jour.'), 'flash_success');
 				$this->redirect(array('controller' => 'classrooms','action' => 'viewreports', $this->request->data['Report']['classroom_id']));
-			} else {
-				$classroom_id = $this->request->data['Report']['classroom_id'];
-				$this->set('classroom_id', $classroom_id);
-				$this->Session->setFlash(__('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.'), 'flash_error');
 			}
+
+            $classroom_id = $this->request->data['Report']['classroom_id'];
+            $this->set('classroom_id', $classroom_id);
+            $this->Session->setFlash(__('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.'), 'flash_error');
 		} else {
 			$this->request->data = $this->Report->read(null, $id);
 			
 			$classroom_id = $this->request->data['Classroom']['id'];
 			$this->set('report_id', $id);
+            $this->set('pupil_id', $this->request->data['Report']['pupil_id']);
 			$this->set('classroom_id', $classroom_id);
 		}
 		
@@ -206,23 +237,23 @@ class ReportsController extends AppController {
      * @return void
      */
     private function getReportAssociatedInfos($classroom_id) {
-        $this->loadModel('Competence');
-        $competences = $this->Competence->generateTreeList(null, null, null, '',-1);
 
-        $this->loadModel('Classroom');
-        $this->Classroom->recursive = 0;
-        $this->Classroom->id = $classroom_id;
-        $classroom = $this->Classroom->read();
+        $competences = $this->Report->Classroom->Evaluation->Item->Competence->generateTreeList(null, null, null, '',-1);
+
+        $this->Report->Classroom->recursive = 0;
+        $this->Report->Classroom->id = $classroom_id;
+        $classroom = $this->Report->Classroom->read();
 
         $this->loadModel('Setting');
         $currentYear = $this->Setting->find('first', array('conditions' => array('Setting.key' => 'currentYear')));
 
-        $this->loadModel('Period');
-        $periods = $this->Period->find('list', array(
+        $periods = $this->Report->Classroom->Establishment->Period->find('list', array(
             'conditions' => array('establishment_id' => $classroom['Classroom']['establishment_id'], 'year_id' => $currentYear['Setting']['value']),
             'recursive' => 0));
 
-        $this->set(compact('classrooms', 'users', 'periods', 'pupils', 'competences'));
+        $pupils = $this->Report->Classroom->Evaluation->findPupilsByLevelsInClassroom($classroom_id);
+
+        $this->set(compact('classrooms', 'users', 'periods', 'pupils', 'competences', 'pupils'));
     }
 
     public function download($id) {

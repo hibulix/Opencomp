@@ -10,7 +10,6 @@ App::uses('AppModel', 'Model');
  * @property Evaluation $Evaluation
  * @property Item $Item
  * @property Pupil $Pupil
- * @property User $User
  */
 class Classroom extends AppModel {
 
@@ -120,5 +119,14 @@ class Classroom extends AppModel {
 			'unique' => 'keepExisting',
 		)
 	);
+
+	public function pupilIsLinkedToClassroom($classroom_id, $pupil_id){
+		return $this->ClassroomsPupil->find('count', array(
+			'conditions' => array(
+				'pupil_id' => $pupil_id,
+				'classroom_id' => $classroom_id
+			)
+		));
+	}
 
 }

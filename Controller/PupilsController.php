@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('ReportFormaterHelper', 'View/Helper');
 /**
  * Pupils Controller
  *
@@ -176,5 +177,38 @@ class PupilsController extends AppController {
 		}
 		$this->Session->setFlash(__('Pupil was not deleted'));
 		$this->redirect(array('action' => 'index'));
+	}
+
+	public function generateReport($pupil_id = null, $report_id = null){
+		$this->loadModel('Report');
+		$report = $this->Report->findById($report_id);
+		$items = $this->Pupil->Result->findResultsForReport(
+			$pupil_id,
+			$report['Classroom']['id'],
+			$report['Report']['period_id']
+		);
+
+		$competences = $this->Pupil->Result->Item->Competence->findAllCompetencesFromCompetenceId(
+			$this->arrayValueRecursive('competence_id',$items),
+			'!jstree'
+		);
+
+		$html_report = new ReportFormaterHelper(new View);
+		$html_report->report = $report;
+		$html_report->competences = $competences;
+		$html_report->items = $items;
+
+		$content = $html_report->getContent();
+
+		echo $content;
+		die();
+	}
+
+	private function arrayValueRecursive($key, array $arr){
+		$val = array();
+		array_walk_recursive($arr, function($v, $k) use($key, &$val){
+			if($k == $key) array_push($val, $v);
+		});
+		return count($val) > 1 ? $val : array_pop($val);
 	}
 }
