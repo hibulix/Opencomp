@@ -178,12 +178,4 @@ class PupilsController extends AppController {
 		$this->Session->setFlash(__('Pupil was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
-
-	private function arrayValueRecursive($key, array $arr){
-		$val = array();
-		array_walk_recursive($arr, function($v, $k) use($key, &$val){
-			if($k == $key) array_push($val, $v);
-		});
-		return count($val) > 1 ? $val : array_pop($val);
-	}
 }
