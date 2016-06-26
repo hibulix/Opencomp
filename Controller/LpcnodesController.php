@@ -43,8 +43,7 @@ class LpcnodesController extends AppController {
 		if (in_array($this->action, array('add', 'edit', 'moveup', 'movedown', 'deleteNode'))) {
             return false;
         }elseif(in_array($this->action, array('pdfCert', 'pdf', 'pdfDetail'))){
-            $this->Classroom->id = $this->request['pass'][0];
-            return in_array($this->Classroom->id, $this->Session->read('Authorized')['classrooms']);
+            return in_array($this->request['pass'][0], $this->Session->read('Authorized')['classrooms']);
 		}else{
 			return true;
 		}
