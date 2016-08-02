@@ -3,20 +3,28 @@ version: '2'
 services:
   web:
     image: opencomp/web:latest
-    #build: ../Dockerfiles/web
+    #build: ../opencomp_docker/web
     ports:
       - "80:80"
     depends_on:
       - db
-      - message_queue 
+      - message_queue
+      - postfix
     volumes:
       - ./:/var/www/html
+      - ./var/lib/mysql-files:/var/www/html/tmp/mysql-files
+  postfix:
+    image: elsdoerfer/exim-sender
+    environment:
+      ALLOWED_HOSTS: 172.18.0.0/24
+      PRIMARY_HOST: localhost
   java_servlets:
     image: tomcat:7-jre8
     volumes:
       - ./java_servlets:/usr/local/tomcat/webapps
     ports:
       - "8080:8080"
+      - "25:25"
   message_queue:
     image: schickling/beanstalkd:latest
   pdf_worker:
@@ -33,8 +41,21 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
         - data:/var/lib/mysql
+        - ./var/lib/mysql-files:/var/lib/mysql-files
     ports:
       - "3306:3306"
+  memcached:
+      image: memcached:alpine
+  phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      container_name: myadmin
+      environment:
+       - PMA_ARBITRARY=1
+      restart: always
+      ports:
+       - 8000:80
+      volumes:
+       - /sessions
 
 volumes:
   data:
