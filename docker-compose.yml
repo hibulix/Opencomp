@@ -17,7 +17,6 @@ services:
     image: elsdoerfer/exim-sender
     environment:
       ALLOWED_HOSTS: 172.18.0.0/24
-      PRIMARY_HOST: localhost
   java_servlets:
     image: tomcat:7-jre8
     volumes:
@@ -50,7 +49,9 @@ services:
       image: phpmyadmin/phpmyadmin
       container_name: myadmin
       environment:
-       - PMA_ARBITRARY=1
+       - PMA_HOST=db
+       - PMA_USER=root
+       - PMA_PASSWORD=root
       restart: always
       ports:
        - 8000:80

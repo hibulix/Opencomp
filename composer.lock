@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7d80ac9a7d927e1885e12b44a9996e92",
-    "content-hash": "c8d4e48a8616c4e3bd9f402d0b09d544",
+    "hash": "63f203292edd159ea6b0310386b6516d",
+    "content-hash": "ba33c6678c0d63c7ab417a1ef6578e81",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -500,6 +500,66 @@
             "time": "2015-04-20 23:52:22"
         },
         {
+            "name": "filp/whoops",
+            "version": "2.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/filp/whoops.git",
+                "reference": "8828aaa2178e0a19325522e2a45282ff0a14649b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/8828aaa2178e0a19325522e2a45282ff0a14649b",
+                "reference": "8828aaa2178e0a19325522e2a45282ff0a14649b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "^4.8 || ^5.0",
+                "symfony/var-dumper": "~3.0"
+            },
+            "suggest": {
+                "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
+                "whoops/soap": "Formats errors as SOAP responses"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Whoops\\": "src/Whoops/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Filipe Dobreira",
+                    "homepage": "https://github.com/filp",
+                    "role": "Developer"
+                }
+            ],
+            "description": "php error handling for cool kids",
+            "homepage": "https://github.com/filp/whoops",
+            "keywords": [
+                "error",
+                "exception",
+                "handling",
+                "library",
+                "whoops",
+                "zf2"
+            ],
+            "time": "2016-05-06 18:25:35"
+        },
+        {
             "name": "friendsofcake/bootstrap-ui",
             "version": "v0.5.0",
             "source": {
@@ -674,6 +734,51 @@
                 "spam"
             ],
             "time": "2015-09-02 17:23:59"
+        },
+        {
+            "name": "gourmet/whoops",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gourmet/whoops.git",
+                "reference": "25c835810283ae71a378a20a7f5516a75eb6657b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gourmet/whoops/zipball/25c835810283ae71a378a20a7f5516a75eb6657b",
+                "reference": "25c835810283ae71a378a20a7f5516a75eb6657b",
+                "shasum": ""
+            },
+            "require": {
+                "filp/whoops": "^2.0"
+            },
+            "suggest": {
+                "phpunit/phpunit": "Allows automated tests to be run without system-wide install."
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Gourmet\\Whoops\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jad Bitar",
+                    "homepage": "http://jadb.io",
+                    "role": "Author"
+                }
+            ],
+            "description": "Whoops for CakePHP 3",
+            "homepage": "http://github.com/gourmet/whoops",
+            "keywords": [
+                "cakephp",
+                "whoops"
+            ],
+            "time": "2016-08-02 14:27:06"
         },
         {
             "name": "league/csv",

@@ -20,7 +20,8 @@
         "ypnos-web/cakephp-datatables": "dev-master",
         "friendsofcake/search": "^2.0",
         "cakedc/users": "^3.2",
-        "google/recaptcha": "@stable"
+        "google/recaptcha": "@stable",
+        "gourmet/whoops": "~1.0"
     },
     "require-dev": {
         "psy/psysh": "@stable",

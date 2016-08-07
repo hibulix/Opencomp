@@ -42,6 +42,9 @@ use Cake\Routing\Router;
 Router::defaultRouteClass('Route');
 
 Router::scope('/', function (Cake\Routing\RouteBuilder $routes) {
+
+    $routes->extensions(['json', 'xml']);
+
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
      * its action called 'display', and we pass a param to select the view file
@@ -71,6 +74,7 @@ Router::scope('/', function (Cake\Routing\RouteBuilder $routes) {
      * routes you want in your application.
      */
     $routes->fallbacks('InflectedRoute');
+
 });
 
 /**
@@ -78,3 +82,18 @@ Router::scope('/', function (Cake\Routing\RouteBuilder $routes) {
  * how to customize the loading of plugin routes.
  */
 Plugin::routes();
+
+Router::scope('/', function (Cake\Routing\RouteBuilder $routes) {
+    $routes->extensions(['json','xml']);
+    $routes->connect('/users', ['plugin'=> 'CakeDC/Users', 'controller'=>'Users', 'action'=>'index']);
+    $routes->connect(
+        '/classrooms/:id/tests',
+        ['controller' => 'Classrooms', 'action' => 'viewtests'],
+        ['id' => '\d+', 'pass' => ['id']]
+    );
+});
+
+Router::scope('/api/v1/', function (Cake\Routing\RouteBuilder $routes) {
+    $routes->extensions(['json', 'xml']);
+    $routes->fallbacks('InflectedRoute');
+});

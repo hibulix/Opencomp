@@ -46,7 +46,7 @@ use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
 use Cake\Error\ErrorHandler;
 use Cake\Log\Log;
-use Cake\Network\Email\Email;
+use Cake\Mailer\Email;
 use Cake\Network\Request;
 use Cake\Routing\DispatcherFactory;
 use Cake\Utility\Security;
@@ -90,6 +90,7 @@ if ($isCli) {
     (new ConsoleErrorHandler(Configure::read('Error')))->register();
 } else {
     (new ErrorHandler(Configure::read('Error')))->register();
+    //(new \Gourmet\Whoops\Error\WhoopsHandler(Configure::read('Error')))->register();
 }
 
 // Include the CLI bootstrap overrides.
@@ -165,6 +166,10 @@ if (Configure::read('debug')) {
 }
 
 Plugin::load('BootstrapUI');
+Plugin::load('Search');
+Configure::write('Users.config', ['users']);
+Plugin::load('CakeDC/Users', ['routes' => true, 'bootstrap' => true]);
+
 
 /**
  * Connect middleware/dispatcher filters.
