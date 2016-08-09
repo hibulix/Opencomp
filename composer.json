@@ -17,11 +17,9 @@
         "pda/pheanstalk": "3.0.2",
         "friendsofcake/bootstrap-ui": "~0.3",
         "league/csv": "^8.0",
-        "ypnos-web/cakephp-datatables": "dev-master",
         "friendsofcake/search": "^2.0",
         "cakedc/users": "^3.2",
-        "google/recaptcha": "@stable",
-        "gourmet/whoops": "~1.0"
+        "google/recaptcha": "@stable"
     },
     "require-dev": {
         "psy/psysh": "@stable",
