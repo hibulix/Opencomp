@@ -6,7 +6,7 @@ use Cake\ORM\Entity;
 /**
  * EvaluationsItem Entity.
  */
-class EvaluationsItem extends Entity
+class EvaluationsCompetence extends Entity
 {
 
     /**
@@ -16,9 +16,9 @@ class EvaluationsItem extends Entity
      */
     protected $_accessible = [
         'evaluation_id' => true,
-        'item_id' => true,
+        'competence_id' => true,
         'position' => true,
         'evaluation' => true,
-        'item' => true,
+        'competence' => true,
     ];
 }

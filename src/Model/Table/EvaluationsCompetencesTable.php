@@ -7,9 +7,9 @@ use Cake\Validation\Validator;
 use Cake\Database\Expression\QueryExpression;
 
 /**
- * EvaluationsItems Model
+ * EvaluationsCompetences Model
  */
-class EvaluationsItemsTable extends Table
+class EvaluationsCompetencesTable extends Table
 {
 
     /**
@@ -20,15 +20,15 @@ class EvaluationsItemsTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->table('evaluations_items');
+        $this->table('evaluations_competences');
         $this->displayField('id');
         $this->primaryKey('id');
         $this->belongsTo('Evaluations', [
             'foreignKey' => 'evaluation_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('Items', [
-            'foreignKey' => 'item_id',
+        $this->belongsTo('Competences', [
+            'foreignKey' => 'competence_id',
             'joinType' => 'INNER'
         ]);
     }
@@ -61,15 +61,15 @@ class EvaluationsItemsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['evaluation_id'], 'Evaluations'));
-        $rules->add($rules->existsIn(['item_id'], 'Items'));
+        $rules->add($rules->existsIn(['competence_id'], 'Items'));
         return $rules;
     }
 
     public function isItemAlreadyAttachedToEvaluation($evaluation_id, $item_id){
         return $this->find('all', array(
             'conditions' => array(
-                'EvaluationsItems.evaluation_id' => $evaluation_id,
-                'EvaluationsItems.item_id' => $item_id
+                'EvaluationsCompetences.evaluation_id' => $evaluation_id,
+                'EvaluationsCompetences.competence_id' => $item_id
             )
         ))->first();
     }
@@ -83,9 +83,9 @@ class EvaluationsItemsTable extends Table
      */
     public function renumberItemsEvaluation($evaluation_id, $position){
         return $this->updateAll(
-            array(new QueryExpression('evaluations_items.position = evaluations_items.position - 1')),
-            array('evaluations_items.evaluation_id' => $evaluation_id,
-                'evaluations_items.position >' => $position)
+            array(new QueryExpression('evaluations_competences.position = evaluations_competences.position - 1')),
+            array('evaluations_competences.evaluation_id' => $evaluation_id,
+                'evaluations_competences.position >' => $position)
         );
     }
 }
