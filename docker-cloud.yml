@@ -1,4 +1,4 @@
-# Host node is tested with Ubuntu Trusty 14.4 LTS
+# Host node is tested with Debian Jessie 8
 #
 # To BYON (Bring Your Own Node) you need to install
 # git and Docker Cloud Agent
@@ -22,6 +22,14 @@ java-servlets:
     - '8080:8080'
   volumes:
     - '/root/Opencomp/java_servlets:/usr/local/tomcat/webapps'
+load-balancer:
+  image: 'jwilder/nginx-proxy:latest'
+  ports:
+    - '80:80'
+  volumes:
+    - '/var/run/docker.sock:/tmp/docker.sock:ro'
+memcached:
+  image: 'memcached:alpine'
 message-queue:
   image: 'schickling/beanstalkd:latest'
   expose:
@@ -37,11 +45,15 @@ pdf-worker:
     - '/root/Opencomp:/var/www/html'
 web:
   image: 'opencomp/web:latest'
+  environment:
+    - VIRTUAL_HOST=84858fd8-22f3-4f9c-b421-b621e1ad856b.pub.cloud.scaleway.com
+  expose:
+    - '80'
   links:
     - db
+    - memcached
     - message-queue
-  ports:
-    - '80:80'
+  target_num_containers: 4
   volumes:
     - '/root/Opencomp:/var/www/html'
 
