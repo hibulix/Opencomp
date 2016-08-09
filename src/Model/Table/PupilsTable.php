@@ -7,6 +7,8 @@ use Cake\Validation\Validator;
 
 /**
  * Pupils Model
+ * @property ClassroomsPupilsTable $ClassroomsPupils
+ * @property ClassroomsTable $Classrooms
  */
 class PupilsTable extends Table
 {
@@ -85,5 +87,14 @@ class PupilsTable extends Table
     {
         $rules->add($rules->existsIn(['tutor_id'], 'Tutors'));
         return $rules;
+    }
+
+    public function isUploadedFile($params) {
+        if ((isset($params['error']) && $params['error'] == 0) ||
+            (!empty( $params['tmp_name']) && $params['tmp_name'] != 'none')
+        ) {
+            return is_uploaded_file($params['tmp_name']);
+        }
+        return false;
     }
 }

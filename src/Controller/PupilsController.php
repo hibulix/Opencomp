@@ -1,12 +1,19 @@
 <?php
 namespace app\Controller;
 
-use App\Controller\AppController;
+use /** @noinspection PhpUnusedAliasInspection */
+    App\Controller\AppController;
+use App\Controller\Component\EncodingComponent;
+use App\Controller\Component\FileUploadComponent;
+use App\Model\Table\PupilsTable;
+use Cake\Core\Exception\Exception;
 
 /**
  * Pupils Controller
  *
- * @property Pupil $Pupil
+ * @property PupilsTable $Pupils
+ * @property EncodingComponent $Encoding
+ * @property FileUploadComponent $FileUpload
  */
 class PupilsController extends AppController {
 
@@ -44,97 +51,86 @@ class PupilsController extends AppController {
     /**
      * import method
      *
-     * @return void
+     * @param $classroom_id
      */
-    public function import() {
-        $this->set('title_for_layout', 'Importer un export BE1D');
-
-        $classroom = $this->Pupils->Classrooms->get($this->request->query['classroom_id']);
-
-        if($this->request->data && $this->isUploadedFile($this->request->data['exportBe1d'])){
-            $err = $this->FileUpload->checkError($this->request->data['exportBe1d'], 'text/csv');
-
+    public function import($classroom_id) {
+        if($this->request->data && $this->Pupils->isUploadedFile($this->request->data['Pupil']['exportBe1d'])){
+            $err = $this->FileUpload->checkError($this->request->data['Pupil']['exportBe1d'], 'text/csv');
             if($err){
-                $this->Flash->error('er');
+                $this->Session->setFlash(__($err),'flash_error');
             }else{
-                move_uploaded_file($this->request->data['exportBe1d']['tmp_name'],APP.'files/import_be1d_'.$classroom->id.'.csv');
-                $this->redirect(array('controller' => 'pupils', 'action' => 'parseimport', 'classroom_id' => $classroom->id));
+                move_uploaded_file($this->request->data['Pupil']['exportBe1d']['tmp_name'],APP.'files/import_be1d_'.$classroom_id.'.csv');
+                $this->redirect(array('controller' => 'pupils', 'action' => 'parseimport', $classroom_id));
             }
         }
-
-        $this->set(compact('classroom'));
     }
-
-    private function isUploadedFile($params) {
-        if ((isset($params['error']) && $params['error'] == 0) ||
-            (!empty( $params['tmp_name']) && $params['tmp_name'] != 'none')
-        ) {
-            return is_uploaded_file($params['tmp_name']);
-        }
-        return false;
-    }
-
     public function parseimport(){
-        $this->set('title_for_layout', 'Aperçu avant import BE1D');
-
-        $classroom = $this->Pupils->Classrooms->get($this->request->query['classroom_id']);
-        $this->set(compact('classroom'));
-
-        if(file_exists(APP.'files/import_be1d_'.$classroom->id.'.csv')){
-            $csv_file = file(APP.'files/import_be1d_'.$classroom->id.'.csv');
-            array_shift($csv_file);
-            foreach($csv_file as $line)
-                $csv_array[] = str_getcsv($line,';','"');
-
-            $this->set('preview', $this->Encoding->convertArrayToUtf8($csv_array));
-        }else{
-            $this->Flash->error('Le fichier n\'a pas été correctement importé.');
-            $this->redirect(array('controller' => 'pupils', 'action' => 'import', 'classroom_id' => $classroom->id));
-        }
-
-        if(isset($this->request->query['step']) && $this->request->query['step'] == 'go')
-            $this->runImport($this->Encoding->convertArrayToUtf8($csv_array));
+        $import = $this->parsecsv();
+        $this->set('preview',$import);
     }
-    
-    private function runImport($import){
-        $classroom_id = $this->request->query['classroom_id'];
 
-        $niveaux = $this->Pupils->ClassroomsPupils->Levels->find('all');
+    public function previewimport(){
+        $import = $this->parsecsv(true);
+        $this->set('preview', $import);
+        $this->set('column', $this->request->data);
+    }
+
+    public function runimport($classroom_id){
+        $import = $this->parsecsv(true);
+        $niveaux = $this->Pupils->ClassroomsPupils->Levels->find('all', array('recursive' => -1));
         foreach($niveaux as $niveau){
             $levels[$niveau->title] = $niveau->id;
         }
-
+        $datas = array();
         foreach($import as $line){
-            $pupil = $this->Pupils->newEntity();
-            $pupil->name = $line[0];
-            $pupil->first_name = $line[1];
-            $pupil->sex = $line[13];
-            $pupil->birthday = substr($line[9],6,4).'-'.substr($line[9],3,2).'-'.substr($line[9],0,2);
+            $date=date_create_from_format('d/m/Y',$line[$this->request->data['birthday']]);
+            $date_format= date_format($date,"Y-m-d");
+            $data = array(
+                'name' => $line[$this->request->data['name']],
+                'first_name' => $line[$this->request->data['first_name']],
+                'sex' => substr($line[$this->request->data['sex']],0,1),
+                'birthday' => $date_format,
+                'classrooms' => [
+                    [
+                        'id' => $classroom_id,
+                        '_joinData' => [
+                            'level_id' => $levels[$line[$this->request->data['level']]]
+                        ]
+                    ]
+                ]
+            );
 
-            $class = $this->Pupils->ClassroomsPupils->newEntity();
-            $class->classroom_id = $classroom_id;
-            $class->level_id = $levels[$line[2]];
+            array_push($datas,$data);
+        }
+        $pupils = $this->Pupils->newEntities($datas);
+        //debug($pupils->errors());
+        $pupils_table = $this->Pupils;
 
-            $pupil->classrooms_pupils = [$class];
-
-            $pupilEntities[] = $pupil;
+        try{
+            $this->Pupils->connection()->transactional(function () use ($pupils_table, $pupils) {
+                foreach ($pupils as $entity) {
+                    $pupils_table->save($entity, ['atomic' => false]);
+                }
+            });
+        }catch(Exception $e){
+            debug($e->getMessage());
         }
 
-        $pupilsTable = $this->Pupils;
-        $pupilsOk = $pupilsTable->connection()->transactional(function () use ($pupilsTable, $pupilEntities) {
-            foreach ($pupilEntities as $entity) {
-                $pupilsTable->save($entity, ['atomic' => false]);
+    }
+    private function parsecsv($remove_first_line = false){
+        $classroom_id = $this->request->params['pass'][0];
+        if(file_exists(APP.'files/import_be1d_'.$classroom_id.'.csv')){
+            $csv_file = file(APP.'files/import_be1d_'.$classroom_id.'.csv');
+            if($remove_first_line){
+                array_shift($csv_file);
             }
-        });
-
-        if($pupilsOk !== false){
-            $this->Flash->success('Les élèves ont été correctement importés.');
-            unlink(APP.'files/import_be1d_'.$classroom_id.'.csv');
-            $this->redirect(array('controller' => 'classrooms', 'action' => 'view', $classroom_id));
+            foreach($csv_file as $line)
+                $csv_array[] = str_getcsv($line,';','"');
+            $this->set('classroom_id',$classroom_id);
+            return $this->Encoding->convertArrayToUtf8($csv_array);
         }else{
-            unlink(APP.'files/import_be1d_'.$classroom_id.'.csv');
-            $this->Flash->error('Une erreur est survenue lors de l\'import');
-            $this->redirect(array('controller' => 'pupils', 'action' => 'parseimport', 'classroom_id' => $classroom_id));
+            $this->Flash->set(__('Le fichier n\'a pas été correctement importé.'), ['element'=>'error']);
+            $this->redirect(array('controller' => 'pupils', 'action' => 'import', $classroom_id));
         }
     }
 }
