@@ -6,6 +6,11 @@ use Cake\Controller\Component;
 
 class FileUploadComponent extends Component
 {
+    /**
+     * @param array $file Array containing upload errors
+     * @param string $mimeType Mimetype of file
+     * @return bool|string
+     */
     public function checkError($file, $mimeType)
     {
         switch ($file['error']) {
@@ -26,7 +31,7 @@ class FileUploadComponent extends Component
         }
 
         if ($mimeType !== $file['type']) {
-            $err = 'Le fichier envoyé n\'est pas un fichier '.$mimeType.' !';
+            $err = 'Le fichier envoyé n\'est pas un fichier ' . $mimeType . ' !';
         }
 
         if (($mimeType !== $file['type']) || $file['error'] !== 0) {

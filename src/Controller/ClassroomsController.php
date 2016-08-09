@@ -1,13 +1,12 @@
 <?php
 namespace app\Controller;
 
-//noinspection PhpUnusedClassInspection
-use /** @noinspection PhpUnusedAliasInspection */
-    App\Controller\AppController;
+use App\Controller\AppController;
 use Cake\Core\Configure;
 use Cake\Core\Configure\Engine\PhpConfig;
 use Cake\Event\Event;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Network\Response;
 use Cake\ORM\TableRegistry;
 
 use Cake\Utility\Text;
@@ -25,7 +24,10 @@ class ClassroomsController extends AppController
         ]
     ];
 
-    function initialize()
+    /**
+     * @return void
+     */
+    public function initialize()
     {
         parent::initialize();
         $this->loadComponent('Search.Prg', [
@@ -33,17 +35,27 @@ class ClassroomsController extends AppController
         ]);
     }
 
-    function beforeFilter(Event $event)
+    /**
+     *
+     * @param Event $event Cake event
+     * @return void
+     */
+    public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
         $this->Auth->allow('getJson');
     }
 
-    function opendocumentdatabase($id)
+    /**
+     *
+     * @param int $id Classroom id
+     * @return Response
+     */
+    public function opendocumentdatabase($id)
     {
         $classroom = $this->Classrooms->get($id, ['contain' => ['Establishments.Towns.Academies']]);
         $user = $this->Classrooms->Users->get($this->Auth->user('id'));
-        $url = 'http://java_servlets:8080/ODBGenerator/generateODB?apikey='.$user->api_token.'&classroom_id='.$id;
+        $url = 'http://java_servlets:8080/ODBGenerator/generateODB?apikey=' . $user->api_token . '&classroom_id=' . $id;
 
         // Création d'un gestionnaire curl
         $ch = curl_init($url);
@@ -55,33 +67,34 @@ class ClassroomsController extends AppController
 
         // Vérification si une erreur est survenue
         if (curl_errno($ch)) {
-            $this->Flash->error('Le serveur passerelle de génération de base de données OpenDocument Database a retourné le code d\'erreur HTTP '.curl_getinfo($ch, CURLINFO_HTTP_CODE));
+            $this->Flash->error('Le serveur passerelle de génération de base de données OpenDocument Database a retourné le code d\'erreur HTTP ' . curl_getinfo($ch, CURLINFO_HTTP_CODE));
             curl_close($ch);
-            
+
 
             return $this->redirect([
-                'controller'    => 'classrooms',
-                'action'        => 'view', $id]);
+                'controller' => 'classrooms',
+                'action' => 'view', $id
+            ]);
         } else {
             // Fermeture du gestionnaire
             curl_close($ch);
 
-            $filename = Text::slug($classroom->establishment->town->academy->name." ".$classroom->establishment->town->name." ".$classroom->establishment->id." ".$classroom->title);
+            $filename = Text::slug($classroom->establishment->town->academy->name . " " . $classroom->establishment->town->name . " " . $classroom->establishment->id . " " . $classroom->title);
             $this->response->body($res);
-            $this->response->download(strtolower($filename).'.odb');
+            $this->response->download(strtolower($filename) . '.odb');
             //Retourne un objet réponse pour éviter que le controller n'essaie de
             // rendre la vue
             return $this->response;
         }
     }
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+    /**
+     * view method
+     *
+     * @throws NotFoundException
+     * @param string $id Classroom_id
+     * @return void
+     */
     public function view($id = null)
     {
         $this->set('title_for_layout', __('Visualiser une classe'));
@@ -110,6 +123,11 @@ class ClassroomsController extends AppController
         $this->set('_serialize', 'classroom');
     }
 
+    /**
+     *
+     * @param int $id Classroom id
+     * @return void
+     */
     public function viewtests($id = null)
     {
         $this->set('title_for_layout', __('Visualiser une classe'));
@@ -122,16 +140,16 @@ class ClassroomsController extends AppController
             ->contain(['Users' =>
                 function ($q) {
                     return $q
-                    ->select(['id', 'first_name', 'last_name']);
+                        ->select(['id', 'first_name', 'last_name']);
                 }, 'Results' => function ($q) {
                     return $q
-                    ->select(['id', 'evaluation_id']);
+                        ->select(['id', 'evaluation_id']);
                 }, 'Pupils' => function ($q) {
                     return $q
-                    ->select(['id']);
+                        ->select(['id']);
                 }, 'Competences' => function ($q) {
                     return $q
-                    ->select(['id']);
+                        ->select(['id']);
                 }])
             ->orderDesc('id');
 
@@ -160,7 +178,12 @@ class ClassroomsController extends AppController
         $this->set(compact('classroom', 'evaluations', 'periods'));
         $this->set('_serialize', 'evaluations');
     }
-    
+
+    /**
+     *
+     * @param int $id Classroom id
+     * @return void
+     */
     public function viewunrateditems($id = null)
     {
         $this->set('title_for_layout', __('Visualiser une classe'));
@@ -175,14 +198,19 @@ class ClassroomsController extends AppController
 
         $this->set(compact('classroom', 'evaluations'));
     }
-    
+
+    /**
+     *
+     * @param int $id Classroom id
+     * @return void
+     */
     public function viewreports($id = null)
     {
         $this->set('title_for_layout', __('Bulletins d\'une classe'));
 
         $classroom = $this->Classrooms->get($id, ['contain' => ['Users', 'Establishments', 'Years', 'Reports']]);
         $this->set('classroom', $classroom);
-        
+
         $periods = $this->Classrooms->Evaluations->Periods->find('list', [
             'conditions' => ['establishment_id' => $classroom->establishment_id]])->toArray();
         $this->set('periods', $periods);
@@ -191,7 +219,8 @@ class ClassroomsController extends AppController
     /**
      * add method
      *
-     * @param $id
+     * @param int $id Classroom id
+     * @return void
      */
     public function add($id)
     {
@@ -213,8 +242,8 @@ class ClassroomsController extends AppController
             if ($this->Classrooms->save($classroom)) {
                 $this->Flash->success('La nouvelle classe a été correctement ajoutée.');
                 $this->redirect([
-                    'controller'    => 'establishments',
-                    'action'        => 'view', $classroom->establishment_id]);
+                    'controller' => 'establishments',
+                    'action' => 'view', $classroom->establishment_id]);
             } else {
                 $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
             }
@@ -229,7 +258,7 @@ class ClassroomsController extends AppController
      * edit method
      *
      * @throws NotFoundException
-     * @param string $id
+     * @param int $id classroom id
      * @return void
      */
     public function edit($id = null)
@@ -244,8 +273,8 @@ class ClassroomsController extends AppController
             if ($this->Classrooms->save($classroom)) {
                 $this->Flash->success('La classe a été correctement modifiée.');
                 $this->redirect([
-                    'controller'    => 'classrooms',
-                    'action'        => 'view', $classroom->establishment_id]);
+                    'controller' => 'classrooms',
+                    'action' => 'view', $classroom->establishment_id]);
             } else {
                 $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
             }

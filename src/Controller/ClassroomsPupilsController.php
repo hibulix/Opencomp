@@ -2,13 +2,12 @@
 
 namespace app\Controller;
 
-use /** @noinspection PhpUnusedAliasInspection */
-    App\Controller\AppController;
+use App\Controller\AppController;
 use App\Model\Table\ClassroomsPupilsTable;
+use Cake\I18n\Time;
 use Fusonic\SpreadsheetExport\ColumnTypes\TextColumn;
 use Fusonic\SpreadsheetExport\Spreadsheet;
 use Fusonic\SpreadsheetExport\Writers\OdsWriter;
-use Cake\I18n\Time;
 
 /**
  * ClassroomsPupils Controller
@@ -20,7 +19,7 @@ class ClassroomsPupilsController extends AppController
 
 
     /**
-     * @param null $id
+     * @param null $id classroom_pupil id
      * @return void
      */
     public function edit($id = null)
@@ -50,7 +49,6 @@ class ClassroomsPupilsController extends AppController
      */
     public function opendocumentExport()
     {
-
         $classroom = $this->ClassroomsPupils->Classrooms->get($this->request->query['classroom_id']);
         
         //Récupération des élève de la classe courante
@@ -69,7 +67,7 @@ class ClassroomsPupilsController extends AppController
         //Ajout des élèves au fichier Excel
         foreach ($pupils as $pupil) {
             $export->AddRow([
-                '*00'.$pupil->pupil->id.'*',
+                '*00' . $pupil->pupil->id . '*',
                 $pupil->pupil->name,
                 $pupil->pupil->first_name,
                 Time::parse($pupil->pupil->birthday)->i18nFormat('dd/MM/YYYY')
@@ -87,7 +85,7 @@ class ClassroomsPupilsController extends AppController
         //Envoi du fichier Excel à l'utilisateur
         $writer = new OdsWriter();
         $writer->includeColumnHeaders = true;
-        $savePath = APP . "/files/pupils_ods/pupils_".$this->request->query['classroom_id'].".ods";
+        $savePath = APP . "/files/pupils_ods/pupils_" . $this->request->query['classroom_id'] . ".ods";
         $export->Save($writer, $savePath);
 
         $this->response->file(
@@ -98,6 +96,10 @@ class ClassroomsPupilsController extends AppController
         return $this->response;
     }
 
+    /**
+     * @param null $id classroom_pupil id
+     * @return \Cake\Network\Response|null
+     */
     public function unlink($id = null)
     {
         $classroomPupil = $this->ClassroomsPupils->get($id);

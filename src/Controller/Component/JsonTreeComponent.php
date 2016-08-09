@@ -8,6 +8,9 @@ use Cake\ORM\TableRegistry;
 class JsonTreeComponent extends Component
 {
 
+    /**
+     * @return string
+     */
     public function allCompetencesToJson()
     {
         $this->Competences = TableRegistry::get('Competences');
@@ -16,6 +19,9 @@ class JsonTreeComponent extends Component
         return json_encode($competences);
     }
 
+    /**
+     * @return string
+     */
     public function allItemsToJson()
     {
         $this->Competences = TableRegistry::get('Competences');
@@ -28,6 +34,11 @@ class JsonTreeComponent extends Component
         return json_encode($competencesItems);
     }
 
+    /**
+     * @param array $competenceIds An array containing competenceIds
+     * @param array $itemsId An array containing itemsIds
+     * @return string
+     */
     public function allUsedItemsToJson($competenceIds, $itemsId)
     {
         $this->Competences = TableRegistry::get('Competences');
@@ -40,6 +51,9 @@ class JsonTreeComponent extends Component
         return json_encode($competencesItems);
     }
 
+    /**
+     * @return string
+     */
     public function allLpcnodesToJson()
     {
         $this->Lpcnodes = TableRegistry::get('Lpcnodes');

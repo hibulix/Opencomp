@@ -51,9 +51,11 @@ class AppController extends Controller
         'Utils'
     ];
 
+    /**
+     * @return void
+     */
     public function initialize()
     {
-
         $this->loadComponent('Flash');
         $this->loadComponent('RequestHandler');
         $this->loadComponent('CakeDC/Users.UsersAuth');
@@ -71,6 +73,10 @@ class AppController extends Controller
         Time::setDefaultLocale('fr-FR');
     }
 
+    /**
+     * @param Event $event Cake event
+     * @return void
+     */
     public function beforeFilter(Event $event)
     {
         $this->set('title_for_layout', 'Opencomp');

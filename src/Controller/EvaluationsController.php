@@ -1,13 +1,12 @@
 <?php
 namespace app\Controller;
 
-//
-use /** @noinspection PhpUnusedAliasInspection */
-    App\Controller\AppController;
+use App\Controller\AppController;
 use App\Model\Table\EvaluationsTable;
+use Cake\Network\Exception\MethodNotAllowedException;
+use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
-use Cake\Network\Exception\MethodNotAllowedException;
 
 /**
  * Evaluations Controller
@@ -17,9 +16,12 @@ use Cake\Network\Exception\MethodNotAllowedException;
 class EvaluationsController extends AppController
 {
 
+    /**
+     * @param null $id classroom_id
+     * @return void
+     */
     public function pupils($id = null)
     {
-
         $evaluation = $this->Evaluations->get($id, [
             'contain' => [
                 'Users', 'Periods', 'Classrooms'
@@ -35,7 +37,7 @@ class EvaluationsController extends AppController
      * view method
      *
      * @throws NotFoundException
-     * @param string $id
+     * @param string $id evaluation_id
      * @return void
      */
     public function competences($id = null)
@@ -55,13 +57,20 @@ class EvaluationsController extends AppController
         $this->set(compact('evaluation'));
     }
 
+    /**
+     * @param null $id evaluation_id
+     * @return void
+     */
     public function attachcompetence($id = null)
     {
     }
 
+    /**
+     * @param null $id evaluation_id
+     * @return void
+     */
     public function results($id = null)
     {
-
         $evaluation = $this->Evaluations->get($id, [
             'contain' => [
                 'Classrooms'
@@ -71,9 +80,13 @@ class EvaluationsController extends AppController
         $levelsPupils = $this->Evaluations->findPupilsByLevels($evaluation->id);
         $competences = $this->Evaluations->findCompetencesByPosition($evaluation->id);
 
-        $this->set(compact('evaluation', 'levels_pupils', 'competences'));
+        $this->set(compact('evaluation', 'levelsPupils', 'competences'));
     }
 
+    /**
+     * @param null $id evaluation_id
+     * @return void
+     */
     public function insights($id = null)
     {
         $evaluation = $this->Evaluations->get($id, [
@@ -84,13 +97,14 @@ class EvaluationsController extends AppController
         ]);
         $this->set('title_for_layout', $evaluation->title);
         $levelsPupils = $this->Evaluations->findPupilsByLevels($id);
-        $this->set(compact('evaluation', 'levels_pupils'));
+        $this->set(compact('evaluation', 'levelsPupils'));
     }
 
     /**
      * add method
      *
-     * @param null $id
+     * @param null $id classroom_id
+     * @return void
      */
     public function add($id = null)
     {
@@ -145,7 +159,7 @@ class EvaluationsController extends AppController
      * edit method
      *
      * @throws NotFoundException
-     * @param string $id
+     * @param string $id evaluation_id
      * @return void
      */
     public function edit($id = null)
@@ -185,14 +199,14 @@ class EvaluationsController extends AppController
         $this->set(compact('evaluation', 'users', 'periods', 'pupils', 'current_period'));
     }
 
-/**
- * delete method
- *
- * @throws MethodNotAllowedException
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+    /**
+     * delete method
+     *
+     * @throws MethodNotAllowedException
+     * @throws NotFoundException
+     * @param string $id evaluation_id
+     * @return void
+     */
     public function delete($id = null)
     {
         if (!$this->request->is('post')) {
@@ -203,13 +217,13 @@ class EvaluationsController extends AppController
         if ($this->Evaluation->delete()) {
             $this->Flash->success('L\'évaluation a été correctement supprimée');
             $this->redirect([
-                'controller'    => 'classrooms',
-                'action'        => 'viewtests',
+                'controller' => 'classrooms',
+                'action' => 'viewtests',
                 $classroomId['Evaluation']['classroom_id']]);
         }
         $this->Flash->error('L\'évaluation n\'a pas pu être supprimée en raison d\'une erreur interne');
         $this->redirect([
-            'controller'    => 'classrooms',
-            'action'        => 'viewtests']);
+            'controller' => 'classrooms',
+            'action' => 'viewtests']);
     }
 }

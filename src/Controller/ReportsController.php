@@ -2,10 +2,10 @@
 
 namespace app\Controller;
 
-use /** @noinspection PhpUnusedAliasInspection */
-    App\Controller\AppController;
+use App\Controller\AppController;
 use App\Model\Table\ReportsTable;
 use Cake\Core\Configure;
+use Cake\Network\Exception\MethodNotAllowedException;
 use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Text;
@@ -50,9 +50,12 @@ class ReportsController extends AppController
         $this->getReportAssociatedInfos($classroom->id);
     }
 
+    /**
+     * @param null $id report_id
+     * @return void
+     */
     public function requestGeneration($id = null)
     {
-
         $report = $this->Reports->get($id);
 
         if ($report->beanstalkd_finished !== 1) {
@@ -109,6 +112,10 @@ class ReportsController extends AppController
         $this->redirect(['controller' => 'reports', 'action' => 'generationProgress', $report['Report']['id']]);
     }
 
+    /**
+     * @param null $id report_id
+     * @return void
+     */
     public function generationProgress($id = null)
     {
         $report = $this->Reports->get($id);
@@ -118,8 +125,8 @@ class ReportsController extends AppController
     }
 
     /**
-     * @param null $id
-     * @return array
+     * @param null $id report_id
+     * @return mixed
      */
     public function generationProgressWidget($id = null)
     {
@@ -164,13 +171,13 @@ class ReportsController extends AppController
         $this->set('pupilsStates', $pupilsStatus);
     }
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+    /**
+     * edit method
+     *
+     * @throws NotFoundException
+     * @param string $id report_id
+     * @return void
+     */
     public function edit($id = null)
     {
         $this->set('title_for_layout', __('Modifier un bulletin'));
@@ -201,10 +208,10 @@ class ReportsController extends AppController
     /**
      * method to initialize data related to reports (for combobox for example)
      *
-     * @param string $classroomId
+     * @param string $classroomId id of classroom related
      * @return void
      */
-    private function getReportAssociatedInfos($classroomId)
+    public function getReportAssociatedInfos($classroomId)
     {
         $this->Competences = TableRegistry::get('Competences');
         $competences = $this->Competences->find('treeList');
@@ -222,16 +229,19 @@ class ReportsController extends AppController
         $this->set(compact('classrooms', 'users', 'periods', 'pupils', 'competences'));
     }
 
+    /**
+     * @param int $id report id
+     * @return \Cake\Network\Response|null
+     */
     public function download($id)
     {
-
         $report = $this->Reports->get($id);
 
         $this->response->file(
-            APP . "files" . DS . "reports" . DS . $id.".pdf",
+            APP . "files" . DS . "reports" . DS . $id . ".pdf",
             [
                 'download' => true,
-                'name' => Text::slug($report->title).".pdf"
+                'name' => Text::slug($report->title) . ".pdf"
             ]
         );
 
@@ -243,7 +253,7 @@ class ReportsController extends AppController
      *
      * @throws MethodNotAllowedException
      * @throws NotFoundException
-     * @param string $id
+     * @param int $id report_id
      * @return void
      */
     public function delete($id = null)
@@ -258,8 +268,8 @@ class ReportsController extends AppController
         }
 
         $this->redirect([
-            'controller'    => 'classrooms',
-            'action'        => 'viewreports',
+            'controller' => 'classrooms',
+            'action' => 'viewreports',
             $classroomId]);
     }
 }

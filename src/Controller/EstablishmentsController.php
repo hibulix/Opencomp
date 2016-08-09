@@ -1,13 +1,11 @@
 <?php
 namespace app\Controller;
 
-use /** @noinspection PhpUnusedAliasInspection */
-    App\Controller\AppController;
+use App\Controller\AppController;
 use App\Controller\Component\LoadCSVComponent;
 use Cake\Database\Connection;
 use Cake\Datasource\ConnectionManager;
 use Cake\Network\Exception\NotFoundException;
-use Cake\Network\Response;
 use Cake\ORM\TableRegistry;
 
 /**
@@ -45,6 +43,9 @@ class EstablishmentsController extends AppController
         'sortWhitelist' => ['Towns.name', 'Academies.name', 'name', 'id', 'sector']
     ];
 
+    /**
+     * @return void
+     */
     public function initialize()
     {
         parent::initialize();
@@ -58,6 +59,9 @@ class EstablishmentsController extends AppController
         ]);
     }
 
+    /**
+     * @return void
+     */
     public function index()
     {
         $query = $this->Establishments
@@ -73,17 +77,17 @@ class EstablishmentsController extends AppController
     }
 
     /**
-     * @return Response
+     * @return void
      */
     public function downloadWebEstablishments()
     {
         $src = 'https://www.data.gouv.fr/s/resources/adresse-et-geolocalisation-des-etablissements-denseignement-du-premier-et-second-degres/20160526-143453/DEPP-etab-1D2D.csv';
-        $dest = TMP.'mysql-files/DEPP-etab-1D2D.csv';
+        $dest = TMP . 'mysql-files/DEPP-etab-1D2D.csv';
         $this->LoadCSV->downloadCSV($src, $dest);
     }
 
     /**
-     * @return Response
+     * @return void
      */
     public function populateWebEstablishments()
     {
@@ -113,24 +117,23 @@ class EstablishmentsController extends AppController
     }
 
     /**
-     * @return Response
+     * @return void
      */
     public function downloadGeoRef()
     {
         $src = 'http://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-referentiel-geographique/download/?format=csv&timezone=Europe/Berlin&use_labels_for_header=true';
-        $dest = TMP.'mysql-files/fr-esr-referentiel-geographique.csv';
+        $dest = TMP . 'mysql-files/fr-esr-referentiel-geographique.csv';
         $this->LoadCSV->downloadCSV($src, $dest);
     }
 
     /**
-     * @return Response
+     * @return void
      */
     public function populateWebGeoRef()
     {
         $this->LoadCSV->populateCSV('/var/lib/mysql-files/fr-esr-referentiel-geographique.csv', 'web_geo_ref', 0, 'utf8', ';', 1);
 
-
-        /** @var Connection $conn */
+        /*** @var Connection $conn */
         $conn = ConnectionManager::get('default');
         $conn->execute(
             'INSERT INTO towns (`id`,`name`,`academy_id`) 
@@ -147,17 +150,17 @@ class EstablishmentsController extends AppController
     }
 
     /**
-     * @return Response
+     * @return void
      */
     public function downloadWebMappingCPINSEE()
     {
         $src = 'http://datanova.legroupe.laposte.fr/explore/dataset/laposte_hexasmal/download/?format=csv&timezone=Europe/Berlin&use_labels_for_header=true';
-        $dest = TMP.'mysql-files/laposte_hexasmal.csv';
+        $dest = TMP . 'mysql-files/laposte_hexasmal.csv';
         $this->LoadCSV->downloadCSV($src, $dest);
     }
 
     /**
-     * @return Response
+     * @return void
      */
     public function populateWebMappingCPINSEE()
     {
@@ -165,7 +168,7 @@ class EstablishmentsController extends AppController
     }
 
     /**
-     * @return Response
+     * @return void
      */
     public function sync()
     {
@@ -175,7 +178,7 @@ class EstablishmentsController extends AppController
      * view method
      *
      * @throws NotFoundException
-     * @param string $id
+     * @param int $id establishment id
      * @return void
      */
     public function view($id = null)
@@ -250,7 +253,7 @@ class EstablishmentsController extends AppController
      * edit method
      *
      * @throws NotFoundException
-     * @param string $id
+     * @param int $id establishment id
      * @return \Cake\Network\Response|null
      */
     public function edit($id = null)
@@ -272,21 +275,5 @@ class EstablishmentsController extends AppController
         $users = $this->Establishments->Users->find('list')->toArray();
         //$towns = $this->Establishments->Towns->find('list');
         $this->set(compact('establishment', 'towns', 'users'));
-    }
-
-    public function setDefaultPeriod($id = null)
-    {
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $establishment = $this->Establishments->get($id);
-            $establishment->current_period_id = $this->request->data('period_id');
-            if ($this->Establishments->save($establishment)) {
-                $this->Flash->success('La nouvelle période courante a bien été sauvegardée.');
-            } else {
-                $this->Flash->error('Une erreur est survenue');
-            }
-            
-
-            return $this->redirect(['action' => 'view', $establishment->id]);
-        }
     }
 }

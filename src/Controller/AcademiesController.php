@@ -32,24 +32,24 @@ use Cake\Network\Exception\NotFoundException;
 class AcademiesController extends AppController
 {
 
-/**
- * index method
- *
- * @return void
- */
+    /**
+     * index method
+     *
+     * @return void
+     */
     public function index()
     {
         $this->set('title_for_layout', __('Liste des académies'));
         $this->set('academies', $this->paginate());
     }
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+    /**
+     * view method
+     *
+     * @throws NotFoundException
+     * @param string $id Academy id
+     * @return void
+     */
     public function view($id = null)
     {
         $this->set('title_for_layout', __('Visualiser une académie'));
@@ -59,11 +59,11 @@ class AcademiesController extends AppController
         $this->set('academy', $academy);
     }
 
-/**
- * add method
- *
- * @return void
- */
+    /**
+     * add method
+     *
+     * @return void
+     */
     public function add()
     {
         $this->set('title_for_layout', __('Ajouter une académie'));
@@ -82,13 +82,13 @@ class AcademiesController extends AppController
         $this->set(compact('academy', 'users'));
     }
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return \Cake\Network\Response|void
- */
+    /**
+     * edit method
+     *
+     * @throws NotFoundException
+     * @param string $id Academy id
+     * @return \Cake\Network\Response|void
+     */
     public function edit($id = null)
     {
         $this->set('title_for_layout', __('Modifier une académie'));
@@ -108,14 +108,14 @@ class AcademiesController extends AppController
         $this->set(compact('academy', 'users'));
     }
 
-/**
- * delete method
- *
- * @throws MethodNotAllowedException
- * @throws NotFoundException
- * @param string $id
- * @return \Cake\Network\Response|null
- */
+    /**
+     * delete method
+     *
+     * @throws MethodNotAllowedException
+     * @throws NotFoundException
+     * @param string $id Academy id
+     * @return \Cake\Network\Response|null
+     */
     public function delete($id = null)
     {
         $academy = $this->Academies->get($id);
@@ -125,7 +125,7 @@ class AcademiesController extends AppController
         } else {
             $this->Flash->error('L\'académie n\'a pas pu être supprimée');
         }
-        
+
 
         return $this->redirect(['action' => 'index']);
     }

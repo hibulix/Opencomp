@@ -165,16 +165,18 @@ class ResultsController extends AppController
         } catch (Exception $e) {
             $this->response = new Response;
             $this->response->type('application/json');
-//            /$this->response->statusCode($e->get);
             $this->response->body(json_encode(['error' => true, 'message' => $e->getMessage()], JSON_PRETTY_PRINT));
             $this->response->send();
             exit();
         }
     }
 
+    /**
+     * @param null $evaluationId Corresponding evaluation_id
+     * @return void
+     */
     public function global($evaluationId = null)
     {
-
         $this->set('title_for_layout', 'Saisie souris des résultats');
 
         $evaluation = $this->Results->Evaluations->get($evaluationId);
@@ -194,27 +196,13 @@ class ResultsController extends AppController
         }
         $jsonResults = json_encode($jsonResults);
 
-        $this->set(compact('levels_pupils', 'competences', 'evaluation', 'json_results'));
+        $this->set(compact('levelsPupils', 'competences', 'evaluation', 'jsonResults'));
     }
 
-    public function selectpupil()
-    {
-        $evaluation = $this->Results->Evaluations->get($this->request->query['evaluation_id']);
-
-        if ($this->request->is('post')) {
-            $pupilId = intval($this->request->data['pupil_id']);
-            $this->Results->Pupils->get($pupilId);
-
-            $this->redirect([
-                'action' => 'add',
-                'evaluation_id' => $evaluation->id,
-                'pupil_id' => $pupilId
-            ]);
-        }
-
-        $this->set(compact('evaluation'));
-    }
-    
+    /**
+     * @param null $id Corresponding evaluation_id
+     * @return void
+     */
     public function evaluation($id = null)
     {
         $evaluation = $this->Results->Evaluations->get($id);
@@ -225,6 +213,10 @@ class ResultsController extends AppController
         $this->set('_serialize', 'results');
     }
 
+    /**
+     * @param null $id Corresponding evaluation_id
+     * @return void
+     */
     public function add($id = null)
     {
         $evaluation = $this->Results->Evaluations->get($id);
@@ -297,11 +289,11 @@ class ResultsController extends AppController
     }
 
     /**
-     * @param $result
-     * @return
+     * @param string $result result value
      * @internal param int $iteration
+     * @return array data array
      */
-    private function setGrade($result)
+    public function setGrade($result)
     {
         switch ($result['result']) {
             case 'A':
