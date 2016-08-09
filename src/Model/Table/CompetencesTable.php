@@ -97,11 +97,13 @@ class CompetencesTable extends Table
             ]
         ])->hydrate(false)->toArray();
     }
+
     /**
      * Méthode permettant de retourner l'ensemble de la hiérarchie de compétences
      * à partir des id_competence les plus profonds uniquements.
      *
      * @param array $ids_array Un tableau contentant les id_competence les plus profond dont on souhaite la hiérarchie.
+     * @param string $format
      * @return array Un tableau prêt à être JSONifié pour passer à JsTree.
      */
     public function findAllCompetencesFromCompetenceId($ids_array, $format = 'jstree'){

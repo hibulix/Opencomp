@@ -1,7 +1,8 @@
 <?php
 namespace app\Controller;
 
-use App\Controller\AppController;
+use /** @noinspection PhpUnusedAliasInspection */
+    App\Controller\AppController;
 use Cake\Core\Configure;
 use Cake\Core\Configure\Engine\PhpConfig;
 use Cake\Datasource\ConnectionManager;
@@ -61,8 +62,7 @@ class SettingsController extends AppController {
 	}
 
     public function extractMethods(){
-
-        $saved_metas = $this->Settings->getMetadatas();
+        //$saved_metas = $this->Settings->getMetadatas();
 
         $controllers_dir = new Folder('../src/Controller');
         $controllers = $controllers_dir->find('.*Controller\.php');

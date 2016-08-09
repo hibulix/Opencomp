@@ -20,7 +20,8 @@
  */
 namespace app\Controller;
 
-use App\Controller\AppController;
+use /** @noinspection PhpUnusedAliasInspection */
+    App\Controller\AppController;
 use Cake\Utility\Inflector;
 
 

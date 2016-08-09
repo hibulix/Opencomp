@@ -2,13 +2,19 @@
 
 namespace app\Controller;
 
-use App\Controller\AppController;
+use /** @noinspection PhpUnusedAliasInspection */
+    App\Controller\AppController;
+use App\Model\Table\ReportsTable;
 use Cake\Core\Configure;
+use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Inflector;
+use Cake\Utility\Text;
 use Pheanstalk\Exception;
 use Pheanstalk\Pheanstalk;
 
+/**
+ * @property ReportsTable Reports
+ */
 class ReportsController extends AppController {
 
     /**
@@ -106,6 +112,10 @@ class ReportsController extends AppController {
         $this->set('report', $report);
     }
 
+    /**
+     * @param null $id
+     * @return array
+     */
     public function generationProgressWidget($id = null){
         $this->viewBuilder()->layout('ajax');
 
@@ -211,7 +221,7 @@ class ReportsController extends AppController {
         $this->response->file(APP . "files" . DS . "reports" . DS . $id.".pdf",
             [
                 'download' => true,
-                'name' => Inflector::slug($report->title).".pdf"
+                'name' => Text::slug($report->title).".pdf"
             ]
         );
 

@@ -6,6 +6,8 @@ use Cake\Validation\Validator;
 
 /**
  * Academies Model
+ *
+ * @property UsersTable Users
  */
 class AcademiesTable extends Table
 {

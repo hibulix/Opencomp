@@ -13,10 +13,13 @@
  */
 namespace App\View;
 
+use BootstrapUI\View\Helper\HtmlHelper;
 use Cake\View\View;
 
 /**
  * App View class
+ *
+ * @property HtmlHelper $Html
  */
 class AppView extends View
 {
@@ -34,6 +37,8 @@ class AppView extends View
         $this->loadHelper('Html', ['className' => 'BootstrapUI.Html']);
         $this->loadHelper('Form', ['className' => 'BootstrapUI.Form']);
         $this->loadHelper('Paginator', ['className' => 'BootstrapUI.Paginator']);
+        $this->loadHelper('CakeDC/Users.User');
+        $this->loadHelper('CakeDC/Users.AuthLink');
 
         $this->Form->templates([
             'dateWidget' => '{{day}} {{month}} {{year}}   {{hour}} {{minute}} {{second}} {{meridian}}',

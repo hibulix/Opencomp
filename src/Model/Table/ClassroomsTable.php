@@ -3,10 +3,17 @@ namespace App\Model\Table;
 
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use /** @noinspection PhpUnusedAliasInspection */
+    Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
  * Classrooms Model
+ *
+ * @property EvaluationsTable Evaluations
+ * @property UsersTable Users
+ * @property EstablishmentsTable Establishments
+ * @property ClassroomsPupilsTable ClassroomsPupils
  */
 class ClassroomsTable extends Table
 {

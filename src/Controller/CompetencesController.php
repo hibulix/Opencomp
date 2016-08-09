@@ -1,7 +1,8 @@
 <?php
 namespace app\Controller;
 
-use App\Controller\AppController;
+use /** @noinspection PhpUnusedAliasInspection */
+    App\Controller\AppController;
 use Cake\Network\Exception\NotFoundException;
 /**
  * Competences Controller

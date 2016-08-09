@@ -1,7 +1,8 @@
 <?php
 namespace app\Controller;
 
-use App\Controller\AppController;
+use /** @noinspection PhpUnusedAliasInspection */
+    App\Controller\AppController;
 use Cake\Network\Exception\NotFoundException;
 /**
  * Lpcnodes Controller
@@ -72,7 +73,7 @@ class LpcnodesController extends AppController {
     /**
      * add method
      *
-     * @return void
+     * @param null $id
      */
 	public function add($id = null) {
 		$this->set('title_for_layout', __('Ajouter un noeud au Livret Personnel de Compétences'));

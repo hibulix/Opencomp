@@ -6,6 +6,7 @@ use Cake\Validation\Validator;
 
 /**
  * Reports Model
+ * @property ClassroomsTable Classrooms
  */
 class ReportsTable extends Table
 {

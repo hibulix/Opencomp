@@ -7,6 +7,8 @@ use Cake\Validation\Validator;
 
 /**
  * ClassroomsPupils Model
+ * @property LevelsTable Levels
+ * @property ClassroomsTable Classrooms
  */
 class ClassroomsPupilsTable extends Table
 {

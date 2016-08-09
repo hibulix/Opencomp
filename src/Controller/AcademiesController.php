@@ -1,7 +1,11 @@
 <?php
-namespace app\Controller;
+namespace App\Controller;
 
-use App\Controller\AppController;
+use App\Model\Table\AcademiesTable;
+use /** @noinspection PhpUnusedAliasInspection */
+    App\Controller\AppController;
+use Cake\Network\Exception\MethodNotAllowedException;
+use Cake\Network\Exception\NotFoundException;
 
 /**
   * AcademiesController.php
@@ -18,6 +22,7 @@ use App\Controller\AppController;
 /**
  * Contrôleur de gestion des académies
  *
+ * @property AcademiesTable Academies
  * @category Controller
  * @package  Opencomp
  * @author   Jean Traullé <jtraulle@gmail.com>
@@ -25,17 +30,6 @@ use App\Controller\AppController;
  * @link     http://www.opencomp.fr
  */
 class AcademiesController extends AppController {
-
-	public function isAuthorized($user = null) {
-		if (in_array($this->action, array('index', 'add', 'edit', 'delete'))) {
-			if($user['role'] === 'admin')
-				return true;
-			else
-				return false;
-		}else{
-			return true;
-		}
-	}
 
 /**
  * index method
@@ -65,7 +59,7 @@ class AcademiesController extends AppController {
 /**
  * add method
  *
- * @return \Cake\Network\Response|null
+ * @return void
  */
 	public function add() {
 	    $this->set('title_for_layout', __('Ajouter une académie'));
@@ -75,7 +69,7 @@ class AcademiesController extends AppController {
             $academy = $this->Academies->newEntity($this->request->data);
             if ($this->Academies->save($academy)) {
                 $this->Flash->success('La nouvelle académie a été correctement ajoutée.');
-                return $this->redirect(['action' => 'index']);
+                $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
             }
@@ -89,7 +83,7 @@ class AcademiesController extends AppController {
  *
  * @throws NotFoundException
  * @param string $id
- * @return \Cake\Network\Response|null
+ * @return \Cake\Network\Response|void
  */
 	public function edit($id = null) {
 		$this->set('title_for_layout', __('Modifier une académie'));
@@ -100,7 +94,7 @@ class AcademiesController extends AppController {
 			$academy = $this->Academies->patchEntity($academy, $this->request->data);
 			if ($this->Academies->save($academy)) {
 				$this->Flash->success('L\'académie a été correctement mise à jour');
-				return $this->redirect(['action' => 'index']);
+				$this->redirect(['action' => 'index']);
 			} else {
 				$this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
 			}

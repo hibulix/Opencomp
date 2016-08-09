@@ -1,7 +1,8 @@
 <?php
 namespace app\Controller;
 
-use App\Controller\AppController;
+use /** @noinspection PhpUnusedAliasInspection */
+    App\Controller\AppController;
 use Cake\Network\Exception\NotFoundException;
 /**
  * Items Controller
@@ -26,7 +27,7 @@ class ItemsController extends AppController {
 		if($this->Auth->user('id') != $item['Item']['user_id'] && $this->Auth->user('role') != 'admin'){
 			$this->Flash->error('Vous ne pouvez pas éditer un item dont vous n\'êtes pas propriétaire.');
 			$this->redirect(array(
-				'controller'    => 'evaluationsItems',
+				'controller'    => 'EvaluationsCompetences',
 				'action'        => 'useditems', $classroom_id));
 		}
 
@@ -35,7 +36,7 @@ class ItemsController extends AppController {
 				$this->Flash->success('L\'item a été correctement modifée');
 				if(isset($classroom_id)){
 					$this->redirect(array(
-						'controller'    => 'evaluationsItems',
+						'controller'    => 'EvaluationsCompetences',
 						'action'        => 'useditems', $classroom_id));
 				}else{
 					$this->redirect(array(
@@ -88,7 +89,7 @@ class ItemsController extends AppController {
 				$this->Flash->error('Vous ne pouvez pas éditer un item dont vous n\'êtes pas propriétaire.');
 				$this->redirect(array(
 				    'controller'    => 'evaluations',
-				    'action'        => 'attacheditems', $evaluation_id));
+				    'action'        => 'items', $evaluation_id));
 			}else{
 				$this->Item->set('title', h($this->request->data['Item']['title']));					
 				$this->Item->save(null, false);	
@@ -96,7 +97,7 @@ class ItemsController extends AppController {
 				$this->Flash->success('Le libellé de l\'item a été correctement mis à jour.');
 				$this->redirect(array(
 				    'controller'    => 'evaluations',
-				    'action'        => 'attacheditems', $evaluation_id));
+				    'action'        => 'items', $evaluation_id));
 
 			}		
 		}

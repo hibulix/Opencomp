@@ -1,7 +1,8 @@
 <?php
-namespace app\View\Helper;
+namespace App\View\Helper;
 
-use App\View\Helper\AppHelper;
+use /** @noinspection PhpUnusedAliasInspection */
+    App\View\Helper\AppHelper;
 
 class UtilsHelper extends AppHelper {
    

@@ -1,7 +1,8 @@
 <?php
-namespace app\View\Helper;
+namespace App\View\Helper;
 
-use App\View\Helper\AppHelper;
+use /** @noinspection PhpUnusedAliasInspection */
+    App\View\Helper\AppHelper;
 
 /**
  * ReportFormaterHelper.php
@@ -175,9 +176,9 @@ class ReportFormaterHelper extends AppHelper
      * Cette méthode permet de générer un fichier PDF basé sur du HTML
      *
      * @param $html string La chaîne HTML à transformer en fichier PDF
-     * @param $classroom_id int L'identifiant de la classe de l'élève dont le bulletin est généré
-     * @param $period_id int La période liée au bulletin généré
      * @param $pupil_id int L'identifiant de l'élève dont le bulletin est généré.
+     * @internal param int $classroom_id L'identifiant de la classe de l'élève dont le bulletin est généré
+     * @internal param int $period_id La période liée au bulletin généré
      */
     public function renderPdf($html, $pupil_id){
         if(!defined('DOMPDF_ENABLE_AUTOLOAD'))
