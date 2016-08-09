@@ -110,7 +110,7 @@
 				$line .= $this->Html->link('<i class="fa fa-magic"></i>Corriger',
 	    		array(
 		    		'controller' => 'evaluations',
-		    		'action' => 'manageresults',
+		    		'action' => 'results',
 		    		$evaluation->id
 	    		),
 	    		array(
@@ -135,7 +135,7 @@
 		<?php else: ?>
 		<div class="col-md-8">
 		<div class="alert alert-success">
-		  <p class="lead" style="margin-bottom:0px;"><i class="fa fa-check"></i> Toutes les vérifications automatiques ont réussi ;)</p>
+		  <p class="lead" style="margin-bottom:0;"><i class="fa fa-check"></i> Toutes les vérifications automatiques ont réussi ;)</p>
 		</div>
 		<?php endif; ?>
 	</div>

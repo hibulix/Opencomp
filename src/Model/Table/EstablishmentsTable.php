@@ -144,44 +144,54 @@ class EstablishmentsTable extends Table
         return $rules;
     }
 
-    public function getStats($idEstablishment,$currentYear){
+    public function getStats($idEstablishment, $currentYear)
+    {
         return [
-            'nbClassrooms' => $this->getNbClassrooms($idEstablishment,$currentYear),
-            'nbPeriods' => $this->getNbPeriods($idEstablishment,$currentYear),
-            'nbPupils' => $this->getNbPupils($idEstablishment,$currentYear)
+            'nbClassrooms' => $this->getNbClassrooms($idEstablishment, $currentYear),
+            'nbPeriods' => $this->getNbPeriods($idEstablishment, $currentYear),
+            'nbPupils' => $this->getNbPupils($idEstablishment, $currentYear)
         ];
     }
 
-    private function getNbClassrooms($idEstablishment, $year){
+    private function getNbClassrooms($idEstablishment, $year)
+    {
         $query = $this->Classrooms->find();
-        $total = $query->matching('Establishments', function ($q) use($idEstablishment, $year) {
+        $total = $query->matching('Establishments', function ($q) use ($idEstablishment, $year) {
             return $q->where([
                 'Establishments.id' => $idEstablishment,
                 'Classrooms.year_id' => $year->value
             ]);
         })->count();
+        
+
         return $total;
     }
 
-    private function getNbPupils($idEstablishment, $year){
+    private function getNbPupils($idEstablishment, $year)
+    {
         $query = $this->Classrooms->Pupils->find();
-        $total = $query->matching('Classrooms.Establishments', function ($q) use($idEstablishment, $year) {
+        $total = $query->matching('Classrooms.Establishments', function ($q) use ($idEstablishment, $year) {
             return $q->where([
                 'Establishments.id' => $idEstablishment,
                 'Classrooms.year_id' => $year->value
             ]);
         })->count();
+        
+
         return $total;
     }
 
-    private function getNbPeriods($idEstablishment, $year){
+    private function getNbPeriods($idEstablishment, $year)
+    {
         $query = $this->Periods->find();
-        $total = $query->matching('Establishments', function ($q) use($idEstablishment, $year) {
+        $total = $query->matching('Establishments', function ($q) use ($idEstablishment, $year) {
             return $q->where([
                 'Establishments.id' => $idEstablishment,
                 'year_id' => $year->value
             ]);
         })->count();
+        
+
         return $total;
     }
 }

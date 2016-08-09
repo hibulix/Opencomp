@@ -58,6 +58,8 @@ class EstablishmentsUsersTable extends Table
     {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['establishment_id'], 'Establishments'));
+        
+
         return $rules;
     }
 }

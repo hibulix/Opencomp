@@ -63,6 +63,8 @@ class CompetencesUsersTable extends Table
         $rules->add($rules->existsIn(['competence_id'], 'Competences'));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['classroom_id'], 'Classrooms'));
+        
+
         return $rules;
     }
 }

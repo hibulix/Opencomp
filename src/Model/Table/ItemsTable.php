@@ -69,7 +69,7 @@ class ItemsTable extends Table
             ->add('type', 'valid', ['rule' => 'numeric'])
             ->requirePresence('type', 'create')
             ->notEmpty('type')
-            ->add('levels', 'valid', ['rule' => ['multiple', ['min'=>1]]])
+            ->add('levels', 'valid', ['rule' => ['multiple', ['min' => 1]]])
             ->requirePresence('levels', 'create')
             ->notEmpty('levels');
 
@@ -90,23 +90,26 @@ class ItemsTable extends Table
         $rules->add($rules->existsIn(['classroom_id'], 'Classrooms'));
         $rules->add($rules->existsIn(['lpcnode_id'], 'Lpcnodes'));
         $rules->add($rules->existsIn(['establishment_id'], 'Establishments'));
+        
+
         return $rules;
     }
 
-    function findAllItems($item_ids = null, $user_id){
-        if(isset($item_ids))
-            $conditions['Items.id IN'] = $item_ids;
-        else{
-            $conditions['OR']['Items.user_id'] = $user_id;
-            $conditions['OR']['Items.type IN'] = ['1','2'];
+    function findAllItems($itemIds = null, $userId)
+    {
+        if (isset($itemIds)) {
+            $conditions['Items.id IN'] = $itemIds;
+        } else {
+            $conditions['OR']['Items.user_id'] = $userId;
+            $conditions['OR']['Items.type IN'] = ['1', '2'];
         }
-        $items = $this->find('all',[
+        $items = $this->find('all', [
             'conditions' => $conditions,
             'contain' => 'Levels'
         ]);
-        $tab = array();
+        $tab = [];
         $num = 0;
-        foreach($items as $item){
+        foreach ($items as $item) {
             $tab[$num]['id'] = 'item-'.$item->id;
             $tab[$num]['parent'] = $item->competence_id;
             $tab[$num]['icon'] = 'fa fa-lg fa-cube ' . $this->returnItemClassType($item);
@@ -117,26 +120,33 @@ class ItemsTable extends Table
             $tab[$num]['li_attr']['data-id'] = $item->id;
             $num++;
         }
+        
+
         return $tab;
     }
 
-    private function returnFormattedLevelsItem($item){
+    private function returnFormattedLevelsItem($item)
+    {
         $string = '';
-        foreach($item->levels as $level){
-            $string .= sprintf('<span class="label label-default">%s</span> ',$level->title);
+        foreach ($item->levels as $level) {
+            $string .= sprintf('<span class="label label-default">%s</span> ', $level->title);
         }
+        
+
         return $string;
     }
 
-    private function returnLpcLink($item){
-        if(isset($item->lpcnode_id)){
+    private function returnLpcLink($item)
+    {
+        if (isset($item->lpcnode_id)) {
             return '<span title="Cet item est jumelé avec le LPC" class="info label label-success"><i class="fa fa-link"></i></span> ';
-        }else{
+        } else {
             return '<span title="Cet item n\'est pas jumelé avec le LPC" class="info label label-danger"><i class="fa fa-unlink"></i></span> ';
         }
     }
 
-    private function returnItemClassType($item){
+    private function returnItemClassType($item)
+    {
         switch ($item->type) {
             case 1:
                 return "text-danger";

@@ -74,7 +74,6 @@ Router::scope('/', function (Cake\Routing\RouteBuilder $routes) {
      * routes you want in your application.
      */
     $routes->fallbacks('InflectedRoute');
-
 });
 
 /**
@@ -84,8 +83,8 @@ Router::scope('/', function (Cake\Routing\RouteBuilder $routes) {
 Plugin::routes();
 
 Router::scope('/', function (Cake\Routing\RouteBuilder $routes) {
-    $routes->extensions(['json','xml']);
-    $routes->connect('/users', ['plugin'=> 'CakeDC/Users', 'controller'=>'Users', 'action'=>'index']);
+    $routes->extensions(['json', 'xml']);
+    $routes->connect('/users', ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'index']);
     $routes->connect(
         '/classrooms/:id/tests',
         ['controller' => 'Classrooms', 'action' => 'viewtests'],

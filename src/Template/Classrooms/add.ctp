@@ -20,13 +20,6 @@ echo $this->Form->input('title', array(
     )
 )); 
 
-echo $this->Form->input('user_id', array(
-	'class'=>'chzn-select form-control',
-    'label' => array(
-        'text' => 'Enseignant titulaire'
-    )
-));
-
 echo $this->Form->input('users._ids', array(
 	'class'=>'chzn-select form-control',
 	'data-placeholder'=>'Int extérieurs, mis-tps, décharge ...',

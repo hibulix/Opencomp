@@ -24,8 +24,9 @@
             url: "../../reports/generationProgressWidget/<?php echo $report->id;?>" ,
             cache: false,
             success: function(html) {
-                $('#progress').html(html);
-                if($('#progress li i').hasClass('fa-clock-o')){
+                var progress = $('#progress');
+                progress.html(html);
+                if(progress.find('li i').hasClass('fa-clock-o')){
                     setTimeout(function() {
                         refresh();
                     }, interval);

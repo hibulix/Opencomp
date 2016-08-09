@@ -65,30 +65,33 @@ class ClassroomsPupilsTable extends Table
         $rules->add($rules->existsIn(['classroom_id'], 'Classrooms'));
         $rules->add($rules->existsIn(['pupil_id'], 'Pupils'));
         $rules->add($rules->existsIn(['level_id'], 'Levels'));
+        
+
         return $rules;
     }
 
-    public function returnPupilsWithLevelsForClassroom($id){
-        return $this->find('all', array(
-            'conditions' => array('ClassroomsPupils.classroom_id' => $id),
-            'fields' => array('ClassroomsPupils.id','Pupils.id','Pupils.first_name','Pupils.name','Pupils.sex','Pupils.birthday','Levels.title'),
-            'order' => array('Pupils.name','Pupils.first_name'),
-            'join' => array(
-                array('table' => 'levels',
+    public function returnPupilsWithLevelsForClassroom($id)
+    {
+        return $this->find('all', [
+            'conditions' => ['ClassroomsPupils.classroom_id' => $id],
+            'fields' => ['ClassroomsPupils.id', 'Pupils.id', 'Pupils.first_name', 'Pupils.name', 'Pupils.sex', 'Pupils.birthday', 'Levels.title'],
+            'order' => ['Pupils.name', 'Pupils.first_name'],
+            'join' => [
+                ['table' => 'levels',
                     'alias' => 'Levels',
                     'type' => 'LEFT',
-                    'conditions' => array(
+                    'conditions' => [
                         'Levels.id = ClassroomsPupils.level_id',
-                    ),
-                ),
-                array('table' => 'pupils',
+                    ],
+                ],
+                ['table' => 'pupils',
                     'alias' => 'Pupils',
                     'type' => 'LEFT',
-                    'conditions' => array(
+                    'conditions' => [
                         'Pupils.id = ClassroomsPupils.pupil_id',
-                    ),
-                )
-            )
-        ));
+                    ],
+                ]
+            ]
+        ]);
     }
 }

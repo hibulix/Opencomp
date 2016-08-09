@@ -42,7 +42,7 @@ echo $this->Form->input('password',array(
 echo $this->Form->end();
 
 $this->start('script'); ?>
-<script type="text/javascript" />
+<script type="text/javascript">
 $('.focus').focus();
 </script>
 <?php $this->end();
@@ -56,14 +56,15 @@ $('.submit').click(function(e) {
         type: "POST",
         data: $('.form-signin').serializeArray(),
         beforeSend: function() {
-            $('.submit').attr('disabled','disabled');
-            $('.submit').removeClass('btn-primary');
-            $('.submit').html('<i class="fa fa-circle-o-notch fa-spin"></i> Connexion');
+            var submit = $('.submit');
+            submit.attr('disabled','disabled');
+            submit.removeClass('btn-primary');
+            submit.html('<i class="fa fa-circle-o-notch fa-spin"></i> Connexion');
         }
     }).done(function(data) {
         if(data == 'true'){
-            $('.center').html('Insérez votre Yubikey et effleurez le disque de métal.')
-            $('.submit').hide();
+            $('.center').html('Insérez votre Yubikey et effleurez le disque de métal.');
+            submit.hide();
             $('.login').hide();
             $('.yubikey').show(1000);
             $('input[name=yubikeyOTP]').focus();

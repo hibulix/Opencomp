@@ -6,7 +6,7 @@ $(document).ready(function() {
     $('.chzn-select').chosen();
     $('.startdate').datepicker({
         weekStart: 1,
-        format: 'yyyy-mm-dd',
+        format: 'yyyy-mm-ddddd',
         language: 'fr-FR',
         autoclose: true
     });

@@ -23,7 +23,6 @@ namespace App\View\Helper;
 
 use Cake\View\Helper;
 
-
 /**
  * Application helper
  *
@@ -32,5 +31,6 @@ use Cake\View\Helper;
  *
  * @package       app.View.Helper
  */
-class AppHelper extends Helper {
+class AppHelper extends Helper
+{
 }

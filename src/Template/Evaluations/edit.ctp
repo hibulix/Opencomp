@@ -36,19 +36,6 @@ echo $this->Form->input('period_id', array(
     )
 );
 
-foreach($pupils as $class => $list){
-    $btn_nvx[$class] = '<div class="btn-group">';
-    $btn_nvx[$class] .= $this->Form->button('Tous les '.$class, array('class'=> 'selectPupils btn btn-xs btn-default', 'value'=>$class, 'escape'=>false));
-    $btn_nvx[$class] .= $this->Form->button('<i class="fa fa-ban"></i>', array('class'=> 'unselectPupils btn btn-xs btn-default', 'value'=>$class, 'escape'=>false));
-    $btn_nvx[$class] .= '</div>';
-}
-
-$btn_nvx_string = '';
-
-foreach($btn_nvx as $btn)
-    $btn_nvx_string .= $btn;
-
-
 echo $this->Form->input('pupils._ids', array(
         'class'=>'chzn-select form-control',
         'id'=>'PupilPupil',

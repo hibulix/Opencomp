@@ -1,6 +1,6 @@
 <div class="page-title">
     <h2><?php echo __('Quel est l\'élève dont vous souhaitez saisir le résultat'); ?></h2>
-    <?php echo $this->Html->link('<i class="fa fa-check"></i> '.__('J\'ai terminé la saisie'), '/evaluations/manageresults/'.$evaluation->id, array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
+    <?php echo $this->Html->link('<i class="fa fa-check"></i> '.__('J\'ai terminé la saisie'), '/evaluations/results/'.$evaluation->id, array('class' => 'ontitle btn btn-success', 'escape' => false)); ?>
 </div>
 
 <?php

@@ -57,7 +57,7 @@ $this->start('script');
                 "label" : "choisir cet item",
                 "icon" : "fa text-info fa-check",
                 "action" : function (obj){
-                    window.location.href = $('#base_url').text()+'evaluationsItems/attachunrateditem/period_id:'+$('#period_id').text()+'/item_id:'+idItem+'/classroom_id:'+$('#classroom_id').text();
+                    window.location.href = $('#base_url').text()+'EvaluationsCompetences/attachunrateditem/period_id:'+$('#period_id').text()+'/item_id:'+idItem+'/classroom_id:'+$('#classroom_id').text();
                 }
             },
             "createNew" : {
@@ -65,7 +65,7 @@ $this->start('script');
                 "separator_before" : true,
                 "icon" : "fa text-success fa-plus",
                 "action" : function (obj){
-                    window.location.href = $('#base_url').text()+'evaluationsItems/addunrateditem/period_id:'+$('#period_id').text()+'/competence_id:'+idCompetence+'/classroom_id:'+$('#classroom_id').text();
+                    window.location.href = $('#base_url').text()+'EvaluationsCompetences/addunrateditem/period_id:'+$('#period_id').text()+'/competence_id:'+idCompetence+'/classroom_id:'+$('#classroom_id').text();
                 }
             }
         };
@@ -77,7 +77,9 @@ $this->start('script');
         return items;
     }
 
-    $("#tree_attach_unrated_item").jstree({
+    var tree_attach_unrated_item = $("#tree_attach_unrated_item");
+
+    tree_attach_unrated_item.jstree({
         'state' : { 'key' : 'tree_attach_unrated_item' },
         'contextmenu' : {
             'items' : returnContextMenuUnratedItems
@@ -92,14 +94,14 @@ $this->start('script');
         }
     });
 
-    $("#tree_attach_unrated_item").on("dblclick.jstree-default", function (event) {
+    tree_attach_unrated_item.on("dblclick.jstree-default", function (event) {
         var node = $(event.target).closest("li");
         if($(node[0]).attr("data-type") == "feuille"){
             var idItem = $(node[0]).attr("data-id");
-            window.location.href = $('#base_url').text()+'evaluationsItems/attachunrateditem/period_id:'+$('#period_id').text()+'/item_id:'+idItem+'/classroom_id:'+$('#classroom_id').text();
+            window.location.href = $('#base_url').text()+'EvaluationsCompetences/attachunrateditem/period_id:'+$('#period_id').text()+'/item_id:'+idItem+'/classroom_id:'+$('#classroom_id').text();
         }else if($(node[0]).attr("data-type") == "noeud"){
             var idCompetence = $(node[0]).attr("data-id");
-            window.location.href = $('#base_url').text()+'evaluationsItems/addunrateditem/period_id:'+$('#period_id').text()+'/competence_id:'+idCompetence+'/classroom_id:'+$('#classroom_id').text();
+            window.location.href = $('#base_url').text()+'EvaluationsCompetences/addunrateditem/period_id:'+$('#period_id').text()+'/competence_id:'+idCompetence+'/classroom_id:'+$('#classroom_id').text();
         }
     });
 

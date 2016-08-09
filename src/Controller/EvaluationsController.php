@@ -1,56 +1,34 @@
 <?php
 namespace app\Controller;
 
-use App\Controller\AppController;
+//
+use /** @noinspection PhpUnusedAliasInspection */
+    App\Controller\AppController;
+use App\Model\Table\EvaluationsTable;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\MethodNotAllowedException;
+
 /**
  * Evaluations Controller
  *
- * @property Evaluations $Evaluations
+ * @property EvaluationsTable $Evaluations
  */
-class EvaluationsController extends AppController {
+class EvaluationsController extends AppController
+{
 
-    /**
-     * Fonction permettant de déterminer les droits d'accès à une évaluation
-     *
-     * @param null $user
-     * @return bool
-     */
-    public function isAuthorized($user = null) {
+    public function pupils($id = null)
+    {
 
-        if(isset($this->request->params['pass'][0])){
-            $evaluation = $this->Evaluations->get($this->request->params['pass'][0]);
-
-            //L'administrateur a toujours accès
-            if($user['role'] === 'admin'){
-                return true;
-            }else{
-                //Classe pour lesquelles l'utilisateur courant est titulaire
-                $classrooms_manager = $this->request->session()->read('Authorized')['classrooms_manager'];
-
-                //Si l'utilisateur est propriétaire de l'évaluation ou s'il est titulaire de la classe
-                //dans laquelle l'évaluation a été créé, alors on donne l'autorisation d'accès.
-                if( ($evaluation->user_id == $user['id']) ||
-                    in_array($evaluation->classroom_id,$classrooms_manager) ){
-                    return true;
-                }
-            }
-        }else{
-            //Si on a fourni le paramètre classroom_id
-            if(isset($this->request->query['classroom_id'])) {
-                if($user['role'] === 'admin'){
-                    return true;
-                }
-                $classroom_id = intval($this->request->query['classroom_id']);
-                $classrooms = array_merge($this->request->session()->read('Authorized')['classrooms'], $this->request->session()->read('Authorized')['classrooms_manager']);
-                if (in_array($classroom_id,$classrooms)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        $evaluation = $this->Evaluations->get($id, [
+            'contain' => [
+                'Users', 'Periods', 'Classrooms'
+            ],
+            'conditions' => ['unrated' => 0]
+        ]);
+        $this->set('title_for_layout', $evaluation->title);
+        $levelsPupils = $this->Evaluations->findPupilsByLevels($id);
+        $this->set(compact('evaluation', 'levels_pupils'));
     }
 
     /**
@@ -60,80 +38,108 @@ class EvaluationsController extends AppController {
      * @param string $id
      * @return void
      */
-	public function attacheditems($id = null) {
+    public function competences($id = null)
+    {
         $this->set('title_for_layout', __('Détails d\'une évaluation'));
 
-		$evaluation = $this->Evaluations->get($id, [
+        $evaluation = $this->Evaluations->get($id, [
             'contain' => [
-                'Users', 'Periods', 'Classrooms', 'Pupils',
-                'Items' => function (Query $q) {
+                'Classrooms',
+                'Competences' => function (Query $q) {
                     return $q
-                        ->order(['EvaluationsItems.position' => 'ASC']);
+                        ->order(['EvaluationsCompetences.position' => 'ASC']);
                 },
-            ]
+            ],
+            'conditions' => ['unrated' => 0]
         ]);
-		$this->set('evaluation', $evaluation);
-	}
+        $this->set(compact('evaluation'));
+    }
 
-	public function manageresults($id = null) {
+    public function attachcompetence($id = null)
+    {
+    }
 
-		$evaluation = $this->Evaluations->get($id, [
+    public function results($id = null)
+    {
+
+        $evaluation = $this->Evaluations->get($id, [
             'contain' => [
-                'Users', 'Periods', 'Classrooms', 'Items',
-                'Pupils.Results' => function (Query $q) use ($id) {
-                    return $q
-                        ->where(['evaluation_id' => $id]);
-                }
-            ]
+                'Classrooms'
+            ],
+            'conditions' => ['unrated' => 0]
         ]);
-		$result = $this->Evaluations->resultsForAnEvaluation($id);
-		$this->set('resultats', $result);
-		$this->set('evaluation', $evaluation);
-	}
+        $levelsPupils = $this->Evaluations->findPupilsByLevels($evaluation->id);
+        $competences = $this->Evaluations->findCompetencesByPosition($evaluation->id);
+
+        $this->set(compact('evaluation', 'levels_pupils', 'competences'));
+    }
+
+    public function insights($id = null)
+    {
+        $evaluation = $this->Evaluations->get($id, [
+            'contain' => [
+                'Classrooms'
+            ],
+            'conditions' => ['unrated' => 0]
+        ]);
+        $this->set('title_for_layout', $evaluation->title);
+        $levelsPupils = $this->Evaluations->findPupilsByLevels($id);
+        $this->set(compact('evaluation', 'levels_pupils'));
+    }
 
     /**
      * add method
      *
-     * @return void
+     * @param null $id
      */
-	public function add() {
+    public function add($id = null)
+    {
         $this->set('title_for_layout', __('Ajouter une évaluation'));
 
-        $classroom = $this->Evaluations->Classrooms->get($this->request->query['classroom_id'], ['contain' => 'Establishments']);
+        $classroom = $this->Evaluations->Classrooms->get($id);
         $evaluation = $this->Evaluations->newEntity();
 
-		if ($this->request->is('post')) {
+        $users = $this->Evaluations->Classrooms->Users
+            ->find('list')->matching('Classrooms', function ($q) use ($id) {
+                return $q->where(['Classrooms.id' => $id]);
+            });
+
+        $pupils = '""';
+
+        if ($this->request->is('post')) {
             $evaluation = $this->Evaluations->newEntity($this->request->data);
+
             $evaluation->classroom_id = $classroom->id;
-			if ($this->Evaluations->save($evaluation)) {
-				$this->Flash->success('La nouvelle évaluation a été correctement ajoutée.');
-				$this->redirect(array('controller' => 'evaluations','action' => 'attacheditems', $evaluation->id));
-			} else {
-				$this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
-			}
-		}
+            if ($this->Evaluations->save($evaluation)) {
+                $evaluationUserTable = TableRegistry::get('EvaluationsUsers');
+                $evaluationUser = $evaluationUserTable->newEntity([
+                    'evaluation_id' => $evaluation->id,
+                    'user_id' => $this->Auth->user('id'),
+                    'ownership' => 'OWNER'
+                ]);
+                $evaluationUserTable->save($evaluationUser);
+                $this->Flash->success('La nouvelle évaluation a été correctement ajoutée.');
+                $this->redirect(['controller' => 'evaluations', 'action' => 'items', $evaluation->id]);
+            } else {
+                $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
+                $pupils = json_encode($this->request->data['pupils']['_ids']);
+            }
+        }
 
-		$users = $this->Evaluations->Users->find('list', [
-			    'conditions' => [
-                    'id IN' => $this->Evaluations->Users->findAllUsersInClassroom($classroom->id)
-                ]
-        ]);
 
-        $current_period = $classroom->establishment->period_id;
 
         $settingsTable = TableRegistry::get('Settings');
-        $currentYear = $settingsTable->find('all', array('conditions' => array('Settings.key' => 'currentYear')))->first();
+        $currentYear = $settingsTable->find('all', ['conditions' => ['Settings.key' => 'currentYear']])->first();
 
-		$periods = $this->Evaluations->Periods->find('list', array(
-			'conditions' => array(
+        $periods = $this->Evaluations->Periods->find('list', [
+            'conditions' => [
                 'establishment_id' => $classroom->establishment_id,
                 'year_id' => $currentYear->value,
-            )
-        ));
+            ]
+        ]);
 
-		$pupils = $this->Evaluations->findPupilsByLevelsInClassroom($classroom->id);
-		$this->set(compact('evaluation', 'classroom', 'users', 'periods', 'pupils', 'current_period'));
-	}
+        $this->set(compact('evaluation', 'classroom', 'users', 'periods', 'pupils', 'current_period'));
+    }
 
     /**
      * edit method
@@ -142,17 +148,18 @@ class EvaluationsController extends AppController {
      * @param string $id
      * @return void
      */
-	public function edit($id = null) {
+    public function edit($id = null)
+    {
         $this->set('title_for_layout', __('Modifier une évaluation'));
 
-        $evaluation = $this->Evaluations->get($id, ['contain' => ['Pupils','Classrooms']]);
+        $evaluation = $this->Evaluations->get($id, ['contain' => ['Pupils', 'Classrooms']]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $evaluation = $this->Evaluations->patchEntity($evaluation, $this->request->data);
 
             if ($this->Evaluations->save($evaluation)) {
                 $this->Flash->success('L\'évaluation a été correctement modifiée.');
-                $this->redirect(array('controller' => 'evaluations','action' => 'attacheditems', $evaluation->id));
+                $this->redirect(['controller' => 'evaluations', 'action' => 'items', $evaluation->id]);
             } else {
                 $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
             }
@@ -165,18 +172,18 @@ class EvaluationsController extends AppController {
         ]);
 
         $settingsTable = TableRegistry::get('Settings');
-        $currentYear = $settingsTable->find('all', array('conditions' => array('Settings.key' => 'currentYear')))->first();
+        $currentYear = $settingsTable->find('all', ['conditions' => ['Settings.key' => 'currentYear']])->first();
 
-        $periods = $this->Evaluations->Periods->find('list', array(
-            'conditions' => array(
+        $periods = $this->Evaluations->Periods->find('list', [
+            'conditions' => [
                 'establishment_id' => $evaluation->classroom->establishment_id,
                 'year_id' => $currentYear->value,
-            )
-        ));
+            ]
+        ]);
 
         $pupils = $this->Evaluations->findPupilsByLevelsInClassroom($evaluation->classroom_id);
         $this->set(compact('evaluation', 'users', 'periods', 'pupils', 'current_period'));
-	}
+    }
 
 /**
  * delete method
@@ -186,22 +193,23 @@ class EvaluationsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
-		$this->Evaluation->id = $id;
-		$classroom_id = $this->Evaluation->read('Evaluation.classroom_id', $id);
-		if ($this->Evaluation->delete()) {
-			$this->Flash->success('L\'évaluation a été correctement supprimée');
-			$this->redirect(array(
-			    'controller'    => 'classrooms',
-			    'action'        => 'viewtests',
-			    $classroom_id['Evaluation']['classroom_id']));
-		}
-		$this->Flash->error('L\'évaluation n\'a pas pu être supprimée en raison d\'une erreur interne');
-		$this->redirect(array(
-		    'controller'    => 'classrooms',
-		    'action'        => 'viewtests'));
-	}
+    public function delete($id = null)
+    {
+        if (!$this->request->is('post')) {
+            throw new MethodNotAllowedException();
+        }
+        $this->Evaluation->id = $id;
+        $classroomId = $this->Evaluation->read('Evaluation.classroom_id', $id);
+        if ($this->Evaluation->delete()) {
+            $this->Flash->success('L\'évaluation a été correctement supprimée');
+            $this->redirect([
+                'controller'    => 'classrooms',
+                'action'        => 'viewtests',
+                $classroomId['Evaluation']['classroom_id']]);
+        }
+        $this->Flash->error('L\'évaluation n\'a pas pu être supprimée en raison d\'une erreur interne');
+        $this->redirect([
+            'controller'    => 'classrooms',
+            'action'        => 'viewtests']);
+    }
 }

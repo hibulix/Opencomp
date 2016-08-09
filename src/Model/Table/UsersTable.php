@@ -97,51 +97,58 @@ class UsersTable extends Table
     {
         $rules->add($rules->isUnique(['username']));
         $rules->add($rules->isUnique(['email']));
+        
+
         return $rules;
     }
 
-    public function findAllUsersInClassroom($classroom_id){
-		$titulaire = $this->Classrooms->find('all', [
-			'fields' => 'user_id',
-        	'conditions' => ['Classrooms.id' => $classroom_id]
+    public function findAllUsersInClassroom($classroomId)
+    {
+        $titulaire = $this->Classrooms->find('all', [
+            'fields' => 'user_id',
+            'conditions' => ['Classrooms.id' => $classroomId]
         ])->first();
 
         $ClassroomsUsers = TableRegistry::get('ClassroomsUsers');
         $intervenants = $ClassroomsUsers->find('all', [
-			'fields' => 'user_id',
-        	'conditions' => ['classroom_id' => $classroom_id]
+            'fields' => 'user_id',
+            'conditions' => ['classroom_id' => $classroomId]
         ]);
 
         $result[] = $titulaire->user_id;
 
-        foreach($intervenants as $info)
-	        $result[] = $info->user_id;
+        foreach ($intervenants as $info) {
+            $result[] = $info->user_id;
+        }
 
-        return($result);
-	}
+        return ($result);
+    }
 
-    public function findAuthorizedClasses($user_id){
+    public function findAuthorizedClasses($userId)
+    {
         $classrooms = [];
 
         //On récupère les classes dont l'utilisateur est enseignant titulaire.
         $ownedClassrooms = $this->Classrooms->find('all', [
             'conditions' => [
-                'user_id' => $user_id
+                'user_id' => $userId
             ]
         ]);
 
-        foreach($ownedClassrooms as $classroom)
+        foreach ($ownedClassrooms as $classroom) {
                 $classrooms['classrooms_manager'][] = $classroom->id;
+        }
 
         //On récupère les classe pour lesquelles l'utilisateur a un accès.
-        $user = $this->get($user_id, [
-			'contain' => ['Classrooms']
-		]);
+        $user = $this->get($userId, [
+            'contain' => ['Classrooms']
+        ]);
 
-        foreach($user->classrooms as $classroom)
+        foreach ($user->classrooms as $classroom) {
                 $classrooms['classrooms'][] = $classroom->id;
+        }
 
 
         return $classrooms;
-	}
+    }
 }

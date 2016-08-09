@@ -52,9 +52,10 @@ class ReportFormaterHelper extends AppHelper
      * @param $item array Un tableau clé/valeur CakePHP contenant les propriétés d'un item et modèles associés
      * @return mixed array Identique à l'entrée mais avec une clé couleur en plus
      */
-    public function itemWithResultColor($item){
+    public function itemWithResultColor($item)
+    {
         $item['color'] = "#FFFFFF";
-        switch($item['result']){
+        switch ($item['result']) {
             case 'A':
                 $item['color'] = '#eeffcc';
                 break;
@@ -73,6 +74,8 @@ class ReportFormaterHelper extends AppHelper
             case 'X':
                 $item['result'] = '<img src="'.WWW_ROOT.'img/tick.png" alt="tick" />';
         }
+        
+
         return $item;
     }
 
@@ -81,10 +84,13 @@ class ReportFormaterHelper extends AppHelper
      *
      * @return string Titre du bulletin avec le nom et le prénom de l'élève remplacés.
      */
-    public function formatHeader(){
+    public function formatHeader()
+    {
         $header = $this->report->header;
         $header = str_replace("#PRENOM#", $this->items[0]['pupil']['first_name'], $header);
         $header = str_replace("#NOM#", $this->items[0]['pupil']['name'], $header);
+        
+
         return $header;
     }
 
@@ -93,10 +99,13 @@ class ReportFormaterHelper extends AppHelper
      *
      * @return string Pied de page du bulletin avec le nom et le prénom de l'élève remplacés.
      */
-    public function formatFooter(){
+    public function formatFooter()
+    {
         $footer = $this->report->footer;
         $footer = str_replace("#PRENOM#", $this->items[0]['pupil']['first_name'], $footer);
         $footer = str_replace("#NOM#", $this->items[0]['pupil']['name'], $footer);
+        
+
         return $footer;
     }
 
@@ -105,13 +114,17 @@ class ReportFormaterHelper extends AppHelper
      *
      * @return string Chaîne HTML contenant le corps du bulletin.
      */
-    public function getContent(){
+    public function getContent()
+    {
         $html = "";
-        foreach($this->competences as $competence){
-            if(in_array($competence['id'], explode(',',$this->report->page_break)))
+        foreach ($this->competences as $competence) {
+            if (in_array($competence['id'], explode(',', $this->report->page_break))) {
                 $html .= '<div style="page-break-after: always;"></div>';
+            }
             $html .= $this->returnHtmlFormattedCompetence($competence['id'], $competence['depth'], $competence['title'], $this->items);
         }
+        
+
         return $html;
     }
 
@@ -124,27 +137,35 @@ class ReportFormaterHelper extends AppHelper
      * @param $items array Un tableau contenant l'ensemble des items pour le bulletin courant
      * @return string Une chaîne HTML contenant une en-tête de compétence (titre HTML ou en-tête de tableau)
      */
-    public function returnHtmlFormattedCompetence($competence_id, $competence_depth, $competence_title, $items){
-        if($competence_depth < 2){
-            $html = sprintf('<h%d class="niveau%d">%s</h%d>',$competence_depth+1,$competence_depth+1,$competence_title,$competence_depth+1);
-            $items = $this->returnHtmlItemsTableRows($competence_id, $items);
-            if(!empty($items)) $html .= '<table><tbody>';
+    public function returnHtmlFormattedCompetence($competenceId, $competenceDepth, $competenceTitle, $items)
+    {
+        if ($competenceDepth < 2) {
+            $html = sprintf('<h%d class="niveau%d">%s</h%d>', $competenceDepth + 1, $competenceDepth + 1, $competenceTitle, $competenceDepth + 1);
+            $items = $this->returnHtmlItemsTableRows($competenceId, $items);
+            if (!empty($items)) {
+                $html .= '<table><tbody>';
+            }
             $html .= $items;
-            if(!empty($items)) $html .= '</tbody></table>';
-        }else{
-            $html = sprintf('<table class="tabniv%d">
+            if (!empty($items)) {
+                $html .= '</tbody></table>';
+            }
+        } else {
+            $html = sprintf(
+                '<table class="tabniv%d">
                                 <thead>
                                     <tr>
                                         <th colspan="2">%s</th>
                                     </tr>
                                 </thead>
                                 <tbody>',
-                $competence_depth+1,
-                $competence_title
+                $competenceDepth + 1,
+                $competenceTitle
             );
-            $html .= $this->returnHtmlItemsTableRows($competence_id, $items);
+            $html .= $this->returnHtmlItemsTableRows($competenceId, $items);
             $html .= '</tbody></table>';
         }
+        
+
         return $html;
     }
 
@@ -155,10 +176,11 @@ class ReportFormaterHelper extends AppHelper
      * @param $items array Un tableau contenant l'ensemble des items pour le bulletin courant
      * @return string string Une chaîne HTML contenant des lignes de tableau HTML (<tr>)
      */
-    public function returnHtmlItemsTableRows($competence_id, $items){
+    public function returnHtmlItemsTableRows($competenceId, $items)
+    {
         $itemlist = null;
-        foreach($items as $item){
-            if($item['item']['competence_id'] == $competence_id && $item['result'] != ""){
+        foreach ($items as $item) {
+            if ($item['item']['competence_id'] == $competenceId && $item['result'] != "") {
                 $item = $this->itemWithResultColor($item);
                 $itemlist[] = '<tr>
                                     <td>'.$item['item']['title'].'</td>
@@ -166,10 +188,11 @@ class ReportFormaterHelper extends AppHelper
                                 </tr>';
             }
         }
-        if(isset($itemlist))
+        if (isset($itemlist)) {
             return implode("\n", $itemlist);
-        else
+        } else {
             return "";
+        }
     }
 
     /**
@@ -180,9 +203,11 @@ class ReportFormaterHelper extends AppHelper
      * @internal param int $classroom_id L'identifiant de la classe de l'élève dont le bulletin est généré
      * @internal param int $period_id La période liée au bulletin généré
      */
-    public function renderPdf($html, $pupil_id){
-        if(!defined('DOMPDF_ENABLE_AUTOLOAD'))
+    public function renderPdf($html, $pupilId)
+    {
+        if (!defined('DOMPDF_ENABLE_AUTOLOAD')) {
             define('DOMPDF_ENABLE_AUTOLOAD', false);
+        }
         require_once ROOT . DS . 'vendor' . DS . 'dompdf' . DS . 'dompdf' . DS . 'dompdf_config.inc.php';
 
         $dompdf = new \ DOMPDF();
@@ -193,12 +218,14 @@ class ReportFormaterHelper extends AppHelper
         //Si l'utilisateur a demandé l'impression recto/verso
         //on ajoute automatiquement des pages blanche si le bulletin
         //ne comporte pas un nombre pair de pages ;)
-        if($this->report['Report']['duplex_printing'])
-            if($dompdf->get_canvas()->get_page_count() % 2 == 1)
+        if ($this->report['Report']['duplex_printing']) {
+            if ($dompdf->get_canvas()->get_page_count() % 2 == 1) {
                 $dompdf->get_canvas()->new_page();
+            }
+        }
 
         $pdfoutput = $dompdf->output();
-        $filename = APP . "files/reports/".$this->report->id."_".$pupil_id.".pdf";
+        $filename = APP . "files/reports/".$this->report->id."_".$pupilId.".pdf";
         $fp = fopen($filename, "a");
         fwrite($fp, $pdfoutput);
         fclose($fp);

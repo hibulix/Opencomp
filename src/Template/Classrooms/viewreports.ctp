@@ -1,4 +1,9 @@
-<?php echo $this->element('ClassroomBase'); ?>
+<?php
+$this->assign('header', $classroom->title);
+$this->assign('description', $classroom->establishment->name);
+?>
+
+<?= $this->cell('Classroom::stats', [$classroom->id]); ?>
 
 <ul class="nav nav-pills">
   <li><?php echo $this->Html->link(__('Élèves'), array('controller' => 'classrooms', 'action' => 'view', $classroom->id)); ?></li>

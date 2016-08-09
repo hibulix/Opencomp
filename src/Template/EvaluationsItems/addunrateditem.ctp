@@ -14,7 +14,7 @@
 echo $this->Form->create('Item', array(
     'class' => 'form-horizontal',
     'url' => array(
-    	'controller' => 'evaluationsItems',
+    	'controller' => 'EvaluationsCompetences',
     	'action' => 'addunrateditem',
     	'classroom_id' => $this->request->query['classroom_id'],
     	'period_id' => $this->request->query['period_id'],
@@ -27,8 +27,7 @@ echo $this->Form->create('Item', array(
         ),
         'wrapInput' => 'col col-md-3',
         'class' => 'form-control'
-    ),
-    'class' => 'form-horizontal'
+    )
 ));
 
 echo $this->Form->input('title', array(
@@ -49,6 +48,7 @@ echo $this->Form->input('Level', array(
 
 echo $this->Form->hidden('competence_id', array('value' => $competence_id));
 echo $this->Form->hidden('classroom_id', array('value' => $this->request->query['classroom_id']));
+/** @noinspection PhpUndefinedClassInspection */
 echo $this->Form->hidden('user_id', array('value' => AuthComponent::user('id')));
 echo $this->Form->hidden('type', array('value' => 3));
     

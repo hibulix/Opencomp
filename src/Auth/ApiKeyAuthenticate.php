@@ -57,7 +57,7 @@ class ApiKeyAuthenticate extends BaseAuthenticate
 
     /**
      * Handle unauthenticated access attempt.
-     * 
+     *
      * @param Request $request Cake request object.
      * @param Response $response Cake response object.
      * @throws UnauthorizedException

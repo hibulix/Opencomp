@@ -62,30 +62,34 @@ class EvaluationsCompetencesTable extends Table
     {
         $rules->add($rules->existsIn(['evaluation_id'], 'Evaluations'));
         $rules->add($rules->existsIn(['competence_id'], 'Items'));
+        
+
         return $rules;
     }
 
-    public function isItemAlreadyAttachedToEvaluation($evaluation_id, $item_id){
-        return $this->find('all', array(
-            'conditions' => array(
-                'EvaluationsCompetences.evaluation_id' => $evaluation_id,
-                'EvaluationsCompetences.competence_id' => $item_id
-            )
-        ))->first();
+    public function isItemAlreadyAttachedToEvaluation($evaluationId, $itemId)
+    {
+        return $this->find('all', [
+            'conditions' => [
+                'EvaluationsCompetences.evaluation_id' => $evaluationId,
+                'EvaluationsCompetences.competence_id' => $itemId
+            ]
+        ])->first();
     }
 
     /**
      * Cette fonction permet de renuméroter la position des items associés
      * à une évaluation (par exemple après la dissociation d'un item).
-     * @param int $evaluation_id L'id de l'évaluation concerné par l'opération
+     * @param int $evaluationId L'id de l'évaluation concerné par l'opération
      * @param int $position À partir de quel position faut il renuméroter ?
      * @return mixed
      */
-    public function renumberItemsEvaluation($evaluation_id, $position){
+    public function renumberItemsEvaluation($evaluationId, $position)
+    {
         return $this->updateAll(
-            array(new QueryExpression('evaluations_competences.position = evaluations_competences.position - 1')),
-            array('evaluations_competences.evaluation_id' => $evaluation_id,
-                'evaluations_competences.position >' => $position)
+            [new QueryExpression('evaluations_competences.position = evaluations_competences.position - 1')],
+            ['evaluations_competences.evaluation_id' => $evaluationId,
+                'evaluations_competences.position >' => $position]
         );
     }
 }

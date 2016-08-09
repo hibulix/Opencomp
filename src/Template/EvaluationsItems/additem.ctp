@@ -20,7 +20,7 @@ echo $this->Form->create($item, array(
         ],
     ],
     'url' => array(
-    	'controller' => 'evaluationsItems',
+    	'controller' => 'EvaluationsCompetences',
     	'action' => 'additem',
     	'evaluation_id' => $evaluation->id,
     	'competence_id' => $competence->id
@@ -78,7 +78,9 @@ $this->start('script');
     var role = '<?php echo $this->request->session()->read('Auth.User.role'); ?>';
     var data = <?php echo $json; ?>;
 
-    $("#jumelage_lpc").jstree({
+    var jumelage_lpc = $("#jumelage_lpc");
+
+    jumelage_lpc.jstree({
         'core' : {
             'multiple' : false,
             'check_callback' : true,
@@ -89,14 +91,14 @@ $this->start('script');
         }
     });
 
-    $("#jumelage_lpc").on("click.jstree-default", function (event) {
-        var selected = $('#jumelage_lpc').jstree(true).get_selected()[0];
-        if($('#jumelage_lpc').jstree(true).is_leaf(selected) === false){
-            $('#jumelage_lpc').jstree(true).deselect_node(selected);
-            if($('#jumelage_lpc').jstree(true).is_open(selected))
-                $('#jumelage_lpc').jstree(true).close_node(selected);
+    jumelage_lpc.on("click.jstree-default", function (event) {
+        var selected = jumelage_lpc.jstree(true).get_selected()[0];
+        if(jumelage_lpc.jstree(true).is_leaf(selected) === false){
+            jumelage_lpc.jstree(true).deselect_node(selected);
+            if(jumelage_lpc.jstree(true).is_open(selected))
+                jumelage_lpc.jstree(true).close_node(selected);
             else
-                $('#jumelage_lpc').jstree(true).open_node(selected);
+                jumelage_lpc.jstree(true).open_node(selected);
         }else{
             $('#ItemLpcnodeId').val(selected);
         }

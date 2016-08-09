@@ -19,9 +19,14 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-namespace app\Controller;
+namespace App\Controller;
 
+use App\Model\Table\ClassroomsTable;
+use App\Model\Table\EstablishmentsTable;
+use App\Model\Table\SettingsTable;
+use App\Model\Table\TownsTable;
 use Cake\Controller\Controller;
+use Cake\Event\Event;
 use Cake\I18n\Time;
 use Cake\I18n\I18n;
 
@@ -33,38 +38,42 @@ use Cake\I18n\I18n;
  *
  * @package       app.Controller
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
+ * @property ClassroomsTable Classrooms
+ * @property EstablishmentsTable Establishments
+ * @property SettingsTable Settings
+ * @property TownsTable Towns
  */
-class AppController extends Controller {
-    public $components = array(
-        'Flash',
-        'CheckParams',
-    	'Auth' => array(
-    		'authorize' => 'Controller'
-    	)
-    );
-    public $helpers = array(
+class AppController extends Controller
+{
+
+    public $helpers = [
         'Url',
-    	'Utils'
-    );
+        'Utils'
+    ];
 
-    public function isAuthorized($user = null) {
-        // Chacun des utilisateur enregistré peut accéder aux fonctions publiques
-        if (empty($this->request->params['admin']))
-       	{
-            return true;
+    public function initialize()
+    {
+
+        $this->loadComponent('Flash');
+        $this->loadComponent('RequestHandler');
+        $this->loadComponent('CakeDC/Users.UsersAuth');
+        if (($this->request->is('json') || $this->request->is('xml')) && !$this->Auth->user('id')) {
+            $this->Auth->config('storage', 'Memory');
+            $this->Auth->config('unauthorizedRedirect', false);
+            $this->Auth->config('checkAuthIn', 'Controller.initialize');
+            $this->Auth->config('loginAction', false);
+            $this->Auth->config('authenticate', null);
+            $this->Auth->config('authenticate', ['ApiKey' => [
+                'require_ssl' => false,
+            ]]);
         }
-
-        // Seulement les administrateurs peuvent accéder aux fonctions d'administration
-        if (isset($this->request->params['admin'])) {
-            return (bool)($user['role'] === 'admin');
-        }
-
-        // Par défaut n'autorise pas
-        return false;
+        I18n::locale('fr_FR');
+        Time::setDefaultLocale('fr-FR');
     }
 
-    public function initialize(){
-        I18n::locale('fr_FR');
-        Time::$defaultLocale = 'fr-FR';
+    public function beforeFilter(Event $event)
+    {
+        $this->set('title_for_layout', 'Opencomp');
+        $this->set('params', $this->request->params);
     }
 }

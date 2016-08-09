@@ -27,7 +27,7 @@ class Period extends Entity
 
     protected function _getWellNamed()
     {
-        return  'du ' .
+        return 'du ' .
                 $this->_properties['begin']->i18nFormat('dd/MM/YYYY') . ' au ' .
                 $this->_properties['end']->i18nFormat('dd/MM/YYYY');
     }

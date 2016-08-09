@@ -62,6 +62,8 @@ class LevelsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['cycle_id'], 'Cycles'));
+        
+
         return $rules;
     }
 }

@@ -3,292 +3,303 @@ namespace app\Controller;
 
 use /** @noinspection PhpUnusedAliasInspection */
     App\Controller\AppController;
+
 /**
  * EvaluationsCompetences Controller
  *
  * @property EvaluationsItem $EvaluationsItem
  */
-class EvaluationsCompetencesController extends AppController {
+class EvaluationsCompetencesController extends AppController
+{
 
-	public $components = array('JsonTree');
+    public $components = ['JsonTree'];
 
-	public function usedItems($id = null){
+    public function usedItems($id = null)
+    {
 
-		$classroom = $this->EvaluationsCompetences->Evaluations->Classrooms->get($id, [
+        $classroom = $this->EvaluationsCompetences->Evaluations->Classrooms->get($id, [
             'contain' => ['User', 'Users', 'Establishments', 'Years']
         ]);
-		$this->set('classroom', $classroom);
+        $this->set('classroom', $classroom);
 
-		$items_competences = $this->EvaluationsCompetences->find('list',[
-            'contain' => ['Evaluations','Items'],
+        $itemsCompetences = $this->EvaluationsCompetences->find('list', [
+            'contain' => ['Evaluations', 'Items'],
             'valueField' => 'Items.competence_id',
             'keyField' => 'Items.id',
-			'fields' => [
-				'Items.id',
+            'fields' => [
+                'Items.id',
                 'Items.title',
                 'Items.competence_id',
-			],
-			'conditions'=>[
-				'Evaluations.classroom_id' => $id,
-				'Evaluations.unrated' => 0
-			]
-		])->hydrate(false)->toArray();
+            ],
+            'conditions' => [
+                'Evaluations.classroom_id' => $id,
+                'Evaluations.unrated' => 0
+            ]
+        ])->hydrate(false)->toArray();
 
-		if(empty($items_competences)){
-			$this->Flash->error('Impossible d\'afficher ce rapport car vous n\'avez encore évalué aucun item.');
-			return $this->redirect(array('controller' => 'classrooms', 'action' => 'viewtests', $id));
-		}
+        if (empty($itemsCompetences)) {
+            $this->Flash->error('Impossible d\'afficher ce rapport car vous n\'avez encore évalué aucun item.');
+            
 
-		$json = $this->JsonTree->allUsedItemsToJson($items_competences, array_keys($items_competences));
+            return $this->redirect(['controller' => 'classrooms', 'action' => 'viewtests', $id]);
+        }
+
+        $json = $this->JsonTree->allUsedItemsToJson($itemsCompetences, array_keys($itemsCompetences));
         $this->set(compact('json'));
-	}
+    }
 
-	public function attachitem(){
+    public function attachitem()
+    {
 
         $evaluation = $this->EvaluationsCompetences->Evaluations->get($this->request->query['evaluation_id']);
-        $items = explode(',',$this->request->query['item_id']);
-		foreach($items as $itemid){
-			$item = $this->EvaluationsCompetences->Items->get($itemid);
-			if(!$this->EvaluationsCompetences->isItemAlreadyAttachedToEvaluation($evaluation->id,$item->id)){
-				$lastItemPosition = $this->EvaluationsCompetences->find('all', array(
-					'conditions' => array('EvaluationsCompetences.evaluation_id' => $evaluation->id)
-				))->count();
-				$nextItemPosition = $lastItemPosition+1;
+        $items = explode(',', $this->request->query['item_id']);
+        foreach ($items as $itemid) {
+            $item = $this->EvaluationsCompetences->Items->get($itemid);
+            if (!$this->EvaluationsCompetences->isItemAlreadyAttachedToEvaluation($evaluation->id, $item->id)) {
+                $lastItemPosition = $this->EvaluationsCompetences->find('all', [
+                    'conditions' => ['EvaluationsCompetences.evaluation_id' => $evaluation->id]
+                ])->count();
+                $nextItemPosition = $lastItemPosition + 1;
 
-				$data = array(
-					'evaluation_id' => $evaluation->id,
-					'item_id' => $item->id,
-					'position' => $nextItemPosition
-				);
+                $data = [
+                    'evaluation_id' => $evaluation->id,
+                    'item_id' => $item->id,
+                    'position' => $nextItemPosition
+                ];
 
-				$evaluationItems = $this->EvaluationsCompetences->newEntity($data);
-				$this->EvaluationsCompetences->save($evaluationItems);
-			}
-		}
-		$this->Flash->success('Votre sélection d\'items a été correctement associée à l\'évaluation.');
-		$this->redirect(array('controller' => 'evaluations', 'action' => 'items', $evaluation->id));
-	}
+                $evaluationItems = $this->EvaluationsCompetences->newEntity($data);
+                $this->EvaluationsCompetences->save($evaluationItems);
+            }
+        }
+        $this->Flash->success('Votre sélection d\'items a été correctement associée à l\'évaluation.');
+        $this->redirect(['controller' => 'evaluations', 'action' => 'items', $evaluation->id]);
+    }
 
-	public function attachunrateditem(){
-		//On vérifie que les paramètres nommés item_id et period_id ont été fournis et qu'ils existent.
-        $period_id = $this->CheckParams->checkForNamedParam('Period','period_id', $this->request->query['period_id']);
-        $item_id = $this->CheckParams->checkForNamedParam('Item','item_id', $this->request->query['item_id']);
-        $classroom_id = $this->CheckParams->checkForNamedParam('Classroom','classroom_id', $this->request->query['classroom_id']);
+    public function attachunrateditem()
+    {
+        //On vérifie que les paramètres nommés item_id et period_id ont été fournis et qu'ils existent.
+        $periodId = $this->CheckParams->checkForNamedParam('Period', 'period_id', $this->request->query['period_id']);
+        $itemId = $this->CheckParams->checkForNamedParam('Item', 'item_id', $this->request->query['item_id']);
+        $classroomId = $this->CheckParams->checkForNamedParam('Classroom', 'classroom_id', $this->request->query['classroom_id']);
 
-        $evaluation = $this->EvaluationsItem->Evaluation->searchIfAutogeneratedTestExists($classroom_id, $period_id);
+        $evaluation = $this->EvaluationsItem->Evaluation->searchIfAutogeneratedTestExists($classroomId, $periodId);
 
-		//Si l'évaluation factice n'existe pas, on la crée
-	    if(!$evaluation)
-			$evaluation_id = $this->EvaluationsItem->Evaluation->autoGenerateTestForUnratedItems($classroom_id, $period_id);
-	    else
-		    $evaluation_id = $evaluation['Evaluation']['id'];
+        //Si l'évaluation factice n'existe pas, on la crée
+        if (!$evaluation) {
+            $evaluationId = $this->EvaluationsItem->Evaluation->autoGenerateTestForUnratedItems($classroomId, $periodId);
+        } else {
+            $evaluationId = $evaluation['Evaluation']['id'];
+        }
 
-		$data = array(
-			'EvaluationsItem' => array(
-				'evaluation_id' => $evaluation_id,
-				'item_id' => $item_id,
-				'position' => 1
-			)
-		);
-		
-		$this->EvaluationsItem->create();
-		$this->EvaluationsItem->save($data);
-		
-		$pupils = $this->EvaluationsItem->Evaluation->Classroom->ClassroomsPupil->findAllByClassroomId($classroom_id,array('pupil_id'),null,null,null,0);
-		
-		unset($data);
-		
-		foreach($pupils as $id => $pupil){
-			$data[$id]['evaluation_id'] = $evaluation_id;
-			$data[$id]['pupil_id'] = $pupil['ClassroomsPupil']['pupil_id'];
-			$data[$id]['item_id'] = $item_id;
-			$data[$id]['result'] = 'X';
-		}
-		
-		$this->EvaluationsItem->Evaluation->Result->saveMany($data, array('validate' => false));
-		
-		$this->Flash->success('L\'item a été correctement associé à cette période');
-		$this->redirect(array('controller' => 'classrooms', 'action' => 'viewunrateditems', $classroom_id));
-	}
-	
-	public function additem(){	
-		$this->set('title_for_layout', __('Ajouter un item'));
+        $data = [
+            'EvaluationsItem' => [
+                'evaluation_id' => $evaluationId,
+                'item_id' => $itemId,
+                'position' => 1
+            ]
+        ];
+        
+        $this->EvaluationsItem->create();
+        $this->EvaluationsItem->save($data);
+        
+        $pupils = $this->EvaluationsItem->Evaluation->Classroom->ClassroomsPupil->findAllByClassroomId($classroomId, ['pupil_id'], null, null, null, 0);
+        
+        unset($data);
+        
+        foreach ($pupils as $id => $pupil) {
+            $data[$id]['evaluation_id'] = $evaluationId;
+            $data[$id]['pupil_id'] = $pupil['ClassroomsPupil']['pupil_id'];
+            $data[$id]['item_id'] = $itemId;
+            $data[$id]['result'] = 'X';
+        }
+        
+        $this->EvaluationsItem->Evaluation->Result->saveMany($data, ['validate' => false]);
+        
+        $this->Flash->success('L\'item a été correctement associé à cette période');
+        $this->redirect(['controller' => 'classrooms', 'action' => 'viewunrateditems', $classroomId]);
+    }
+    
+    public function additem()
+    {
+        $this->set('title_for_layout', __('Ajouter un item'));
 
-		$item = $this->EvaluationsCompetences->Items->newEntity();
-		$evaluation = $this->EvaluationsCompetences->Evaluations->get($this->request->query['evaluation_id']);
+        $item = $this->EvaluationsCompetences->Items->newEntity();
+        $evaluation = $this->EvaluationsCompetences->Evaluations->get($this->request->query['evaluation_id']);
         $competence = $this->EvaluationsCompetences->Items->Competences->get($this->request->query['competence_id']);
-		$levels = $this->EvaluationsCompetences->Items->Levels->find('list');
-		$this->set(compact('levels', 'evaluation', 'competence', 'item'));
+        $levels = $this->EvaluationsCompetences->Items->Levels->find('list');
+        $this->set(compact('levels', 'evaluation', 'competence', 'item'));
 
-		$this->set('path', $this->tabPathToString($this->EvaluationsCompetences->Items->Competences->find('path', ['for' => $competence->id])));
+        $this->set('path', $this->tabPathToString($this->EvaluationsCompetences->Items->Competences->find('path', ['for' => $competence->id])));
 
-		$this->set('json', $this->JsonTree->allLpcnodesToJson());
-		
-		if ($this->request->is('post')) {
-			if(empty($this->request->data['levels']['_ids']))
-				$item->errors('levels', 'Vous devez sélectionner au moins un niveau.');
-			$lastItemPosition = $this->EvaluationsCompetences->find('all', array(
-		        'conditions' => array('EvaluationsCompetences.evaluation_id' => $evaluation->id)
-		    ))->count();
-			$nextItemPosition = $lastItemPosition+1;
-			
-			$newItem = $this->EvaluationsCompetences->Items->newEntity($this->request->data);
-			if ($this->EvaluationsCompetences->Items->save($newItem)) {
-				$data = array(
-					'evaluation_id' => $evaluation->id,
-					'item_id' => $newItem->id,
-					'position' => $nextItemPosition
-				);
-				
-				$evaluationItem = $this->EvaluationsCompetences->newEntity($data);
-				$this->EvaluationsCompetences->save($evaluationItem);
-				
-				$this->Flash->success('L\'item a été correctement créé et associé à l\'évaluation.');
-				$this->redirect(array('controller' => 'evaluations', 'action' => 'items', $evaluation->id));
-			} else {
-				$this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
-			}
-		}
-	}
-	
-	private function tabPathToString($path){
-	    $mypath = '';
-	    foreach($path as $competence){
-	    	$mypath .= $competence->title.' <i class="fa fa-chevron-right"></i> ';
-	    }
-	    $mypath = substr($mypath, 0, -36);
-	    
-	    return $mypath;
-	}
-	
-	public function addunrateditem(){
-	
-		$this->set('title_for_layout', __('Ajouter un item non évalué'));
+        $this->set('json', $this->JsonTree->allLpcnodesToJson());
+        
+        if ($this->request->is('post')) {
+            if (empty($this->request->data['levels']['_ids'])) {
+                $item->errors('levels', 'Vous devez sélectionner au moins un niveau.');
+            }
+            $lastItemPosition = $this->EvaluationsCompetences->find('all', [
+                'conditions' => ['EvaluationsCompetences.evaluation_id' => $evaluation->id]
+            ])->count();
+            $nextItemPosition = $lastItemPosition + 1;
+            
+            $newItem = $this->EvaluationsCompetences->Items->newEntity($this->request->data);
+            if ($this->EvaluationsCompetences->Items->save($newItem)) {
+                $data = [
+                    'evaluation_id' => $evaluation->id,
+                    'item_id' => $newItem->id,
+                    'position' => $nextItemPosition
+                ];
+                
+                $evaluationItem = $this->EvaluationsCompetences->newEntity($data);
+                $this->EvaluationsCompetences->save($evaluationItem);
+                
+                $this->Flash->success('L\'item a été correctement créé et associé à l\'évaluation.');
+                $this->redirect(['controller' => 'evaluations', 'action' => 'items', $evaluation->id]);
+            } else {
+                $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
+            }
+        }
+    }
+    
+    private function tabPathToString($path)
+    {
+        $mypath = '';
+        foreach ($path as $competence) {
+            $mypath .= $competence->title.' <i class="fa fa-chevron-right"></i> ';
+        }
+        $mypath = substr($mypath, 0, -36);
+        
+        return $mypath;
+    }
+    
+    public function addunrateditem()
+    {
+    
+        $this->set('title_for_layout', __('Ajouter un item non évalué'));
 
         //On vérifie que les paramètres nommés period_id et competence_id ont été fournis et qu'ils existent.
-        $period_id = $this->CheckParams->checkForNamedParam('Period','period_id', $this->request->query['period_id']);
-        $competence_id = $this->CheckParams->checkForNamedParam('Competence','competence_id', $this->request->query['competence_id']);
-		
-		$levels = $this->EvaluationsItem->Item->Level->find('list', array('recursive' => 0));
-		$this->set('levels', $levels);
-		
-		$this->set('path', $this->tabPathToString($this->EvaluationsItem->Item->Competence->getPath($competence_id)));
-		
-		if ($this->request->is('post')) {	
-
+        $periodId = $this->CheckParams->checkForNamedParam('Period', 'period_id', $this->request->query['period_id']);
+        $competenceId = $this->CheckParams->checkForNamedParam('Competence', 'competence_id', $this->request->query['competence_id']);
+        
+        $levels = $this->EvaluationsItem->Item->Level->find('list', ['recursive' => 0]);
+        $this->set('levels', $levels);
+        
+        $this->set('path', $this->tabPathToString($this->EvaluationsItem->Item->Competence->getPath($competenceId)));
+        
+        if ($this->request->is('post')) {
             $evaluation = $this->EvaluationsItem->Evaluation->searchIfAutogeneratedTestExists(
                 $this->data['Item']['classroom_id'],
-                $period_id
+                $periodId
             );
 
-			//Si l'évaluation factice n'existe pas, on la crée		    
-		    if(!$evaluation)
-		    {
-                $evaluation_id = $this->EvaluationsItem->Evaluation->autoGenerateTestForUnratedItems(
+            //Si l'évaluation factice n'existe pas, on la crée
+            if (!$evaluation) {
+                $evaluationId = $this->EvaluationsItem->Evaluation->autoGenerateTestForUnratedItems(
                     $this->data['Item']['classroom_id'],
-                    $period_id
+                    $periodId
                 );
-			//Si elle existe, on récupère simplement son id :)
-		    }else{
-			    $evaluation_id = $evaluation['Evaluation']['id'];
-		    }
-		
-			$this->EvaluationsItem->Item->create();
-			if ($this->EvaluationsItem->Item->save($this->request->data)) {
-				
-				$item_id = $this->EvaluationsItem->Item->id;
-				
-				$data = array(
-					'EvaluationsItem' => array(
-						'evaluation_id' => $evaluation_id,
-						'item_id' => $this->EvaluationsItem->Item->id,
-						'position' => 1
-					)
-				);
-				
-				$this->EvaluationsItem->create();
-				$this->EvaluationsItem->save($data);
-				
-				$pupils = $this->EvaluationsItem->Evaluation->Classroom->ClassroomsPupil->findAllByClassroomId($this->data['Item']['classroom_id'],array('pupil_id'),null,null,null,0);
-				
-				unset($data);
-				
-				foreach($pupils as $id => $pupil){
-					$data[$id]['evaluation_id'] = $evaluation_id;
-					$data[$id]['pupil_id'] = $pupil['ClassroomsPupil']['pupil_id'];
-					$data[$id]['item_id'] = $item_id;
-					$data[$id]['result'] = 'X';			
-				}
-				
-				$this->EvaluationsItem->Evaluation->Result->saveMany($data, array('validate' => false));
-				
-				$this->Flash->success('L\'item a été correctement créé et associé à cette période');
-				$this->redirect(array('controller' => 'classrooms', 'action' => 'viewunrateditems', $this->data['Item']['classroom_id']));
-			} else {
-				$this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
-			}
-		}
-		
-	}
-	
-	public function moveup($id = null){
+            //Si elle existe, on récupère simplement son id :)
+            } else {
+                $evaluationId = $evaluation['Evaluation']['id'];
+            }
+        
+            $this->EvaluationsItem->Item->create();
+            if ($this->EvaluationsItem->Item->save($this->request->data)) {
+                $itemId = $this->EvaluationsItem->Item->id;
+                
+                $data = [
+                    'EvaluationsItem' => [
+                        'evaluation_id' => $evaluationId,
+                        'item_id' => $this->EvaluationsItem->Item->id,
+                        'position' => 1
+                    ]
+                ];
+                
+                $this->EvaluationsItem->create();
+                $this->EvaluationsItem->save($data);
+                
+                $pupils = $this->EvaluationsItem->Evaluation->Classroom->ClassroomsPupil->findAllByClassroomId($this->data['Item']['classroom_id'], ['pupil_id'], null, null, null, 0);
+                
+                unset($data);
+                
+                foreach ($pupils as $id => $pupil) {
+                    $data[$id]['evaluation_id'] = $evaluationId;
+                    $data[$id]['pupil_id'] = $pupil['ClassroomsPupil']['pupil_id'];
+                    $data[$id]['item_id'] = $itemId;
+                    $data[$id]['result'] = 'X';
+                }
+                
+                $this->EvaluationsItem->Evaluation->Result->saveMany($data, ['validate' => false]);
+                
+                $this->Flash->success('L\'item a été correctement créé et associé à cette période');
+                $this->redirect(['controller' => 'classrooms', 'action' => 'viewunrateditems', $this->data['Item']['classroom_id']]);
+            } else {
+                $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
+            }
+        }
+    }
+    
+    public function moveup($id = null)
+    {
         $itemToEdit = $this->EvaluationsCompetences->get($id);
 
-        if($itemToEdit->position == 1){
+        if ($itemToEdit->position == 1) {
             $this->Flash->error('Impossible de déplacer cet item vers le haut, il est déjà à la première position !');
-            $this->redirect(array('controller' => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id));
-        }else{
-            $secondItemToEdit = $this->EvaluationsCompetences->findByEvaluationIdAndPosition($itemToEdit->evaluation_id, $itemToEdit->position-1)->first();
+            $this->redirect(['controller' => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id]);
+        } else {
+            $secondItemToEdit = $this->EvaluationsCompetences->findByEvaluationIdAndPosition($itemToEdit->evaluation_id, $itemToEdit->position - 1)->first();
 
-            $this->updatePositionItem($itemToEdit->id, $itemToEdit->position-1);
-            $this->updatePositionItem($secondItemToEdit->id, $secondItemToEdit->position+1);
+            $this->updatePositionItem($itemToEdit->id, $itemToEdit->position - 1);
+            $this->updatePositionItem($secondItemToEdit->id, $secondItemToEdit->position + 1);
 
-            $this->redirect(array('controller' => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id));
+            $this->redirect(['controller' => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id]);
         }
-
-	}
-	
-	public function movedown($id = null){
+    }
+    
+    public function movedown($id = null)
+    {
         $itemToEdit = $this->EvaluationsCompetences->get($id);
 
-        $lastItemPosition = $this->EvaluationsCompetences->find('all', array(
-            'conditions' => array('EvaluationsCompetences.evaluation_id' => $itemToEdit->evaluation_id)
-        ))->count();
+        $lastItemPosition = $this->EvaluationsCompetences->find('all', [
+            'conditions' => ['EvaluationsCompetences.evaluation_id' => $itemToEdit->evaluation_id]
+        ])->count();
 
-        if($itemToEdit->position == $lastItemPosition){
+        if ($itemToEdit->position == $lastItemPosition) {
             $this->Flash->error('Impossible de déplacer cet item vers le bas, il est déjà à la dernière position !');
-            $this->redirect(array('controller' => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id));
-        }else{
-            $secondItemToEdit = $this->EvaluationsCompetences->findByEvaluationIdAndPosition($itemToEdit->evaluation_id, $itemToEdit->position+1)->first();
+            $this->redirect(['controller' => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id]);
+        } else {
+            $secondItemToEdit = $this->EvaluationsCompetences->findByEvaluationIdAndPosition($itemToEdit->evaluation_id, $itemToEdit->position + 1)->first();
 
-            $this->updatePositionItem($itemToEdit->id, $itemToEdit->position+1);
-            $this->updatePositionItem($secondItemToEdit->id, $secondItemToEdit->position-1);
+            $this->updatePositionItem($itemToEdit->id, $itemToEdit->position + 1);
+            $this->updatePositionItem($secondItemToEdit->id, $secondItemToEdit->position - 1);
 
-            $this->redirect(array('controller'  => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id));
+            $this->redirect(['controller'  => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id]);
         }
-	}
-	
-	private function updatePositionItem($itemId, $newPosition){
+    }
+    
+    private function updatePositionItem($itemId, $newPosition)
+    {
         $itemToEdit = $this->EvaluationsCompetences->get($itemId);
         $itemToEdit->position = $newPosition;
-    	$this->EvaluationsCompetences->save($itemToEdit);
-	}
-	
-	public function unlinkitem($id = null){
-		
-		$evaluationItem = $this->EvaluationsCompetences->get($id);
-		$this->request->allowMethod(['post', 'delete']);
-		$evaluationId = $evaluationItem->evaluation_id;
-		$position = $evaluationItem->position;
+        $this->EvaluationsCompetences->save($itemToEdit);
+    }
+    
+    public function unlinkitem($id = null)
+    {
+        
+        $evaluationItem = $this->EvaluationsCompetences->get($id);
+        $this->request->allowMethod(['post', 'delete']);
+        $evaluationId = $evaluationItem->evaluation_id;
+        $position = $evaluationItem->position;
 
-		if($this->EvaluationsCompetences->delete($evaluationItem)){
-	    	$this->EvaluationsCompetences->renumberItemsEvaluation($evaluationId, $position);
-	    	
-	    	$this->Flash->success('L\'item a été correctement dissocié de cette évaluation.');
-			$this->redirect(array('controller' => 'evaluations', 'action' => 'items', $evaluationId));
-	    }else{
-		    $this->Flash->error('Cette association n\'existe pas');
-			$this->redirect(array('controller' => 'evaluations', 'action' => 'items', $evaluationId));
-	    }
-	}
+        if ($this->EvaluationsCompetences->delete($evaluationItem)) {
+            $this->EvaluationsCompetences->renumberItemsEvaluation($evaluationId, $position);
+            
+            $this->Flash->success('L\'item a été correctement dissocié de cette évaluation.');
+            $this->redirect(['controller' => 'evaluations', 'action' => 'items', $evaluationId]);
+        } else {
+            $this->Flash->error('Cette association n\'existe pas');
+            $this->redirect(['controller' => 'evaluations', 'action' => 'items', $evaluationId]);
+        }
+    }
 }

@@ -28,7 +28,7 @@
 		    <td class="text-center"><?php echo $result->sum_grade_d; ?></td>
 			<td class="text-center"><?php echo $total_items ?></td>
 		    <td>
-		    <div class="progress" style="margin-bottom:0px;">
+		    <div class="progress" style="margin-bottom:0;">
 				<div class="info progress-bar progress-bar-success" rel="tooltip" data-placement="bottom" title="<?php echo $this->Utils->getPercentValue($result->sum_grade_a, $total_items); ?>% des items acquis <?php echo $result->sum_grade_a ?> A sur <?php echo $total_items ?> items évalués au total" style="width: <?php echo $this->Utils->getPercentValue($result->sum_grade_a, $total_items); ?>%;"></div>
 				<div class="info progress-bar" rel="tooltip" data-placement="bottom" title="<?php echo $this->Utils->getPercentValue($result->sum_grade_b, $total_items); ?>% des items à renforcer <?php echo $result->sum_grade_b ?> B sur <?php echo $total_items ?> items évalués au total" style="width: <?php echo $this->Utils->getPercentValue($result->sum_grade_b, $total_items); ?>%;"></div>
 				<div class="info progress-bar progress-bar-warning" rel="tooltip" data-placement="bottom" title="<?php echo $this->Utils->getPercentValue($result->sum_grade_c, $total_items); ?>% des items en cours d'acquisition <?php echo $result->sum_grade_c ?> C sur <?php echo $total_items ?> items évalués au total" style="width: <?php echo $this->Utils->getPercentValue($result->sum_grade_c, $total_items); ?>%;"></div>

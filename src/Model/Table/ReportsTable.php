@@ -52,5 +52,4 @@ class ReportsTable extends Table
 
         return $validator;
     }
-
 }

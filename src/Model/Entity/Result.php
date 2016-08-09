@@ -18,6 +18,7 @@ class Result extends Entity
         'evaluation_id' => true,
         'pupil_id' => true,
         'item_id' => true,
+        'competence_id' => true,
         'result' => true,
         'grade_a' => true,
         'grade_b' => true,

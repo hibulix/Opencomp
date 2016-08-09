@@ -19,49 +19,24 @@ echo $this->Form->input('title', array(
     )
 ));
 
-echo $this->Form->input('user_id', array(
-    'class'=>'chzn-select form-control',
-    'label' => array(
-        'text' => 'Évalué par'
-        )
-    )
-);
-
 echo $this->Form->input('period_id', array(
     'class'=>'chzn-select form-control',
-    'default'=>$current_period,
-    'help' => '<span style="font-style: italic; margin-top:10px; margin-bottom:-10px;" class="help-block"><i class="fa fa-lightbulb-o"></i> '.__("La période courante de l'établissement a été automatiquement sélectionnée.").'</span>',
     'label' => array(
         'text' => 'Période associée'
         )
     )
 );
 
-foreach($pupils as $class => $list){
-	$btn_nvx[$class] = '<div class="btn-group">';
-	$btn_nvx[$class] .= $this->Form->button('Tous les '.$class, array('class'=> 'selectPupils btn btn-xs btn-default', 'value'=>$class, 'escape'=>false));
-	$btn_nvx[$class] .= $this->Form->button('<i class="fa fa-ban"></i>', array('class'=> 'unselectPupils btn btn-xs btn-default', 'value'=>$class, 'escape'=>false));
-	$btn_nvx[$class] .= '</div>';
-}
-
-$btn_nvx_string = '';
-
-foreach($btn_nvx as $btn)
-	$btn_nvx_string .= $btn;
-
-
 echo $this->Form->input('pupils._ids', array(
     'class'=>'chzn-select form-control',
     'id'=>'PupilPupil',
     'data-placeholder' => 'Cliquez ici ou sur les boutons de niveaux pour ajouter des élèves.',
-    'help' => '<div class="help-block btn-toolbar">'.$btn_nvx_string.'</div>',
+    'help' => '<div class="help-block btn-toolbar" id="levels"></div>',
     'label' => array(
         'text' => 'Élèves ayant passé l\'évaluation'
         )
     )
 );
-
-
 
 ?>
 
@@ -73,3 +48,63 @@ echo $this->Form->input('pupils._ids', array(
 </div>
 
 <?php echo $this->Form->end();
+
+$this->append('script'); ?>
+<script type="text/javascript">
+
+    var currentPupils = <?= $pupils; ?>;
+
+    function sprintf( format )
+    {
+        for( var i=1; i < arguments.length; i++ ) {
+            format = format.replace( /%s/, arguments[i] );
+        }
+        return format;
+    }
+
+
+    $.get( "/classrooms/view/<?= $classroom->id ?>.json?format=select2", function( data ) {
+        var pupils = $("#PupilPupil");
+        pupils.select2({
+            data: data,
+            language: "fr"
+        });
+
+        pupils.val(currentPupils).trigger("change");
+
+        pupils.find("optgroup").each(function( index ) {
+            var levelId = $(this).val();
+            var levelLabel = $(this).attr('label');
+            var buttonLevel = sprintf('<button class="btn btn-xs btn-default level" id="%s">Tous les %s</button>',levelId, levelLabel);
+            var buttonUndo = '<button class="btn btn-xs btn-default cancel"><i class="fa fa-times-circle"></i></button>';
+            $('#levels').append(sprintf('<div class="btn-group">%s %s</div>', buttonLevel, buttonUndo));
+            console.log( index + ": " + $( this ).val() + $( this ).attr('label') );
+        });
+
+        $('.level').bind('click',function(e){
+            e.preventDefault();
+            var levelId = $( this ).attr('id');
+            $("#PupilPupil").find("optgroup").each(function() {
+                if($(this).val() === levelId){
+                    $(this).children().prop("selected",true);
+                    $("#PupilPupil").trigger('change.select2');
+                }
+            });
+        });
+
+        $('.cancel').bind('click',function(e){
+            e.preventDefault();
+            var levelId = $( this ).prev().attr('id');
+            $("#PupilPupil").find("optgroup").each(function() {
+                if($(this).val() === levelId){
+                    $(this).children().prop("selected",false);
+                    $("#PupilPupil").trigger('change.select2');
+                }
+
+            });
+        });
+    });
+
+
+</script>
+<?php $this->end(); ?>

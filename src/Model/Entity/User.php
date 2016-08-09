@@ -1,7 +1,6 @@
 <?php
 namespace App\Model\Entity;
 
-
 use Cake\ORM\Entity;
 
 /**
@@ -33,8 +32,7 @@ class User extends Entity
 
     protected function _getFullName()
     {
-        return  $this->_properties['first_name'] . ' ' .
+        return $this->_properties['first_name'] . ' ' .
                 $this->_properties['last_name'];
     }
-
 }

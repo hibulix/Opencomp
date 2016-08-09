@@ -70,6 +70,8 @@ class PeriodsTable extends Table
     {
         $rules->add($rules->existsIn(['year_id'], 'Years'));
         $rules->add($rules->existsIn(['establishment_id'], 'Establishments'));
+        
+
         return $rules;
     }
 }

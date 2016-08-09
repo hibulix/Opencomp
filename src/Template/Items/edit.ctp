@@ -69,20 +69,23 @@ echo $this->Form->input('Level', array(
 $this->start('script');
 ?>
 <script type='text/javascript'>
-    var role = '<?php echo AuthComponent::user('role'); ?>';
+    var role = '<?php /** @noinspection PhpUndefinedClassInspection */echo AuthComponent::user('role'); ?>';
     var lpcnode_id = '<?php echo $this->request->data['Item']['lpcnode_id']; ?>';
     var competence_id = '<?php echo $this->request->data['Item']['competence_id']; ?>';
     var lpcnode_id_data = <?php echo $json; ?>;
     var competence_id_data = <?php echo $competence_id; ?>;
+    
+    var lpctree = lpctree;
+    var competencetree = $("#competence_id");
 
     $('#no-lpc').click(function(e){
         e.preventDefault();
         $('#ItemLpcnodeId').val('');
-        $('#lpcnode_id').jstree(true).deselect_all();
-        $('#lpcnode_id').jstree(true).close_all();
+        lpctree.jstree(true).deselect_all();
+        lpctree.jstree(true).close_all();
     });
 
-    $("#competence_id").jstree({
+    competencetree.jstree({
         'core' : {
             'multiple' : false,
             'check_callback' : true,
@@ -93,17 +96,17 @@ $this->start('script');
         }
     });
 
-    $('#competence_id').bind("ready.jstree", function () {
+    competencetree.bind("ready.jstree", function () {
         if(competence_id !== '')
-            $('#competence_id').jstree(true).select_node(competence_id);
+            lpctree.jstree(true).select_node(competence_id);
     });
 
-    $("#competence_id").on("click.jstree-default", function (event) {
-        var selected = $('#competence_id').jstree(true).get_selected()[0];
+    competencetree.on("click.jstree-default", function (event) {
+        var selected = competencetree.jstree(true).get_selected()[0];
         $('#ItemCompetenceId').val(selected);
     });
 
-    $("#lpcnode_id").jstree({
+    lpctree.jstree({
         'core' : {
             'multiple' : false,
             'check_callback' : true,
@@ -114,19 +117,19 @@ $this->start('script');
         }
     });
 
-    $('#lpcnode_id').bind("ready.jstree", function () {
+    lpctree.bind("ready.jstree", function () {
         if(lpcnode_id !== '')
-            $('#lpcnode_id').jstree(true).select_node(lpcnode_id);
+            lpctree.jstree(true).select_node(lpcnode_id);
     });
 
-    $("#lpcnode_id").on("click.jstree-default", function (event) {
-        var selected = $('#lpcnode_id').jstree(true).get_selected()[0];
-        if($('#lpcnode_id').jstree(true).is_leaf(selected) === false){
-            $('#lpcnode_id').jstree(true).deselect_node(selected);
-            if($('#lpcnode_id').jstree(true).is_open(selected))
-                $('#lpcnode_id').jstree(true).close_node(selected);
+    lpctree.on("click.jstree-default", function (event) {
+        var selected = lpctree.jstree(true).get_selected()[0];
+        if(lpctree.jstree(true).is_leaf(selected) === false){
+            lpctree.jstree(true).deselect_node(selected);
+            if(lpctree.jstree(true).is_open(selected))
+                lpctree.jstree(true).close_node(selected);
             else
-                $('#lpcnode_id').jstree(true).open_node(selected);
+                lpctree.jstree(true).open_node(selected);
         }else{
             $('#ItemLpcnodeId').val(selected);
         }

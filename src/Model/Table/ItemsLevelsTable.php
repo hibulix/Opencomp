@@ -58,6 +58,8 @@ class ItemsLevelsTable extends Table
     {
         $rules->add($rules->existsIn(['item_id'], 'Items'));
         $rules->add($rules->existsIn(['level_id'], 'Levels'));
+        
+
         return $rules;
     }
 }

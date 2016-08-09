@@ -5,6 +5,8 @@ use Cake\ORM\Entity;
 
 /**
  * Evaluation Entity.
+ *
+ * @property string $title
  */
 class Evaluation extends Entity
 {
@@ -21,7 +23,7 @@ class Evaluation extends Entity
         'period_id' => true,
         'unrated' => true,
         'classroom' => true,
-        'user' => true,
+        'users' => true,
         'period' => true,
         'results' => true,
         'items' => true,

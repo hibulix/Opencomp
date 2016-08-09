@@ -58,6 +58,8 @@ class EvaluationsPupilsTable extends Table
     {
         $rules->add($rules->existsIn(['evaluation_id'], 'Evaluations'));
         $rules->add($rules->existsIn(['pupil_id'], 'Pupils'));
+        
+
         return $rules;
     }
 }

@@ -1,97 +1,78 @@
 <?php
 namespace app\Controller;
 
-use App\Controller\AppController;
+//noinspection PhpUnusedClassInspection
+use /** @noinspection PhpUnusedAliasInspection */
+    App\Controller\AppController;
 use Cake\Core\Configure;
 use Cake\Core\Configure\Engine\PhpConfig;
 use Cake\Event\Event;
-use Cake\Network\Exception\BadRequestException;
-use Cake\ORM\Query;
+use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\TableRegistry;
-use Cake\I18n\Time;
-use Cake\Network\Exception\MethodNotAllowedException;
-use Cake\Datasource\Exception\RecordNotFoundException;
+
+use Cake\Utility\Text;
+
 /**
  * Classrooms Controller
  *
- * @property Classroom $Classroom
  */
-class ClassroomsController extends AppController {
+class ClassroomsController extends AppController
+{
 
-    /**
-     * Fonction permettant de déterminer les droits d'accès à une classe
-     *
-     * @param null $user
-     * @return bool
-     */
-    public function isAuthorized($user = null) {
-        if(isset($this->request->params['pass'][0])){
-            if($user['role'] === 'admin'){
-                return true;
-            }else{
-                //La classe courante est elle dans les classe pour lesquelle l'accès est autorisé à l'utilisateur ?
-                $classroom = $this->Classrooms->get($this->request->params['pass'][0]);
-                return  in_array($classroom->id, $this->request->session()->read('Authorized')['classrooms']) ||
-                        in_array($classroom->id, $this->request->session()->read('Authorized')['classrooms_manager']);
-            }
-        }else{
-            //Si on a fourni le paramètre establishment_id
-            if(isset($this->request->query['establishment_id'])) {
-                $establishment_id = intval($this->request->query['establishment_id']);
-                $establishment = $this->Classrooms->Establishments->get($establishment_id);
+    public $paginate = [
+        'Evaluations' => [
+            'limit' => 15
+        ]
+    ];
 
-                if( ($establishment->user_id == $user['id']) || ($user['role'] === 'admin') )
-                    return true;
-            }
-        }
-        return false;
+    function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Search.Prg', [
+            'actions' => ['viewtests']
+        ]);
     }
 
-    function beforeFilter(Event $event) {
+    function beforeFilter(Event $event)
+    {
         parent::beforeFilter($event);
         $this->Auth->allow('getJson');
     }
 
-    public function getJson($apikey = null, $classroom_id = null){
+    function opendocumentdatabase($id)
+    {
+        $classroom = $this->Classrooms->get($id, ['contain' => ['Establishments.Towns.Academies']]);
+        $user = $this->Classrooms->Users->get($this->Auth->user('id'));
+        $url = 'http://java_servlets:8080/ODBGenerator/generateODB?apikey='.$user->api_token.'&classroom_id='.$id;
 
-        $this->viewBuilder()->layout('ajax');
+        // Création d'un gestionnaire curl
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
 
-        $this->response->type(array('json' => 'application/json'));
-        $this->response->type('json');
+        // Exécution
+        $res = curl_exec($ch);
 
-        $user = $this->Classrooms->Users->find('all', [
-            'conditions' => [
-                'apikey' => $this->request->params['pass'][0]
-            ]
-        ])->first();
+        // Vérification si une erreur est survenue
+        if (curl_errno($ch)) {
+            $this->Flash->error('Le serveur passerelle de génération de base de données OpenDocument Database a retourné le code d\'erreur HTTP '.curl_getinfo($ch, CURLINFO_HTTP_CODE));
+            curl_close($ch);
+            
 
-        if(!isset($user))
-            $json = ['error' => 'INVALID_APIKEY'];
-        else{
-            try{
-                $classroom = $this->Classrooms->get($this->request->params['pass'][1],['contain' => ['Pupils', 'Pupils.Levels']]);
+            return $this->redirect([
+                'controller'    => 'classrooms',
+                'action'        => 'view', $id]);
+        } else {
+            // Fermeture du gestionnaire
+            curl_close($ch);
 
-                if($user->role == 'admin' || $user->id === $classroom->user_id){
-                    $json['error'] = 'NONE';
-                    foreach($classroom->pupils as $pupil){
-                        $json['pupils'][] = [
-                            'id' => '*00' . $pupil->id . '*',
-                            'name' => $pupil->name,
-                            'first_name' => $pupil->first_name,
-                            'birthday' => $pupil->birthday->i18nFormat('dd/MM/YYYY'),
-                            'level' => $pupil->levels[0]->title
-                        ];
-                    }
-                }
-                else{
-                    $json['error'] = 'UNAUTHORIZED';
-                }
-            }catch(RecordNotFoundException $e){
-                $json['error'] = 'UNKNOWN_CLASSROOM';
-            }
+            $filename = Text::slug($classroom->establishment->town->academy->name." ".$classroom->establishment->town->name." ".$classroom->establishment->id." ".$classroom->title);
+            $this->response->body($res);
+            $this->response->download(strtolower($filename).'.odb');
+            //Retourne un objet réponse pour éviter que le controller n'essaie de
+            // rendre la vue
+            return $this->response;
         }
-
-        $this->set('json',json_encode($json,JSON_PRETTY_PRINT));
     }
 
 /**
@@ -101,129 +82,148 @@ class ClassroomsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
-		$this->set('title_for_layout', __('Visualiser une classe'));
+    public function view($id = null)
+    {
+        $this->set('title_for_layout', __('Visualiser une classe'));
 
-        $classroom = $this->Classrooms->get($id,[
-            'contain' => ['User', 'Users', 'Establishments', 'Years']
+        $classroom = $this->Classrooms->get($id, [
+            'contain' => ['Users', 'Establishments', 'Years', 'Pupils.Levels']
         ]);
 
-        $this->ClassroomsPupils = TableRegistry::get('ClassroomsPupils');
-		$classroomsPupils = $this->ClassroomsPupils->returnPupilsWithLevelsForClassroom($id);
+        $classroomsPupils = $this->Classrooms->findPupilsByLevelsInClassroom($id);
 
-		$this->set(compact('classroom','classroomsPupils'));
+        if ($this->request->query('format') === 'select2') {
+            $classroom = $this->Classrooms->getPupilsSelect2($id);
+        }
+
+        $this->set(compact('classroom', 'classroomsPupils'));
 
         Configure::config('default', new PhpConfig());
         Configure::load('opencomp', 'default');
-        $this->set('odbUrl', 'http://'.Configure::read('Opencomp.tomcatHost').'/ODBGenerator/generateODB?apikey='.$this->Auth->user('apikey').'&classroom_id='.$id);
-	}
+        $odbUrl = sprintf(
+            'http://%s/ODBGenerator/generateODB?apikey=%s&classroom_id=%d',
+            Configure::read('Opencomp.tomcatHost'),
+            $this->Auth->user('api_token'),
+            $id
+        );
+        $this->set(compact('odbUrl'));
+        $this->set('_serialize', 'classroom');
+    }
 
-	public function viewtests($id = null){
-		$this->set('title_for_layout', __('Visualiser une classe'));
+    public function viewtests($id = null)
+    {
+        $this->set('title_for_layout', __('Visualiser une classe'));
 
-        $classroom = $this->Classrooms->get($id, ['contain' => 'Establishments']);
-        $current_period = $classroom->establishment->current_period_id;
-        $period = $this->Classrooms->Establishments->Periods->get($current_period);
+        $classroom = $this->Classrooms->get($id, ['contain' => ['Establishments', 'Years']]);
 
-        if(Time::now() > $period->end)
-            $this->Flash->error('Il semblerait que la période sélectionnée soit inférieure à la date courante. Vous pouvez modifier cela en cliquant sur "établissement de la classe"');
+        $evaluationsQuery = $this->Classrooms->Evaluations->find('search', ['search' => $this->request->query])
+            ->select(['id', 'title'])
+            ->where(['classroom_id' => $id, 'unrated' => 0])
+            ->contain(['Users' =>
+                function ($q) {
+                    return $q
+                    ->select(['id', 'first_name', 'last_name']);
+                }, 'Results' => function ($q) {
+                    return $q
+                    ->select(['id', 'evaluation_id']);
+                }, 'Pupils' => function ($q) {
+                    return $q
+                    ->select(['id']);
+                }, 'Competences' => function ($q) {
+                    return $q
+                    ->select(['id']);
+                }])
+            ->orderDesc('id');
 
-        $contain = [
-            'User', 'Establishments', 'Years',
-            'Evaluations' => function (Query $q) use ($current_period) {
-                return $q
-                    ->where(['Evaluations.unrated' => '0'])
-                    ->where(['Evaluations.period_id' => $current_period])
-                    ->order(['Evaluations.created' => 'DESC']);
-            },
-            'Evaluations.Users', 'Evaluations.Items', 'Evaluations.Results', 'Evaluations.Pupils'
-        ];
+        if ($this->request->is('json')) {
+            $evaluationsQuery = $this->Classrooms->Evaluations->find('search', ['search' => $this->request->query])
+                ->select(['Evaluations.id', 'Evaluations.title', 'created', 'Periods.id', 'Periods.begin', 'Periods.end'])
+                ->contain(['Users' => function ($q) {
+                    return $q
+                        ->select(['id', 'first_name', 'last_name']);
+                }, 'Periods'])
+                ->where(['classroom_id' => $id, 'unrated' => 0])
+                ->orderDesc('Evaluations.id');
+        }
 
-        if(isset($this->request->query['periods']) && $this->request->query['periods'] == 'all')
-            $contain['Evaluations'] = function (Query $q) {
-                return $q
-                    ->where(['Evaluations.unrated' => '0'])
-                    ->order(['Evaluations.created' => 'DESC']);
-            };
+        $evaluations = $this->paginate($evaluationsQuery);
 
-        $classroom = $this->Classrooms->get($id, array(
-            'contain' => $contain
-        ));
+        $periods = $this->Classrooms->Evaluations->find()
+            ->select(['period_id', 'Periods.begin', 'Periods.end'])->distinct()
+            ->contain(['Periods'])
+            ->where([
+                'Periods.year_id' => $classroom->year->id,
+                'Periods.establishment_id' => $classroom->establishment->id
+            ])
+            ->all();
 
+        $this->set(compact('classroom', 'evaluations', 'periods'));
+        $this->set('_serialize', 'evaluations');
+    }
+    
+    public function viewunrateditems($id = null)
+    {
+        $this->set('title_for_layout', __('Visualiser une classe'));
+
+        $classroom = $this->Classrooms->get($id, ['contain' => ['Establishments']]);
+
+        $evaluations = $this->Classrooms->Evaluations->find()
+            ->select(['Evaluations.id', 'Periods.begin', 'Periods.end'])
+            ->contain(['Competences', 'Periods'])
+            ->where(['classroom_id' => $id, 'unrated' => 1])
+            ->orderDesc('Evaluations.id')->all();
+
+        $this->set(compact('classroom', 'evaluations'));
+    }
+    
+    public function viewreports($id = null)
+    {
+        $this->set('title_for_layout', __('Bulletins d\'une classe'));
+
+        $classroom = $this->Classrooms->get($id, ['contain' => ['Users', 'Establishments', 'Years', 'Reports']]);
         $this->set('classroom', $classroom);
-	}
-	
-	public function viewunrateditems($id = null){
-		$this->set('title_for_layout', __('Visualiser une classe'));
-		$this->Classrooms->id = $id;
-
-        $classroom = $this->Classrooms->get($id, [
-            'contain' => ['User','Years','Establishments']
-        ]);
-		$this->set('classroom', $classroom);
-
-        $this->loadModel('Settings');
-        $currentYear = $this->Settings->find('all', array('conditions' => array('Settings.key' => 'currentYear')))->first();
-		
-		$periods = $this->Classrooms->Evaluations->Periods->find('list', array(
-			'conditions' => array(
-                'establishment_id' => $classroom['Classrooms']['establishment_id'],
-                'year_id' => $currentYear['Settings']['value']
-            ),
-			'recursive' => 0));
-		$this->set('periods', $periods);
-			
-	}
-	
-	public function viewreports($id = null) {
-		$this->set('title_for_layout', __('Bulletins d\'une classe'));
-
-		$classroom = $this->Classrooms->get($id, ['contain' => ['User', 'Establishments', 'Years', 'Reports']]);
-		$this->set('classroom', $classroom);
-		
-		$periods = $this->Classrooms->Evaluations->Periods->find('list', array(
-			'conditions' => array('establishment_id' => $classroom->establishment_id)))->toArray();
-		$this->set('periods', $periods);
-	}
+        
+        $periods = $this->Classrooms->Evaluations->Periods->find('list', [
+            'conditions' => ['establishment_id' => $classroom->establishment_id]])->toArray();
+        $this->set('periods', $periods);
+    }
 
     /**
      * add method
      *
-     * @return void
+     * @param $id
      */
-	public function add() {
-		$this->set('title_for_layout', __('Ajouter une classe'));
+    public function add($id)
+    {
+        $this->set('title_for_layout', __('Ajouter une classe'));
 
-        if(is_null($this->request->query['establishment_id']))
-            throw new BadRequestException;
-
-        $establishment = $this->Classrooms->Establishments->get($this->request->query['establishment_id']);
+        $establishment = $this->Classrooms->Establishments->get($id);
 
         $classroom = $this->Classrooms->newEntity();
-		if ($this->request->is('post')) {
+        if ($this->request->is('post')) {
             $classroom = $this->Classrooms->newEntity($this->request->data);
 
             $this->Settings = TableRegistry::get('Settings');
-            $currentYear = $this->Settings->find('all', array('conditions' => array('Settings.key' => 'currentYear')))->first();
-            $current_year = $currentYear->value;
+            $currentYear = $this->Settings->find('all', ['conditions' => ['Settings.key' => 'currentYear']])->first();
+            $currentYear = $currentYear->value;
 
-            $classroom->year_id = $current_year;
+            $classroom->year_id = $currentYear;
             $classroom->establishment_id = $establishment->id;
 
-			if ($this->Classrooms->save($classroom)) {
-				$this->Flash->success('La nouvelle classe a été correctement ajoutée.');
-				$this->redirect(array(
-				    'controller'    => 'establishments',
-				    'action'        => 'view', $classroom->establishment_id));
-			} else {
-				$this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
-			}
-		}
+            if ($this->Classrooms->save($classroom)) {
+                $this->Flash->success('La nouvelle classe a été correctement ajoutée.');
+                $this->redirect([
+                    'controller'    => 'establishments',
+                    'action'        => 'view', $classroom->establishment_id]);
+            } else {
+                $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
+            }
+        }
 
-		$users = $this->Classrooms->Users->find('list');
+        $users = $this->Classrooms->Users->find('list');
         $this->set('establishment_id', $establishment->id);
-		$this->set(compact('classroom', 'users', 'establishments'));
-	}
+        $this->set(compact('classroom', 'users', 'establishments'));
+    }
 
     /**
      * edit method
@@ -232,47 +232,26 @@ class ClassroomsController extends AppController {
      * @param string $id
      * @return void
      */
-	public function edit($id = null) {
-		$this->set('title_for_layout', __('Modifier une classe'));
+    public function edit($id = null)
+    {
+        $this->set('title_for_layout', __('Modifier une classe'));
         $classroom = $this->Classrooms->get($id, [
             'contain' => 'Users'
         ]);
 
-		if ($this->request->is(['patch', 'post', 'put'])) {
+        if ($this->request->is(['patch', 'post', 'put'])) {
             $classroom = $this->Classrooms->patchEntity($classroom, $this->request->data);
             if ($this->Classrooms->save($classroom)) {
                 $this->Flash->success('La classe a été correctement modifiée.');
-                $this->redirect(array(
+                $this->redirect([
                     'controller'    => 'classrooms',
-                    'action'        => 'view', $classroom->establishment_id));
+                    'action'        => 'view', $classroom->establishment_id]);
             } else {
                 $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
             }
-		}
+        }
 
-		$users = $this->Classrooms->Users->find('list');
-		$this->set(compact('classroom', 'users'));
-	}
-
-/**
- * delete method
- *
- * @throws MethodNotAllowedException
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
-		$this->Classroom->id = $id;
-
-		if ($this->Classroom->delete()) {
-			$this->Session->setFlash(__('Classroom deleted'));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->Session->setFlash(__('Classroom was not deleted'));
-		$this->redirect(array('action' => 'index'));
-	}
+        $users = $this->Classrooms->Users->find('list');
+        $this->set(compact('classroom', 'users'));
+    }
 }

@@ -30,11 +30,6 @@ class ClassroomsTable extends Table
         $this->displayField('title');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
-        $this->belongsTo('User', [
-            'className' => 'Users',
-            'foreignKey' => 'user_id',
-            'joinType' => 'INNER'
-        ]);
         $this->belongsTo('Years', [
             'foreignKey' => 'year_id',
             'joinType' => 'INNER'
@@ -49,10 +44,13 @@ class ClassroomsTable extends Table
         $this->hasMany('Evaluations', [
             'foreignKey' => 'classroom_id'
         ]);
-        $this->hasMany('Items', [
+        $this->hasMany('Competences', [
             'foreignKey' => 'classroom_id'
         ]);
         $this->hasMany('Reports', [
+            'foreignKey' => 'classroom_id'
+        ]);
+        $this->hasMany('ClassroomsPupils', [
             'foreignKey' => 'classroom_id'
         ]);
         $this->belongsToMany('Pupils', [
@@ -66,6 +64,16 @@ class ClassroomsTable extends Table
             'targetForeignKey' => 'user_id',
             'joinTable' => 'classrooms_users'
         ]);
+
+        // Add the behaviour to your table
+        $this->addBehavior('Search.Search');
+
+        // Setup search filter using search manager
+        $this->searchManager()
+            // Here we will alias the 'q' query param to search the `Articles.title`
+            // field and the `Articles.content` field, using a LIKE match, with `%`
+            // both before and after.
+            ->value('Evaluations.period_id');
     }
 
     /**
@@ -97,6 +105,67 @@ class ClassroomsTable extends Table
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['year_id'], 'Years'));
         $rules->add($rules->existsIn(['establishment_id'], 'Establishments'));
+        
+
         return $rules;
+    }
+
+    public function findPupilsByLevelsInClassroom($idClassroom)
+    {
+        $pupilsLevels = $this->ClassroomsPupils
+                              ->find()
+                              ->select(['Pupils.id', 'Pupils.first_name', 'Pupils.name', 'Pupils.sex', 'Pupils.birthday', 'Levels.id', 'Levels.title'])
+                              ->where(['ClassroomsPupils.classroom_id' => $idClassroom])
+                              ->innerJoinWith('Pupils')
+                              ->innerJoinWith('Levels')
+                              ->orderAsc('Pupils.name, Pupils.first_name');
+
+        $pupilsLevels = [];
+        foreach ($pupilsLevels as $pupilLevel) {
+            $pupilsLevels[$pupilLevel->_matchingData['Levels']->id][$pupilLevel->_matchingData['Levels']->title][$pupilLevel->_matchingData['Pupils']->id]['first_name'] = $pupilLevel->_matchingData['Pupils']->first_name;
+            $pupilsLevels[$pupilLevel->_matchingData['Levels']->id][$pupilLevel->_matchingData['Levels']->title][$pupilLevel->_matchingData['Pupils']->id]['name'] = $pupilLevel->_matchingData['Pupils']->name;
+            $pupilsLevels[$pupilLevel->_matchingData['Levels']->id][$pupilLevel->_matchingData['Levels']->title][$pupilLevel->_matchingData['Pupils']->id]['sex'] = $pupilLevel->_matchingData['Pupils']->sex;
+            $pupilsLevels[$pupilLevel->_matchingData['Levels']->id][$pupilLevel->_matchingData['Levels']->title][$pupilLevel->_matchingData['Pupils']->id]['birthday'] = $pupilLevel->_matchingData['Pupils']->birthday;
+        }
+
+        return $pupilsLevels;
+    }
+
+    public function getPupilsSelect2($idClassroom)
+    {
+        $pupilsLevels = $this->ClassroomsPupils->Levels->find()
+            ->select(['Levels.id', 'Levels.title'])
+            ->distinct('Levels.id')
+            ->matching('ClassroomsPupils', function ($q) use ($idClassroom) {
+                return $q->where(['ClassroomsPupils.classroom_id' => $idClassroom]);
+            })
+            ->contain(['Pupils' => function ($q) use ($idClassroom) {
+                return $q
+                    ->select(['id', 'first_name', 'name'])
+                    ->where(['ClassroomsPupils.classroom_id' => $idClassroom])
+                    ->orderAsc('Pupils.name, Pupils.first_name');
+            }])
+            ->orderAsc('Levels.id');
+
+        $pupilsLevels = [];
+        foreach ($pupilsLevels as $pupilLevel) {
+            $level = [
+                'id' => $pupilLevel->id,
+                'text' => $pupilLevel->title,
+                'children' => []
+            ];
+
+            foreach ($pupilLevel->pupils as $pupil) {
+                $formattedPupil = [
+                    'id' => $pupil->id,
+                    'text' => $pupil->full_name
+                ];
+                array_push($level['children'], $formattedPupil);
+            }
+            array_push($pupilsLevels, $level);
+        }
+        
+
+        return $pupilsLevels;
     }
 }

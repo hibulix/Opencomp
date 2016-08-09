@@ -26,7 +26,6 @@ echo $this->Form->input('title', array(
 
 echo $this->Form->input('period_id', array(
     'type' => 'select',
-    'class' => false,
     'data-placeholder' => 'Cliquez pour choisir les périodes à générer',
     'multiple' => 'multiple',
     'class' => 'chzn-select form-control',

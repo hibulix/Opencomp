@@ -58,6 +58,8 @@ class AcademiesUsersTable extends Table
     {
         $rules->add($rules->existsIn(['academy_id'], 'Academies'));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
+        
+
         return $rules;
     }
 }

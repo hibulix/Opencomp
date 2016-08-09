@@ -24,5 +24,4 @@ class Report extends Entity
         'duplex_printing' => true,
         'classroom' => true,
     ];
-
 }
