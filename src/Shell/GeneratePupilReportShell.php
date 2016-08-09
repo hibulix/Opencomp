@@ -2,8 +2,8 @@
 
 namespace App\Shell;
 
-use Cake\Console\Shell;
 use App\View\Helper;
+use Cake\Console\Shell;
 use Cake\Core\Configure;
 use Cake\View\View;
 use Pheanstalk\Pheanstalk;
@@ -12,6 +12,9 @@ use ZendPdf;
 class GeneratePupilReportShell extends Shell
 {
 
+    /**
+     * @return void
+     */
     public function initialize()
     {
         parent::initialize();
@@ -19,6 +22,9 @@ class GeneratePupilReportShell extends Shell
         $this->loadModel('Reports');
     }
 
+    /**
+     * @return void
+     */
     public function main()
     {
         $pheanstalk = new Pheanstalk(Configure::read('beanstalkd_host'));
@@ -38,10 +44,14 @@ class GeneratePupilReportShell extends Shell
         }
     }
 
-    private function generateReport($data)
+    /**
+     * @param array $data Report data
+     * @return void
+     */
+    public function generateReport($data)
     {
         $report = $this->Reports->get($data['report_id']);
-        $this->out("<info>Génération du bulletin ".$report->id." pour l'élève ".$data['pupil_id']."</info>", 1, Shell::NORMAL);
+        $this->out("<info>Génération du bulletin " . $report->id . " pour l'élève " . $data['pupil_id'] . "</info>", 1, Shell::NORMAL);
         $items = $this->Results->findResultsForReport(
             $data['pupil_id'],
             $report->classroom_id,
@@ -62,7 +72,7 @@ class GeneratePupilReportShell extends Shell
         $footer = $htmlReport->formatFooter();
         $content = $htmlReport->getContent();
 
-        $stylesheet = WWW_ROOT.'/css/opencomp.report.css';
+        $stylesheet = WWW_ROOT . '/css/opencomp.report.css';
 
         //On prépare le HTML pour Dompdf
         $html = <<<HTML
@@ -89,10 +99,14 @@ HTML;
         $htmlReport->renderPdf($html, $data['pupil_id']);
     }
 
-    private function concatenateReports($data)
+    /**
+     * @param array $data Report data
+     * @return void
+     */
+    public function concatenateReports($data)
     {
         $report = $this->Reports->get($data['report_id']);
-        $this->out("<info>Fusion du bulletin ".$report->id."</info>", 1, Shell::NORMAL);
+        $this->out("<info>Fusion du bulletin " . $report->id . "</info>", 1, Shell::NORMAL);
         $pupils = unserialize($report->beanstalkd_jobs);
         array_pop($pupils);
 
@@ -100,7 +114,7 @@ HTML;
 
         foreach (array_keys($pupils) as $pupilId) {
             // Load PDF Document
-            $OldPdf = ZendPdf\PdfDocument::load(APP . "files/reports/".$report->id."_".$pupilId.".pdf");
+            $OldPdf = ZendPdf\PdfDocument::load(APP . "files/reports/" . $report->id . "_" . $pupilId . ".pdf");
 
             // Clone each page and add to merged PDF
             $pages = count($OldPdf->pages);
@@ -111,10 +125,10 @@ HTML;
         }
 
         // Save changes to PDF
-        $pdfMerged->save(APP . "files/reports/".$report->id.".pdf");
+        $pdfMerged->save(APP . "files/reports/" . $report->id . ".pdf");
 
         foreach (array_keys($pupils) as $pupilId) {
-            unlink(APP . "files/reports/".$report->id."_".$pupilId.".pdf");
+            unlink(APP . "files/reports/" . $report->id . "_" . $pupilId . ".pdf");
         }
 
         $report->beanstalkd_finished = 1;
@@ -122,11 +136,11 @@ HTML;
     }
 
     /**
-     * @param string $key
-     * @param array $arr
+     * @param string $key Array key
+     * @param array $arr Array
      * @return array|mixed
      */
-    private function arrayValueRecursive($key, array $arr)
+    public function arrayValueRecursive($key, array $arr)
     {
         $val = [];
         array_walk_recursive($arr, function ($v, $k) use ($key, &$val) {

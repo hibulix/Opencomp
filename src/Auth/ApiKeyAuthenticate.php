@@ -47,11 +47,10 @@ class ApiKeyAuthenticate extends BaseAuthenticate
      *
      * @param Request $request Cake request object.
      * @param Response $response Cake response object.
-     * @return mixed
+     * @return mixed user
      */
     public function authenticate(Request $request, Response $response)
     {
-
         return $this->getUser($request);
     }
 
@@ -61,6 +60,7 @@ class ApiKeyAuthenticate extends BaseAuthenticate
      * @param Request $request Cake request object.
      * @param Response $response Cake response object.
      * @throws UnauthorizedException
+     * @return void
      */
     public function unauthenticated(Request $request, Response $response)
     {
@@ -82,7 +82,6 @@ class ApiKeyAuthenticate extends BaseAuthenticate
      */
     public function getUser(Request $request)
     {
-
         $type = $this->config('type');
         if (!in_array($type, $this->types)) {
             throw new OutOfBoundsException(__d('CakeDC/Users', 'Type {0} is not valid', $type));

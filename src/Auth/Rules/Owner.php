@@ -10,10 +10,11 @@
  */
 namespace App\Auth\Rules;
 
+use CakeDC\Users\Auth\Rules\AbstractRule;
 use Cake\Core\Exception\Exception;
 use Cake\Network\Request;
 use Cake\Utility\Hash;
-use CakeDC\Users\Auth\Rules\AbstractRule;
+
 use OutOfBoundsException;
 
 /**
@@ -54,7 +55,13 @@ class Owner extends AbstractRule
     ];
 
     /**
-     * {@inheritdoc}
+     * Check the current entity is owned by the logged in user
+     *
+     * @param array $user Auth array with the logged in data
+     * @param string $role role of the user
+     * @param Request $request current request, used to get a default table if not provided
+     * @return bool
+     * @throws OutOfBoundsException if table is not found or it doesn't have the expected fields
      */
     public function allowed(array $user, $role, Request $request)
     {

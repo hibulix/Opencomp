@@ -7,17 +7,17 @@ use /** @noinspection PhpUnusedAliasInspection */
 class UtilsHelper extends AppHelper
 {
    
-   /**
-    * sortingSign function.
-    * Permet de retourner un signe ascendant, descendant ou les deux en fonction
-    * du tri actuellement appliqué par le paginateur.
-    *
-    * @access public
-    * @param string $column Le nom de la propriété du modèle à tester
-    * @param mixed $sortKey Utilisé pour transmettre $this->Paginator->sortKey()
-    * @param mixed $sortDir Utilisé pour transmettre $this->Paginator->sortDir()
-    * @return void
-    */
+    /**
+     * sortingSign function.
+     * Permet de retourner un signe ascendant, descendant ou les deux en fonction
+     * du tri actuellement appliqué par le paginateur.
+     *
+     * @access public
+     * @param string $column Le nom de la propriété du modèle à tester
+     * @param mixed $sortKey Utilisé pour transmettre $this->Paginator->sortKey()
+     * @param mixed $sortDir Utilisé pour transmettre $this->Paginator->sortDir()
+     * @return void
+     */
     public function sortingSign($column, $sortKey, $sortDir)
     {
         if ($column == $sortKey) {
@@ -31,6 +31,11 @@ class UtilsHelper extends AppHelper
         }
     }
 
+    /**
+     * @param $qty
+     * @param $total
+     * @return string
+     */
     public function getPercentValue($qty, $total)
     {
         return number_format($qty * 100 / $total, 3);

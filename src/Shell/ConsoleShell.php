@@ -30,7 +30,6 @@ class ConsoleShell extends Shell
      *
      * @return int|void
      */
-    /** @noinspection PhpInconsistentReturnPointsInspection */
     public function main()
     {
         if (!class_exists('Psy\Shell')) {
