@@ -1,17 +1,12 @@
 <?php
 namespace app\Controller;
 
-//noinspection PhpUnusedClassInspection
-use /** @noinspection PhpUnusedAliasInspection */
-    App\Controller\AppController;
-use Cake\Core\Configure;
-use Cake\Core\Configure\Engine\PhpConfig;
+use App\Controller\AppController;
 use Cake\Database\Query;
 use Cake\Event\Event;
 use Cake\Network\Exception\NotFoundException;
 use Cake\Network\Response;
 use Cake\ORM\TableRegistry;
-
 use Cake\Utility\Text;
 
 /**

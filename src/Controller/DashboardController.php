@@ -7,10 +7,17 @@ use Cake\ORM\TableRegistry;
 class DashboardController extends AppController
 {
 
+    /**
+     * @return void
+     */
     public function index()
     {
     }
 
+    /**
+     * @param null $id repo id
+     * @return void
+     */
     public function repo($id)
     {
         $competences = TableRegistry::get('Competences');

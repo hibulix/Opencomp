@@ -14,19 +14,10 @@ class CompetencesController extends AppController
 
     public $components = ['JsonTree'];
 
-    public function isAuthorized($user = null)
-    {
-        if (in_array($this->action, ['add', 'moveup', 'movedown', 'deletenode'])) {
-            if ($user['role'] === 'admin') {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return true;
-        }
-    }
-
+    /**
+     * @param null $id parent id
+     * @return void
+     */
     public function add($id = null)
     {
         $this->set('title_for_layout', __('Ajouter une compétence au référentiel'));
@@ -53,8 +44,9 @@ class CompetencesController extends AppController
     /**
      * edit method
      *
-     * @param null $id
+     * @param null $id competence id
      * @throws NotFoundException
+     * @return void
      */
     public function edit($id = null)
     {
@@ -84,6 +76,10 @@ class CompetencesController extends AppController
         $this->set('cid', $competenceids);
     }
 
+    /**
+     * @param null $id competence id
+     * @return void
+     */
     public function moveup($id = null)
     {
         $this->Competence->id = $id;
@@ -95,6 +91,10 @@ class CompetencesController extends AppController
         $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * @param null $id competence id
+     * @return void
+     */
     public function movedown($id = null)
     {
         $this->Competence->id = $id;
@@ -106,6 +106,10 @@ class CompetencesController extends AppController
         $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * @param null $id competence id
+     * @return void
+     */
     public function deleteNode($id = null)
     {
         $this->Competence->id = $id;
@@ -117,6 +121,9 @@ class CompetencesController extends AppController
         $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * @return void
+     */
     public function attachitem()
     {
         $this->set('title_for_layout', __('Associer un item à une évaluation'));
@@ -127,6 +134,9 @@ class CompetencesController extends AppController
         $this->set('json', $this->JsonTree->allItemsToJson());
     }
 
+    /**
+     * @return void
+     */
     public function attachunrateditem()
     {
         $this->set('title_for_layout', __('Associer un item non évalué à une évaluation'));
@@ -140,6 +150,9 @@ class CompetencesController extends AppController
         }
     }
 
+    /**
+     * @return void
+     */
     public function index()
     {
         $this->set('title_for_layout', __('Référentiel de compétences'));
