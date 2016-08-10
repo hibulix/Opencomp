@@ -30,7 +30,7 @@ class EvaluationsController extends AppController
         ]);
         $this->set('title_for_layout', $evaluation->title);
         $levelsPupils = $this->Evaluations->findPupilsByLevels($id);
-        $this->set(compact('evaluation', 'levels_pupils'));
+        $this->set(compact('evaluation', 'levelsPupils'));
     }
 
     /**
@@ -100,18 +100,6 @@ class EvaluationsController extends AppController
         $this->set(compact('evaluation', 'levelsPupils'));
     }
 
-    public function insights($id = null){
-        $evaluation = $this->Evaluations->get($id, [
-            'contain' => [
-                'Classrooms'
-            ],
-            'conditions' => ['unrated' => 0]
-        ]);
-        $this->set('title_for_layout', $evaluation->title);
-        $levels_pupils = $this->Evaluations->findPupilsByLevels($id);
-        $this->set(compact('evaluation', 'levels_pupils'));
-    }
-
     /**
      * add method
      *
@@ -126,7 +114,7 @@ class EvaluationsController extends AppController
         $evaluation = $this->Evaluations->newEntity();
 
         $users = $this->Evaluations->Classrooms->Users
-            ->find('list')->matching('Classrooms', function ($q) use ($id) {
+            ->find('list')->matching('Classrooms', function (Query $q) use ($id) {
                 return $q->where(['Classrooms.id' => $id]);
             });
 

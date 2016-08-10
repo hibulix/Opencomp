@@ -2,12 +2,10 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
-use App\Controller\Component\LoadCSVComponent;
 use Cake\Database\Connection;
 use Cake\Datasource\ConnectionManager;
 use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\TableRegistry;
-
 
 /**
  * EstablishmentsController.php
@@ -175,133 +173,7 @@ class EstablishmentsController extends AppController
     {
     }
 
-    public $paginate = [
-        'limit' => 15,
-        'contain' => [
-            'Towns.Academies'
-        ],
-        'sortWhitelist'=>['Towns.name','Academies.name','name','id','sector']
-    ];
-
-    public function initialize()
-    {
-        parent::initialize();
-        $this->loadComponent('LoadCSV');
-        $this->loadComponent('Paginator');
-
-        $this->loadComponent('Search.Prg', [
-            // This is default config. You can modify "actions" as needed to make
-            // the PRG component work only for specified methods.
-            'actions' => ['index', 'lookup']
-        ]);
-    }
-
-    public function index() {
-        $query = $this->Establishments
-            // Use the plugins 'search' custom finder and pass in the
-            // processed query params
-            ->find('search', ['search' => $this->request->query])
-            // You can add extra things to the query if you need to
-            ->contain(['Towns.Academies'])
-            ->where(['Establishments.name IS NOT' => null]);
-
-        $this->set('schools',$this->paginate($query));
-        $this->set('_serialize',true);
-    }
-
-    /**
-     * @return Response
-     */
-    public function downloadWebEstablishments() {
-        $src = 'https://www.data.gouv.fr/s/resources/adresse-et-geolocalisation-des-etablissements-denseignement-du-premier-et-second-degres/20160526-143453/DEPP-etab-1D2D.csv';
-        $dest = TMP.'mysql-files/DEPP-etab-1D2D.csv';
-        $this->LoadCSV->downloadCSV($src,$dest);
-    }
-
-    /**
-     * @return Response
-     */
-    public function populateWebEstablishments() {
-        $this->LoadCSV->populateCSV('/var/lib/mysql-files/DEPP-etab-1D2D.csv', 'web_establishments', 0, 'latin1', ';', 1);
-
-        //On met à jour les établissements de la base de données depuis la table Web
-        $conn = ConnectionManager::get('default');
-        $conn->execute(
-            "INSERT INTO establishments (`id`,`name`,`main_naming`,`uai_patronym`,`sector`, `address`, `locality`, `town_id`, `X`, `Y`)
-             SELECT `numero_uai`,`appellation_officielle`,`denomination_principale`,`patronyme_uai`,`secteur_public_prive_libe`,
-                    `adresse_uai`, `lieu_dit_uai`, web_mapping_pc_insee.Code_commune_INSEE,
-                    CONVERT(REPLACE(NULLIF(web_establishments.coordonnee_x,0),',','.'), DECIMAL(8,1)),
-                    CONVERT(REPLACE(NULLIF(web_establishments.coordonnee_y,0),',','.'), DECIMAL(9,1))
-             FROM `web_establishments`
-             LEFT JOIN web_mapping_pc_insee
-             ON web_mapping_pc_insee.Code_postal = web_establishments.code_postal_uai
-             AND web_mapping_pc_insee.Libelle_acheminement = web_establishments.localite_acheminement_uai
-             WHERE `nature_uai` IN(151,152,153)
-             AND web_mapping_pc_insee.Code_commune_INSEE IS NOT NULL
-             ON DUPLICATE KEY UPDATE
-             `main_naming`=`denomination_principale`,
-             `uai_patronym`=`patronyme_uai`,
-             `locality`=`lieu_dit_uai`,
-             X=CONVERT(REPLACE(NULLIF(web_establishments.coordonnee_x,0),',','.'), DECIMAL(8,1)),
-             Y=CONVERT(REPLACE(NULLIF(web_establishments.coordonnee_y,0),',','.'), DECIMAL(9,1))"
-        );
-    }
-
-    /**
-     * @return Response
-     */
-    public function downloadGeoRef() {
-        $src = 'http://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-referentiel-geographique/download/?format=csv&timezone=Europe/Berlin&use_labels_for_header=true';
-        $dest = TMP.'mysql-files/fr-esr-referentiel-geographique.csv';
-        $this->LoadCSV->downloadCSV($src,$dest);
-    }
-
-    /**
-     * @return Response
-     */
-    public function populateWebGeoRef() {
-        $this->LoadCSV->populateCSV('/var/lib/mysql-files/fr-esr-referentiel-geographique.csv', 'web_geo_ref', 0, 'utf8', ';', 1);
-
-
-        /** @var Connection $conn */
-        $conn = ConnectionManager::get('default');
-        $conn->execute(
-            'INSERT INTO towns (`id`,`name`,`academy_id`)
-             SELECT DISTINCT `COM_CODE`, `COM_NOM`, `ACA_CODE`
-             FROM web_geo_ref
-             ON DUPLICATE KEY UPDATE `name`=`COM_NOM`,`academy_id`=`ACA_CODE`'
-        );
-        $conn->execute(
-            'INSERT INTO academies (`id`, `name`)
-             SELECT DISTINCT `ACA_CODE`, `ACA_NOM`
-             FROM web_geo_ref
-             ON DUPLICATE KEY UPDATE `name`=`ACA_NOM`'
-        );
-    }
-
-    /**
-     * @return Response
-     */
-    public function downloadWebMappingCPINSEE() {
-        $src = 'http://datanova.legroupe.laposte.fr/explore/dataset/laposte_hexasmal/download/?format=csv&timezone=Europe/Berlin&use_labels_for_header=true';
-        $dest = TMP.'mysql-files/laposte_hexasmal.csv';
-        $this->LoadCSV->downloadCSV($src,$dest);
-    }
-
-    /**
-     * @return Response
-     */
-    public function populateWebMappingCPINSEE() {
-        $this->LoadCSV->populateCSV('/var/lib/mysql-files/laposte_hexasmal.csv', 'web_mapping_pc_insee', 1, 'utf8', ';', 1);
-    }
-
-    /**
-     * @return Response
-     */
-    public function sync() {
-
-    }
-
+    
     /**
      * view method
      *

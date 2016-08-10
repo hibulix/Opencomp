@@ -144,13 +144,13 @@ class ClassroomsController extends AppController
                 function (Query $q) {
                     return $q
                         ->select(['id', 'first_name', 'last_name']);
-                }, 'Results' => function ($q) {
+                }, 'Results' => function (Query $q) {
                     return $q
                         ->select(['id', 'evaluation_id']);
-                }, 'Pupils' => function ($q) {
+                }, 'Pupils' => function (Query $q) {
                     return $q
                         ->select(['id']);
-                }, 'Competences' => function ($q) {
+                }, 'Competences' => function (Query $q) {
                     return $q
                         ->select(['id']);
                 }])
@@ -159,7 +159,7 @@ class ClassroomsController extends AppController
         if ($this->request->is('json')) {
             $evaluationsQuery = $this->Classrooms->Evaluations->find('search', ['search' => $this->request->query])
                 ->select(['Evaluations.id', 'Evaluations.title', 'created', 'Periods.id', 'Periods.begin', 'Periods.end'])
-                ->contain(['Users' => function ($q) {
+                ->contain(['Users' => function (Query $q) {
                     return $q
                         ->select(['id', 'first_name', 'last_name']);
                 }, 'Periods'])

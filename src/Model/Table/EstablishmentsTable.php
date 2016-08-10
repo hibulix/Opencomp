@@ -156,7 +156,7 @@ class EstablishmentsTable extends Table
     private function getNbClassrooms($idEstablishment, $year)
     {
         $query = $this->Classrooms->find();
-        $total = $query->matching('Establishments', function ($q) use ($idEstablishment, $year) {
+        $total = $query->matching('Establishments', function (Query $q) use ($idEstablishment, $year) {
             return $q->where([
                 'Establishments.id' => $idEstablishment,
                 'Classrooms.year_id' => $year->value
@@ -170,7 +170,7 @@ class EstablishmentsTable extends Table
     private function getNbPupils($idEstablishment, $year)
     {
         $query = $this->Classrooms->Pupils->find();
-        $total = $query->matching('Classrooms.Establishments', function ($q) use ($idEstablishment, $year) {
+        $total = $query->matching('Classrooms.Establishments', function (Query $q) use ($idEstablishment, $year) {
             return $q->where([
                 'Establishments.id' => $idEstablishment,
                 'Classrooms.year_id' => $year->value
@@ -184,7 +184,7 @@ class EstablishmentsTable extends Table
     private function getNbPeriods($idEstablishment, $year)
     {
         $query = $this->Periods->find();
-        $total = $query->matching('Establishments', function ($q) use ($idEstablishment, $year) {
+        $total = $query->matching('Establishments', function (Query $q) use ($idEstablishment, $year) {
             return $q->where([
                 'Establishments.id' => $idEstablishment,
                 'year_id' => $year->value

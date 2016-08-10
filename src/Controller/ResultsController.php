@@ -284,7 +284,7 @@ class ResultsController extends AppController
             $levelsPupils = $this->Results->Evaluations->findPupilsByLevels($evaluation->id);
             $competences = $this->Results->Evaluations->findCompetencesByPosition($evaluation->id);
 
-            $this->set(compact('evaluation', 'levels_pupils', 'competences'));
+            $this->set(compact('evaluation', 'levelsPupils', 'competences'));
         }
     }
 

@@ -30,7 +30,7 @@ class LoadCSVComponent extends Component
                                 string $separatorField, int $hasHeader = 0){
         $this->_registry->getController()->set('_serialize', true);
 
-        try{
+        try {
             $conn = ConnectionManager::get('default');
 
             if($truncateTable === 1){
@@ -46,7 +46,7 @@ class LoadCSVComponent extends Component
 
             $this->_registry->getController()->set('error', false);
             $this->_registry->getController()->set('message', '');
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             $this->_registry->getController()->set('error', true);
             $this->_registry->getController()->set('message', $e->getMessage());
         }

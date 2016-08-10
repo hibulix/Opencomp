@@ -1,11 +1,7 @@
 <?php
 namespace app\Controller;
 
-use /** @noinspection PhpUnusedAliasInspection */
-    App\Controller\AppController;
-use App\Controller\Component\EncodingComponent;
-use App\Controller\Component\FileUploadComponent;
-use App\Model\Table\PupilsTable;
+use App\Controller\AppController;
 use Cake\Core\Exception\Exception;
 
 /**
@@ -55,7 +51,8 @@ class PupilsController extends AppController
     /**
      * import method
      *
-     * @param $classroom_id
+     * @param int $classroomId classroom identifier
+     * @return void
      */
     public function import($classroomId)
     {

@@ -36,7 +36,7 @@ class ClassroomCell extends Cell
             ->where(['unrated'=>0,'classroom_id'=>$classroom_id])
             ->count();
         $unrated_items = $this->Classrooms->Evaluations->EvaluationsCompetences->find()
-            ->contain(['Evaluations'=> function ($q) use ($classroom_id) {
+            ->contain(['Evaluations'=> function (Query $q) use ($classroom_id) {
                 return $q
                     ->where(['unrated'=>1,'classroom_id'=>$classroom_id]);
             }])->count();

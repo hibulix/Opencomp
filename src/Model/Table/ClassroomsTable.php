@@ -136,10 +136,10 @@ class ClassroomsTable extends Table
         $pupilsLevels = $this->ClassroomsPupils->Levels->find()
             ->select(['Levels.id', 'Levels.title'])
             ->distinct('Levels.id')
-            ->matching('ClassroomsPupils', function ($q) use ($idClassroom) {
+            ->matching('ClassroomsPupils', function (Query $q) use ($idClassroom) {
                 return $q->where(['ClassroomsPupils.classroom_id' => $idClassroom]);
             })
-            ->contain(['Pupils' => function ($q) use ($idClassroom) {
+            ->contain(['Pupils' => function (Query $q) use ($idClassroom) {
                 return $q
                     ->select(['id', 'first_name', 'name'])
                     ->where(['ClassroomsPupils.classroom_id' => $idClassroom])
