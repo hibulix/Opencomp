@@ -1,9 +1,7 @@
 <?php
 namespace app\Controller;
 
-use /** @noinspection PhpUnusedAliasInspection */
-    App\Controller\AppController;
-use App\Model\Table\CompetencesTable;
+use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 
 class DashboardController extends AppController
