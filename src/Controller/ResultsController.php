@@ -165,7 +165,7 @@ class ResultsController extends AppController
             $this->response->type('application/json');
             $this->response->body(json_encode(['error' => true, 'message' => $e->getMessage()], JSON_PRETTY_PRINT));
             $this->response->send();
-            exit();
+            throw new \Cake\Core\Exception\Exception($e->getMessage());
         }
     }
 

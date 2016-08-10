@@ -15,18 +15,7 @@ class DashboardController extends AppController
 
     public function repo($id)
     {
-        /** @var CompetencesTable $competences */
         $competences = TableRegistry::get('Competences');
-        //$competences->behaviors()->Tree->config('scope', ['repository_id' => '0']);
-        //$competences->recover();
-//        $competences->behaviors()->Tree->config('scope', ['scope' => '2']);
-//        $competences->recover();
-//        $competences->behaviors()->Tree->config('scope', ['scope' => '3']);
-//        $competences->recover();
-//        $competences->behaviors()->Tree->config('scope', ['scope' => '4']);
-//        $competences->recover();
-
-        //$competences->removeBehavior('Tree');
 
         $list = $competences
             ->find('all')
@@ -53,9 +42,5 @@ class DashboardController extends AppController
         $this->set('listjson', $listjson);
         $this->set('listjson', json_encode($listjson));
         $this->set('_serialize', 'listjson');
-    }
-
-    public function test()
-    {
     }
 }

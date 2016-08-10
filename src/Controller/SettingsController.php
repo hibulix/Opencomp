@@ -61,8 +61,6 @@ class SettingsController extends AppController
      */
     public function extractMethods()
     {
-        //$saved_metas = $this->Settings->getMetadatas();
-
         $controllersDir = new Folder('../src/Controller');
         $controllers = $controllersDir->find('.*Controller\.php');
 

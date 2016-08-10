@@ -56,7 +56,6 @@ class ClassroomsUsersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        //$rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['classroom_id'], 'Classrooms'));
         
 

@@ -7,9 +7,9 @@ use Cake\Core\Exception\Exception;
 /**
  * Pupils Controller
  *
- * @property PupilsTable $Pupils
- * @property EncodingComponent $Encoding
- * @property FileUploadComponent $FileUpload
+ * @property \App\Model\Table\PupilsTable $Pupils
+ * @property \App\Controller\Component\EncodingComponent $Encoding
+ * @property \App\Controller\Component\FileUploadComponent $FileUpload
  */
 class PupilsController extends AppController
 {
@@ -108,7 +108,6 @@ class PupilsController extends AppController
             array_push($datas, $data);
         }
         $pupils = $this->Pupils->newEntities($datas);
-        //debug($pupils->errors());
         $pupilsTable = $this->Pupils;
 
         try {
@@ -121,6 +120,7 @@ class PupilsController extends AppController
             debug($e->getMessage());
         }
     }
+
     private function parsecsv($removeFirstLine = false)
     {
         $classroomId = $this->request->params['pass'][0];

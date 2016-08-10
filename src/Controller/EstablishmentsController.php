@@ -272,7 +272,6 @@ class EstablishmentsController extends AppController
             }
         }
         $users = $this->Establishments->Users->find('list')->toArray();
-        //$towns = $this->Establishments->Towns->find('list');
         $this->set(compact('establishment', 'towns', 'users'));
     }
 }
