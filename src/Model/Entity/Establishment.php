@@ -30,12 +30,12 @@ class Establishment extends Entity
         'Y' => true
     ];
 
-    protected function _getLat()
+    protected function getLat()
     {
         return $this->lambert93ToWgs84($this->_properties['X'], $this->_properties['Y'])['wgs84']['lat'];
     }
 
-    protected function _getLgt()
+    protected function getLgt()
     {
         return $this->lambert93ToWgs84($this->_properties['X'], $this->_properties['Y'])['wgs84']['long'];
     }

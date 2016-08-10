@@ -27,7 +27,7 @@ class Pupil extends Entity
         'evaluations' => true,
     ];
 
-    protected function _getFullName()
+    protected function getFullName()
     {
         return $this->_properties['first_name'] . ' ' .
         $this->_properties['name'];

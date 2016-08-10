@@ -30,7 +30,7 @@ class User extends Entity
         'competences' => true,
     ];
 
-    protected function _getFullName()
+    protected function getFullName()
     {
         return $this->_properties['first_name'] . ' ' .
                 $this->_properties['last_name'];

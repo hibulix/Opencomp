@@ -25,7 +25,7 @@ class Period extends Entity
         'reports' => true,
     ];
 
-    protected function _getWellNamed()
+    protected function getWellNamed()
     {
         return 'du ' .
                 $this->_properties['begin']->i18nFormat('dd/MM/YYYY') . ' au ' .
