@@ -3,7 +3,6 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
-use App\Model\Table\ReportsTable;
 use Cake\Core\Configure;
 use Cake\Network\Exception\MethodNotAllowedException;
 use Cake\Network\Exception\NotFoundException;

@@ -1,8 +1,7 @@
 <?php
 namespace App\View\Cell;
 
-use App\Model\Table\ClassroomsTable;
-use App\Model\Table\ReportsTable;
+use Cake\ORM\Query;
 use Cake\View\Cell;
 
 /**

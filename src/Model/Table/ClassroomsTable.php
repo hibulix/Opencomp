@@ -1,10 +1,9 @@
 <?php
 namespace App\Model\Table;
 
+use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use /** @noinspection PhpUnusedAliasInspection */
-    Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**

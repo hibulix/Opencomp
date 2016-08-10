@@ -95,7 +95,7 @@ class ItemsTable extends Table
         return $rules;
     }
 
-    function findAllItems($itemIds = null, $userId)
+    public function findAllItems($itemIds = null, $userId)
     {
         if (isset($itemIds)) {
             $conditions['Items.id IN'] = $itemIds;

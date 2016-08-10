@@ -2,7 +2,6 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
-use Cake\Database\Connection;
 use Cake\Datasource\ConnectionManager;
 use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\TableRegistry;

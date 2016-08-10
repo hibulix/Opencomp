@@ -109,7 +109,7 @@ class EvaluationsTable extends Table
         return $rules;
     }
 
-    function resultsForAnEvaluation($idEvaluation)
+    public function resultsForAnEvaluation($idEvaluation)
     {
         $result = $this->Results->find();
         $result = $this->Results->find('all', [
@@ -195,7 +195,7 @@ class EvaluationsTable extends Table
         return $pupilsLevels;
     }
 
-    function getCompetencesThatBelongsToEvaluation($idEvaluation)
+    public function getCompetencesThatBelongsToEvaluation($idEvaluation)
     {
         return $this->EvaluationsCompetences->find('list', [
             'keyField' => 'id',
@@ -206,7 +206,7 @@ class EvaluationsTable extends Table
             ])->toArray();
     }
 
-    function itemBelongsToEvaluation($idEvaluation, $idItem)
+    public function itemBelongsToEvaluation($idEvaluation, $idItem)
     {
         /** @noinspection PhpParamsInspection */
         if ($this->EvaluationsCompetences->find()->where([
@@ -219,7 +219,7 @@ class EvaluationsTable extends Table
         }
     }
 
-    function levelBelongsToClassroom($idEvaluation, $idLevel)
+    public function levelBelongsToClassroom($idEvaluation, $idLevel)
     {
         $evaluation = $this->get($idEvaluation);
         /** @noinspection PhpParamsInspection */
@@ -233,7 +233,7 @@ class EvaluationsTable extends Table
         }
     }
 
-    function pupilBelongsToEvaluation($idEvaluation, $idPupil)
+    public function pupilBelongsToEvaluation($idEvaluation, $idPupil)
     {
         /** @noinspection PhpParamsInspection */
         if ($this->EvaluationsPupils->find()->where([

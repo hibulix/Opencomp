@@ -1,9 +1,7 @@
 <?php
 namespace App\Controller;
 
-use App\Model\Table\AcademiesTable;
-use /** @noinspection PhpUnusedAliasInspection */
-    App\Controller\AppController;
+use App\Controller\AppController;
 use Cake\Network\Exception\MethodNotAllowedException;
 use Cake\Network\Exception\NotFoundException;
 

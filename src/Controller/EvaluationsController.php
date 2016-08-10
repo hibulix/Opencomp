@@ -2,7 +2,6 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
-use App\Model\Table\EvaluationsTable;
 use Cake\Network\Exception\MethodNotAllowedException;
 use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\Query;

@@ -13,7 +13,6 @@
  */
 namespace App\View;
 
-use BootstrapUI\View\Helper\HtmlHelper;
 use Cake\View\View;
 
 /**

@@ -21,14 +21,10 @@
  */
 namespace App\Controller;
 
-use App\Model\Table\ClassroomsTable;
-use App\Model\Table\EstablishmentsTable;
-use App\Model\Table\SettingsTable;
-use App\Model\Table\TownsTable;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
-use Cake\I18n\Time;
 use Cake\I18n\I18n;
+use Cake\I18n\Time;
 
 /**
  * Application Controller

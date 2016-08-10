@@ -3,7 +3,6 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
-use App\Model\Table\ClassroomsPupilsTable;
 use Cake\I18n\Time;
 use Fusonic\SpreadsheetExport\ColumnTypes\TextColumn;
 use Fusonic\SpreadsheetExport\Spreadsheet;
