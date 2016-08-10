@@ -34,10 +34,10 @@ use Cake\I18n\Time;
  *
  * @package       app.Controller
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
- * @property ClassroomsTable Classrooms
- * @property EstablishmentsTable Establishments
- * @property SettingsTable Settings
- * @property TownsTable Towns
+ * @property \App\Model\Table\ClassroomsTable Classrooms
+ * @property \App\Model\Table\EstablishmentsTable Establishments
+ * @property \App\Model\Table\SettingsTable Settings
+ * @property \App\Model\Table\TownsTable Towns
  */
 class AppController extends Controller
 {

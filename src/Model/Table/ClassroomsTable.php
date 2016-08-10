@@ -111,7 +111,7 @@ class ClassroomsTable extends Table
 
     public function findPupilsByLevelsInClassroom($idClassroom)
     {
-        $pupilsLevels = $this->ClassroomsPupils
+        $pupilsLevelsSrc = $this->ClassroomsPupils
                               ->find()
                               ->select(['Pupils.id', 'Pupils.first_name', 'Pupils.name', 'Pupils.sex', 'Pupils.birthday', 'Levels.id', 'Levels.title'])
                               ->where(['ClassroomsPupils.classroom_id' => $idClassroom])
@@ -120,7 +120,7 @@ class ClassroomsTable extends Table
                               ->orderAsc('Pupils.name, Pupils.first_name');
 
         $pupilsLevels = [];
-        foreach ($pupilsLevels as $pupilLevel) {
+        foreach ($pupilsLevelsSrc as $pupilLevel) {
             $pupilsLevels[$pupilLevel->_matchingData['Levels']->id][$pupilLevel->_matchingData['Levels']->title][$pupilLevel->_matchingData['Pupils']->id]['first_name'] = $pupilLevel->_matchingData['Pupils']->first_name;
             $pupilsLevels[$pupilLevel->_matchingData['Levels']->id][$pupilLevel->_matchingData['Levels']->title][$pupilLevel->_matchingData['Pupils']->id]['name'] = $pupilLevel->_matchingData['Pupils']->name;
             $pupilsLevels[$pupilLevel->_matchingData['Levels']->id][$pupilLevel->_matchingData['Levels']->title][$pupilLevel->_matchingData['Pupils']->id]['sex'] = $pupilLevel->_matchingData['Pupils']->sex;

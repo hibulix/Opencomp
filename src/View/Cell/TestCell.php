@@ -34,8 +34,8 @@ class TestCell extends Cell
                 'Users', 'Periods', 'Classrooms'
             ]
         ]);
-        $levels_pupils = $evaluations->findPupilsByLevels($evaluation_id);
+        $levelsPupils = $evaluations->findPupilsByLevels($evaluation_id);
         $action = $this->request->params['action'];
-        $this->set(compact('evaluation', 'levels_pupils', 'action'));
+        $this->set(compact('evaluation', 'levelsPupils', 'action'));
     }
 }

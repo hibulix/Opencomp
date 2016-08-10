@@ -209,8 +209,8 @@ class EstablishmentsController extends AppController
         $this->set('stats', $this->Establishments->getStats($id, $currentYear));
         $this->set('blank_period', $this->Establishments->Periods->newEntity());
         $this->set('establishment', $establishment);
-        $this->set('lat', $establishment->lat);
-        $this->set('lgt', $establishment->lgt);
+        $this->set('lat', $establishment->lat());
+        $this->set('lgt', $establishment->lgt());
         $this->set('current_year', $currentYear->value);
     }
 

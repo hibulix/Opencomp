@@ -114,15 +114,6 @@ class ClassroomsController extends AppController
 
         $this->set(compact('classroom', 'classroomsPupils'));
 
-        Configure::config('default', new PhpConfig());
-        Configure::load('opencomp', 'default');
-        $odbUrl = sprintf(
-            'http://%s/ODBGenerator/generateODB?apikey=%s&classroom_id=%d',
-            Configure::read('Opencomp.tomcatHost'),
-            $this->Auth->user('api_token'),
-            $id
-        );
-        $this->set(compact('odbUrl'));
         $this->set('_serialize', 'classroom');
     }
 

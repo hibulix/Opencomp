@@ -23,7 +23,7 @@ $this->assign('description', $classroomLink);
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
                         <?php $first = true; ?>
-                        <?php foreach ($levels_pupils as $level_id => $levels): ?>
+                        <?php foreach ($levelsPupils as $level_id => $levels): ?>
                             <?php foreach ($levels as $level_label => $pupil): ?>
                                 <li class="<?= ($first==true)? 'active' : ''?>"><a href="#level_<?= $level_id ?>" data-toggle="tab"><?= $level_label ?></a></li>
                             <?php endforeach; ?>
@@ -32,7 +32,7 @@ $this->assign('description', $classroomLink);
                     </ul>
                     <div class="tab-content" style="column-count:2; max-height: 200px; overflow:auto;">
                         <?php $first = true; ?>
-                        <?php foreach ($levels_pupils as $level_id => $levels): ?>
+                        <?php foreach ($levelsPupils as $level_id => $levels): ?>
                             <?php foreach ($levels as $level_label => $pupils): ?>
                                 <div class="tab-pane <?= ($first==true)? 'active' : ''?>" id="level_<?= $level_id ?>">
                                     <ul>

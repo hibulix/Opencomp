@@ -174,7 +174,7 @@ class ResultsTable extends Table
         foreach ($targetedPupils->all() as $evaluationsPupils) {
             $data[$iteration]['evaluation_id'] = $evaluationId;
             $data[$iteration]['pupil_id'] = $evaluationsPupils->_matchingData['Pupils']->id;
-            $data[$iteration]['item_id'] = $itemId;
+            $data[$iteration]['competence_id'] = $itemId;
             $data[$iteration]['result'] = $result;
             $data = $this->setResult($data, $iteration, $result);
             $iteration++;
@@ -193,7 +193,7 @@ class ResultsTable extends Table
         $this->deleteAll(['Results.evaluation_id' => $evaluationId, 'Results.item_id' => $itemId, 'Results.pupil_id' => $pupilId]);
         $data[0]['evaluation_id'] = $evaluationId;
         $data[0]['pupil_id'] = $pupilId;
-        $data[0]['item_id'] = $itemId;
+        $data[0]['competence_id'] = $itemId;
         $data[0]['result'] = $result;
         $data = $this->setResult($data, 0, $result);
 
@@ -215,7 +215,7 @@ class ResultsTable extends Table
         foreach ($evaluationItems as $item) {
             $data[$iteration]['evaluation_id'] = $evaluationId;
             $data[$iteration]['pupil_id'] = $pupilId;
-            $data[$iteration]['item_id'] = $item->Items['id'];
+            $data[$iteration]['competence_id'] = $item->Items['id'];
             $data[$iteration]['result'] = $result;
             $data = $this->setResult($data, $iteration, $result);
             $iteration++;

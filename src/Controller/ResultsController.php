@@ -12,7 +12,7 @@ use Exception;
 /**
  * Results Controller
  *
- * @property ResultsTable Results
+ * @property \App\Model\Table\ResultsTable Results
  */
 class ResultsController extends AppController
 {
@@ -31,7 +31,7 @@ class ResultsController extends AppController
      */
     public function setresultforspecificitem($evaluationId = null, $competenceId = null, $result = null)
     {
-        $this->gatekeeper(compact('evaluation_id', 'competence_id', 'result'), true);
+        $this->gatekeeper(compact('evaluationId', 'competenceId', 'result'), true);
         $this->Results->saveGlobalResultEvaluationItem($evaluationId, $competenceId, $result);
 
         return $this->sendOKresponseJSON();
@@ -50,7 +50,7 @@ class ResultsController extends AppController
      */
     public function setresultforspecificitemlevel($evaluationId = null, $competenceId = null, $levelId = null, $result = null)
     {
-        $this->gatekeeper(compact('evaluation_id', 'competence_id', 'level_id', 'result'), true);
+        $this->gatekeeper(compact('evaluationId', 'competenceId', 'levelId', 'result'), true);
         $this->Results->saveGlobalResultEvaluationItemLevel($evaluationId, $competenceId, $levelId, $result);
 
         return $this->sendOKresponseJSON();
@@ -69,7 +69,7 @@ class ResultsController extends AppController
      */
     public function setresultforspecificitempupil($evaluationId = null, $competenceId = null, $pupilId = null, $result = null)
     {
-        $this->gatekeeper(compact('evaluation_id', 'competence_id', 'pupil_id', 'result'), true);
+        $this->gatekeeper(compact('evaluationId', 'competenceId', 'pupilId', 'result'), true);
         $this->Results->saveResultEvaluationItemPupil($evaluationId, $competenceId, $pupilId, $result);
 
         return $this->sendOKresponseJSON();
@@ -87,7 +87,7 @@ class ResultsController extends AppController
      */
     public function setresultforspecificpupil($evaluationId = null, $pupilId = null, $result = null)
     {
-        $this->gatekeeper(compact('evaluation_id', 'pupil_id', 'result'), true);
+        $this->gatekeeper(compact('evaluationId', 'pupilId', 'result'), true);
         $this->Results->saveGlobalResultEvaluationPupil($evaluationId, $pupilId, $result);
 
         return $this->sendOKresponseJSON();
@@ -133,7 +133,7 @@ class ResultsController extends AppController
         }
 
         try {
-            if (!$this->Results->Evaluations->exists($parameters['evaluation_id'])) {
+            if (!$this->Results->Evaluations->exists($parameters['evaluationId'])) {
                 throw new NotFoundException('Impossible de trouver cette évaluation !');
             }
             if (!in_array($parameters['result'], ['A', 'B', 'C', 'D', 'NE', 'ABS'])) {
@@ -141,22 +141,22 @@ class ResultsController extends AppController
             }
 
             //We have a competence_id so we also check that item belongs to evaluation
-            if (array_key_exists('competence_id', $parameters)) {
-                if (!$this->Results->Evaluations->itemBelongsToEvaluation($parameters['evaluation_id'], $parameters['competence_id'])) {
+            if (array_key_exists('competenceId', $parameters)) {
+                if (!$this->Results->Evaluations->itemBelongsToEvaluation($parameters['evaluationId'], $parameters['competenceId'])) {
                     throw new NotFoundException('L\'item spécifié en paramètre n\'est pas associé à cette évaluation !');
                 }
             }
 
             //We have a level_id so we also check that level belongs to classroom
-            if (array_key_exists('level_id', $parameters)) {
-                if (!$this->Results->Evaluations->levelBelongsToClassroom($parameters['evaluation_id'], $parameters['level_id'])) {
+            if (array_key_exists('levelId', $parameters)) {
+                if (!$this->Results->Evaluations->levelBelongsToClassroom($parameters['evaluationId'], $parameters['levelId'])) {
                     throw new NotFoundException('Aucun élève associé au niveau spécifié en paramètre pour cette classe !');
                 }
             }
 
             //We have a pupil_id so we also check that pupil belongs to evaluation
-            if (array_key_exists('pupil_id', $parameters)) {
-                if (!$this->Results->Evaluations->pupilBelongsToEvaluation($parameters['evaluation_id'], $parameters['pupil_id'])) {
+            if (array_key_exists('pupilId', $parameters)) {
+                if (!$this->Results->Evaluations->pupilBelongsToEvaluation($parameters['evaluationId'], $parameters['pupilId'])) {
                     throw new NotFoundException('L\'élève spécifié en paramètre n\'a pas passé cette évaluation !');
                 }
             }

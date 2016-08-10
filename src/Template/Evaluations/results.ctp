@@ -68,7 +68,7 @@ $this->cell('Test::header', [$evaluation->id]); ?>
 			<!-- /.box-header -->
 			<div class="box-body no-padding text-center">
 				<?php echo $this->element('TestResults', [
-					compact('competences','levels_pupils')
+					compact('competences','levelsPupils')
 				]); ?>
 			</div>
 			<!-- /.box-body -->

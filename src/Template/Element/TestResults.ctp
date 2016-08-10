@@ -19,8 +19,8 @@
         </tr>
         </thead>
         <tbody>
-        <?php /** @var array $levels_pupils */
-        foreach ($levels_pupils as $level_id => $levels): ?>
+        <?php /** @var array $levelsPupils */
+        foreach ($levelsPupils as $level_id => $levels): ?>
             <?php foreach ($levels as $level_label => $pupils): ?>
                 <tr class="warning">
                     <th scope="row" style="padding: 5px; height:33px;"><i class="fa fa-chevron-down fa-lg" onclick="$('.<?= $level_label ?>').fadeToggle(); $(this).toggleClass('fa-chevron-down'); $(this).toggleClass('fa-chevron-right')"></i> <?= $level_label ?></th>
@@ -53,7 +53,7 @@
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($levels_pupils as $level_id => $levels): ?>
+    <?php foreach ($levelsPupils as $level_id => $levels): ?>
         <?php foreach ($levels as $level_label => $pupils): ?>
             <tr class="warning">
                 <?php foreach($competences as $competence): ?>

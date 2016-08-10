@@ -119,7 +119,7 @@ $this->assign('header', '<kbd style="font-size: xx-large; display:none;">↹</kb
 
 
                             <?php echo $this->element('TestResults', [
-                                compact('competences','levels_pupils')
+                                compact('competences','levelsPupils')
                             ]); ?>
 
 

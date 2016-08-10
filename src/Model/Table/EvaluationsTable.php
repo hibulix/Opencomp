@@ -179,7 +179,7 @@ class EvaluationsTable extends Table
 
     public function findPupilsByLevels($idEvaluation)
     {
-        $pupilsLevels = $this->EvaluationsPupils
+        $pupilsLevelsSrc = $this->EvaluationsPupils
             ->find()
             ->select(['Pupils.id', 'Pupils.first_name', 'Pupils.name', 'Pupils.sex', 'Pupils.birthday', 'Levels.id', 'Levels.title'])
             ->where(['EvaluationsPupils.evaluation_id' => $idEvaluation])
@@ -187,7 +187,7 @@ class EvaluationsTable extends Table
             ->orderAsc('Pupils.name, Pupils.first_name');
 
         $pupilsLevels = [];
-        foreach ($pupilsLevels as $pupilLevel) {
+        foreach ($pupilsLevelsSrc as $pupilLevel) {
             $pupilsLevels[$pupilLevel->_matchingData['Levels']->id][$pupilLevel->_matchingData['Levels']->title][$pupilLevel->_matchingData['Pupils']->id] = $pupilLevel->_matchingData['Pupils'];
         }
 

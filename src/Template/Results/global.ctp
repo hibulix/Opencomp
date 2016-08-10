@@ -42,7 +42,7 @@ $this->assign('header', $evaluation->title);
                                 <tr style="height:35px;" class="danger">
                                     <th scope="row" style="padding: 5px; height:35px;">Tous</th>
                                 </tr>
-                                <?php foreach ($levels_pupils as $level_id => $levels): ?>
+                                <?php foreach ($levelsPupils as $level_id => $levels): ?>
                                     <?php foreach ($levels as $level_label => $pupils): ?>
                                         <tr class="warning">
                                             <th scope="row" style="padding: 5px; height:35px;"><i class="fa fa-chevron-down fa-lg" onclick="$('.<?= $level_label ?>').fadeToggle(); $(this).toggleClass('fa-chevron-down'); $(this).toggleClass('fa-chevron-right')"></i> <?= $level_label ?></th>
@@ -90,7 +90,7 @@ $this->assign('header', $evaluation->title);
                                         </td>
                                     <?php endforeach; ?>
                                 </tr>
-                                <?php foreach ($levels_pupils as $level_id => $levels): ?>
+                                <?php foreach ($levelsPupils as $level_id => $levels): ?>
                                     <?php foreach ($levels as $level_label => $pupils): ?>
                                         <tr class="warning">
                                             <?php foreach($competences as $item): ?>
@@ -137,7 +137,7 @@ $this->assign('header', $evaluation->title);
 
 <?php $this->start('script'); ?>
 <script type="text/javascript">
-    var results = <?= $json_results ?>;
+    var results = <?= $jsonResults ?>;
     var colors = { "a" : "success", "b" : "info", "c": "warning", "d": "danger", "ne": "dark", "abs": "dark" };
     var baseURL =  $('#base_url').text();
     $( document ).ready(function() {
