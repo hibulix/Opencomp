@@ -38,7 +38,7 @@ class PupilsController extends AppController
             $pupil->classrooms_pupils = [$class];
             if ($this->Pupils->save($pupil)) {
                 $this->Flash->success('Le nouvel élève a été correctement ajouté.');
-                
+
 
                 return $this->redirect(['controller' => 'Classrooms', 'action' => 'view', $classroom->id]);
             } else {
@@ -136,7 +136,7 @@ class PupilsController extends AppController
                 $csvArray[] = str_getcsv($line, ';', '"');
             }
             $this->set('classroom_id', $classroomId);
-            
+
 
             return $this->Encoding->convertArrayToUtf8($csvArray);
         } else {

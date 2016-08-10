@@ -309,7 +309,7 @@ class ResultsController extends AppController
                 $result['grade_d'] = 1;
                 break;
         }
-        
+
 
         return $result;
     }

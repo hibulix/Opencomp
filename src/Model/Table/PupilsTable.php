@@ -86,7 +86,7 @@ class PupilsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['tutor_id'], 'Tutors'));
-        
+
 
         return $rules;
     }
@@ -98,7 +98,7 @@ class PupilsTable extends Table
         ) {
             return is_uploaded_file($params['tmp_name']);
         }
-        
+
 
         return false;
     }

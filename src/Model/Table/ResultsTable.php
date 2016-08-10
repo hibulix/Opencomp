@@ -252,4 +252,140 @@ class ResultsTable extends Table
 
         return $data;
     }
+
+    /**
+     * Function used to save multiple results at once for all pupils
+     * associted with an evaluation_id for a specific item_id.
+     *
+     * @param int $evaluation_id evaluation_id related to the results
+     * @param int $item_id item_id related to the results
+     * @param string $result result to save : A, B, C, D, NE or ABS
+     *
+     * @return boolean whether the results has been saved or not
+     */
+    public function saveGlobalResultEvaluationItem($evaluation_id, $item_id, $result){
+        $this->deleteAll(['evaluation_id' => $evaluation_id, 'item_id' => $item_id]);
+        $pupils = $this->Evaluations->EvaluationsPupils->find('list',[
+            'valueField' => 'pupil_id',
+            'conditions'=>['evaluation_id' => $evaluation_id]
+        ]);
+
+        $iteration=0;
+        $data = [];
+        foreach($pupils as $pupil_id){
+            $data[$iteration]['evaluation_id'] = $evaluation_id;
+            $data[$iteration]['pupil_id'] = $pupil_id;
+            $data[$iteration]['item_id'] = $item_id;
+            $data[$iteration]['result'] = $result;
+            $data = $this->setResult($data, $iteration, $result);
+            $iteration++;
+        }
+
+        $entities = $this->newEntities($data);
+
+        return $this->connection()->transactional(function () use ($entities) {
+            foreach ($entities as $entity) {
+                $this->save($entity);
+            }
+        });
+    }
+
+    /**
+     * Function used to save multiple results at once for all pupils
+     * associted with an evaluation_id for a specific item_id.
+     *
+     * @param int $evaluation_id evaluation_id related to the results
+     * @param int $item_id item_id related to the results
+     * @param $level_id
+     * @param string $result result to save : A, B, C, D, NE or ABS
+     * @return bool whether the results has been saved or not
+     * @internal param mixed $parameter [description]
+     */
+    public function saveGlobalResultEvaluationItemLevel($evaluation_id, $item_id, $level_id, $result){
+        $targetedPupils = $this->Evaluations->EvaluationsPupils->find()
+            ->select('Pupils.id')
+            ->innerJoinWith('Pupils.Levels')
+            ->where([
+                'EvaluationsPupils.evaluation_id' => $evaluation_id,
+                'ClassroomsPupils.level_id' => $level_id
+            ]);
+
+        $this->deleteAll(['Results.evaluation_id' => $evaluation_id, 'Results.item_id' => $item_id, 'Results.pupil_id IN' => $targetedPupils]);
+
+        $iteration=0;
+        $data = [];
+        foreach($targetedPupils->all() as $evaluationsPupils){
+            $data[$iteration]['evaluation_id'] = $evaluation_id;
+            $data[$iteration]['pupil_id'] = $evaluationsPupils->_matchingData['Pupils']->id;
+            $data[$iteration]['item_id'] = $item_id;
+            $data[$iteration]['result'] = $result;
+            $data = $this->setResult($data, $iteration, $result);
+            $iteration++;
+        }
+        $entities = $this->newEntities($data);
+
+        return $this->connection()->transactional(function () use ($entities) {
+            foreach ($entities as $entity) {
+                $this->save($entity);
+            }
+        });
+    }
+
+    public function saveResultEvaluationItemPupil($evaluation_id, $item_id, $pupil_id, $result){
+        $this->deleteAll(['Results.evaluation_id' => $evaluation_id, 'Results.item_id' => $item_id, 'Results.pupil_id' => $pupil_id]);
+        $data[0]['evaluation_id'] = $evaluation_id;
+        $data[0]['pupil_id'] = $pupil_id;
+        $data[0]['item_id'] = $item_id;
+        $data[0]['result'] = $result;
+        $data = $this->setResult($data, 0, $result);
+
+        $entities = $this->newEntities($data);
+
+        return $this->connection()->transactional(function () use ($entities) {
+            foreach ($entities as $entity) {
+                $this->save($entity);
+            }
+        });
+    }
+
+    public function saveGlobalResultEvaluationPupil($evaluation_id, $pupil_id, $result){
+        $this->deleteAll(['Results.evaluation_id' => $evaluation_id, 'Results.pupil_id' => $pupil_id]);
+        $evaluationItems = $this->Evaluations->findItemsByPosition($evaluation_id);
+
+        $iteration=0;
+        foreach($evaluationItems as $item){
+            $data[$iteration]['evaluation_id'] = $evaluation_id;
+            $data[$iteration]['pupil_id'] = $pupil_id;
+            $data[$iteration]['item_id'] = $item->Items['id'];
+            $data[$iteration]['result'] = $result;
+            $data = $this->setResult($data, $iteration, $result);
+            $iteration++;
+        }
+
+        $entities = $this->newEntities($data);
+
+        return $this->connection()->transactional(function () use ($entities) {
+            foreach ($entities as $entity) {
+                $this->save($entity);
+            }
+        });
+    }
+
+    private function setResult($data, $iteration, $grade){
+        switch($grade){
+            case 'A':
+                $data[$iteration]['grade_a'] = 1;
+                break;
+            case 'B':
+                $data[$iteration]['grade_b'] = 1;
+                break;
+            case 'C':
+                $data[$iteration]['grade_c'] = 1;
+                break;
+            case 'D':
+                $data[$iteration]['grade_d'] = 1;
+                break;
+        }
+        return $data;
+    }
 }

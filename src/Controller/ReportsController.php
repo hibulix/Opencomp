@@ -181,7 +181,7 @@ class ReportsController extends AppController
     public function edit($id = null)
     {
         $this->set('title_for_layout', __('Modifier un bulletin'));
-        
+
         $report = $this->Reports->get($id);
         $report->period_id = explode(',', $report->period_id);
         $report->page_break = explode(',', $report->page_break);

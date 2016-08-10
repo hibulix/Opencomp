@@ -40,7 +40,7 @@ class DashboardController extends AppController
             if ($list['end_cycle'] == 1) {
                 $list['type'] = 'cycle';
             }
-            
+
 
             return [
                 'id' => strval($list['id']),

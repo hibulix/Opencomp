@@ -104,7 +104,7 @@ class EvaluationsTable extends Table
         $rules->add($rules->existsIn(['classroom_id'], 'Classrooms'));
         $rules->add($rules->existsIn(['users'], 'Users'));
         $rules->add($rules->existsIn(['period_id'], 'Periods'));
-        
+
 
         return $rules;
     }
@@ -172,7 +172,7 @@ class EvaluationsTable extends Table
             'conditions' => ['Evaluations.id' => $evaluationId],
             'order' => ['EvaluationsCompetences.position'],
         ]);
-        
+
 
         return $competences;
     }
@@ -190,7 +190,7 @@ class EvaluationsTable extends Table
         foreach ($pupilsLevels as $pupilLevel) {
             $pupilsLevels[$pupilLevel->_matchingData['Levels']->id][$pupilLevel->_matchingData['Levels']->title][$pupilLevel->_matchingData['Pupils']->id] = $pupilLevel->_matchingData['Pupils'];
         }
-        
+
 
         return $pupilsLevels;
     }

@@ -50,7 +50,7 @@ class ClassroomsPupilsController extends AppController
     public function opendocumentExport()
     {
         $classroom = $this->ClassroomsPupils->Classrooms->get($this->request->query['classroom_id']);
-        
+
         //Récupération des élève de la classe courante
         $pupils = $this->ClassroomsPupils->find('all', [
             'conditions' => ['classroom_id' => $classroom->id],
@@ -110,7 +110,7 @@ class ClassroomsPupilsController extends AppController
         } else {
             $this->Flash->error('L\'élève n\'a pas pu être dissocié de cette classe.');
         }
-        
+
 
         return $this->redirect(['controller' => 'Classrooms', 'action' => 'view', $classroomId]);
     }

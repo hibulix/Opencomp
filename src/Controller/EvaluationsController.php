@@ -100,6 +100,18 @@ class EvaluationsController extends AppController
         $this->set(compact('evaluation', 'levelsPupils'));
     }
 
+    public function insights($id = null){
+        $evaluation = $this->Evaluations->get($id, [
+            'contain' => [
+                'Classrooms'
+            ],
+            'conditions' => ['unrated' => 0]
+        ]);
+        $this->set('title_for_layout', $evaluation->title);
+        $levels_pupils = $this->Evaluations->findPupilsByLevels($id);
+        $this->set(compact('evaluation', 'levels_pupils'));
+    }
+
     /**
      * add method
      *

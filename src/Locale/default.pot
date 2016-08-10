@@ -1,0 +1,1057 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2016-07-30 22:09+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Controller/AcademiesController.php:46
+msgid "Liste des académies"
+msgstr ""
+
+#: Controller/AcademiesController.php:58
+#: Template/Academies/view.ctp:3
+msgid "Visualiser une académie"
+msgstr ""
+
+#: Controller/AcademiesController.php:71
+#: Template/Academies/add.ctp:2
+#: Template/Academies/index.ctp:4
+msgid "Ajouter une académie"
+msgstr ""
+
+#: Controller/AcademiesController.php:95
+msgid "Modifier une académie"
+msgstr ""
+
+#: Controller/ClassroomsController.php:78;99;133
+#: Template/Element/ClassroomBase.ctp:2
+msgid "Visualiser une classe"
+msgstr ""
+
+#: Controller/ClassroomsController.php:155
+msgid "Bulletins d'une classe"
+msgstr ""
+
+#: Controller/ClassroomsController.php:171
+#: Template/Classrooms/add.ctp:2
+msgid "Ajouter une classe"
+msgstr ""
+
+#: Controller/ClassroomsController.php:209
+#: Template/Classrooms/edit.ctp:2
+msgid "Modifier une classe"
+msgstr ""
+
+#: Controller/ClassroomsController.php:245
+msgid "Classroom deleted"
+msgstr ""
+
+#: Controller/ClassroomsController.php:248
+msgid "Classroom was not deleted"
+msgstr ""
+
+#: Controller/CompetencesController.php:26
+msgid "Ajouter une compétence au référentiel"
+msgstr ""
+
+#: Controller/CompetencesController.php:54
+#: Template/Competences/edit.ctp:2
+msgid "Modifier une compétence"
+msgstr ""
+
+#: Controller/CompetencesController.php:58;83;93;103
+msgid "Cette compétence n'existe pas ;)"
+msgstr ""
+
+#: Controller/CompetencesController.php:111
+#: Template/Competences/attachitem.ctp:4
+msgid "Associer un item à une évaluation"
+msgstr ""
+
+#: Controller/CompetencesController.php:120
+msgid "Associer un item non évalué à une évaluation"
+msgstr ""
+
+#: Controller/CompetencesController.php:123
+msgid "Missing or invalid arguments !"
+msgstr ""
+
+#: Controller/CompetencesController.php:132
+msgid "Référentiel de compétences"
+msgstr ""
+
+#: Controller/EstablishmentsController.php:175
+msgid "Visualiser un établissement scolaire"
+msgstr ""
+
+#: Controller/EstablishmentsController.php:212
+msgid "Ajouter un établissement scolaire"
+msgstr ""
+
+#: Controller/EstablishmentsController.php:244
+msgid "Modifier un établissement scolaire"
+msgstr ""
+
+#: Controller/EvaluationsController.php:64
+#: Template/Element/EvaluationBase.ctp:2
+msgid "Détails d'une évaluation"
+msgstr ""
+
+#: Controller/EvaluationsController.php:100
+#: Template/Evaluations/add.ctp:2
+msgid "Ajouter une évaluation"
+msgstr ""
+
+#: Controller/EvaluationsController.php:146
+#: Template/Evaluations/edit.ctp:2
+msgid "Modifier une évaluation"
+msgstr ""
+
+#: Controller/EvaluationsItemsController.php:114
+#: Template/EvaluationsItems/additem.ctp:2
+msgid "Ajouter un item"
+msgstr ""
+
+#: Controller/EvaluationsItemsController.php:165
+#: Template/EvaluationsItems/addunrateditem.ctp:2
+msgid "Ajouter un item non évalué"
+msgstr ""
+
+#: Controller/ItemsController.php:18;65
+msgid "The item_id provided does not exist !"
+msgstr ""
+
+#: Controller/ItemsController.php:76
+msgid "The evaluation_id provided does not exist !"
+msgstr ""
+
+#: Controller/ItemsController.php:79
+msgid "You must provide a evaluation_id in order to edit an item !"
+msgstr ""
+
+#: Controller/LpcnodesController.php:27
+#: Template/Layout/old.ctp:65
+#: Template/Lpcnodes/index.ctp:2
+msgid "Livret Personnel de Compétences"
+msgstr ""
+
+#: Controller/LpcnodesController.php:45;55;65
+msgid "Ce noeud n'existe pas ;)"
+msgstr ""
+
+#: Controller/LpcnodesController.php:78
+#: Template/Lpcnodes/add.ctp:2
+msgid "Ajouter un noeud au Livret Personnel de Compétences"
+msgstr ""
+
+#: Controller/LpcnodesController.php:108
+#: Template/Lpcnodes/edit.ctp:2
+msgid "Modifier un noeud du Livret Personnel de Compétences"
+msgstr ""
+
+#: Controller/PeriodsController.php:32
+#: Template/Periods/edit.ctp:2
+msgid "Modifier une période"
+msgstr ""
+
+#: Controller/ReportsController.php:21
+msgid "Ajouter un bulletin"
+msgstr ""
+
+#: Controller/ReportsController.php:159
+msgid "Modifier un bulletin"
+msgstr ""
+
+#: Controller/Component/CheckParamsComponent.php:19
+msgid "Le paramètre que vous avez passé est invalide !"
+msgstr ""
+
+#: Controller/Component/CheckParamsComponent.php:23
+msgid "Vous devez passer un paramètre à cette méthode !"
+msgstr ""
+
+#: Template/Academies/add.ctp:3
+msgid "retour aux académies"
+msgstr ""
+
+#: Template/Academies/edit.ctp:2
+msgid "Éditer une académie"
+msgstr ""
+
+#: Template/Academies/edit.ctp:3
+msgid "retour à l'académie"
+msgstr ""
+
+#: Template/Academies/index.ctp:3
+msgid "Académies"
+msgstr ""
+
+#: Template/Academies/index.ctp:12
+#: Template/Academies/view.ctp:9
+msgid "Nom de l'académie"
+msgstr ""
+
+#: Template/Academies/index.ctp:13
+#: Template/Academies/view.ctp:13
+msgid "Type d'académie"
+msgstr ""
+
+#: Template/Academies/index.ctp:14
+#: Template/Academies/view.ctp:65
+#: Template/Classrooms/viewreports.ctp:25
+#: Template/Classrooms/viewtests.ctp:51
+#: Template/Classrooms/viewunrateditems.ctp:25
+#: Template/Pupils/index.ctp:23
+#: Template/Pupils/view.ctp:52;78;116
+#: Template/Users/index.ctp:32
+msgid "Actions"
+msgstr ""
+
+#: Template/Academies/index.ctp:22
+#: Template/Academies/view.ctp:42;75
+#: Template/Establishments/view.ctp:215
+#: Template/Pupils/index.ctp:34
+msgid "Voir"
+msgstr ""
+
+#: Template/Academies/index.ctp:23
+msgid "Êtes vous sûr(e) de vouloir supprimer l'académie {0}?"
+msgstr ""
+
+#: Template/Academies/view.ctp:4
+#: Template/Element/ClassroomBase.ctp:3
+#: Template/Element/EvaluationBase.ctp:3
+msgid "modifier"
+msgstr ""
+
+#: Template/Academies/view.ctp:5
+msgid "lister les académies"
+msgstr ""
+
+#: Template/Academies/view.ctp:23
+msgid "Gestionnaire(s) de cette académie"
+msgstr ""
+
+#: Template/Academies/view.ctp:29
+#: Template/Classrooms/viewtests.ctp:47
+#: Template/Element/ClassroomBase.ctp:42
+#: Template/Element/EvaluationBase.ctp:11
+msgid "Identifiant"
+msgstr ""
+
+#: Template/Academies/view.ctp:30
+#: Template/Element/ClassroomBase.ctp:43
+#: Template/Evaluations/manageresults.ctp:19
+#: Template/Pupils/index.ctp:19
+#: Template/Users/index.ctp:29
+msgid "Prénom"
+msgstr ""
+
+#: Template/Academies/view.ctp:31
+#: Template/Element/ClassroomBase.ctp:44
+#: Template/Evaluations/manageresults.ctp:20
+#: Template/Pupils/index.ctp:20
+#: Template/Users/index.ctp:30
+msgid "Nom"
+msgstr ""
+
+#: Template/Academies/view.ctp:32
+#: Template/Evaluations/attacheditems.ctp:19
+#: Template/Evaluations/manageresults.ctp:22
+msgid "Action"
+msgstr ""
+
+#: Template/Academies/view.ctp:50
+msgid "modifiant"
+msgstr ""
+
+#: Template/Academies/view.ctp:55
+msgid "Établissement(s) de cette académie"
+msgstr ""
+
+#: Template/Academies/view.ctp:56
+msgid "ajouter un établissement"
+msgstr ""
+
+#: Template/Academies/view.ctp:62
+msgid "Nom de l'établissement"
+msgstr ""
+
+#: Template/Academies/view.ctp:63
+msgid "Code postal"
+msgstr ""
+
+#: Template/Academies/view.ctp:64
+msgid "Ville"
+msgstr ""
+
+#: Template/Academies/view.ctp:76
+msgid "Éditer"
+msgstr ""
+
+#: Template/Classrooms/add.ctp:3
+#: Template/Establishments/edit.ctp:13
+#: Template/Periods/edit.ctp:3
+msgid "retour à l'établissement"
+msgstr ""
+
+#: Template/Classrooms/edit.ctp:3
+#: Template/ClassroomsPupils/addnew.ctp:3
+#: Template/ClassroomsPupils/edit.ctp:3
+#: Template/Element/EvaluationBase.ctp:4
+#: Template/Evaluations/add.ctp:3
+#: Template/Evaluations/edit.ctp:3
+#: Template/Pupils/add.ctp:3
+#: Template/Results/analyseresults.ctp:3
+msgid "retour à la classe"
+msgstr ""
+
+#: Template/Classrooms/view.ctp:11
+msgid "élèves"
+msgstr ""
+
+#: Template/Classrooms/view.ctp:20
+msgid "au format OASIS OpenDocument Spreadsheet (.ods)"
+msgstr ""
+
+#: Template/Classrooms/view.ctp:23
+msgid "au format OASIS OpenDocument Database (.odb)"
+msgstr ""
+
+#: Template/Classrooms/view.ctp:26
+msgid "quel format choisir ? (obtenir de l'aide sur les différents exports)"
+msgstr ""
+
+#: Template/Classrooms/view.ctp:37
+msgid "depuis un export .csv BE1D"
+msgstr ""
+
+#: Template/Classrooms/view.ctp:41
+msgid "ajouter un élève"
+msgstr ""
+
+#: Template/Classrooms/view.ctp:102
+msgid "Êtes vous réellement sûr(e) de vouloir supprimer {0} de cette classe ?"
+msgstr ""
+
+#: Template/Classrooms/viewreports.ctp:4
+#: Template/Classrooms/viewtests.ctp:4
+#: Template/Classrooms/viewunrateditems.ctp:4
+#: Template/EvaluationsItems/usedItems.ctp:4
+#: Template/Pupils/index.ctp:3
+#: Template/Reports/generation_progress.ctp:4
+msgid "Élèves"
+msgstr ""
+
+#: Template/Classrooms/viewreports.ctp:5
+#: Template/Classrooms/viewtests.ctp:5
+#: Template/Classrooms/viewunrateditems.ctp:5
+#: Template/EvaluationsItems/usedItems.ctp:5
+#: Template/Reports/generation_progress.ctp:5
+msgid "Évaluations"
+msgstr ""
+
+#: Template/Classrooms/viewreports.ctp:6
+#: Template/Classrooms/viewtests.ctp:6
+#: Template/Classrooms/viewunrateditems.ctp:6
+#: Template/EvaluationsItems/usedItems.ctp:6
+#: Template/Reports/generation_progress.ctp:6
+msgid "Items non évalués"
+msgstr ""
+
+#: Template/Classrooms/viewreports.ctp:7
+#: Template/Classrooms/viewtests.ctp:7
+#: Template/Classrooms/viewunrateditems.ctp:7
+#: Template/EvaluationsItems/usedItems.ctp:7
+#: Template/Reports/generation_progress.ctp:7
+msgid "Bulletins"
+msgstr ""
+
+#: Template/Classrooms/viewreports.ctp:11
+msgid "Bulletins de la classe"
+msgstr ""
+
+#: Template/Classrooms/viewreports.ctp:12
+msgid "créer un bulletin"
+msgstr ""
+
+#: Template/Classrooms/viewreports.ctp:23
+#: Template/Element/EvaluationBase.ctp:16
+msgid "Titre"
+msgstr ""
+
+#: Template/Classrooms/viewreports.ctp:24
+msgid "Période(s) associée(s)"
+msgstr ""
+
+#: Template/Classrooms/viewreports.ctp:40
+msgid "Générer"
+msgstr ""
+
+#: Template/Classrooms/viewreports.ctp:42
+msgid "Analyser les résultats"
+msgstr ""
+
+#: Template/Classrooms/viewreports.ctp:44
+#: Template/Classrooms/viewtests.ctp:82
+#: Template/Establishments/view.ctp:216
+#: Template/Pupils/index.ctp:35
+#: Template/Users/index.ctp:45
+msgid "Modifier"
+msgstr ""
+
+#: Template/Classrooms/viewreports.ctp:56
+msgid "Êtes vous réellement sûr(e) de vouloir supprimer le bulletin {0} ? La suppression d'un bulletin ne supprime pas les résultats, évaluations, périodes et élèves associés."
+msgstr ""
+
+#: Template/Classrooms/viewtests.ctp:16
+msgid "évaluations associées à cette classe"
+msgstr ""
+
+#: Template/Classrooms/viewtests.ctp:18
+msgid "évaluation associée à cette classe"
+msgstr ""
+
+#: Template/Classrooms/viewtests.ctp:21
+msgid "toutes les périodes"
+msgstr ""
+
+#: Template/Classrooms/viewtests.ctp:23
+msgid "période courante uniquement"
+msgstr ""
+
+#: Template/Classrooms/viewtests.ctp:27
+msgid "ajouter une évaluation"
+msgstr ""
+
+#: Template/Classrooms/viewtests.ctp:28
+msgid "items évalués"
+msgstr ""
+
+#: Template/Classrooms/viewtests.ctp:35
+msgid "afficher toutes les périodes"
+msgstr ""
+
+#: Template/Classrooms/viewtests.ctp:36
+msgid "afficher la période courante"
+msgstr ""
+
+#: Template/Classrooms/viewtests.ctp:48
+msgid "Titre de l'évaluation"
+msgstr ""
+
+#: Template/Classrooms/viewtests.ctp:49
+#: Template/Element/EvaluationBase.ctp:26
+msgid "Évalué par"
+msgstr ""
+
+#: Template/Classrooms/viewtests.ctp:50
+#: Template/Evaluations/manageresults.ctp:21
+msgid "Progression de la saisie"
+msgstr ""
+
+#: Template/Classrooms/viewtests.ctp:75
+msgid "Associer des items"
+msgstr ""
+
+#: Template/Classrooms/viewtests.ctp:77
+msgid "Poursuivre la saisie des résultats"
+msgstr ""
+
+#: Template/Classrooms/viewtests.ctp:79
+msgid "Commencer la saisie des résultats"
+msgstr ""
+
+#: Template/Classrooms/viewtests.ctp:83
+#: Template/Establishments/view.ctp:217
+#: Template/Evaluations/attacheditems.ctp:44
+#: Template/Pupils/index.ctp:36
+msgid "Supprimer"
+msgstr ""
+
+#: Template/Classrooms/viewtests.ctp:83
+#: Template/Establishments/view.ctp:144;217;265
+#: Template/Pupils/view.ctp:55;92;131
+msgid "Are you sure you want to delete # {0}?"
+msgstr ""
+
+#: Template/Classrooms/viewunrateditems.ctp:11
+msgid "Items travaillés mais non évalués"
+msgstr ""
+
+#: Template/Classrooms/viewunrateditems.ctp:12
+#: Template/Evaluations/attacheditems.ctp:55
+msgid "ajouter un item"
+msgstr ""
+
+#: Template/Classrooms/viewunrateditems.ctp:23
+#: Template/Element/EvaluationBase.ctp:30
+msgid "Période"
+msgstr ""
+
+#: Template/Classrooms/viewunrateditems.ctp:24
+msgid "Libellé de l'item"
+msgstr ""
+
+#: Template/ClassroomsPupils/add.ctp:2
+msgid "Ajouter un élève existant à la classe"
+msgstr ""
+
+#: Template/ClassroomsPupils/add.ctp:31
+msgid "L'élève que je souhaite ajouter n'est pas listé"
+msgstr ""
+
+#: Template/ClassroomsPupils/addnew.ctp:2
+msgid "Ajouter un nouvel élève à la classe"
+msgstr ""
+
+#: Template/ClassroomsPupils/addnew.ctp:54
+msgid "Opencomp vous demande de spécifier un niveau pour chaque élève car certaines classes peuvent comporter des élèves de niveaux différents."
+msgstr ""
+
+#: Template/ClassroomsPupils/edit.ctp:2
+msgid "Modifier un élève de la classe "
+msgstr ""
+
+#: Template/Competences/add.ctp:2
+msgid "Ajouter une compétence à l'arbre"
+msgstr ""
+
+#: Template/Competences/add.ctp:4
+#: Template/Lpcnodes/add.ctp:4
+#: Template/Results/selectpupil.ctp:7
+#: Template/Results/selectpupilmanual.ctp:3
+msgid "J'ai terminé la saisie"
+msgstr ""
+
+#: Template/Competences/attachitem.ctp:6
+#: Template/Competences/attachunrateditem.ctp:7
+#: Template/Competences/index.ctp:4
+#: Template/EvaluationsItems/usedItems.ctp:16
+#: Template/Lpcnodes/index.ctp:4
+msgid "Déplier l'arbre"
+msgstr ""
+
+#: Template/Competences/attachitem.ctp:7
+#: Template/Competences/attachunrateditem.ctp:8
+#: Template/Competences/index.ctp:5
+#: Template/EvaluationsItems/usedItems.ctp:17
+#: Template/Lpcnodes/index.ctp:5
+msgid "Replier l'arbre"
+msgstr ""
+
+#: Template/Competences/attachitem.ctp:9
+msgid "retour à l'évaluation"
+msgstr ""
+
+#: Template/Competences/attachunrateditem.ctp:5
+msgid "Associer un item travaillé mais non évalué à une période"
+msgstr ""
+
+#: Template/Competences/attachunrateditem.ctp:10
+msgid "retour aux items non évalués"
+msgstr ""
+
+#: Template/Competences/index.ctp:2
+#: Template/Layout/old.ctp:64
+msgid "Instructions officielles"
+msgstr ""
+
+#: Template/Competences/index.ctp:17
+msgid "créer une nouvelle compétence à la racine de l'arbre"
+msgstr ""
+
+#: Template/Dashboard/index.ctp:2
+msgid "Synthèse, votre tableau de bord personnel"
+msgstr ""
+
+#: Template/Dashboard/index.ctp:46
+msgid "Voir les élèves"
+msgstr ""
+
+#: Template/Dashboard/index.ctp:58
+msgid "Voir les bulletins"
+msgstr ""
+
+#: Template/Dashboard/index.ctp:73
+msgid "Voir les évaluations"
+msgstr ""
+
+#: Template/Dashboard/index.ctp:86
+msgid "Nouvelle évaluation"
+msgstr ""
+
+#: Template/Element/ClassroomBase.ctp:4
+msgid "établissement de la classe"
+msgstr ""
+
+#: Template/Element/ClassroomBase.ctp:11
+msgid "Nom de la classe"
+msgstr ""
+
+#: Template/Element/ClassroomBase.ctp:16
+msgid "Enseignant titulaire"
+msgstr ""
+
+#: Template/Element/ClassroomBase.ctp:21
+msgid "Établissement"
+msgstr ""
+
+#: Template/Element/ClassroomBase.ctp:26
+msgid "Année scolaire"
+msgstr ""
+
+#: Template/Element/ClassroomBase.ctp:36
+msgid "Intervenants de cette classe"
+msgstr ""
+
+#: Template/Element/EvaluationBase.ctp:21
+msgid "Classe"
+msgstr ""
+
+#: Template/Element/EvaluationBase.ctp:36
+msgid "Résultats globaux"
+msgstr ""
+
+#: Template/Element/EvaluationBase.ctp:51
+msgid "Élèves ayant commis cette évaluation"
+msgstr ""
+
+#: Template/Establishments/add.ctp:2
+msgid "Ajouter un établissement"
+msgstr ""
+
+#: Template/Establishments/add.ctp:3
+msgid "retour"
+msgstr ""
+
+#: Template/Establishments/view.ctp:56
+msgid "Appellation officielle"
+msgstr ""
+
+#: Template/Establishments/view.ctp:60
+msgid "Dénomination principale"
+msgstr ""
+
+#: Template/Establishments/view.ctp:64
+msgid "Patronyme UAI"
+msgstr ""
+
+#: Template/Establishments/view.ctp:70
+msgid "Secteur"
+msgstr ""
+
+#: Template/Establishments/view.ctp:80
+msgid "Libellé acheminement"
+msgstr ""
+
+#: Template/Establishments/view.ctp:84
+msgid "Ville INSEE"
+msgstr ""
+
+#: Template/Establishments/view.ctp:89
+msgid "Direction"
+msgstr ""
+
+#: Template/Establishments/view.ctp:94
+msgid "Académie"
+msgstr ""
+
+#: Template/Establishments/view.ctp:100
+msgid "Coord. Lambert 93 (IGN)"
+msgstr ""
+
+#: Template/Establishments/view.ctp:104
+msgid "Coord. WGS84 (GPS)"
+msgstr ""
+
+#: Template/Evaluations/add.ctp:33
+#: Template/Evaluations/edit.ctp:32
+msgid "La période courante de l'établissement a été automatiquement sélectionnée."
+msgstr ""
+
+#: Template/Evaluations/attacheditems.ctp:4
+#: Template/Evaluations/manageresults.ctp:4
+msgid "1. Définir les items évalués"
+msgstr ""
+
+#: Template/Evaluations/attacheditems.ctp:5
+#: Template/Evaluations/manageresults.ctp:5
+msgid "2. Saisir les résultats"
+msgstr ""
+
+#: Template/Evaluations/attacheditems.ctp:6
+#: Template/Evaluations/manageresults.ctp:6
+msgid "3. Analyser les résultats"
+msgstr ""
+
+#: Template/Evaluations/attacheditems.ctp:10
+msgid "Items associés à cette évaluation"
+msgstr ""
+
+#: Template/Evaluations/attacheditems.ctp:11
+msgid "ajouter un item évalué"
+msgstr ""
+
+#: Template/Evaluations/attacheditems.ctp:17
+msgid "Libellé de l'item évalué"
+msgstr ""
+
+#: Template/Evaluations/attacheditems.ctp:18
+msgid "Déplacer"
+msgstr ""
+
+#: Template/Evaluations/attacheditems.ctp:39
+msgid "Monter"
+msgstr ""
+
+#: Template/Evaluations/attacheditems.ctp:40
+msgid "Descendre"
+msgstr ""
+
+#: Template/Evaluations/attacheditems.ctp:46
+msgid "Êtes vous sûr(e) de vouloir dissocier cet item de cette évaluation ? L'ensemble des résultats qui auraient éventuellement été saisis pour cet item dans le cadre de cette évaluation seront perdus."
+msgstr ""
+
+#: Template/Evaluations/manageresults.ctp:11
+msgid "Résultats de cette évaluation"
+msgstr ""
+
+#: Template/Evaluations/manageresults.ctp:13
+msgid "saisie manuelle"
+msgstr ""
+
+#: Template/Evaluations/manageresults.ctp:14
+msgid "saisie automagique"
+msgstr ""
+
+#: Template/Evaluations/manageresults.ctp:34
+msgid "Compléter ou modifier la saisie"
+msgstr ""
+
+#: Template/Evaluations/manageresults.ctp:42
+msgid "associer des items"
+msgstr ""
+
+#: Template/EvaluationsItems/additem.ctp:3
+#: Template/EvaluationsItems/addunrateditem.ctp:3
+msgid "retour à l'arbre de compétences"
+msgstr ""
+
+#: Template/Items/edit.ctp:2
+msgid "Modifier un item"
+msgstr ""
+
+#: Template/Layout/auth.ctp:44
+#: Template/Layout/error.ctp:44
+#: Template/Layout/old.ctp:80
+msgid "Aide et support"
+msgstr ""
+
+#: Template/Layout/auth.ctp:47
+#: Template/Layout/error.ctp:47
+#: Template/Layout/old.ctp:83
+msgid "Chercher une solution dans la base de connaissance"
+msgstr ""
+
+#: Template/Layout/auth.ctp:48
+#: Template/Layout/error.ctp:48
+#: Template/Layout/old.ctp:84
+msgid "Signaler une anomalie, demander une fonctionnalité"
+msgstr ""
+
+#: Template/Layout/old.ctp:60
+msgid "Bureau"
+msgstr ""
+
+#: Template/Layout/old.ctp:62
+msgid "Référentiels"
+msgstr ""
+
+#: Template/Layout/old.ctp:71
+msgid "Administration"
+msgstr ""
+
+#: Template/Layout/old.ctp:73
+msgid "Gestion des établissements"
+msgstr ""
+
+#: Template/Layout/old.ctp:74
+msgid "Gestion des utilisateurs"
+msgstr ""
+
+#: Template/Layout/old.ctp:75
+#: Template/Settings/index.ctp:2
+msgid "Paramètres de l'application"
+msgstr ""
+
+#: Template/Layout/old.ctp:95
+msgid "Mon compte (bientôt)"
+msgstr ""
+
+#: Template/Layout/old.ctp:96
+msgid "Se déconnecter"
+msgstr ""
+
+#: Template/Lpcnodes/index.ctp:17
+msgid "créer un nouveau noeud à la racine de l'arbre"
+msgstr ""
+
+#: Template/Pupils/add.ctp:2
+msgid "Ajouter un élève à la classe "
+msgstr ""
+
+#: Template/Pupils/import.ctp:2
+msgid "Importer des élèves"
+msgstr ""
+
+#: Template/Pupils/index.ctp:4
+msgid "Ajouter un élève"
+msgstr ""
+
+#: Template/Pupils/index.ctp:21
+msgid "Sexe"
+msgstr ""
+
+#: Template/Pupils/index.ctp:22
+msgid "Date de naissance"
+msgstr ""
+
+#: Template/Pupils/index.ctp:36
+msgid "Êtes vous sûr de vouloir supprimer # {0}?"
+msgstr ""
+
+#: Template/Pupils/parseimport.ctp:2
+msgid "Prévisialisation, vérifiez les données à importer"
+msgstr ""
+
+#: Template/Pupils/view.ctp:2
+msgid "Pupil"
+msgstr ""
+
+#: Template/Pupils/view.ctp:4;73;110
+msgid "Id"
+msgstr ""
+
+#: Template/Pupils/view.ctp:9
+msgid "Name"
+msgstr ""
+
+#: Template/Pupils/view.ctp:14
+msgid "First Name"
+msgstr ""
+
+#: Template/Pupils/view.ctp:19
+msgid "Sex"
+msgstr ""
+
+#: Template/Pupils/view.ctp:24
+msgid "Birthday"
+msgstr ""
+
+#: Template/Pupils/view.ctp:29
+msgid "State"
+msgstr ""
+
+#: Template/Pupils/view.ctp:34
+msgid "Tutor"
+msgstr ""
+
+#: Template/Pupils/view.ctp:39
+msgid "Level"
+msgstr ""
+
+#: Template/Pupils/view.ctp:44;115
+msgid "Created"
+msgstr ""
+
+#: Template/Pupils/view.ctp:54
+msgid "Edit Pupil"
+msgstr ""
+
+#: Template/Pupils/view.ctp:55
+msgid "Delete Pupil"
+msgstr ""
+
+#: Template/Pupils/view.ctp:56
+msgid "List Pupils"
+msgstr ""
+
+#: Template/Pupils/view.ctp:57
+msgid "New Pupil"
+msgstr ""
+
+#: Template/Pupils/view.ctp:58
+msgid "List Tutors"
+msgstr ""
+
+#: Template/Pupils/view.ctp:59
+msgid "New Tutor"
+msgstr ""
+
+#: Template/Pupils/view.ctp:60
+msgid "List Levels"
+msgstr ""
+
+#: Template/Pupils/view.ctp:61
+msgid "New Level"
+msgstr ""
+
+#: Template/Pupils/view.ctp:62
+msgid "List Results"
+msgstr ""
+
+#: Template/Pupils/view.ctp:63;101
+msgid "New Result"
+msgstr ""
+
+#: Template/Pupils/view.ctp:64
+msgid "List Classrooms"
+msgstr ""
+
+#: Template/Pupils/view.ctp:65;140
+msgid "New Classroom"
+msgstr ""
+
+#: Template/Pupils/view.ctp:69
+msgid "Related Results"
+msgstr ""
+
+#: Template/Pupils/view.ctp:74
+msgid "Evaluation Id"
+msgstr ""
+
+#: Template/Pupils/view.ctp:75
+msgid "Pupil Id"
+msgstr ""
+
+#: Template/Pupils/view.ctp:76
+msgid "Item Id"
+msgstr ""
+
+#: Template/Pupils/view.ctp:77
+msgid "Result"
+msgstr ""
+
+#: Template/Pupils/view.ctp:90;129
+msgid "View"
+msgstr ""
+
+#: Template/Pupils/view.ctp:91;130
+msgid "Edit"
+msgstr ""
+
+#: Template/Pupils/view.ctp:92;131
+msgid "Delete"
+msgstr ""
+
+#: Template/Pupils/view.ctp:106
+msgid "Related Classrooms"
+msgstr ""
+
+#: Template/Pupils/view.ctp:111
+msgid "Title"
+msgstr ""
+
+#: Template/Pupils/view.ctp:112
+msgid "User Id"
+msgstr ""
+
+#: Template/Pupils/view.ctp:113
+msgid "Year Id"
+msgstr ""
+
+#: Template/Pupils/view.ctp:114
+msgid "Establishment Id"
+msgstr ""
+
+#: Template/Reports/add.ctp:2
+msgid "Définir les paramètres de génération d'un bulletin"
+msgstr ""
+
+#: Template/Reports/add.ctp:3
+msgid "annuler création"
+msgstr ""
+
+#: Template/Reports/add.ctp:24
+#: Template/Reports/edit.ctp:24
+msgid "Le titre vous permet d'identifier le bulletin mais n'est pas utilisé pour la génération du document"
+msgstr ""
+
+#: Template/Reports/add.ctp:61
+#: Template/Reports/edit.ctp:61
+msgid "Dans certains cas, il peut être utile d'insérer des sauts de pages avants certaines catégories de compétences pour améliorer la mise en page."
+msgstr ""
+
+#: Template/Reports/edit.ctp:2
+msgid "Modifier les paramètres de génération d'un bulletin"
+msgstr ""
+
+#: Template/Reports/edit.ctp:3
+msgid "annuler modification"
+msgstr ""
+
+#: Template/Results/add.ctp:3
+msgid "Saisissez les résultats de l'évaluation"
+msgstr ""
+
+#: Template/Results/add.ctp:11
+msgid "<span class=\"flash\">Flashez</span> les résultats de l'évaluation"
+msgstr ""
+
+#: Template/Results/analyseresults.ctp:2
+msgid "Analyse instantanée des résultats du bulletin"
+msgstr ""
+
+#: Template/Results/selectpupil.ctp:6
+msgid "<span class=\"flash\">Flashez</span> l'élève dont vous souhaitez saisir le résultat"
+msgstr ""
+
+#: Template/Results/selectpupilmanual.ctp:2
+msgid "Quel est l'élève dont vous souhaitez saisir le résultat"
+msgstr ""
+
+#: Template/Settings/index.ctp:63
+msgid "Vous pouvez obtenir une clé d'API Yubikey sur le site "
+msgstr ""
+
+#: Template/Users/add.ctp:2
+#: Template/Users/index.ctp:19
+msgid "Ajouter un utilisateur"
+msgstr ""
+
+#: Template/Users/add.ctp:3
+#: Template/Users/edit.ctp:3
+msgid "retour aux utilisateurs"
+msgstr ""
+
+#: Template/Users/edit.ctp:2
+msgid "Modifier un utilisateur"
+msgstr ""
+
+#: Template/Users/index.ctp:28
+msgid "Nom d'utilisateur"
+msgstr ""
+
+#: Template/Users/index.ctp:31
+msgid "Email"
+msgstr ""
+
+#: Template/Users/index.ctp:46
+msgid "Êtes vous sûr(e) de vouloir supprimer l'utilisateur {0} {1} ?"
+msgstr ""
+
+#: Template/Users/login.ctp:41
+msgid "Se connecter"
+msgstr ""
+

@@ -62,7 +62,7 @@ return [
      *   You should treat it as extremely sensitive data.
      */
     'Security' => [
-        'salt' => '__SALT__',
+        'salt' => '6da7c5e021d74369c5b11d390a5a31c0847a822ad776194574300e851f4eb0c2',
     ],
 
     /**
@@ -180,13 +180,11 @@ return [
      */
     'EmailTransport' => [
         'default' => [
-            'className' => 'Mail',
+            'className' => 'Smtp',
             // The following keys are used in SMTP transports
-            'host' => 'localhost',
+            'host' => 'postfix',
             'port' => 25,
             'timeout' => 30,
-            'username' => 'user',
-            'password' => 'secret',
             'client' => null,
             'tls' => null,
         ],

@@ -41,7 +41,7 @@ class PeriodsController extends AppController
             $period = $this->Periods->patchEntity($period, $this->request->data);
             if ($this->Periods->save($period)) {
                 $this->Flash->success('La période a été correctement mise à jour');
-                
+
 
                 return $this->redirect(['controller' => 'Establishments', 'action' => 'view', $this->request->query['establishment_id']]);
             } else {

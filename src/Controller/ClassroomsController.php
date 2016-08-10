@@ -1,9 +1,12 @@
 <?php
 namespace app\Controller;
 
-use App\Controller\AppController;
+//noinspection PhpUnusedClassInspection
+use /** @noinspection PhpUnusedAliasInspection */
+    App\Controller\AppController;
 use Cake\Core\Configure;
 use Cake\Core\Configure\Engine\PhpConfig;
+use Cake\Database\Query;
 use Cake\Event\Event;
 use Cake\Network\Exception\NotFoundException;
 use Cake\Network\Response;
@@ -138,7 +141,7 @@ class ClassroomsController extends AppController
             ->select(['id', 'title'])
             ->where(['classroom_id' => $id, 'unrated' => 0])
             ->contain(['Users' =>
-                function ($q) {
+                function (Query $q) {
                     return $q
                         ->select(['id', 'first_name', 'last_name']);
                 }, 'Results' => function ($q) {

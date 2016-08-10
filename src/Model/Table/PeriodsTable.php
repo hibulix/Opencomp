@@ -74,4 +74,8 @@ class PeriodsTable extends Table
 
         return $rules;
     }
+
+    public function test($tot){
+
+    }
 }

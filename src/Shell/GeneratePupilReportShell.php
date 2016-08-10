@@ -148,7 +148,7 @@ HTML;
                 array_push($val, $v);
             }
         });
-        
+
 
         return count($val) > 1 ? $val : array_pop($val);
     }
