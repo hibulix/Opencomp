@@ -110,7 +110,7 @@ class ItemsTable extends Table
         $tab = [];
         $num = 0;
         foreach ($items as $item) {
-            $tab[$num]['id'] = 'item-'.$item->id;
+            $tab[$num]['id'] = 'item-' . $item->id;
             $tab[$num]['parent'] = $item->competence_id;
             $tab[$num]['icon'] = 'fa fa-lg fa-cube ' . $this->returnItemClassType($item);
             $tab[$num]['text'] =  $this->returnLpcLink($item) . $this->returnFormattedLevelsItem($item) . $item->title;

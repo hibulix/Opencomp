@@ -72,7 +72,7 @@ class ReportFormaterHelper extends AppHelper
                 $item['color'] = '#eeeeee';
                 break;
             case 'X':
-                $item['result'] = '<img src="'.WWW_ROOT.'img/tick.png" alt="tick" />';
+                $item['result'] = '<img src="' . WWW_ROOT . 'img/tick.png" alt="tick" />';
         }
         
 
@@ -183,8 +183,8 @@ class ReportFormaterHelper extends AppHelper
             if ($item['item']['competence_id'] == $competenceId && $item['result'] != "") {
                 $item = $this->itemWithResultColor($item);
                 $itemlist[] = '<tr>
-                                    <td>'.$item['item']['title'].'</td>
-                                    <td style="text-align:center; background-color:'.$item['color'].';width:60px;">'.$item['result'].'</td>
+                                    <td>' . $item['item']['title'] . '</td>
+                                    <td style="text-align:center; background-color:' . $item['color'] . ';width:60px;">' . $item['result'] . '</td>
                                 </tr>';
             }
         }
@@ -225,7 +225,7 @@ class ReportFormaterHelper extends AppHelper
         }
 
         $pdfoutput = $dompdf->output();
-        $filename = APP . "files/reports/".$this->report->id."_".$pupilId.".pdf";
+        $filename = APP . "files/reports/" . $this->report->id . "_" . $pupilId . ".pdf";
         $fp = fopen($filename, "a");
         fwrite($fp, $pdfoutput);
         fclose($fp);
