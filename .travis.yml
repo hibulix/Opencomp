@@ -1,6 +1,6 @@
 sudo: required
 
-language: php
+language: generic
 
 services:
   - docker
@@ -9,8 +9,8 @@ before_script:
   - docker-compose up
 
 script:
-  - docker-compose exec tests vendor/bin/phpcs -p --extensions=php --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src
-  - docker-compose exec tests vendor/bin/codecept run
+  - docker-compose -f docker-compose.tests.yml exec tests vendor/bin/phpcs -p --extensions=php --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src
+  - docker-compose -f docker-compose.tests.yml exec tests vendor/bin/codecept run
 
 notifications:
   email: false
