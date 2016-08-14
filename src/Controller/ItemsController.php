@@ -29,8 +29,8 @@ class ItemsController extends AppController
         if ($this->Auth->user('id') != $item['Item']['user_id'] && $this->Auth->user('role') != 'admin') {
             $this->Flash->error('Vous ne pouvez pas éditer un item dont vous n\'êtes pas propriétaire.');
             $this->redirect([
-                'controller'    => 'EvaluationsCompetences',
-                'action'        => 'useditems', $classroomId]);
+                'controller' => 'EvaluationsCompetences',
+                'action' => 'useditems', $classroomId]);
         }
 
         if ($this->request->is('post')) {
@@ -38,12 +38,12 @@ class ItemsController extends AppController
                 $this->Flash->success('L\'item a été correctement modifée');
                 if (isset($classroomId)) {
                     $this->redirect([
-                        'controller'    => 'EvaluationsCompetences',
-                        'action'        => 'useditems', $classroomId]);
+                        'controller' => 'EvaluationsCompetences',
+                        'action' => 'useditems', $classroomId]);
                 } else {
                     $this->redirect([
-                        'controller'    => 'competences',
-                        'action'        => 'index']);
+                        'controller' => 'competences',
+                        'action' => 'index']);
                 }
             } else {
                 $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
@@ -90,16 +90,16 @@ class ItemsController extends AppController
             if ($this->Auth->user('id') != $item['Item']['user_id'] && $this->Auth->user('role') != 'admin') {
                 $this->Flash->error('Vous ne pouvez pas éditer un item dont vous n\'êtes pas propriétaire.');
                 $this->redirect([
-                    'controller'    => 'evaluations',
-                    'action'        => 'items', $evaluationId]);
+                    'controller' => 'evaluations',
+                    'action' => 'items', $evaluationId]);
             } else {
                 $this->Item->set('title', h($this->request->data['Item']['title']));
                 $this->Item->save(null, false);
 
                 $this->Flash->success('Le libellé de l\'item a été correctement mis à jour.');
                 $this->redirect([
-                    'controller'    => 'evaluations',
-                    'action'        => 'items', $evaluationId]);
+                    'controller' => 'evaluations',
+                    'action' => 'items', $evaluationId]);
             }
         }
     }
