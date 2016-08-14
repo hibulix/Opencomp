@@ -162,7 +162,7 @@ class EvaluationsCompetencesController extends AppController
     {
         $mypath = '';
         foreach ($path as $competence) {
-            $mypath .= $competence->title.' <i class="fa fa-chevron-right"></i> ';
+            $mypath .= $competence->title . ' <i class="fa fa-chevron-right"></i> ';
         }
         $mypath = substr($mypath, 0, -36);
         

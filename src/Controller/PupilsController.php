@@ -60,7 +60,7 @@ class PupilsController extends AppController
             if ($err) {
                 $this->Session->setFlash(__($err), 'flash_error');
             } else {
-                move_uploaded_file($this->request->data['Pupil']['exportBe1d']['tmp_name'], APP.'files/import_be1d_'.$classroomId.'.csv');
+                move_uploaded_file($this->request->data['Pupil']['exportBe1d']['tmp_name'], APP . 'files/import_be1d_' . $classroomId . '.csv');
                 $this->redirect(['controller' => 'pupils', 'action' => 'parseimport', $classroomId]);
             }
         }
@@ -123,8 +123,8 @@ class PupilsController extends AppController
     private function parsecsv($removeFirstLine = false)
     {
         $classroomId = $this->request->params['pass'][0];
-        if (file_exists(APP.'files/import_be1d_'.$classroomId.'.csv')) {
-            $csvFile = file(APP.'files/import_be1d_'.$classroomId.'.csv');
+        if (file_exists(APP . 'files/import_be1d_' . $classroomId . '.csv')) {
+            $csvFile = file(APP . 'files/import_be1d_' . $classroomId . '.csv');
             if ($removeFirstLine) {
                 array_shift($csvFile);
             }
