@@ -11,12 +11,10 @@ use /** @noinspection PhpUnusedAliasInspection */
  */
 class EvaluationsCompetencesController extends AppController
 {
-
     public $components = ['JsonTree'];
 
     public function usedItems($id = null)
     {
-
         $classroom = $this->EvaluationsCompetences->Evaluations->Classrooms->get($id, [
             'contain' => ['User', 'Users', 'Establishments', 'Years']
         ]);
@@ -50,7 +48,6 @@ class EvaluationsCompetencesController extends AppController
 
     public function attachitem()
     {
-
         $evaluation = $this->EvaluationsCompetences->Evaluations->get($this->request->query['evaluation_id']);
         $items = explode(',', $this->request->query['item_id']);
         foreach ($items as $itemid) {
@@ -174,7 +171,6 @@ class EvaluationsCompetencesController extends AppController
     
     public function addunrateditem()
     {
-    
         $this->set('title_for_layout', __('Ajouter un item non évalué'));
 
         //On vérifie que les paramètres nommés period_id et competence_id ont été fournis et qu'ils existent.
@@ -286,7 +282,6 @@ class EvaluationsCompetencesController extends AppController
     
     public function unlinkitem($id = null)
     {
-        
         $evaluationItem = $this->EvaluationsCompetences->get($id);
         $this->request->allowMethod(['post', 'delete']);
         $evaluationId = $evaluationItem->evaluation_id;

@@ -12,7 +12,6 @@ use Cake\Network\Exception\NotFoundException;
  */
 class ItemsController extends AppController
 {
-
     public $components = ['JsonTree'];
 
     public function edit($id = null, $classroomId)

@@ -41,7 +41,6 @@ use Cake\I18n\Time;
  */
 class AppController extends Controller
 {
-
     public $helpers = [
         'Url',
         'Utils'

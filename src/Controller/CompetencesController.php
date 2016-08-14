@@ -11,7 +11,6 @@ use Cake\Network\Exception\NotFoundException;
  */
 class CompetencesController extends AppController
 {
-
     public $components = ['JsonTree'];
 
     /**

@@ -30,7 +30,6 @@ use Cake\ORM\TableRegistry;
  */
 class EstablishmentsController extends AppController
 {
-
     public $helpers = ['Time'];
 
     public $paginate = [

@@ -13,7 +13,6 @@ use Cake\Core\Exception\Exception;
  */
 class PupilsController extends AppController
 {
-
     public $components = ['Encoding', 'FileUpload'];
 
     /**
