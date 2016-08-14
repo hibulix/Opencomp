@@ -6,7 +6,7 @@ services:
   - docker
 
 before_script:
-  - docker-compose -f docker-compose.tests.yml up -d
+  - docker-compose -f docker-compose.tests.yml up
 
 script:
   - echo -n "Waiting for end of composer dependencies installation ...";while :;do [[ -f "vendor/autoload.php" ]] && break;echo -n ".";sleep 1;done
