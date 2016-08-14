@@ -7,4 +7,4 @@ webroot/components
 java_servlets/ODBGenerator/WEB-INF/*.odb
 
 tests/_output/*
-tests/_output/*
+*TesterActions.php

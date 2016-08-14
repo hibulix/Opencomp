@@ -11,6 +11,8 @@ before_script:
 script:
   - while :;do [[ -f "vendor/autoload.php" ]] && break;echo "Waiting for end of composer dependencies installation ...";sleep 1;done
   - docker-compose -f docker-compose.tests.yml exec tests vendor/bin/phpcs -p --extensions=php --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src
+  - docker-compose -f docker-compose.tests.yml exec db echo "CREATE DATABASE opencomp_test CHARACTER SET utf8 COLLATE utf8_general_ci" | mysql -h 127.0.0.1 -u root -proot
+  - docker-compose -f docker-compose.tests.yml exec tests vendor/bin/codecept build
   - docker-compose -f docker-compose.tests.yml exec tests vendor/bin/codecept run
 
 notifications:
