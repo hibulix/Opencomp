@@ -6,8 +6,8 @@ services:
     environment:
       # We override standard database for acceptance testing purpose
       DATABASE_URL: mysql://root:root@db/opencomp_test
-    expose:
-      - "8080"
+    ports:
+      - "8080:8080"
     depends_on:
       - db
     volumes:
@@ -16,5 +16,5 @@ services:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: root
-    expose:
-      - "3306"
+    ports:
+      - "3306:3306"
