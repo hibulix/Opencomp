@@ -42,7 +42,6 @@ use Cake\Routing\Router;
 Router::defaultRouteClass('Route');
 
 Router::scope('/', function (Cake\Routing\RouteBuilder $routes) {
-
     $routes->extensions(['json', 'xml']);
 
     /**

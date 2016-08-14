@@ -24,8 +24,8 @@ use App\Controller\AppController;
  * @license  http://www.opensource.org/licenses/agpl-v3 The Affero GNU General Public License
  * @link     http://www.opencomp.fr
  */
-class TownsController extends AppController {
-
+class TownsController extends AppController
+{
     public $paginate = [
         'limit' => 30
     ];
@@ -39,7 +39,8 @@ class TownsController extends AppController {
         ]);
     }
 
-    public function index(){
+    public function index()
+    {
         $query = $this->Towns
             // Use the plugins 'search' custom finder and pass in the
             // processed query params
@@ -51,7 +52,7 @@ class TownsController extends AppController {
         $paging['perPage'] = $this->request->params['paging']['Towns']['perPage'];
         $paging['pageCount'] = $this->request->params['paging']['Towns']['pageCount'];
 
-        $this->set(compact('towns','paging'));
-        $this->set('_serialize',['paging','towns']);
+        $this->set(compact('towns', 'paging'));
+        $this->set('_serialize', ['paging','towns']);
     }
 }

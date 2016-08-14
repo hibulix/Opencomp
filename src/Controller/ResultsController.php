@@ -16,7 +16,6 @@ use Exception;
  */
 class ResultsController extends AppController
 {
-
     public $helpers = ['ReportFormater'];
 
     /**

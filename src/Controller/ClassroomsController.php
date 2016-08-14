@@ -15,7 +15,6 @@ use Cake\Utility\Text;
  */
 class ClassroomsController extends AppController
 {
-
     public $paginate = [
         'Evaluations' => [
             'limit' => 15

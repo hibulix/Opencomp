@@ -43,6 +43,6 @@ class ClassroomCell extends Cell
             ->where(['classroom_id'=>$classroom_id])
             ->count();
         $action = $this->request->params['action'];
-        $this->set(compact('pupils','evaluations','unrated_items','reports','classroom_id','action'));
+        $this->set(compact('pupils', 'evaluations', 'unrated_items', 'reports', 'classroom_id', 'action'));
     }
 }

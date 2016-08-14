@@ -136,7 +136,7 @@ class UsersTable extends Table
         ]);
 
         foreach ($ownedClassrooms as $classroom) {
-                $classrooms['classrooms_manager'][] = $classroom->id;
+            $classrooms['classrooms_manager'][] = $classroom->id;
         }
 
         //On récupère les classe pour lesquelles l'utilisateur a un accès.
@@ -145,7 +145,7 @@ class UsersTable extends Table
         ]);
 
         foreach ($user->classrooms as $classroom) {
-                $classrooms['classrooms'][] = $classroom->id;
+            $classrooms['classrooms'][] = $classroom->id;
         }
 
 
