@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  tests:
+    image: opencomp/web:latest
+    ports:
+      - "80:8080"
+    depends_on:
+      - db
+    volumes:
+      - ./:/var/www/html
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
