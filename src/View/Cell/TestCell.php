@@ -22,19 +22,18 @@ class TestCell extends Cell
     /**
      * Default display method.
      *
-     * @param $evaluation_id
+     * @param int $evaluationId Evaluation identifier
+     * @return void
      */
-    public function header($evaluation_id)
+    public function header($evaluationId)
     {
-
-        /** @var EvaluationsTable $evaluations */
         $evaluations = TableRegistry::get('Evaluations');
-        $evaluation = $evaluations->get($evaluation_id, [
+        $evaluation = $evaluations->get($evaluationId, [
             'contain' => [
                 'Users', 'Periods', 'Classrooms'
             ]
         ]);
-        $levelsPupils = $evaluations->findPupilsByLevels($evaluation_id);
+        $levelsPupils = $evaluations->findPupilsByLevels($evaluationId);
         $action = $this->request->params['action'];
         $this->set(compact('evaluation', 'levelsPupils', 'action'));
     }

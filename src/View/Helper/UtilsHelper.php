@@ -1,8 +1,7 @@
 <?php
 namespace App\View\Helper;
 
-use /** @noinspection PhpUnusedAliasInspection */
-    App\View\Helper\AppHelper;
+use App\View\Helper\AppHelper;
 
 class UtilsHelper extends AppHelper
 {
@@ -32,8 +31,8 @@ class UtilsHelper extends AppHelper
     }
 
     /**
-     * @param $qty
-     * @param $total
+     * @param int $qty Quantity value
+     * @param int $total Total (sum)
      * @return string
      */
     public function getPercentValue($qty, $total)

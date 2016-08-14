@@ -24,25 +24,26 @@ class ClassroomCell extends Cell
     /**
      * Default display method.
      *
-     * @param $classroom_id
+     * @param int $classroomId Classroom identifier
+     * @return void
      */
-    public function stats($classroom_id)
+    public function stats($classroomId)
     {
         $this->loadModel('Classrooms');
         $pupils = $this->Classrooms->ClassroomsPupils->find()
-            ->where(['classroom_id' => $classroom_id])->count();
+            ->where(['classroom_id' => $classroomId])->count();
         $evaluations = $this->Classrooms->Evaluations->find()
-            ->where(['unrated'=>0,'classroom_id'=>$classroom_id])
+            ->where(['unrated' => 0, 'classroom_id' => $classroomId])
             ->count();
-        $unrated_items = $this->Classrooms->Evaluations->EvaluationsCompetences->find()
-            ->contain(['Evaluations'=> function (Query $q) use ($classroom_id) {
+        $unratedItems = $this->Classrooms->Evaluations->EvaluationsCompetences->find()
+            ->contain(['Evaluations' => function (Query $q) use ($classroomId) {
                 return $q
-                    ->where(['unrated'=>1,'classroom_id'=>$classroom_id]);
+                    ->where(['unrated' => 1, 'classroom_id' => $classroomId]);
             }])->count();
         $reports = $this->Classrooms->Reports->find()
-            ->where(['classroom_id'=>$classroom_id])
+            ->where(['classroom_id' => $classroomId])
             ->count();
         $action = $this->request->params['action'];
-        $this->set(compact('pupils', 'evaluations', 'unrated_items', 'reports', 'classroom_id', 'action'));
+        $this->set(compact('pupils', 'evaluations', 'unratedItems', 'reports', 'classroomId', 'action'));
     }
 }

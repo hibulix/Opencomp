@@ -70,6 +70,10 @@ class ClassroomsPupilsTable extends Table
         return $rules;
     }
 
+    /**
+     * @param int $id Classroom identifier
+     * @return \Cake\ORM\Query
+     */
     public function returnPupilsWithLevelsForClassroom($id)
     {
         return $this->find('all', [

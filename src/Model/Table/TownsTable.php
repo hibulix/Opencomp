@@ -59,6 +59,7 @@ class TownsTable extends Table
     {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['academy_id'], 'Academies'));
+
         return $rules;
     }
 }

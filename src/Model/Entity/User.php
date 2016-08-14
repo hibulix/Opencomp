@@ -28,11 +28,7 @@ class User extends Entity
         'items' => true,
         'academies' => true,
         'competences' => true,
+        'is_superuser' => true,
+        'active' => true
     ];
-
-    protected function getFullName()
-    {
-        return $this->_properties['first_name'] . ' ' .
-                $this->_properties['last_name'];
-    }
 }

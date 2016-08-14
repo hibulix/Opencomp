@@ -1,8 +1,7 @@
 <?php
 namespace App\View\Helper;
 
-use /** @noinspection PhpUnusedAliasInspection */
-    App\View\Helper\AppHelper;
+use App\View\Helper\AppHelper;
 
 /**
  * ReportFormaterHelper.php
@@ -49,7 +48,7 @@ class ReportFormaterHelper extends AppHelper
      * Cette méthode permet de retourner un tableau contenant un item en ajoutant une couleur HTML
      * en fonction du résultat obtenu par l'élève.
      *
-     * @param $item array Un tableau clé/valeur CakePHP contenant les propriétés d'un item et modèles associés
+     * @param array $item Un tableau clé/valeur CakePHP contenant les propriétés d'un item et modèles associés
      * @return mixed array Identique à l'entrée mais avec une clé couleur en plus
      */
     public function itemWithResultColor($item)
@@ -131,10 +130,10 @@ class ReportFormaterHelper extends AppHelper
     /**
      * Cette méthode permet de retourner une en-tête de compétence en fonction de la profondeur de celle-ci.
      *
-     * @param $competence_id int L'identifiant de la compétence à traiter
-     * @param $competence_depth int La profondeur dans l'arbre de la compétence à traiter
-     * @param $competence_title string Le titre de la compétence à traiter
-     * @param $items array Un tableau contenant l'ensemble des items pour le bulletin courant
+     * @param int $competenceId L'identifiant de la compétence à traiter
+     * @param int $competenceDepth La profondeur dans l'arbre de la compétence à traiter
+     * @param string $competenceTitle Le titre de la compétence à traiter
+     * @param array $items Un tableau contenant l'ensemble des items pour le bulletin courant
      * @return string Une chaîne HTML contenant une en-tête de compétence (titre HTML ou en-tête de tableau)
      */
     public function returnHtmlFormattedCompetence($competenceId, $competenceDepth, $competenceTitle, $items)
@@ -172,8 +171,8 @@ class ReportFormaterHelper extends AppHelper
     /**
      * Cette méthode permet de retourner les items formatés en HTML liés à une compétence
      *
-     * @param $competence_id int L'identifiant de la compétence à traiter
-     * @param $items array Un tableau contenant l'ensemble des items pour le bulletin courant
+     * @param int $competenceId L'identifiant de la compétence à traiter
+     * @param array $items Un tableau contenant l'ensemble des items pour le bulletin courant
      * @return string string Une chaîne HTML contenant des lignes de tableau HTML (<tr>)
      */
     public function returnHtmlItemsTableRows($competenceId, $items)
@@ -198,10 +197,11 @@ class ReportFormaterHelper extends AppHelper
     /**
      * Cette méthode permet de générer un fichier PDF basé sur du HTML
      *
-     * @param $html string La chaîne HTML à transformer en fichier PDF
-     * @param $pupil_id int L'identifiant de l'élève dont le bulletin est généré.
+     * @param string $html La chaîne HTML à transformer en fichier PDF
+     * @param int $pupilId L'identifiant de l'élève dont le bulletin est généré.
      * @internal param int $classroom_id L'identifiant de la classe de l'élève dont le bulletin est généré
      * @internal param int $period_id La période liée au bulletin généré
+     * @return void
      */
     public function renderPdf($html, $pupilId)
     {

@@ -2,10 +2,12 @@ version: '2'
 
 services:
   web:
-    image: opencomp/web:latest
-    #build: ../opencomp_docker/web
+    #image: opencomp/web:latest
+    build: ../opencomp_docker/web
+    environment:
+      DATABASE_URL: mysql://root:root@db/opencomp
     ports:
-      - "80:80"
+      - "80:8080"
     depends_on:
       - db
       - message_queue
@@ -13,6 +15,19 @@ services:
     volumes:
       - ./:/var/www/html
       - ./var/lib/mysql-files:/var/www/html/tmp/mysql-files
+  tests:
+    image: opencomp/web:latest
+    environment:
+      # We override standard database for acceptance testing purpose
+      DATABASE_URL: mysql://root:root@db/opencomp_test
+    ports:
+      - "7357:8080"
+    depends_on:
+      - db
+      - message_queue
+      - postfix
+    volumes:
+      - ./:/var/www/html
   postfix:
     image: elsdoerfer/exim-sender
     environment:
