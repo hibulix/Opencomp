@@ -113,7 +113,7 @@ class ItemsTable extends Table
             $tab[$num]['id'] = 'item-' . $item->id;
             $tab[$num]['parent'] = $item->competence_id;
             $tab[$num]['icon'] = 'fa fa-lg fa-cube ' . $this->returnItemClassType($item);
-            $tab[$num]['text'] =  $this->returnLpcLink($item) . $this->returnFormattedLevelsItem($item) . $item->title;
+            $tab[$num]['text'] = $this->returnLpcLink($item) . $this->returnFormattedLevelsItem($item) . $item->title;
             $tab[$num]['data']['type'] = "feuille";
             $tab[$num]['data']['id'] = $item->id;
             $tab[$num]['li_attr']['data-type'] = "feuille";

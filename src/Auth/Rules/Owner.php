@@ -14,7 +14,6 @@ use CakeDC\Users\Auth\Rules\AbstractRule;
 use Cake\Core\Exception\Exception;
 use Cake\Network\Request;
 use Cake\Utility\Hash;
-
 use OutOfBoundsException;
 
 /**

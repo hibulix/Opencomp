@@ -269,7 +269,7 @@ class EvaluationsCompetencesController extends AppController
             $this->updatePositionItem($itemToEdit->id, $itemToEdit->position + 1);
             $this->updatePositionItem($secondItemToEdit->id, $secondItemToEdit->position - 1);
 
-            $this->redirect(['controller'  => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id]);
+            $this->redirect(['controller' => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id]);
         }
     }
     
