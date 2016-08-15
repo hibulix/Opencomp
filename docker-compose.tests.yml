@@ -10,8 +10,11 @@ services:
       - "8080:8080"
     depends_on:
       - db
+      - memcached
     volumes:
       - ./:/var/www/html
+  memcached:
+    image: memcached:alpine
   db:
     image: mysql:5.7
     environment:
