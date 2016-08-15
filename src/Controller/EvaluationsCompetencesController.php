@@ -13,6 +13,10 @@ class EvaluationsCompetencesController extends AppController
 {
     public $components = ['JsonTree'];
 
+    /**
+     * @param int $id Classroom identifier
+     * @return \Cake\Network\Response|null
+     */
     public function usedItems($id = null)
     {
         $classroom = $this->EvaluationsCompetences->Evaluations->Classrooms->get($id, [
@@ -46,6 +50,9 @@ class EvaluationsCompetencesController extends AppController
         $this->set(compact('json'));
     }
 
+    /**
+     * @return void
+     */
     public function attachitem()
     {
         $evaluation = $this->EvaluationsCompetences->Evaluations->get($this->request->query['evaluation_id']);
@@ -72,6 +79,9 @@ class EvaluationsCompetencesController extends AppController
         $this->redirect(['controller' => 'evaluations', 'action' => 'items', $evaluation->id]);
     }
 
+    /**
+     * @return void
+     */
     public function attachunrateditem()
     {
         //On vérifie que les paramètres nommés item_id et period_id ont été fournis et qu'ils existent.
@@ -115,7 +125,10 @@ class EvaluationsCompetencesController extends AppController
         $this->Flash->success('L\'item a été correctement associé à cette période');
         $this->redirect(['controller' => 'classrooms', 'action' => 'viewunrateditems', $classroomId]);
     }
-    
+
+    /**
+     * @return void
+     */
     public function additem()
     {
         $this->set('title_for_layout', __('Ajouter un item'));
@@ -157,8 +170,12 @@ class EvaluationsCompetencesController extends AppController
             }
         }
     }
-    
-    private function tabPathToString($path)
+
+    /**
+     * @param array $path Competences array
+     * @return string Competence path
+     */
+    public function tabPathToString($path)
     {
         $mypath = '';
         foreach ($path as $competence) {
@@ -168,7 +185,10 @@ class EvaluationsCompetencesController extends AppController
         
         return $mypath;
     }
-    
+
+    /**
+     * @return void
+     */
     public function addunrateditem()
     {
         $this->set('title_for_layout', __('Ajouter un item non évalué'));
@@ -234,7 +254,11 @@ class EvaluationsCompetencesController extends AppController
             }
         }
     }
-    
+
+    /**
+     * @param int $id Competence identifier
+     * @return void
+     */
     public function moveup($id = null)
     {
         $itemToEdit = $this->EvaluationsCompetences->get($id);
@@ -251,7 +275,11 @@ class EvaluationsCompetencesController extends AppController
             $this->redirect(['controller' => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id]);
         }
     }
-    
+
+    /**
+     * @param int $id Competence identifier
+     * @return void
+     */
     public function movedown($id = null)
     {
         $itemToEdit = $this->EvaluationsCompetences->get($id);
@@ -272,14 +300,23 @@ class EvaluationsCompetencesController extends AppController
             $this->redirect(['controller' => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id]);
         }
     }
-    
-    private function updatePositionItem($itemId, $newPosition)
+
+    /**
+     * @param int $itemId Evaluation competence identifier
+     * @param int $newPosition new evaluation item position
+     * @return void
+     */
+    public function updatePositionItem($itemId, $newPosition)
     {
         $itemToEdit = $this->EvaluationsCompetences->get($itemId);
         $itemToEdit->position = $newPosition;
         $this->EvaluationsCompetences->save($itemToEdit);
     }
-    
+
+    /**
+     * @param int $id Item to remove
+     * @return void
+     */
     public function unlinkitem($id = null)
     {
         $evaluationItem = $this->EvaluationsCompetences->get($id);

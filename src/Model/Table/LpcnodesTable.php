@@ -76,6 +76,10 @@ class LpcnodesTable extends Table
         return $rules;
     }
 
+    /**
+     * @param int $id Parent identifier of nodes to retreive
+     * @return \Cake\ORM\Query
+     */
     public function findAllNodesWithParentId($id)
     {
         return $this->find(
@@ -91,6 +95,10 @@ class LpcnodesTable extends Table
         );
     }
 
+    /**
+     * @param array $idsArray Array of nodes id
+     * @return array
+     */
     public function findAllLpcnodes($idsArray = null)
     {
         if (isset($idsArray) && is_array($idsArray)) {

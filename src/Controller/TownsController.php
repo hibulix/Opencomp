@@ -30,6 +30,9 @@ class TownsController extends AppController
         'limit' => 30
     ];
 
+    /**
+     * @return void
+     */
     public function initialize()
     {
         parent::initialize();
@@ -39,6 +42,9 @@ class TownsController extends AppController
         ]);
     }
 
+    /**
+     * @return void
+     */
     public function index()
     {
         $query = $this->Towns
@@ -53,6 +59,6 @@ class TownsController extends AppController
         $paging['pageCount'] = $this->request->params['paging']['Towns']['pageCount'];
 
         $this->set(compact('towns', 'paging'));
-        $this->set('_serialize', ['paging','towns']);
+        $this->set('_serialize', ['paging', 'towns']);
     }
 }

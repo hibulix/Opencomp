@@ -42,19 +42,18 @@ class PagesController extends AppController
  */
     public $name = 'Pages';
 
-/**
- * This controller does not use a model
- *
- * @var array
- */
+    /**
+     * This controller does not use a model
+     *
+     * @var array
+     */
     public $uses = [];
 
-/**
- * Displays a view
- *
- * @param mixed What page to display
- * @return void
- */
+    /**
+     * Displays a view
+     *
+     * @return void
+     */
     public function display()
     {
         $path = func_get_args();

@@ -101,7 +101,7 @@ class ResultsController extends AppController
      * @return Response a HTTP 201 JSON formatted response
      * @access private
      */
-    private function sendOKresponseJSON($message = 'results created')
+    public function sendOKresponseJSON($message = 'results created')
     {
         $this->response->type('application/json');
         $this->response->statusCode(201);
@@ -125,7 +125,7 @@ class ResultsController extends AppController
      * @return void
      * @access private
      */
-    private function gatekeeper(array $parameters, $isXHR = false)
+    public function gatekeeper(array $parameters, $isXHR = false)
     {
         if ($isXHR) {
             $this->viewBuilder()->layout('ajax');
@@ -311,6 +311,10 @@ class ResultsController extends AppController
         return $result;
     }
 
+    /**
+     * @param int $id Report identifier
+     * @return void
+     */
     public function analyseresults($id = null)
     {
         $this->Reports = TableRegistry::get('Reports');

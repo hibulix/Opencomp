@@ -32,19 +32,10 @@ class LpcnodesController extends AppController
         $this->set('json', $this->JsonTree->allLpcnodesToJson());
     }
 
-    public function isAuthorized($user = null)
-    {
-        if (in_array($this->action, ['add', 'edit', 'moveup', 'movedown', 'deleteNode'])) {
-            if ($user['role'] === 'admin') {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return true;
-        }
-    }
-
+    /**
+     * @param int $id Node id to move
+     * @return void
+     */
     public function moveup($id = null)
     {
         $this->Lpcnodes->get($id);
@@ -55,7 +46,11 @@ class LpcnodesController extends AppController
         $this->Lpcnode->moveUp($this->Competence->id, 1);
         $this->redirect(['action' => 'index']);
     }
-    
+
+    /**
+     * @param int $id Node id to move
+     * @return void
+     */
     public function movedown($id = null)
     {
         $this->Lpcnode->id = $id;
@@ -66,7 +61,11 @@ class LpcnodesController extends AppController
         $this->Lpcnode->moveDown($this->Lpcnode->id, 1);
         $this->redirect(['action' => 'index']);
     }
-    
+
+    /**
+     * @param int $id Node id to delete
+     * @return void
+     */
     public function deleteNode($id = null)
     {
         $this->Lpcnode->id = $id;
@@ -81,7 +80,8 @@ class LpcnodesController extends AppController
     /**
      * add method
      *
-     * @param null $id
+     * @param int $id Parent node if necessary
+     * @return void
      */
     public function add($id = null)
     {
@@ -113,8 +113,9 @@ class LpcnodesController extends AppController
     /**
      * edit method
      *
-     * @param null $id
+     * @param int $id Node id to edit
      * @throws NotFoundException
+     * @return void
      */
     public function edit($id = null)
     {

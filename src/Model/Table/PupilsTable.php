@@ -91,6 +91,10 @@ class PupilsTable extends Table
         return $rules;
     }
 
+    /**
+     * @param array $params Field return from $this->request->data
+     * @return bool
+     */
     public function isUploadedFile($params)
     {
         if ((isset($params['error']) && $params['error'] == 0) ||

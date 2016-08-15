@@ -145,6 +145,13 @@ class EstablishmentsTable extends Table
         return $rules;
     }
 
+    /**
+     * Returns stats used to display in header
+     *
+     * @param int $idEstablishment Establishment identifier
+     * @param int $currentYear Year identifier
+     * @return array
+     */
     public function getStats($idEstablishment, $currentYear)
     {
         return [
@@ -154,7 +161,14 @@ class EstablishmentsTable extends Table
         ];
     }
 
-    private function getNbClassrooms($idEstablishment, $year)
+    /**
+     * Get number of classroom fo a specific establishment
+     *
+     * @param int $idEstablishment Establishment id
+     * @param int $year Year identifier
+     * @return int
+     */
+    public function getNbClassrooms($idEstablishment, $year)
     {
         $query = $this->Classrooms->find();
         $total = $query->matching('Establishments', function (Query $q) use ($idEstablishment, $year) {
@@ -168,7 +182,14 @@ class EstablishmentsTable extends Table
         return $total;
     }
 
-    private function getNbPupils($idEstablishment, $year)
+    /**
+     * Get number of pupils associated with a specific establishment
+     *
+     * @param int $idEstablishment Establishment identifier
+     * @param int $year Year identifier
+     * @return int
+     */
+    public function getNbPupils($idEstablishment, $year)
     {
         $query = $this->Classrooms->Pupils->find();
         $total = $query->matching('Classrooms.Establishments', function (Query $q) use ($idEstablishment, $year) {
@@ -182,6 +203,13 @@ class EstablishmentsTable extends Table
         return $total;
     }
 
+    /**
+     * Get number of classroom fo a specific establishment
+     *
+     * @param int $idEstablishment Establishment identifier
+     * @param int $year Year identifier
+     * @return int
+     */
     private function getNbPeriods($idEstablishment, $year)
     {
         $query = $this->Periods->find();

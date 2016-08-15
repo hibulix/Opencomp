@@ -65,12 +65,19 @@ class PupilsController extends AppController
             }
         }
     }
+
+    /**
+     * @return void
+     */
     public function parseimport()
     {
         $import = $this->parsecsv();
         $this->set('preview', $import);
     }
 
+    /**
+     * @return void
+     */
     public function previewimport()
     {
         $import = $this->parsecsv(true);
@@ -78,6 +85,10 @@ class PupilsController extends AppController
         $this->set('column', $this->request->data);
     }
 
+    /**
+     * @param int $classroomId Classroom identifier where pupils from file are added
+     * @return void
+     */
     public function runimport($classroomId)
     {
         $import = $this->parsecsv(true);
@@ -120,7 +131,11 @@ class PupilsController extends AppController
         }
     }
 
-    private function parsecsv($removeFirstLine = false)
+    /**
+     * @param bool $removeFirstLine Should we remove header line
+     * @return mixed
+     */
+    public function parsecsv($removeFirstLine = false)
     {
         $classroomId = $this->request->params['pass'][0];
         if (file_exists(APP . 'files/import_be1d_' . $classroomId . '.csv')) {

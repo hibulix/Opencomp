@@ -83,6 +83,12 @@ class ResultsTable extends Table
         return $rules;
     }
 
+    /**
+     * @param int $pupilId Pupil identifier
+     * @param int $classroomId Classroom identifier
+     * @param int $periodId Period identifier
+     * @return \Cake\ORM\Query
+     */
     public function findResultsForReport($pupilId, $classroomId, $periodId)
     {
         return $this->find('all', [
@@ -116,7 +122,7 @@ class ResultsTable extends Table
      * @param int $itemId item_id related to the results
      * @param string $result result to save : A, B, C, D, NE or ABS
      *
-     * @return boolean whether the results has been saved or not
+     * @return bool whether the results has been saved or not
      */
     public function saveGlobalResultEvaluationItem($evaluationId, $itemId, $result)
     {
@@ -152,7 +158,7 @@ class ResultsTable extends Table
      *
      * @param int $evaluationId evaluation_id related to the results
      * @param int $itemId item_id related to the results
-     * @param $level_id
+     * @param int $levelId level identifier
      * @param string $result result to save : A, B, C, D, NE or ABS
      * @return bool whether the results has been saved or not
      * @internal param mixed $parameter [description]
@@ -206,6 +212,12 @@ class ResultsTable extends Table
         });
     }
 
+    /**
+     * @param int $evaluationId Evaluation identifier
+     * @param int $pupilId Pupil identifier
+     * @param string $result Result grade
+     * @return mixed
+     */
     public function saveGlobalResultEvaluationPupil($evaluationId, $pupilId, $result)
     {
         $this->deleteAll(['Results.evaluation_id' => $evaluationId, 'Results.pupil_id' => $pupilId]);
@@ -230,7 +242,13 @@ class ResultsTable extends Table
         });
     }
 
-    private function setResult($data, $iteration, $grade)
+    /**
+     * @param array $data CakePHP data formatted array
+     * @param int $iteration iteration
+     * @param string $grade letter result
+     * @return mixed
+     */
+    public function setResult($data, $iteration, $grade)
     {
         switch ($grade) {
             case 'A':
@@ -246,7 +264,6 @@ class ResultsTable extends Table
                 $data[$iteration]['grade_d'] = 1;
                 break;
         }
-
 
         return $data;
     }

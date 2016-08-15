@@ -11,6 +11,9 @@ use /** @noinspection PhpUnusedAliasInspection */
  */
 class PeriodsController extends AppController
 {
+    /**
+     * @return \Cake\Network\Response|null
+     */
     public function add()
     {
         if ($this->request->is('post')) {
@@ -29,7 +32,7 @@ class PeriodsController extends AppController
      * edit method
      *
      * @throws NotFoundException
-     * @param string $id
+     * @param int $id Period identifier
      * @return \Cake\Network\Response|null
      */
     public function edit($id = null)

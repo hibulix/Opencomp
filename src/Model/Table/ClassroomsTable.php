@@ -109,6 +109,10 @@ class ClassroomsTable extends Table
         return $rules;
     }
 
+    /**
+     * @param int $idClassroom Classroom identifier
+     * @return array
+     */
     public function findPupilsByLevelsInClassroom($idClassroom)
     {
         $pupilsLevelsSrc = $this->ClassroomsPupils
@@ -130,6 +134,10 @@ class ClassroomsTable extends Table
         return $pupilsLevels;
     }
 
+    /**
+     * @param int $idClassroom Classroom identifier
+     * @return $this|array
+     */
     public function getPupilsSelect2($idClassroom)
     {
         $pupilsLevels = $this->ClassroomsPupils->Levels->find()

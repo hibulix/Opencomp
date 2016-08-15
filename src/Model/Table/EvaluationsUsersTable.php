@@ -40,6 +40,7 @@ class EvaluationsUsersTable extends Table
     {
         $rules->add($rules->existsIn(['evaluation_id'], 'Evaluations'));
         $rules->add($rules->existsIn(['user_id'], 'Users'));
+
         return $rules;
     }
 }

@@ -3,8 +3,8 @@ namespace App\Model\Table;
 
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\Validation\Validator;
 use Cake\ORM\TableRegistry;
+use Cake\Validation\Validator;
 
 /**
  * Users Model
@@ -102,6 +102,10 @@ class UsersTable extends Table
         return $rules;
     }
 
+    /**
+     * @param int $classroomId Classroom identifier
+     * @return array
+     */
     public function findAllUsersInClassroom($classroomId)
     {
         $titulaire = $this->Classrooms->find('all', [
@@ -122,33 +126,5 @@ class UsersTable extends Table
         }
 
         return ($result);
-    }
-
-    public function findAuthorizedClasses($userId)
-    {
-        $classrooms = [];
-
-        //On récupère les classes dont l'utilisateur est enseignant titulaire.
-        $ownedClassrooms = $this->Classrooms->find('all', [
-            'conditions' => [
-                'user_id' => $userId
-            ]
-        ]);
-
-        foreach ($ownedClassrooms as $classroom) {
-            $classrooms['classrooms_manager'][] = $classroom->id;
-        }
-
-        //On récupère les classe pour lesquelles l'utilisateur a un accès.
-        $user = $this->get($userId, [
-            'contain' => ['Classrooms']
-        ]);
-
-        foreach ($user->classrooms as $classroom) {
-            $classrooms['classrooms'][] = $classroom->id;
-        }
-
-
-        return $classrooms;
     }
 }

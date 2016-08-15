@@ -1,8 +1,7 @@
 <?php
 namespace app\Controller;
 
-use /** @noinspection PhpUnusedAliasInspection */
-    App\Controller\AppController;
+use App\Controller\AppController;
 use Cake\Core\Configure;
 use Cake\Core\Configure\Engine\PhpConfig;
 use Cake\Datasource\ConnectionManager;

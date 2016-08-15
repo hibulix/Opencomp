@@ -1,10 +1,10 @@
 <?php
 namespace App\Model\Table;
 
+use Cake\Database\Expression\QueryExpression;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Cake\Database\Expression\QueryExpression;
 
 /**
  * EvaluationsCompetences Model
@@ -67,12 +67,17 @@ class EvaluationsCompetencesTable extends Table
         return $rules;
     }
 
-    public function isItemAlreadyAttachedToEvaluation($evaluationId, $itemId)
+    /**
+     * @param int $evaluationId Evaluation identifier
+     * @param int $competenceId Item identifier
+     * @return mixed
+     */
+    public function isCompetenceAlreadyAttachedToEvaluation($evaluationId, $competenceId)
     {
         return $this->find('all', [
             'conditions' => [
                 'EvaluationsCompetences.evaluation_id' => $evaluationId,
-                'EvaluationsCompetences.competence_id' => $itemId
+                'EvaluationsCompetences.competence_id' => $competenceId
             ]
         ])->first();
     }

@@ -1,10 +1,10 @@
 <?php
 namespace App\Model\Table;
 
+use Cake\Datasource\ConnectionManager;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Cake\Datasource\ConnectionManager;
 
 /**
  * Competences Model
@@ -105,7 +105,7 @@ class CompetencesTable extends Table
      * à partir des id_competence les plus profonds uniquements.
      *
      * @param array $idsArray Un tableau contentant les id_competence les plus profond dont on souhaite la hiérarchie.
-     * @param string $format
+     * @param string $format Format to return
      * @return array Un tableau prêt à être JSONifié pour passer à JsTree.
      */
     public function findAllCompetencesFromCompetenceId($idsArray, $format = 'jstree')
