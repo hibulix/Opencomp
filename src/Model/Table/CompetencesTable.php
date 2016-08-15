@@ -89,7 +89,7 @@ class CompetencesTable extends Table
      * @param array $idsArray Un tableau contentant les id_competence dont on souhaite récupérer les bornes.
      * @return array|null Un tableau avec en clés les bornes gauches et en valeurs les bornes droites.
      */
-    private function returnBoundsFromCompetenceId($idsArray)
+    public function returnBoundsFromCompetenceId($idsArray)
     {
         return $this->find('list', [
             'keyField' => 'lft',
@@ -154,7 +154,7 @@ class CompetencesTable extends Table
      * @param array $dataset Un resultset CakePHP contenant plusieurs objets Competence.
      * @return array Un tableau prêt à être JSONifié pour passer à JsTree.
      */
-    private function formatCompetencesTheJstreeWay($dataset)
+    public function formatCompetencesTheJstreeWay($dataset)
     {
         $tab = [];
         foreach ($dataset as $num => $c) {
@@ -186,7 +186,7 @@ class CompetencesTable extends Table
      * @param array $dataset Un resultset CakePHP contenant plusieurs tableaux Competence.
      * @return array Un tableau en émulant le format de renvoie de la méthode GenerateTreeListWithDepth
      */
-    private function formatTreeHelperWay($dataset)
+    public function formatTreeHelperWay($dataset)
     {
         $tab = [];
         foreach ($dataset as $num => $c) {

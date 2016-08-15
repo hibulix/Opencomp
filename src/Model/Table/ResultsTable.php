@@ -194,6 +194,13 @@ class ResultsTable extends Table
         });
     }
 
+    /**
+     * @param int $evaluationId Evaluation identifier
+     * @param int $itemId Item identifier
+     * @param int $pupilId Pupil identifier
+     * @param string $result letter grade
+     * @return mixed
+     */
     public function saveResultEvaluationItemPupil($evaluationId, $itemId, $pupilId, $result)
     {
         $this->deleteAll(['Results.evaluation_id' => $evaluationId, 'Results.item_id' => $itemId, 'Results.pupil_id' => $pupilId]);

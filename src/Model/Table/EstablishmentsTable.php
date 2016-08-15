@@ -210,7 +210,7 @@ class EstablishmentsTable extends Table
      * @param int $year Year identifier
      * @return int
      */
-    private function getNbPeriods($idEstablishment, $year)
+    public function getNbPeriods($idEstablishment, $year)
     {
         $query = $this->Periods->find();
         $total = $query->matching('Establishments', function (Query $q) use ($idEstablishment, $year) {

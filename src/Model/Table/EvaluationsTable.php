@@ -109,6 +109,10 @@ class EvaluationsTable extends Table
         return $rules;
     }
 
+    /**
+     * @param int $idEvaluation Evaluation id
+     * @return mixed
+     */
     public function resultsForAnEvaluation($idEvaluation)
     {
         $result = $this->Results->find();
@@ -149,6 +153,10 @@ class EvaluationsTable extends Table
         }
     }
 
+    /**
+     * @param int $evaluationId Evaluation identifier
+     * @return \Cake\ORM\Query
+     */
     public function findCompetencesByPosition($evaluationId)
     {
         $competences = $this->find('all', [
@@ -177,6 +185,10 @@ class EvaluationsTable extends Table
         return $competences;
     }
 
+    /**
+     * @param int $idEvaluation Evaluation identifier
+     * @return array
+     */
     public function findPupilsByLevels($idEvaluation)
     {
         $pupilsLevelsSrc = $this->EvaluationsPupils
@@ -195,6 +207,10 @@ class EvaluationsTable extends Table
         return $pupilsLevels;
     }
 
+    /**
+     * @param int $idEvaluation Evaluation identifier
+     * @return array
+     */
     public function getCompetencesThatBelongsToEvaluation($idEvaluation)
     {
         return $this->EvaluationsCompetences->find('list', [
@@ -206,9 +222,13 @@ class EvaluationsTable extends Table
             ])->toArray();
     }
 
+    /**
+     * @param int $idEvaluation Evaluation identifier
+     * @param int $idItem Item identifier
+     * @return bool
+     */
     public function itemBelongsToEvaluation($idEvaluation, $idItem)
     {
-        /** @noinspection PhpParamsInspection */
         if ($this->EvaluationsCompetences->find()->where([
             'EvaluationsCompetences.evaluation_id' => $idEvaluation,
             'EvaluationsCompetences.competence_id' => $idItem
@@ -219,10 +239,14 @@ class EvaluationsTable extends Table
         }
     }
 
+    /**
+     * @param int $idEvaluation Evaluation identifier
+     * @param int $idLevel Level identifier
+     * @return bool
+     */
     public function levelBelongsToClassroom($idEvaluation, $idLevel)
     {
         $evaluation = $this->get($idEvaluation);
-        /** @noinspection PhpParamsInspection */
         if ($this->Classrooms->ClassroomsPupils->find()->where([
             'ClassroomsPupils.classroom_id' => $evaluation->classroom_id,
             'ClassroomsPupils.level_id' => $idLevel
@@ -233,9 +257,13 @@ class EvaluationsTable extends Table
         }
     }
 
+    /**
+     * @param int $idEvaluation Evaluation identifier
+     * @param int $idPupil Pupil identifier
+     * @return bool
+     */
     public function pupilBelongsToEvaluation($idEvaluation, $idPupil)
     {
-        /** @noinspection PhpParamsInspection */
         if ($this->EvaluationsPupils->find()->where([
             'EvaluationsPupils.evaluation_id' => $idEvaluation,
             'EvaluationsPupils.pupil_id' => $idPupil

@@ -74,5 +74,4 @@ class PeriodsTable extends Table
 
         return $rules;
     }
-
 }

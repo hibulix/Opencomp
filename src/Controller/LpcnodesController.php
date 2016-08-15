@@ -1,8 +1,7 @@
 <?php
 namespace app\Controller;
 
-use /** @noinspection PhpUnusedAliasInspection */
-    App\Controller\AppController;
+use App\Controller\AppController;
 use Cake\Network\Exception\NotFoundException;
 
 /**

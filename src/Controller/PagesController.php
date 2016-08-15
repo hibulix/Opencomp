@@ -20,8 +20,7 @@
  */
 namespace app\Controller;
 
-use /** @noinspection PhpUnusedAliasInspection */
-    App\Controller\AppController;
+use App\Controller\AppController;
 use Cake\Utility\Inflector;
 
 /**
@@ -35,11 +34,11 @@ use Cake\Utility\Inflector;
 class PagesController extends AppController
 {
 
-/**
- * Controller name
- *
- * @var string
- */
+    /**
+     * Controller name
+     *
+     * @var string
+     */
     public $name = 'Pages';
 
     /**
