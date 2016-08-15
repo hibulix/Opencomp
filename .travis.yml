@@ -1,9 +1,6 @@
-sudo: required
+sudo: false
 
 language: generic
-
-services:
-  - docker
 
 before_script:
   - docker-compose -f docker-compose.tests.yml up -d
