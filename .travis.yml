@@ -12,8 +12,8 @@ before_script:
   - docker-compose -f docker-compose.tests.yml exec tests sh -c "vendor/bin/codecept build"
 
 script:
-  - docker-compose -f docker-compose.tests.yml exec tests sh -c "php vendor/bin/phpcs -p --extensions=php --standard=CakePHP ./src"
-  - echo -n "Waiting for nginx to start ...";while :;do [[ test `docker-compose -f docker-compose.tests.yml exec tests wc -l /var/run/nginx.pid | cut -d' ' -f1` -eq 0 ]] && break;echo -n ".";sleep 1;done
+  - docker-compose -f docker-compose.tests.yml exec tests sh -c "php vendor/bin/phpcs -p --extensions=php --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src"
+  - echo -n "Waiting for nginx to start ...";while :;do [[ test `docker-compose -f docker-compose.tests.yml exec tests wc -l /var/run/nginx.pid | cut -d' ' -f1` = 0 ]] && break;echo -n ".";sleep 1;done
   - docker-compose -f docker-compose.tests.yml exec tests sh -c "php vendor/bin/codecept run"
 
 notifications:
