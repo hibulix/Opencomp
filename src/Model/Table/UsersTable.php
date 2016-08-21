@@ -2,14 +2,12 @@
 namespace App\Model\Table;
 
 use Cake\ORM\RulesChecker;
-use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
  * Users Model
  */
-class UsersTable extends Table
+class UsersTable extends \CakeDC\Users\Model\Table\UsersTable
 {
 
     /**
@@ -21,9 +19,16 @@ class UsersTable extends Table
     public function initialize(array $config)
     {
         $this->table('users');
-        $this->displayField('full_name');
+        $this->displayField('username');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
+        $this->addBehavior('CakeDC/Users.Register');
+        $this->addBehavior('CakeDC/Users.Password');
+        $this->addBehavior('CakeDC/Users.Social');
+        $this->hasMany('SocialAccounts', [
+            'foreignKey' => 'user_id',
+            'className' => 'CakeDC/Users.SocialAccounts'
+        ]);
         $this->hasMany('Classrooms', [
             'foreignKey' => 'user_id'
         ]);
@@ -46,11 +51,6 @@ class UsersTable extends Table
             'targetForeignKey' => 'classroom_id',
             'joinTable' => 'classrooms_users'
         ]);
-        $this->belongsToMany('Competences', [
-            'foreignKey' => 'user_id',
-            'targetForeignKey' => 'competence_id',
-            'joinTable' => 'competences_users'
-        ]);
         $this->belongsToMany('Establishments', [
             'foreignKey' => 'user_id',
             'targetForeignKey' => 'establishment_id',
@@ -61,27 +61,47 @@ class UsersTable extends Table
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param Validator $validator Validator instance.
+     * @return Validator
      */
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->add('id', 'valid', ['rule' => 'uuid'])
-            ->allowEmpty('id', 'create')
+            ->allowEmpty('id', 'create');
+
+        $validator
             ->requirePresence('username', 'create')
-            ->notEmpty('username')
+            ->notEmpty('username');
+
+        $validator
             ->requirePresence('password', 'create')
-            ->notEmpty('password')
+            ->notEmpty('password');
+
+        $validator
             ->requirePresence('first_name', 'create')
-            ->notEmpty('first_name')
-            ->requirePresence('name', 'create')
-            ->notEmpty('name')
-            ->add('email', 'valid', ['rule' => 'email'])
-            ->allowEmpty('email')
-            ->requirePresence('role', 'create')
-            ->notEmpty('role')
-            ->allowEmpty('yubikeyID');
+            ->notEmpty('first_name');
+
+        $validator
+            ->requirePresence('last_name', 'create')
+            ->notEmpty('last_name');
+
+        $validator
+            ->allowEmpty('token');
+
+        $validator
+            ->add('token_expires', 'valid', ['rule' => 'datetime'])
+            ->allowEmpty('token_expires');
+
+        $validator
+            ->allowEmpty('api_token');
+
+        $validator
+            ->add('activation_date', 'valid', ['rule' => 'datetime'])
+            ->allowEmpty('activation_date');
+
+        $validator
+            ->add('tos_date', 'valid', ['rule' => 'datetime'])
+            ->allowEmpty('tos_date');
 
         return $validator;
     }
@@ -100,31 +120,5 @@ class UsersTable extends Table
         
 
         return $rules;
-    }
-
-    /**
-     * @param int $classroomId Classroom identifier
-     * @return array
-     */
-    public function findAllUsersInClassroom($classroomId)
-    {
-        $titulaire = $this->Classrooms->find('all', [
-            'fields' => 'user_id',
-            'conditions' => ['Classrooms.id' => $classroomId]
-        ])->first();
-
-        $ClassroomsUsers = TableRegistry::get('ClassroomsUsers');
-        $intervenants = $ClassroomsUsers->find('all', [
-            'fields' => 'user_id',
-            'conditions' => ['classroom_id' => $classroomId]
-        ]);
-
-        $result[] = $titulaire->user_id;
-
-        foreach ($intervenants as $info) {
-            $result[] = $info->user_id;
-        }
-
-        return ($result);
     }
 }
