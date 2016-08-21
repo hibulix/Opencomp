@@ -2,7 +2,7 @@
 
 return ['Users' => [
     //Table used to manage users
-    'table' => 'CakeDC/Users.Users',
+    'table' => 'Users',
     //configure Auth component
     'auth' => true,
     'Email' => [
@@ -14,8 +14,6 @@ return ['Users' => [
     'Registration' => [
         //determines if the register is enabled
         'active' => true,
-        //determines if the reCaptcha is enabled for registration
-        'reCaptcha' => true,
         //ensure user is active (confirmed email) to reset his password
         'ensureActive' => false
     ],
