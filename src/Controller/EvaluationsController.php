@@ -2,6 +2,7 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 use Cake\Network\Exception\MethodNotAllowedException;
 use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\Query;
@@ -14,6 +15,19 @@ use Cake\ORM\TableRegistry;
  */
 class EvaluationsController extends AppController
 {
+    /**
+     * Initialization hook method.
+     *
+     * Implement this method to avoid having to overwrite
+     * the constructor and call parent.
+     *
+     * @return void
+     */
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Security');
+    }
 
     /**
      * @param null $id classroom_id
@@ -109,7 +123,7 @@ class EvaluationsController extends AppController
     {
         $this->set('title_for_layout', __('Ajouter une évaluation'));
 
-        $classroom = $this->Evaluations->Classrooms->get($id);
+        $classroom = $this->Evaluations->Classrooms->get($id, ['contain' => 'Establishments']);
         $evaluation = $this->Evaluations->newEntity();
 
         $users = $this->Evaluations->Classrooms->Users
@@ -132,7 +146,7 @@ class EvaluationsController extends AppController
                 ]);
                 $evaluationUserTable->save($evaluationUser);
                 $this->Flash->success('La nouvelle évaluation a été correctement ajoutée.');
-                $this->redirect(['controller' => 'evaluations', 'action' => 'items', $evaluation->id]);
+                $this->redirect(['controller' => 'evaluations', 'action' => 'competences', $evaluation->id]);
             } else {
                 $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
                 $pupils = json_encode($this->request->data['pupils']['_ids']);
@@ -178,12 +192,6 @@ class EvaluationsController extends AppController
             }
         }
 
-        $users = $this->Evaluations->Users->find('list', [
-            'conditions' => [
-                'id' => $this->Evaluations->Users->findAllUsersInClassroom($evaluation->classroom_id)
-            ]
-        ]);
-
         $settingsTable = TableRegistry::get('Settings');
         $currentYear = $settingsTable->find('all', ['conditions' => ['Settings.key' => 'currentYear']])->first();
 
@@ -194,7 +202,7 @@ class EvaluationsController extends AppController
             ]
         ]);
 
-        $pupils = $this->Evaluations->findPupilsByLevelsInClassroom($evaluation->classroom_id);
+        //$pupils = $this->Evaluations->findPupilsByLevelsInClassroom($evaluation->classroom_id);
         $this->set(compact('evaluation', 'users', 'periods', 'pupils', 'current_period'));
     }
 

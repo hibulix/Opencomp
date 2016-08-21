@@ -50,7 +50,7 @@ $this->assign('header', '<kbd style="font-size: xx-large; display:none;">↹</kb
 
                 <h3 class="box-title"><?php echo __('<span class="flash">Flashez</span> les résultats de '); ?><strong><span id="pupil-name"></span></strong></h3>
                 <div class="box-tools pull-right">
-                    <?= $this->Html->link('<i class="fa fa-fw fa-ban"></i> annuler la saisie de cet élève','#cancel',['class'=>'btn btn-sm btn-danger','id'=>'cancel','escape'=>false]); ?>
+                    <?= $this->Html->link('<i class="fa fa-fw fa-ban"></i> annuler','#cancel',['class'=>'btn btn-sm btn-danger','id'=>'cancel','escape'=>false]); ?>
                 </div>
             </div>
             <!-- /.box-header -->

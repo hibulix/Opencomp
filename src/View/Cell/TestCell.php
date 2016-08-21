@@ -1,7 +1,6 @@
 <?php
 namespace App\View\Cell;
 
-use App\Model\Table\EvaluationsTable;
 use Cake\ORM\TableRegistry;
 use Cake\View\Cell;
 

@@ -5,14 +5,14 @@
                 <?= $this->Html->link('<i class="fa fa-group "></i>', '/evaluations/pupils/'.$evaluation->id, array('escape' => false,'style'=>'color:inherit;')); ?>
             </span>
             <div class="info-box-content">
-                <span class="info-box-text">Elèves(s) évalué(s)</span>
+                <span class="info-box-text">Elèves évalués</span>
                 <span class="info-box-number">6</span>
                 <?php if($action !== 'pupils'): ?>
                     <div class="progress">
                         <div class="progress-bar" style="width: 100%"></div>
                     </div>
                     <span class="progress-description">
-                        <i class="fa fa-chevron-right"></i> voir les infos générales
+                        <i class="fa fa-chevron-right"></i> voir les infos
                     </span>
                 <?php endif; ?>
             </div>
@@ -20,14 +20,14 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-        <div class="info-box <?= ($action == 'items') ? 'bg-yellow' : '' ?>">
-            <span class="info-box-icon <?= ($action == 'items') ? '' : 'bg-yellow' ?>">
+        <div class="info-box <?= ($action == 'competences') ? 'bg-yellow' : '' ?>">
+            <span class="info-box-icon <?= ($action == 'competences') ? '' : 'bg-yellow' ?>">
                 <?= $this->Html->link('<i class="fa fa-list-ul "></i>', '/evaluations/competences/'.$evaluation->id, array('escape' => false,'style'=>'color:inherit;')); ?>
             </span>
             <div class="info-box-content">
-                <span class="info-box-text">Connaissances & compétences</span>
+                <span class="info-box-text">Compétences</span>
                 <span class="info-box-number">6</span>
-                <?php if($action !== 'items'): ?>
+                <?php if($action !== 'competences'): ?>
                     <div class="progress">
                         <div class="progress-bar" style="width: 100%"></div>
                     </div>
@@ -46,7 +46,7 @@
             </span>
 
             <div class="info-box-content">
-                <span class="info-box-text">Saisie des résultats</span>
+                <span class="info-box-text">Saisie résultats</span>
                 <span class="info-box-number">12% effectué</span>
                 <?php if($action === 'results'): ?>
                 <div class="progress">
@@ -71,8 +71,8 @@
             </span>
 
             <div class="info-box-content">
-                <span class="info-box-text">Analyse des résultats</span>
-                <span class="info-box-number text-muted">Non disponible</span>
+                <span class="info-box-text">Analyse résultats</span>
+                <span class="info-box-number text-muted">Indisponible</span>
                 <?php if($action === 'insights'): ?>
                     <div class="progress">
                         <div class="progress-bar" style="width: 12%"></div>
@@ -82,7 +82,7 @@
                         <div class="progress-bar" style="width: 100%"></div>
                     </div>
                     <span class="progress-description">
-                        <i class="fa fa-chevron-right"></i> analyser les résultats
+                        <!--<i class="fa fa-chevron-right"></i> voir l'analyse-->
                     </span>
                 <?php endif; ?>
             </div>

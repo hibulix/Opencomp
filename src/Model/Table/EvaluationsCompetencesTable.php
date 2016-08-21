@@ -61,7 +61,7 @@ class EvaluationsCompetencesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['evaluation_id'], 'Evaluations'));
-        $rules->add($rules->existsIn(['competence_id'], 'Items'));
+        $rules->add($rules->existsIn(['competence_id'], 'Competences'));
         
 
         return $rules;

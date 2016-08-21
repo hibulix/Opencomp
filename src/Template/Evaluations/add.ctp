@@ -1,55 +1,86 @@
-<div class="page-title">
-    <h2><?php echo __('Ajouter une évaluation'); ?></h2>
-    <?php echo $this->Html->link('<i class="fa fa-arrow-left"></i> '.__('retour à la classe'), '/classrooms/viewtests/'.$classroom->id, array('class' => 'ontitle btn btn-default', 'escape' => false)); ?>
-</div>
-
 <?php
-
-echo $this->Form->create($evaluation, ['align' => [
-    'md' => [
-        'left' => 2,
-        'middle' => 5,
-        'right' => 6,
-    ],
-]]);
-
-echo $this->Form->input('title', array(
-    'label' => array(
-        'text' => 'Titre de l\'évaluation'
-    )
-));
-
-echo $this->Form->input('period_id', array(
-    'class'=>'chzn-select form-control',
-    'label' => array(
-        'text' => 'Période associée'
-        )
-    )
+$this->assign('header', $classroom->title);
+$this->assign('description', $classroom->establishment->name);
+$link = $this->Html->link(
+    '<i class="fa fa-fw fa-cogs"></i> Gérer les périodes, système de notation et partage',
+    '',
+    [
+        'escape' => false,
+        'class' => 'btn btn-xs  btn-default'
+    ]
 );
-
-echo $this->Form->input('pupils._ids', array(
-    'class'=>'chzn-select form-control',
-    'id'=>'PupilPupil',
-    'data-placeholder' => 'Cliquez ici ou sur les boutons de niveaux pour ajouter des élèves.',
-    'help' => '<div class="help-block btn-toolbar" id="levels"></div>',
-    'label' => array(
-        'text' => 'Élèves ayant passé l\'évaluation'
-        )
-    )
-);
-
+$this->assign('right', $link);
 ?>
 
-<div class="form-group">
-    <?php echo $this->Form->submit('Créer cette évaluation', array(
-        'div' => 'col col-md-9 col-md-offset-2',
-        'class' => 'btn btn-primary'
-    )); ?>
+<?= $this->cell('Classroom::stats', [$classroom->id]); ?>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title">Ajouter une évaluation</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+                <?php
+
+                echo $this->Form->create($evaluation, ['align' => [
+                    'md' => [
+                        'left' => 2,
+                        'middle' => 5,
+                        'right' => 6,
+                    ],
+                ]]);
+
+                echo $this->Form->input('title', [
+                    'label' => [
+                        'text' => 'Titre de l\'évaluation'
+                    ]
+                ]);
+
+                echo $this->Form->hidden('classroom_id', ['value' => $params['pass'][0]]);
+
+                echo $this->Form->input(
+                    'period_id',
+                    [
+                        'class' => 'chzn-select form-control',
+                        'label' => [
+                            'text' => 'Période associée'
+                        ]
+                    ]
+                );
+
+                echo $this->Form->input(
+                    'pupils._ids',
+                    [
+                        'class' => 'chzn-select form-control',
+                        'id' => 'PupilPupil',
+                        'data-placeholder' => 'Cliquez ici ou sur les boutons de niveaux pour ajouter des élèves.',
+                        'help' => '<div class="help-block btn-toolbar" id="levels"></div>',
+                        'label' => [
+                            'text' => 'Élèves ayant passé l\'évaluation'
+                        ]
+                    ]
+                );
+
+                ?>
+
+                <div class="form-group">
+                    <?php echo $this->Form->submit('Créer cette évaluation', array(
+                        'div' => 'col col-md-9 col-md-offset-2',
+                        'class' => 'btn btn-primary'
+                    )); ?>
+                </div>
+
+                <?= $this->Form->end(); ?>
+            </div>
+        </div>
+    </div>
 </div>
 
-<?php echo $this->Form->end();
 
-$this->append('script'); ?>
+
+<?php $this->append('script'); ?>
 <script type="text/javascript">
 
     var currentPupils = <?= $pupils; ?>;
@@ -63,7 +94,7 @@ $this->append('script'); ?>
     }
 
 
-    $.get( "/classrooms/view/<?= $classroom->id ?>.json?format=select2", function( data ) {
+    $.get( "/classrooms/pupils/<?= $classroom->id ?>.json?format=select2", function( data ) {
         var pupils = $("#PupilPupil");
         pupils.select2({
             data: data,

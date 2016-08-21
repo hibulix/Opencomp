@@ -42,7 +42,7 @@ class EvaluationsCompetencesController extends AppController
             $this->Flash->error('Impossible d\'afficher ce rapport car vous n\'avez encore évalué aucun item.');
             
 
-            return $this->redirect(['controller' => 'classrooms', 'action' => 'viewtests', $id]);
+            return $this->redirect(['controller' => 'classrooms', 'action' => 'tests', $id]);
         }
 
         $json = $this->JsonTree->allUsedItemsToJson($itemsCompetences, array_keys($itemsCompetences));
@@ -75,7 +75,7 @@ class EvaluationsCompetencesController extends AppController
             }
         }
         $this->Flash->success('Votre sélection d\'items a été correctement associée à l\'évaluation.');
-        $this->redirect(['controller' => 'evaluations', 'action' => 'items', $evaluation->id]);
+        $this->redirect(['controller' => 'evaluations', 'action' => 'competences', $evaluation->id]);
     }
 
     /**
@@ -163,7 +163,7 @@ class EvaluationsCompetencesController extends AppController
                 $this->EvaluationsCompetences->save($evaluationItem);
                 
                 $this->Flash->success('L\'item a été correctement créé et associé à l\'évaluation.');
-                $this->redirect(['controller' => 'evaluations', 'action' => 'items', $evaluation->id]);
+                $this->redirect(['controller' => 'evaluations', 'action' => 'competences', $evaluation->id]);
             } else {
                 $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
             }
@@ -263,7 +263,7 @@ class EvaluationsCompetencesController extends AppController
         $itemToEdit = $this->EvaluationsCompetences->get($id);
 
         if ($itemToEdit->position == 1) {
-            $this->Flash->error('Impossible de déplacer cet item vers le haut, il est déjà à la première position !');
+            $this->Flash->error('Impossible de déplacer cette compétence vers le haut, il est déjà à la première position !');
             $this->redirect(['controller' => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id]);
         } else {
             $secondItemToEdit = $this->EvaluationsCompetences->findByEvaluationIdAndPosition($itemToEdit->evaluation_id, $itemToEdit->position - 1)->first();
@@ -271,7 +271,7 @@ class EvaluationsCompetencesController extends AppController
             $this->updatePositionItem($itemToEdit->id, $itemToEdit->position - 1);
             $this->updatePositionItem($secondItemToEdit->id, $secondItemToEdit->position + 1);
 
-            $this->redirect(['controller' => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id]);
+            $this->redirect(['controller' => 'evaluations', 'action' => 'competences', $itemToEdit->evaluation_id]);
         }
     }
 
@@ -288,7 +288,7 @@ class EvaluationsCompetencesController extends AppController
         ])->count();
 
         if ($itemToEdit->position == $lastItemPosition) {
-            $this->Flash->error('Impossible de déplacer cet item vers le bas, il est déjà à la dernière position !');
+            $this->Flash->error('Impossible de déplacer cette compétence vers le bas, il est déjà à la dernière position !');
             $this->redirect(['controller' => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id]);
         } else {
             $secondItemToEdit = $this->EvaluationsCompetences->findByEvaluationIdAndPosition($itemToEdit->evaluation_id, $itemToEdit->position + 1)->first();
@@ -296,7 +296,7 @@ class EvaluationsCompetencesController extends AppController
             $this->updatePositionItem($itemToEdit->id, $itemToEdit->position + 1);
             $this->updatePositionItem($secondItemToEdit->id, $secondItemToEdit->position - 1);
 
-            $this->redirect(['controller' => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id]);
+            $this->redirect(['controller' => 'evaluations', 'action' => 'competences', $itemToEdit->evaluation_id]);
         }
     }
 
