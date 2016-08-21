@@ -3,6 +3,7 @@ namespace app\Controller;
 
 use App\Controller\AppController;
 use Cake\Datasource\ConnectionManager;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\TableRegistry;
 
@@ -52,8 +53,64 @@ class EstablishmentsController extends AppController
         $this->loadComponent('Search.Prg', [
             // This is default config. You can modify "actions" as needed to make
             // the PRG component work only for specified methods.
-            'actions' => ['index', 'lookup']
+            'actions' => ['index', 'find']
         ]);
+    }
+
+    /**
+     * Allow a user to join an establishment
+     *
+     * @param string $uai UAI identifier
+     * @return void
+     */
+    public function join($uai = null)
+    {
+        if (isset($uai)) {
+            if ($this->request->is('post')) {
+                $user = $this->Establishments->Users->get($this->Auth->user('id'));
+                $user->_joinData = $this->Establishments->EstablishmentsUsers->newEntity();
+                $user->_joinData->ownership = 'USER';
+
+                $this->Establishments->Users->link($this->Establishments->get($uai), [$user]);
+
+                $this->Flash->success('Vous faites désormais parti de cet établissement.');
+                $this->redirect('/');
+            }
+            try {
+                $establishment = $this->Establishments->get($uai, ['contain' => 'Towns']);
+            } catch (RecordNotFoundException $e) {
+                $this->Flash->error('Le code UAI saisi est invalide');
+                $this->redirect('/establishments/join');
+            }
+
+            $this->set(compact('establishment'));
+        } else {
+            if ($this->request->is('post') && !isset($this->request->data['id'])) {
+                $this->redirect('/establishments/find/' . $this->request->data['town_id'] . '?s=' . $this->request->data['sector']);
+            }
+
+            if ($this->request->is('post') && isset($this->request->data['id'])) {
+                $this->redirect('/establishments/join/' . $this->request->data['id']);
+            }
+        }
+    }
+
+    /**
+     * Allow a user to find an establishment
+     *
+     * @param int $townId Town identifier
+     * @return void
+     */
+    public function find($townId = null)
+    {
+        $query = $this->Establishments
+            // Use the plugins 'search' custom finder and pass in the
+            // processed query params
+            ->find('search', ['search' => $this->request->query, 'contain' => ['Towns']])
+            ->where(['Establishments.town_id' => $townId]);
+
+        $this->set('schools', $query->all());
+        $this->set('_serialize', true);
     }
 
     /**

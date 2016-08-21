@@ -4,7 +4,7 @@ $this->assign('description', $establishment->id);
 ?>
 
 <div class="row">
-    <div class="col-md-2 col-sm-6 col-xs-12">
+    <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
             <span class="info-box-icon bg-purple"><i class="fa fa-group"></i></span>
 
@@ -14,6 +14,19 @@ $this->assign('description', $establishment->id);
             </div>
             <!-- /.info-box-content -->
         </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-purple"><i class="fa fa-user"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Utilisateurs</span>
+                <span class="info-box-number"><?= $stats['nbClassrooms'] ?></span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
             <span class="info-box-icon bg-purple"><i class="fa fa-child"></i></span>
 
@@ -23,6 +36,8 @@ $this->assign('description', $establishment->id);
             </div>
             <!-- /.info-box-content -->
         </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
             <span class="info-box-icon bg-purple"><i class="fa fa-calendar"></i></span>
 
@@ -34,7 +49,10 @@ $this->assign('description', $establishment->id);
         </div>
         <!-- /.info-box -->
     </div>
-    <div class="col-md-4">
+</div>
+
+<div class="row">
+    <div class="col-md-6">
         <div class="box">
             <div class="box-header with-border">
                 <i class="fa fa-home"></i>
@@ -111,75 +129,6 @@ $this->assign('description', $establishment->id);
         </div>
         <!-- /.box -->
     </div>
-
-    <div class="col-md-3">
-        <div class="box">
-            <div class="box-header with-border">
-                <i class="fa fa-key"></i>
-                <h3 class="box-title">Utilisateurs</h3>
-                <div class="box-tools">
-                    <?= $this->Html->link('<i class="fa fa-fw fa-plus"></i> Ajouter', [
-                        'controller' => 'establishments',
-                        'action' => 'adduser',
-                        $establishment->id
-                    ], [
-                        'escape' => false,
-                        'class' => 'btn btn-success btn-sm'
-                    ]); ?>
-                </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body no-padding">
-                <table class="table table-hover">
-                    <tbody><tr>
-                        <th><?= __d('opencomp','Libellé') ?></th>
-                        <th>Propriété</th>
-                        <th>Actions</th>
-                    </tr>
-                    <?php foreach ($establishment->users as $user): ?>
-                        <tr>
-                            <td><?= $user->full_name ?></td>
-                            <td><?= $user->_joinData['ownership'] ?></td>
-                            <td width="30%">&nbsp;
-                                <?php echo $this->Form->postLink('<i class="fa fa-fw fa-trash-o"></i> Supprimer', array('controller' => 'establishment', 'action' => 'removeUser', $user->id), array('escape'=>false,'class'=>'text-danger'), __('Are you sure you want to delete # {0}?')); ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
-                <!-- /.box-body -->
-            </div>
-            <!-- /.box -->
-        </div>
-    </div>
-    <!-- ./col -->
-    <div class="col-md-3">
-        <div class="box">
-            <div class="box-header with-border">
-                <i class="fa fa-globe"></i>
-
-                <h3 class="box-title">Localisation en France</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body no-padding">
-                <div id="establishment-france"></div>
-                <style>
-                    #establishment-france { height: 300px; }
-                </style>
-                <?php $this->append('javascript'); ?>
-                var mapFrance = L.map('establishment-france').setView([46.76306,2.42472], 5);
-                L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png', {
-                attribution: 'Wikimedia Maps | Cartographie &copy; <a href="http://openstreetmap.org/copyright">contributeurs OpenStreetMap</a>',
-                maxZoom: 18,
-                }).addTo(mapFrance);
-                var marker = L.marker([<?= $lat ?>, <?= $lgt ?>]).addTo(mapFrance);
-                <?php $this->end(); ?>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-
     <div class="col-md-6">
         <div class="box">
             <div class="box-header with-border">
@@ -224,7 +173,50 @@ $this->assign('description', $establishment->id);
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="box">
+            <div class="box-header with-border">
+                <i class="fa fa-key"></i>
+                <h3 class="box-title">Utilisateurs</h3>
+                <div class="box-tools">
+                    <?= $this->Html->link('<i class="fa fa-fw fa-plus"></i> Ajouter', [
+                        'controller' => 'establishments',
+                        'action' => 'adduser',
+                        $establishment->id
+                    ], [
+                        'escape' => false,
+                        'class' => 'btn btn-success btn-sm'
+                    ]); ?>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+                <table class="table table-hover">
+                    <tbody><tr>
+                        <th><?= __d('opencomp','Libellé') ?></th>
+                        <th>Propriété</th>
+                        <th>Actions</th>
+                    </tr>
+                    <?php foreach ($establishment->users as $user): ?>
+                        <tr>
+                            <td><?= $user->full_name ?></td>
+                            <td><?= $user->_joinData['ownership'] ?></td>
+                            <td width="30%">&nbsp;
+                                <?php echo $this->Form->postLink('<i class="fa fa-fw fa-trash-o"></i> Supprimer', array('controller' => 'establishment', 'action' => 'removeUser', $user->id), array('escape'=>false,'class'=>'text-danger'), __('Are you sure you want to delete # {0}?')); ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-md-6">
         <div class="box">
             <div class="box-header with-border">
                 <i class="fa fa-calendar"></i>
@@ -271,7 +263,33 @@ $this->assign('description', $establishment->id);
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+</div>
+<div class="row">
+    <div class="col-lg-6 visible-lg-block">
+        <div class="box">
+            <div class="box-header with-border">
+                <i class="fa fa-globe"></i>
+
+                <h3 class="box-title">Localisation en France</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+                <div id="establishment-france"></div>
+                <style>
+                    #establishment-france { height: 300px; }
+                </style>
+                <?php $this->append('javascript'); ?>
+                var mapFrance = L.map('establishment-france').setView([46.76306,2.42472], 5);
+                L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png', {
+                attribution: 'Wikimedia Maps | Cartographie &copy; <a href="http://openstreetmap.org/copyright">contributeurs OpenStreetMap</a>',
+                maxZoom: 18,
+                }).addTo(mapFrance);
+                var marker = L.marker([<?= $lat ?>, <?= $lgt ?>]).addTo(mapFrance);
+                <?php $this->end(); ?>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
         <div class="box">
             <div class="box-header with-border">
                 <i class="fa fa-map-marker"></i>
@@ -282,7 +300,7 @@ $this->assign('description', $establishment->id);
             <div class="box-body no-padding">
                 <div id="establishment-localization"></div>
                 <style>
-                    #establishment-localization { height: 350px; }
+                    #establishment-localization { height: 300px; }
                 </style>
                 <?php $this->append('javascript'); ?>
                 var mapDetail = L.map('establishment-localization').setView([<?= $lat ?>, <?= $lgt ?>], 14);

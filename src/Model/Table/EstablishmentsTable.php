@@ -45,6 +45,9 @@ class EstablishmentsTable extends Table
         $this->hasMany('Periods', [
             'foreignKey' => 'establishment_id'
         ]);
+        $this->hasMany('EstablishmentsUsers', [
+            'foreignKey' => 'establishment_id'
+        ]);
         $this->belongsToMany('Users', [
             'foreignKey' => 'establishment_id',
             'targetForeignKey' => 'user_id',
@@ -76,6 +79,24 @@ class EstablishmentsTable extends Table
                 'wildcardAny' => '*',
                 'wildcardOne' => '?',
                 'field' => [$this->aliasField('name')]
+            ])
+            ->add('patronym', 'Search.Like', [
+                'before' => true,
+                'after' => true,
+                'mode' => 'or',
+                'comparison' => 'LIKE',
+                'wildcardAny' => '*',
+                'wildcardOne' => '?',
+                'field' => [$this->aliasField('uai_patronym')]
+            ])
+            ->add('address', 'Search.Like', [
+                'before' => true,
+                'after' => true,
+                'mode' => 'or',
+                'comparison' => 'LIKE',
+                'wildcardAny' => '*',
+                'wildcardOne' => '?',
+                'field' => [$this->aliasField('address')]
             ])
             ->add('s', 'Search.Like', [
                 'before' => true,

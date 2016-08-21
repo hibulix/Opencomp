@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use Cake\Controller\Component\AuthComponent;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -61,5 +62,17 @@ class EstablishmentsUsersTable extends Table
         
 
         return $rules;
+    }
+
+    /**
+     * @param string $userId User UUID
+     * @return \Cake\Datasource\ResultSetInterface
+     */
+    public function getUsersEstablishments($userId)
+    {
+        return $this->find()
+            ->where(['EstablishmentsUsers.user_id' => $userId])
+            ->contain(['Establishments'])
+            ->all();
     }
 }
