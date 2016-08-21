@@ -54,16 +54,10 @@ use App\Auth\Rules\Owner;
 return [
     'Users.SimpleRbac.permissions' => [
         [
-            'role' => '*',
-            'plugin' => 'CakeDC/Users',
-            'controller' => '*',
-            'action' => '*',
-        ],
-        [
             'role' => 'user',
             'plugin' => 'CakeDC/Users',
             'controller' => 'Users',
-            'action' => ['register', 'edit', 'view'],
+            'action' => ['register', 'edit', 'view', 'profile', 'logout'],
         ],
         [
             'role' => 'user',
@@ -86,10 +80,29 @@ return [
         ],
         [
             'role' => 'user',
+            'controller' => 'Establishments',
+            'action' => ['join', 'find'],
+            'allowed' => true,
+        ],
+        [
+            'role' => 'user',
             'controller' => ['Towns'],
             'action' => 'index',
             'extension' => 'json',
-            'allowed' => false,
+            'allowed' => true,
+        ],
+        [
+            'role' => 'user',
+            'controller' => ['Classrooms'],
+            'action' => 'view',
+            'extension' => 'json',
+            'allowed' => new Owner([
+                'table' => 'ClassroomsUsers',
+                'id' => 'classroom_id',
+                'ownerForeignKey' => 'user_id',
+                'ownershipTypeColumn' => 'ownership',
+                'ownershipTypeValue' => 'OWNER',
+            ]),
         ],
         [
             'role' => ['user'],
