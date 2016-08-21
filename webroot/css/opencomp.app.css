@@ -171,3 +171,31 @@ input.error{
 input.success{
     background-color: #e4ffcb;
 }
+
+.numbers-kickstart{
+    font-size: 60px;
+    line-height:60px;
+    font-family: 'Open Sans'
+}
+
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    position: relative;
+    top: 3px;
+    width: 158px ;
+    line-height: 16px;
+}
+
+li.treeview > a > i.pull-right {
+    position: relative;
+    top: 4px;
+}
+
+.callout-green {
+    background-color: #dff0d8 !important;
+    color: #3c763d;
+    border-color: #d6e9c6;
+}
