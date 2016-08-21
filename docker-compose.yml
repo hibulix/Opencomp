@@ -32,6 +32,7 @@ services:
     image: elsdoerfer/exim-sender
     environment:
       ALLOWED_HOSTS: 172.18.0.0/24
+      PRIMARY_HOST: localhost
   java_servlets:
     image: tomcat:7-jre8
     volumes:

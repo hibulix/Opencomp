@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Entity\Evaluation;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -97,5 +98,31 @@ class ClassroomsPupilsTable extends Table
                 ]
             ]
         ]);
+    }
+
+    /**
+     * @param Evaluation $entity Evaluation entity
+     * @return bool Determine if
+     */
+    public function isSameCycle($entity)
+    {
+        $classroomId = $entity->classroom_id;
+        $pupilsIds = array_column($entity->pupils, 'id');
+
+        $result = $this->find()->contain(['Levels'])
+            ->where(['pupil_id IN' => $pupilsIds, 'classroom_id' => $classroomId])->all();
+
+        // We extract levels entities from each pupil entity.
+        $levels = array_column($result->toArray(), 'level');
+
+        // We extract cycle_id from each level entity, deduplicates values
+        $cycles = array_values(array_unique(array_column($levels, 'cycle_id')));
+
+        // If we get just one cycle value, all pupils belongs to the same cycle
+        if (count($cycles) === 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

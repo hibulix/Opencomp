@@ -42,7 +42,6 @@ return [
         'dir' => 'src',
         'webroot' => 'webroot',
         'wwwRoot' => WWW_ROOT,
-        'baseUrl' => env('SCRIPT_NAME'),
         //'fullBaseUrl' => "http://localhost",
         'imageBaseUrl' => 'img/',
         'cssBaseUrl' => 'css/',
@@ -182,8 +181,10 @@ return [
         'default' => [
             'className' => 'Smtp',
             // The following keys are used in SMTP transports
-            'host' => 'postfix',
+            'host' => 'smtp.mailgun.org',
             'port' => 25,
+            'username' => 'postmaster@my.opencomp.fr',
+            'password' => '___PWD___',
             'timeout' => 30,
             'client' => null,
             'tls' => null,
@@ -193,7 +194,7 @@ return [
     'Email' => [
         'default' => [
             'transport' => 'default',
-            'from' => 'you@localhost',
+            'from' => ['noreply@my.opencomp.fr' => 'Opencomp'],
             //'charset' => 'utf-8',
             //'headerCharset' => 'utf-8',
         ],
