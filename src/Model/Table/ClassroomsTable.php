@@ -154,7 +154,7 @@ class ClassroomsTable extends Table
             }])
             ->orderAsc('Levels.id');
 
-        $pupilsLevels = [];
+        $res = [];
         foreach ($pupilsLevels as $pupilLevel) {
             $level = [
                 'id' => $pupilLevel->id,
@@ -165,14 +165,14 @@ class ClassroomsTable extends Table
             foreach ($pupilLevel->pupils as $pupil) {
                 $formattedPupil = [
                     'id' => $pupil->id,
-                    'text' => $pupil->full_name
+                    'text' => $pupil->first_name . " " . $pupil->name
                 ];
                 array_push($level['children'], $formattedPupil);
             }
-            array_push($pupilsLevels, $level);
+            array_push($res, $level);
         }
         
 
-        return $pupilsLevels;
+        return $res;
     }
 }

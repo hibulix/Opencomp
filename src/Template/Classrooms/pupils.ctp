@@ -1,6 +1,15 @@
 <?php
 $this->assign('header', $classroom->title);
 $this->assign('description', $classroom->establishment->name);
+$link = $this->Html->link(
+    '<i class="fa fa-fw fa-cogs"></i> Gérer les périodes, système de notation et partage',
+    'mailto:support@opencomp.fr',
+    [
+        'escape' => false,
+        'class' => 'btn btn-xs  btn-default'
+    ]
+);
+$this->assign('right', $link);
 ?>
 
 <?= $this->cell('Classroom::stats', [$classroom->id]); ?>

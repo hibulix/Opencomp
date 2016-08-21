@@ -92,7 +92,7 @@ class ClassroomsController extends AppController
      * @param string $id Classroom_id
      * @return void
      */
-    public function view($id = null)
+    public function pupils($id = null)
     {
         $this->set('title_for_layout', __('Visualiser une classe'));
 
@@ -116,7 +116,7 @@ class ClassroomsController extends AppController
      * @param int $id Classroom id
      * @return void
      */
-    public function viewtests($id = null)
+    public function tests($id = null)
     {
         $this->set('title_for_layout', __('Visualiser une classe'));
 
@@ -172,7 +172,7 @@ class ClassroomsController extends AppController
      * @param int $id Classroom id
      * @return void
      */
-    public function viewunrateditems($id = null)
+    public function workedskills($id = null)
     {
         $this->set('title_for_layout', __('Visualiser une classe'));
 
@@ -192,7 +192,7 @@ class ClassroomsController extends AppController
      * @param int $id Classroom id
      * @return void
      */
-    public function viewreports($id = null)
+    public function reports($id = null)
     {
         $this->set('title_for_layout', __('Bulletins d\'une classe'));
 
