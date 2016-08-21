@@ -92,27 +92,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="<?= "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $this->request->session()->read('Auth.User.email') ) ) ).'?d='.urlencode('https://api.adorable.io/avatars/100/'.$this->request->session()->read('Auth.User.id').'.png'); ?>" class="user-image" alt="User Image">
+                            <img src="<?= "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->request->session()->read('Auth.User.email')))) . '?d=' . urlencode('https://api.adorable.io/avatars/100/' . $this->request->session()->read('Auth.User.id') . '.png'); ?>" class="user-image" alt="User Image">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs"><?= $this->request->session()->read('Auth.User.first_name').' '.$this->request->session()->read('Auth.User.last_name'); ?></span>
+                            <span class="hidden-xs"><?= $this->request->session()->read('Auth.User.first_name') . ' ' . $this->request->session()->read('Auth.User.last_name'); ?></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="<?= "https://www.gravatar.com/avatar/" . md5( strtolower( trim( $this->request->session()->read('Auth.User.email') ) ) ).'?d='.urlencode('https://api.adorable.io/avatars/100/'.$this->request->session()->read('Auth.User.id').'.png'); ?>" class="img-circle" alt="User Image">
+                                <img src="<?= "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->request->session()->read('Auth.User.email')))) . '?d=' . urlencode('https://api.adorable.io/avatars/100/' . $this->request->session()->read('Auth.User.id') . '.png'); ?>" class="img-circle" alt="User Image">
 
                                 <p>
-                                    Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2012</small>
+                                    <?= $this->request->session()->read('Auth.User.first_name') . ' ' . $this->request->session()->read('Auth.User.last_name'); ?>
+                                    <small>Membre depuis le <?= $this->request->session()->read('Auth.User.created') ?></small>
                                 </p>
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Mon compte</a>
+                                    <?php echo $this->AuthLink->link('<span>Mon compte</span>', '/profile', ['escape' => false, 'class' => 'btn btn-default btn-flat']); ?>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i> Se déconnecter</a>
+                                    <?= $this->User->logout('<i class="fa fa-sign-out"></i> Se déconnecter', ['class' => 'btn btn-default btn-flat', 'escape' => false]) ?>
                                 </div>
                             </li>
                         </ul>
@@ -129,10 +129,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <section class="sidebar">
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
-                <li class="header">PARAMÈTRES</li>
+                <?php if ($this->request->session()->read('Auth.User.id') === null) : ?>
+                    <li class="header">UTILISATEURS</li>
+                    <li <?= ($params['action'] == 'login') ? 'class="active"' : ''; ?>><?php echo $this->AuthLink->link('<i class="fa fa-sign-in"></i> <span>M\'identifier</span>', '/users/login', array('escape' => false)); ?></li>
+                    <li <?= ($params['action'] == 'register') ? 'class="active"' : ''; ?>><?php echo $this->AuthLink->link('<i class="fa fa-user-plus"></i> <span>Créer mon compte</span>', '/users/register', array('escape' => false)); ?></li>
+                <?php endif; ?>
+                <?php if ($this->request->session()->read('Auth.User.id') !== null) : ?>
+                    <li class="header">EN BREF</li>
+                    <li <?= ($params['controller'] == 'Dashboard') ? 'class="active"' : ''; ?>><?php echo $this->AuthLink->link('<i class="fa fa-rocket"></i> <span>Mon tableau de bord</span>', '/dashboard', ['escape' => false]); ?></li>
+                    <li class="header">RÉFÉRENTIELS</li>
+                    <li <?= ($params['controller'] == 'Competences' && $params['action'] == 'view') ? 'class="active"' : ''; ?>><?php echo $this->Html->link('<i class="fa fa-list"></i> <span>Programmes officiels</span>', '/establishments/join', ['escape' => false]); ?></li>
+                    <li class="header">ETABLISSEMENTS</li>
+                    <?php $classroomId = isset($evaluation['classroom']['id']) ? $evaluation['classroom']['id'] : null; ?>
+                    <?= $this->cell('Sidebar::establishmentsUsers', [$this->request->session()->read('Auth.User.id'), $classroomId]); ?>
+                    <li <?= ($params['controller'] == 'Establishments' && $params['action'] == 'join') ? 'class="active"' : ''; ?>><?php echo $this->AuthLink->link('<i class="fa fa-sign-in"></i> <span>Rejoindre un établissement</span>', '/establishments/join', ['escape' => false, 'class' => 'text-muted']); ?></li>
+                <?php endif; ?>
+                <?php if ($this->request->session()->read('Auth.User.is_superuser') === true) : ?>
+                    <li class="header">PARAMÈTRES</li>
                 <!-- Optionally, you can add icons to the links -->
                 <li <?= ($params['controller'] == 'Establishments') ? 'class="active"' : ''; ?>><?php echo $this->AuthLink->link('<i class="fa fa-home"></i> <span>Établissements</span>', '/establishments', array('escape' => false)); ?></li>
-                <li <?= ($params['controller'] == 'Users') ? 'class="active"' : ''; ?>><?php echo $this->Html->link('<i class="fa fa-group"></i> <span>Utilisateurs</span>', '/users', array('escape' => false)); ?></li>
+                <li <?= ($params['controller'] == 'Users') ? 'class="active"' : ''; ?>><?php echo $this->AuthLink->link('<i class="fa fa-group"></i> <span>Utilisateurs</span>', '/users', array('escape' => false)); ?></li>
                 <li class="treeview">
                     <a href="#"><i class="fa fa-cogs"></i> <span>Nomenclatures</span> <i class="fa fa-angle-right pull-right"></i></a>
                     <ul class="treeview-menu">
@@ -144,19 +160,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <li><a href="#"><i class="fa fa-cloud-download"></i> Import depuis Etalab</a></li>
                     </ul>
                 </li>
-                <li class="header">MES CLASSES</li>
-                <!-- Optionally, you can add icons to the links -->
-                <li><a href="#"><i class="fa fa-line-chart"></i> <span>Mon bureau</span></a></li>
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-briefcase"></i> <span>CE2 &nbsp;<sub>Ecole Edmond Marquis</sub></span> <i class="fa fa-angle-right pull-right"></i></a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-child"></i> <span>Elèves</span></a></li>
-                        <li><a href="#"><i class="fa fa-file-text-o"></i> <span>Evaluations</span></a></li>
-                        <li><a href="#"><i class="fa fa-ban"></i> <span>Items non-évalués</span></a></li>
-                        <li><a href="#"><i class="fa fa-file-pdf-o"></i> <span>Bulletins</span></a></li>
-                    </ul>
-                </li>
-
+                <?php endif; ?>
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -171,7 +175,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <?= $this->fetch('header') ?>
                 <small><?= $this->fetch('description') ?></small>
             </h1>
-            <?php if($this->fetch('breadcrumb')): ?>
+            <div class="pull-right" style="margin-top:-25px;"><?= $this->fetch('right') ?></div>
+            <?php if ($this->fetch('breadcrumb')) : ?>
                 <ol class="breadcrumb">
                     <?= $this->fetch('breadcrumb') ?>
                 </ol>
