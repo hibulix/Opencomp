@@ -3,6 +3,7 @@ namespace App\Model\Table;
 
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
@@ -87,7 +88,13 @@ class EvaluationsTable extends Table
             ->allowEmpty('id', 'create')
             ->requirePresence('title', 'create')
             ->notEmpty('title')
-            ->add('unrated', 'valid', ['rule' => 'boolean']);
+            ->add('unrated', 'valid', ['rule' => 'boolean'])
+            ->add('pupils', [
+                'notEmpty' => [
+                    'rule' => ['multiple', ['min' => 1]],
+                    'message' => 'Vous devez sélectionner au moins un élève.'
+                ]
+            ]);
 
         return $validator;
     }
@@ -104,6 +111,14 @@ class EvaluationsTable extends Table
         $rules->add($rules->existsIn(['classroom_id'], 'Classrooms'));
         $rules->add($rules->existsIn(['users'], 'Users'));
         $rules->add($rules->existsIn(['period_id'], 'Periods'));
+        $rules->add(function ($entity, $options) {
+            $classroomsPupils = TableRegistry::get('ClassroomsPupils');
+
+            return $classroomsPupils->isSameCycle($entity);
+        }, 'sameCycle', [
+            'errorField' => 'pupils',
+            'message' => 'Seuls des élèves de même cycle peuvent passer l\'évaluation.'
+        ]);
 
 
         return $rules;
