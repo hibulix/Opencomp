@@ -39,4 +39,19 @@ class UtilsHelper extends AppHelper
     {
         return number_format($qty * 100 / $total, 3);
     }
+
+    public function getLevels($evaluation){
+
+        $levels = array_column($evaluation->toArray()['pupils'], 'levels');
+        $levels = array_column($levels, 0);
+        $levelsTitles = array_unique(array_column($levels, 'title'));
+
+        $return = '';
+
+        foreach ($levelsTitles as $level) {
+            $return .= '<span class="label label-default">' . $level . '</span> ';
+        }
+
+        return $return;
+    }
 }

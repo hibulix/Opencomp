@@ -135,6 +135,9 @@ class ClassroomsController extends AppController
                 }, 'Pupils' => function (Query $q) {
                     return $q
                         ->select(['id']);
+                }, 'Pupils.Levels' => function (Query $q) {
+                    return $q
+                        ->select(['title']);
                 }, 'Competences' => function (Query $q) {
                     return $q
                         ->select(['id']);
