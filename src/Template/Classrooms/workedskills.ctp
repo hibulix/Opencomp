@@ -24,13 +24,12 @@ $this->assign('description', $classroom->establishment->name);
                 <?php
                 $i = 0;
                 foreach ($evaluations as $evaluation):
-                    foreach ($evaluation->items as $item):?>
+                    foreach ($evaluation->competences as $competence):?>
 
                         <tr>
-                            <td><?php echo h($evaluation->period->well_named); ?></td>
-                            <td><?php echo h($item->title); ?></td>
+                            <td>du <?php echo h($evaluation->period->begin) . " au " . h($evaluation->period->end); ?></td>
+                            <td><?php echo h($competence->title); ?></td>
                             <td class="actions">
-                                <?= $this->AuthLink->link('<i class="fa fa-plus"></i> '.__('ajouter un item évalué'), '/competences/attachitem?evaluation_id='.$evaluation->id, array('class' => 'btn btn-sm btn-success', 'escape' => false)); ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

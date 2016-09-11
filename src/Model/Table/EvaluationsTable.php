@@ -117,7 +117,7 @@ class EvaluationsTable extends Table
             return $classroomsPupils->isSameCycle($entity);
         }, 'sameCycle', [
             'errorField' => 'pupils',
-            'message' => 'Seuls des élèves de même cycle peuvent passer l\'évaluation.'
+            'message' => 'Seuls des élèves de même cycle peuvent passer la même évaluation.'
         ]);
 
 

@@ -140,8 +140,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <li class="header">RÉFÉRENTIELS</li>
                     <li <?= ($params['controller'] == 'Competences' && $params['action'] == 'view') ? 'class="active"' : ''; ?>><?php echo $this->Html->link('<i class="fa fa-list"></i> <span>Programmes officiels</span>', '/establishments/join', ['escape' => false]); ?></li>
                     <li class="header">ETABLISSEMENTS</li>
-                    <?php $classroomId = isset($evaluation['classroom']['id']) ? $evaluation['classroom']['id'] : null; ?>
-                    <?= $this->cell('Sidebar::establishmentsUsers', [$this->request->session()->read('Auth.User.id'), $classroomId]); ?>
+                    <?php if(!isset($classroom)): ?>
+                        <?php $classroom = isset($evaluation['classroom']) ? $evaluation['classroom'] : null; ?>
+                    <?php endif; ?>
+                    <?= $this->cell('Sidebar::establishmentsUsers', [$this->request->session()->read('Auth.User.id'), $classroom]); ?>
                     <li <?= ($params['controller'] == 'Establishments' && $params['action'] == 'join') ? 'class="active"' : ''; ?>><?php echo $this->AuthLink->link('<i class="fa fa-sign-in"></i> <span>Rejoindre un établissement</span>', '/establishments/join', ['escape' => false, 'class' => 'text-muted']); ?></li>
                 <?php endif; ?>
                 <?php if ($this->request->session()->read('Auth.User.is_superuser') === true) : ?>
