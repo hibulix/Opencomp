@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use Cake\Datasource\ConnectionManager;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -273,5 +274,40 @@ class ResultsTable extends Table
         }
 
         return $data;
+    }
+
+    public function findItemDivision($evaluation_id){
+        $connection = ConnectionManager::get('default');
+        $item_division = $connection->execute("
+			SELECT GROUP_CONCAT(a) a, GROUP_CONCAT(b) b, GROUP_CONCAT(c) c, GROUP_CONCAT(d) d, GROUP_CONCAT(ne) ne, GROUP_CONCAT(abs) abs
+			FROM
+			(
+				SELECT results.competence_id as uid, SUM(COALESCE(`grade_a`,0)) as a, SUM(COALESCE(`grade_b`,0)) as b, SUM(COALESCE(`grade_c`,0)) as c, SUM(COALESCE(`grade_d`,0)) as d,
+				(SELECT COUNT(result) FROM results WHERE evaluation_id = $evaluation_id AND `competence_id` = uid AND result='NE') as ne,
+				(SELECT COUNT(result) FROM results WHERE evaluation_id = $evaluation_id AND `competence_id` = uid AND result='ABS') as abs
+				FROM results
+				INNER JOIN evaluations_competences ON evaluations_competences.competence_id = results.competence_id AND evaluations_competences.evaluation_id = results.evaluation_id
+				WHERE results.evaluation_id = $evaluation_id
+				GROUP BY results.competence_id, evaluations_competences.position
+				ORDER BY evaluations_competences.position ASC
+			) q
+		")->fetchAll('assoc');
+        return $item_division[0];
+    }
+
+    public function globalResults($evaluation_id){
+        $connection = ConnectionManager::get('default');
+        $item_division = $connection->execute("
+			SELECT GROUP_CONCAT(a) a, GROUP_CONCAT(b) b, GROUP_CONCAT(c) c, GROUP_CONCAT(d) d, GROUP_CONCAT(ne) ne, GROUP_CONCAT(abs) abs
+			FROM
+			(
+				SELECT SUM(COALESCE(`grade_a`,0)) as a, SUM(COALESCE(`grade_b`,0)) as b, SUM(COALESCE(`grade_c`,0)) as c, SUM(COALESCE(`grade_d`,0)) as d,
+				(SELECT COUNT(result) FROM results WHERE evaluation_id = $evaluation_id AND result='NE') as ne,
+				(SELECT COUNT(result) FROM results WHERE evaluation_id = $evaluation_id AND result='ABS') as abs
+				FROM results
+				WHERE results.evaluation_id = $evaluation_id
+			) q
+		")->fetchAll('num');
+        return implode(', ',$item_division[0]);
     }
 }

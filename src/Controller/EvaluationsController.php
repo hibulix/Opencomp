@@ -59,7 +59,7 @@ class EvaluationsController extends AppController
 
         $evaluation = $this->Evaluations->get($id, [
             'contain' => [
-                'Classrooms',
+                'Classrooms.Establishments',
                 'Competences' => function (Query $q) {
                     return $q
                         ->order(['EvaluationsCompetences.position' => 'ASC']);
@@ -104,13 +104,28 @@ class EvaluationsController extends AppController
     {
         $evaluation = $this->Evaluations->get($id, [
             'contain' => [
-                'Classrooms'
+                'Classrooms',
+                'Competences' => [
+                    'sort' => ['EvaluationsCompetences.position' => 'ASC']
+                ],
+                'Results'
             ],
             'conditions' => ['unrated' => 0]
         ]);
         $this->set('title_for_layout', $evaluation->title);
-        $levelsPupils = $this->Evaluations->findPupilsByLevels($id);
-        $this->set(compact('evaluation', 'levelsPupils'));
+
+        $competencex = '';
+        foreach($evaluation->competences as $competence){
+            $competenceno = $competence->_joinData['position'];
+            $competencex .= "'Compétence $competenceno', ";
+        }
+
+        $competence_division = $this->Evaluations->Results->findItemDivision($id);
+        $global_results = $this->Evaluations->Results->globalResults($id);
+
+        $this->set(compact('evaluation', 'item_division', 'global_results'));
+        $this->set('x',substr($competencex, 0, -2));
+        $this->set('y',$competence_division);
     }
 
     /**
@@ -180,15 +195,23 @@ class EvaluationsController extends AppController
         $this->set('title_for_layout', __('Modifier une évaluation'));
 
         $evaluation = $this->Evaluations->get($id, ['contain' => ['Pupils', 'Classrooms']]);
+        $classroom = $this->Evaluations->Classrooms->get($evaluation->classroom_id, ['contain' => 'Establishments']);
+
+        $queryPupils = $this->Evaluations->EvaluationsPupils->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'pupil_id'
+        ])->where(['evaluation_id' => $evaluation->id])->toArray();
+        $pupils = json_encode(array_values($queryPupils));
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $evaluation = $this->Evaluations->patchEntity($evaluation, $this->request->data);
 
             if ($this->Evaluations->save($evaluation)) {
                 $this->Flash->success('L\'évaluation a été correctement modifiée.');
-                $this->redirect(['controller' => 'evaluations', 'action' => 'items', $evaluation->id]);
+                $this->redirect(['controller' => 'evaluations', 'action' => 'competences', $evaluation->id]);
             } else {
                 $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
+                $pupils = json_encode($this->request->data['pupils']['_ids']);
             }
         }
 
@@ -202,8 +225,7 @@ class EvaluationsController extends AppController
             ]
         ]);
 
-        //$pupils = $this->Evaluations->findPupilsByLevelsInClassroom($evaluation->classroom_id);
-        $this->set(compact('evaluation', 'users', 'periods', 'pupils', 'current_period'));
+        $this->set(compact('evaluation', 'users', 'periods', 'classroom', 'pupils', 'current_period'));
     }
 
     /**
