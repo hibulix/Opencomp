@@ -5,6 +5,5 @@ webroot/components
 /tmp/*
 /logs/*
 java_servlets/ODBGenerator/WEB-INF/*.odb
-
 tests/_output/*
 *TesterActions.php

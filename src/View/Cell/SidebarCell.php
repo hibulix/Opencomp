@@ -3,7 +3,6 @@ namespace App\View\Cell;
 
 use Cake\ORM\TableRegistry;
 use Cake\View\Cell;
-use Phinx\Db\Table;
 
 /**
  * Classroom cell

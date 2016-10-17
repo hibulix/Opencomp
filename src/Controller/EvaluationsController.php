@@ -2,7 +2,6 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
-use App\Model\Table\EvaluationsTable;
 use Cake\Event\Event;
 use Cake\Network\Exception\MethodNotAllowedException;
 use Cake\Network\Exception\NotFoundException;
@@ -13,7 +12,7 @@ use Cake\ORM\TableRegistry;
 /**
  * Evaluations Controller
  *
- * @property EvaluationsTable $Evaluations
+ * @property \App\Model\Table\EvaluationsTable $Evaluations
  */
 class EvaluationsController extends AppController
 {
