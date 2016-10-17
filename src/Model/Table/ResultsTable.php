@@ -276,38 +276,52 @@ class ResultsTable extends Table
         return $data;
     }
 
-    public function findItemDivision($evaluation_id){
+    /**
+     * Returns results repartition by grade and competences
+     * @param int $evaluationId Evaluation ID
+     * @return mixed
+     */
+    public function findItemDivision($evaluationId)
+    {
         $connection = ConnectionManager::get('default');
-        $item_division = $connection->execute("
+        $itemDivision = $connection->execute("
 			SELECT GROUP_CONCAT(a) a, GROUP_CONCAT(b) b, GROUP_CONCAT(c) c, GROUP_CONCAT(d) d, GROUP_CONCAT(ne) ne, GROUP_CONCAT(abs) abs
 			FROM
 			(
 				SELECT results.competence_id as uid, SUM(COALESCE(`grade_a`,0)) as a, SUM(COALESCE(`grade_b`,0)) as b, SUM(COALESCE(`grade_c`,0)) as c, SUM(COALESCE(`grade_d`,0)) as d,
-				(SELECT COUNT(result) FROM results WHERE evaluation_id = $evaluation_id AND `competence_id` = uid AND result='NE') as ne,
-				(SELECT COUNT(result) FROM results WHERE evaluation_id = $evaluation_id AND `competence_id` = uid AND result='ABS') as abs
+				(SELECT COUNT(result) FROM results WHERE evaluation_id = $evaluationId AND `competence_id` = uid AND result='NE') as ne,
+				(SELECT COUNT(result) FROM results WHERE evaluation_id = $evaluationId AND `competence_id` = uid AND result='ABS') as abs
 				FROM results
 				INNER JOIN evaluations_competences ON evaluations_competences.competence_id = results.competence_id AND evaluations_competences.evaluation_id = results.evaluation_id
-				WHERE results.evaluation_id = $evaluation_id
+				WHERE results.evaluation_id = $evaluationId
 				GROUP BY results.competence_id, evaluations_competences.position
 				ORDER BY evaluations_competences.position ASC
 			) q
 		")->fetchAll('assoc');
-        return $item_division[0];
+
+        return $itemDivision[0];
     }
 
-    public function globalResults($evaluation_id){
+    /**
+     * Returns global results repartition by grade
+     * @param int $evaluationId Evaluation ID
+     * @return string
+     */
+    public function globalResults($evaluationId)
+    {
         $connection = ConnectionManager::get('default');
-        $item_division = $connection->execute("
+        $itemDivision = $connection->execute("
 			SELECT GROUP_CONCAT(a) a, GROUP_CONCAT(b) b, GROUP_CONCAT(c) c, GROUP_CONCAT(d) d, GROUP_CONCAT(ne) ne, GROUP_CONCAT(abs) abs
 			FROM
 			(
 				SELECT SUM(COALESCE(`grade_a`,0)) as a, SUM(COALESCE(`grade_b`,0)) as b, SUM(COALESCE(`grade_c`,0)) as c, SUM(COALESCE(`grade_d`,0)) as d,
-				(SELECT COUNT(result) FROM results WHERE evaluation_id = $evaluation_id AND result='NE') as ne,
-				(SELECT COUNT(result) FROM results WHERE evaluation_id = $evaluation_id AND result='ABS') as abs
+				(SELECT COUNT(result) FROM results WHERE evaluation_id = $evaluationId AND result='NE') as ne,
+				(SELECT COUNT(result) FROM results WHERE evaluation_id = $evaluationId AND result='ABS') as abs
 				FROM results
-				WHERE results.evaluation_id = $evaluation_id
+				WHERE results.evaluation_id = $evaluationId
 			) q
 		")->fetchAll('num');
-        return implode(', ',$item_division[0]);
+
+        return implode(', ', $itemDivision[0]);
     }
 }

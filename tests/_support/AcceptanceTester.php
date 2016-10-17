@@ -36,7 +36,7 @@ class AcceptanceTester extends \Codeception\Actor
         $I->fillField('first_name', 'Test');
         $I->fillField('last_name', 'User');
         $I->checkOption('#tos');
-        $I->click('Submit');
+        $I->click('Register');
         $I->seeInDatabase('users', ['username' => 'admin']);
 
         //We promote user as admin and validate their account.

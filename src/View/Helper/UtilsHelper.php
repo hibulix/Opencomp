@@ -40,8 +40,13 @@ class UtilsHelper extends AppHelper
         return number_format($qty * 100 / $total, 3);
     }
 
-    public function getLevels($evaluation){
-
+    /**
+     * Format levels of pupils that has taken an evaluation
+     * @param object $evaluation Cake Data Object
+     * @return string
+     */
+    public function getLevels($evaluation)
+    {
         $levels = array_column($evaluation->toArray()['pupils'], 'levels');
         $levels = array_column($levels, 0);
         $levelsTitles = array_unique(array_column($levels, 'title'));

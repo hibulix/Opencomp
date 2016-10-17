@@ -22,6 +22,7 @@ class SidebarCell extends Cell
      * Default display method.
      *
      * @param int $userId user identifier
+     * @param int $currentClassroom Current classroom id
      * @return void
      */
     public function establishmentsUsers($userId, $currentClassroom)
