@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+
 use Cake\ORM\TableRegistry;
 
 /**
@@ -57,5 +58,4 @@ class RepositoriesController extends AppController
         $this->set('listjson', json_encode($listjson));
         $this->set('_serialize', 'listjson');
     }
-
 }
