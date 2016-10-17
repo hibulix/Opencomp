@@ -44,6 +44,7 @@ $this->assign('right', $link);
                     'period_id',
                     [
                         'class' => 'chzn-select form-control',
+                        'empty' => 'Sélectionnez une période',
                         'label' => [
                             'text' => 'Période associée'
                         ]

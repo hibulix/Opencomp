@@ -161,8 +161,7 @@ class ClassroomsController extends AppController
             ->select(['period_id', 'Periods.begin', 'Periods.end'])->distinct()
             ->contain(['Periods'])
             ->where([
-                'Periods.year_id' => $classroom->year->id,
-                'Periods.establishment_id' => $classroom->establishment->id
+                'Periods.classroom_id' => $classroom->id
             ])
             ->all();
 

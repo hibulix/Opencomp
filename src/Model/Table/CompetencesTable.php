@@ -23,7 +23,9 @@ class CompetencesTable extends Table
         $this->table('competences');
         $this->displayField('title');
         $this->primaryKey('id');
-        $this->addBehavior('Tree');
+        $this->addBehavior('Tree', [
+            'level' => 'depth'
+        ]);
         $this->belongsTo('ParentCompetences', [
             'className' => 'Competences',
             'foreignKey' => 'parent_id'
@@ -55,12 +57,6 @@ class CompetencesTable extends Table
             ->allowEmpty('id', 'create')
             ->add('depth', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('depth')
-            ->add('lft', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('lft', 'create')
-            ->notEmpty('lft')
-            ->add('rght', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('rght', 'create')
-            ->notEmpty('rght')
             ->requirePresence('title', 'create')
             ->notEmpty('title');
 

@@ -177,7 +177,6 @@ class EstablishmentsTable extends Table
     {
         return [
             'nbClassrooms' => $this->getNbClassrooms($idEstablishment, $currentYear),
-            'nbPeriods' => $this->getNbPeriods($idEstablishment, $currentYear),
             'nbPupils' => $this->getNbPupils($idEstablishment, $currentYear)
         ];
     }

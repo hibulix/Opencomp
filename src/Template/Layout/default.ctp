@@ -63,7 +63,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <?php if ($this->request->session()->check('Auth.User')): ?>
+                    <?php if ($this->request->session()->check('Auth.User')) : ?>
                     <!-- Notifications Menu -->
                     <li class="dropdown notifications-menu">
                         <!-- Menu toggle button -->
@@ -131,16 +131,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <ul class="sidebar-menu">
                 <?php if ($this->request->session()->read('Auth.User.id') === null) : ?>
                     <li class="header">UTILISATEURS</li>
-                    <li <?= ($params['action'] == 'login') ? 'class="active"' : ''; ?>><?php echo $this->AuthLink->link('<i class="fa fa-sign-in"></i> <span>M\'identifier</span>', '/users/login', array('escape' => false)); ?></li>
-                    <li <?= ($params['action'] == 'register') ? 'class="active"' : ''; ?>><?php echo $this->AuthLink->link('<i class="fa fa-user-plus"></i> <span>Créer mon compte</span>', '/users/register', array('escape' => false)); ?></li>
+                    <li <?= ($params['action'] == 'login') ? 'class="active"' : ''; ?>><?php echo $this->AuthLink->link('<i class="fa fa-sign-in"></i> <span>M\'identifier</span>', '/users/login', ['escape' => false]); ?></li>
+                    <li <?= ($params['action'] == 'register') ? 'class="active"' : ''; ?>><?php echo $this->AuthLink->link('<i class="fa fa-user-plus"></i> <span>Créer mon compte</span>', '/users/register', ['escape' => false]); ?></li>
                 <?php endif; ?>
                 <?php if ($this->request->session()->read('Auth.User.id') !== null) : ?>
                     <li class="header">EN BREF</li>
                     <li <?= ($params['controller'] == 'Dashboard') ? 'class="active"' : ''; ?>><?php echo $this->AuthLink->link('<i class="fa fa-rocket"></i> <span>Mon tableau de bord</span>', '/dashboard', ['escape' => false]); ?></li>
                     <li class="header">RÉFÉRENTIELS</li>
-                    <li <?= ($params['controller'] == 'Competences' && $params['action'] == 'view') ? 'class="active"' : ''; ?>><?php echo $this->Html->link('<i class="fa fa-list"></i> <span>Programmes officiels</span>', '/establishments/join', ['escape' => false]); ?></li>
+                    <li <?= ($params['controller'] == 'Repositories' && $params['action'] == 'index') ? 'class="active"' : ''; ?>><?php echo $this->Html->link('<i class="fa fa-book"></i> <span>Référentiels</span>', '/repositories', ['escape' => false]); ?></li>
                     <li class="header">ETABLISSEMENTS</li>
-                    <?php if(!isset($classroom)): ?>
+                    <?php if (!isset($classroom)) : ?>
                         <?php $classroom = isset($evaluation['classroom']) ? $evaluation['classroom'] : null; ?>
                     <?php endif; ?>
                     <?= $this->cell('Sidebar::establishmentsUsers', [$this->request->session()->read('Auth.User.id'), $classroom]); ?>
@@ -149,8 +149,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <?php if ($this->request->session()->read('Auth.User.is_superuser') === true) : ?>
                     <li class="header">PARAMÈTRES</li>
                 <!-- Optionally, you can add icons to the links -->
-                <li <?= ($params['controller'] == 'Establishments') ? 'class="active"' : ''; ?>><?php echo $this->AuthLink->link('<i class="fa fa-home"></i> <span>Établissements</span>', '/establishments', array('escape' => false)); ?></li>
-                <li <?= ($params['controller'] == 'Users') ? 'class="active"' : ''; ?>><?php echo $this->AuthLink->link('<i class="fa fa-group"></i> <span>Utilisateurs</span>', '/users', array('escape' => false)); ?></li>
+                <li <?= ($params['controller'] == 'Establishments') ? 'class="active"' : ''; ?>><?php echo $this->AuthLink->link('<i class="fa fa-home"></i> <span>Établissements</span>', '/establishments', ['escape' => false]); ?></li>
+                <li <?= ($params['controller'] == 'Users') ? 'class="active"' : ''; ?>><?php echo $this->AuthLink->link('<i class="fa fa-group"></i> <span>Utilisateurs</span>', '/users', ['escape' => false]); ?></li>
                 <li class="treeview">
                     <a href="#"><i class="fa fa-cogs"></i> <span>Nomenclatures</span> <i class="fa fa-angle-right pull-right"></i></a>
                     <ul class="treeview-menu">

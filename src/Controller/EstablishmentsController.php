@@ -250,9 +250,6 @@ class EstablishmentsController extends AppController
                 'contain' => [
                     'Users',
                     'Towns.Academies',
-                    'Periods' => [
-                        'conditions' => ['Periods.year_id =' => $currentYear->value]],
-                    'Periods.Years',
                     'Classrooms' => [
                         'conditions' => ['Classrooms.year_id =' => $currentYear->value]],
                     'Classrooms.Users' => [

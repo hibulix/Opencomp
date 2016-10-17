@@ -263,7 +263,7 @@ class EvaluationsCompetencesController extends AppController
         $itemToEdit = $this->EvaluationsCompetences->get($id);
 
         if ($itemToEdit->position == 1) {
-            $this->Flash->error('Impossible de déplacer cette compétence vers le haut, il est déjà à la première position !');
+            $this->Flash->error('Impossible de déplacer cette compétence vers le haut, elle est déjà à la première position !');
             $this->redirect(['controller' => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id]);
         } else {
             $secondItemToEdit = $this->EvaluationsCompetences->findByEvaluationIdAndPosition($itemToEdit->evaluation_id, $itemToEdit->position - 1)->first();
@@ -288,7 +288,7 @@ class EvaluationsCompetencesController extends AppController
         ])->count();
 
         if ($itemToEdit->position == $lastItemPosition) {
-            $this->Flash->error('Impossible de déplacer cette compétence vers le bas, il est déjà à la dernière position !');
+            $this->Flash->error('Impossible de déplacer cette compétence vers le bas, elle est déjà à la dernière position !');
             $this->redirect(['controller' => 'evaluations', 'action' => 'items', $itemToEdit->evaluation_id]);
         } else {
             $secondItemToEdit = $this->EvaluationsCompetences->findByEvaluationIdAndPosition($itemToEdit->evaluation_id, $itemToEdit->position + 1)->first();
@@ -327,10 +327,10 @@ class EvaluationsCompetencesController extends AppController
             $this->EvaluationsCompetences->renumberItemsEvaluation($evaluationId, $position);
             
             $this->Flash->success('L\'item a été correctement dissocié de cette évaluation.');
-            $this->redirect(['controller' => 'evaluations', 'action' => 'items', $evaluationId]);
+            $this->redirect(['controller' => 'evaluations', 'action' => 'competences', $evaluationId]);
         } else {
             $this->Flash->error('Cette association n\'existe pas');
-            $this->redirect(['controller' => 'evaluations', 'action' => 'items', $evaluationId]);
+            $this->redirect(['controller' => 'evaluations', 'action' => 'competences', $evaluationId]);
         }
     }
 }

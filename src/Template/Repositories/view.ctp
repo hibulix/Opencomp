@@ -1,3 +1,8 @@
+<?php
+$this->assign('header', 'Référentiels');
+$this->assign('description', 'Instructions officielles');
+?>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 <div id="jstree_demo_div"></div>
 

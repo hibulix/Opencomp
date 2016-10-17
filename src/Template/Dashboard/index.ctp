@@ -10,8 +10,8 @@ $this->assign('description', 'Votre point de départ, lancez-vous !');
                 <h3 class="box-title">Vous serez prêt(e) en un clin d'oeil !</h3>
             </div>
             <!-- /.box-header -->
-            <div class="box-body"">
-                <?php echo $this->Html->image('logo-opencomp.png', array('style' => 'height:100px; float: left;', 'alt' => 'Logo Opencomp')); ?>
+            <div class="box-body">
+                <?php echo $this->Html->image('logo-opencomp.png', ['style' => 'height:100px; float: left;', 'alt' => 'Logo Opencomp']); ?>
                 <div style="margin-top:25px; margin-bottom:20px;">Vous trouverez dans cette page l'essentiel pour vous
                     permettre de démarrer rapidement avec Opencomp !
                 </div>
@@ -27,7 +27,7 @@ $this->assign('description', 'Votre point de départ, lancez-vous !');
             <div class="box-body">
             <p class="text-center text-warning"><span class="numbers-kickstart">1 </span><i
                     class="fa fa-5x fa-pencil-square-o"></i></p>
-            <p><?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Comment conçevoir les évaluations de mes élèves ? <i class="fa fa-external-link"></i>', 'https://opencomp.freshdesk.com/support/solutions/folders/1000218480', array('escape' => false, 'target' => '_blank')); ?></p>
+            <p><?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Comment conçevoir les évaluations de mes élèves ? <i class="fa fa-external-link"></i>', 'https://opencomp.freshdesk.com/support/solutions/folders/1000218480', ['escape' => false, 'target' => '_blank']); ?></p>
             </div>
             <!-- /.box-body -->
         </div>
@@ -40,7 +40,7 @@ $this->assign('description', 'Votre point de départ, lancez-vous !');
             <div class="box-body">
                 <p class="text-center text-primary"><span class="numbers-kickstart">2 </span><i
                         class="fa fa-5x fa-file-text-o"></i></p>
-                <p><?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Comment saisir les évaluations et définir les items évalués ? <i class="fa fa-external-link"></i>', 'https://opencomp.freshdesk.com/support/solutions/folders/1000218495', array('escape' => false, 'target' => '_blank')); ?></p>
+                <p><?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Comment saisir les évaluations et définir les items évalués ? <i class="fa fa-external-link"></i>', 'https://opencomp.freshdesk.com/support/solutions/folders/1000218495', ['escape' => false, 'target' => '_blank']); ?></p>
             </div>
             <!-- /.box-body -->
         </div>
@@ -53,7 +53,7 @@ $this->assign('description', 'Votre point de départ, lancez-vous !');
             <div class="box-body">
                 <p class="text-center text-success"><span class="numbers-kickstart">3 </span><i
                         class="fa fa-5x fa-check-square-o"></i></p>
-                <p><?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Comment saisir les résultats d\'une évaluation ? <i class="fa fa-external-link"></i>', 'https://opencomp.freshdesk.com/support/solutions/folders/1000218481', array('escape' => false, 'target' => '_blank')); ?></p>
+                <p><?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Comment saisir les résultats d\'une évaluation ? <i class="fa fa-external-link"></i>', 'https://opencomp.freshdesk.com/support/solutions/folders/1000218481', ['escape' => false, 'target' => '_blank']); ?></p>
             </div>
             <!-- /.box-body -->
         </div>
@@ -66,7 +66,7 @@ $this->assign('description', 'Votre point de départ, lancez-vous !');
             <div class="box-body">
                 <p class="text-center text-danger"><span class="numbers-kickstart">4 </span><i
                         class="fa fa-5x fa-file-pdf-o"></i></p>
-                <p><?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Comment générer les bulletins élèves en fin de période ? <i class="fa fa-external-link"></i>', 'https://opencomp.freshdesk.com/support/solutions/folders/1000218496', array('escape' => false, 'target' => '_blank')); ?></p>
+                <p><?php echo $this->Html->link('<i class="fa fa-question-circle"></i> Comment générer les bulletins élèves en fin de période ? <i class="fa fa-external-link"></i>', 'https://opencomp.freshdesk.com/support/solutions/folders/1000218496', ['escape' => false, 'target' => '_blank']); ?></p>
             </div>
             <!-- /.box-body -->
         </div>

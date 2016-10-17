@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Entity\Cycle;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -15,6 +16,7 @@ use Cake\Validation\Validator;
  * @property EvaluationsCompetencesTable $EvaluationsCompetences
  * @property ResultsTable $Results
  * @property PeriodsTable Periods
+ * @property EvaluationsCompetencesTable EvaluationsItem
  */
 class EvaluationsTable extends Table
 {
@@ -88,6 +90,8 @@ class EvaluationsTable extends Table
             ->allowEmpty('id', 'create')
             ->requirePresence('title', 'create')
             ->notEmpty('title')
+            ->requirePresence('period_id', 'create')
+            ->notEmpty('period_id')
             ->add('unrated', 'valid', ['rule' => 'boolean'])
             ->add('pupils', [
                 'notEmpty' => [
@@ -287,5 +291,24 @@ class EvaluationsTable extends Table
         } else {
             return true;
         }
+    }
+
+    /**
+     * @param int $evaluationId Evaluation Id
+     * @return int Cycle id
+     */
+    public function getRepository($evaluationId)
+    {
+        $evaluationsPupils = $this->EvaluationsPupils->find()
+            ->where(['EvaluationsPupils.evaluation_id' => $evaluationId])
+            ->contain(['Evaluations'])->first();
+
+        $classroomsPupils = $this->Classrooms->ClassroomsPupils->find()
+            ->where([
+                'ClassroomsPupils.pupil_id' => $evaluationsPupils->pupil_id,
+                'ClassroomsPupils.classroom_id' => $evaluationsPupils->evaluation->classroom_id
+            ])->contain('Levels.Cycles')->first();
+
+        return $classroomsPupils->level->cycle->repository_id;
     }
 }

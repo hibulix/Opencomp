@@ -1,14 +1,14 @@
 <?php
-$editLink = $this->AuthLink->link(' <i class="fa fa-pencil"></i> ', '/evaluations/edit/'.$evaluation->id, array('escape' => false));
-$classroomLink = $this->AuthLink->link($evaluation->classroom->title, '/classrooms/tests/'.$evaluation->classroom->id, array('escape' => false));
+$editLink = $this->AuthLink->link(' <i class="fa fa-pencil"></i> ', '/evaluations/edit/' . $evaluation->id, ['escape' => false]);
+$classroomLink = $this->AuthLink->link($evaluation->classroom->title, '/classrooms/tests/' . $evaluation->classroom->id, ['escape' => false]);
 
-$this->assign('header', $evaluation->title.$editLink    );
+$this->assign('header', $evaluation->title . $editLink);
 $this->assign('description', $classroomLink);
 ?>
 
 <?= $this->cell('Test::header', [$evaluation->id]); ?>
 
-<?php if (!empty($evaluation->results)): ?>
+<?php if (!empty($evaluation->results)) : ?>
     <div class="row">
         <div class="col-md-6">
             <div class="box box-default">
@@ -48,13 +48,14 @@ $this->assign('description', $classroomLink);
                         <?php
                         $nbitems = count($evaluation['Item']);
                         $competenceno = 1;
-                        foreach ($evaluation->competences as $competence): ?>
+                        foreach ($evaluation->competences as $competence) : ?>
                             <tr>
                                 <th style="width:100px;">Compétence <?= $competenceno ?><?php $competenceno++; ?></th>
                                 <td><?php echo $competence->title; ?>
                                 </td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php
+                        endforeach; ?>
                     </table>
                 </div>
             </div>
@@ -65,7 +66,7 @@ $this->assign('description', $classroomLink);
     <script type="text/javascript" src="/components/plotly.js/dist/plotly.min.js"></script>
     <script type="text/javascript">
         var data = [{
-            values: [<?= $global_results ?>],
+            values: [<?= $globalResults ?>],
             labels: ['A - Acquis', 'B - À renforcer', 'C - En cours d\'acquisition','D - Non acquis','NE - Non évalué','ABS - Absent'],
             marker: {
                 colors: ['66CC66','66CCFF','FFCC66','FF9999','C0C0C0','787878']
@@ -132,7 +133,7 @@ $this->assign('description', $classroomLink);
     </script>
     <?php $this->end(); ?>
 
-<?php else: ?>
+<?php else : ?>
     <div class="alert alert-info">
         <i class="fa fa-info-circle"></i> Pour le moment, vous n'avez saisi aucun résultat pour cette évaluation.<br />
         Vous devriez commencer par <?php echo $this->Html->link(__('saisir les résultats'), ['controller' => 'evaluations', 'action' => 'manageresults', $evaluation['Evaluation']['id']]); ?> à cette évaluation.

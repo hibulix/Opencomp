@@ -8,6 +8,7 @@ use Cake\Validation\Validator;
 
 /**
  * EvaluationsCompetences Model
+ * @property CompetencesTable Competences
  */
 class EvaluationsCompetencesTable extends Table
 {
@@ -96,5 +97,19 @@ class EvaluationsCompetencesTable extends Table
             ['evaluations_competences.evaluation_id' => $evaluationId,
                 'evaluations_competences.position >' => $position]
         );
+    }
+
+    /**
+     * Cette fonction permet d'obtenir la position suivante.
+     * @param int $evaluationId L'id de l'évaluation concerné par l'opération
+     * @return mixed
+     */
+    public function getNextCompentencePosition($evaluationId)
+    {
+        $lastCompetencePosition = $this->find('all', [
+            'conditions' => ['EvaluationsCompetences.evaluation_id' => $evaluationId]
+        ])->count();
+
+        return $lastCompetencePosition + 1;
     }
 }

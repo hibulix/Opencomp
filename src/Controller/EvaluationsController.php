@@ -2,9 +2,11 @@
 namespace app\Controller;
 
 use App\Controller\AppController;
+use App\Model\Table\EvaluationsTable;
 use Cake\Event\Event;
 use Cake\Network\Exception\MethodNotAllowedException;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Network\Response;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 
@@ -27,6 +29,16 @@ class EvaluationsController extends AppController
     {
         parent::initialize();
         $this->loadComponent('Security');
+    }
+
+    /**
+     * @param Event $event Cake event
+     * @return void
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Security->config('unlockedActions', ['attachcompetence']);
     }
 
     /**
@@ -72,10 +84,78 @@ class EvaluationsController extends AppController
 
     /**
      * @param null $id evaluation_id
-     * @return void
+     * @return Response|void
      */
     public function attachcompetence($id = null)
     {
+        if ($this->request->is('post')) {
+            foreach ($this->request->data('competenceIds') as $competenceId) {
+                if (!$this->Evaluations->EvaluationsCompetences->isCompetenceAlreadyAttachedToEvaluation($id, $competenceId)) {
+                    $data = $this->Evaluations->EvaluationsCompetences->newEntity();
+                    $data->evaluation_id = $id;
+                    $data->competence_id = $competenceId;
+                    $data->position = $this->Evaluations->EvaluationsCompetences->getNextCompentencePosition($id);
+
+                    $this->Evaluations->EvaluationsCompetences->save($data);
+                }
+            }
+        } else {
+            $evaluation = $this->Evaluations->get($id);
+            $repository = $this->Evaluations->getRepository($id);
+
+            $list = $this->Evaluations->EvaluationsCompetences->Competences
+                ->find('all')
+                ->select(['id', 'parent_id', 'title', 'type', 'end_cycle'])
+                ->where(['repository_id' => $repository])->toArray();
+
+            $listjson = array_map(function ($list) {
+                if ($list['parent_id'] === null) {
+                    $list['parent_id'] = '#';
+                }
+                if ($list['end_cycle'] == 1) {
+                    $list['type'] = 'cycle';
+                }
+
+                return [
+                    'id' => strval($list['id']),
+                    'parent' => strval($list['parent_id']),
+                    'text' => $list['title'],
+                    'type' => strval($list['type']),
+                    'data' => [ 'type' => strval($list['type']) ]
+                ];
+            }, $list);
+
+            $this->set(compact('evaluation'));
+            $this->set('listjson', json_encode($listjson));
+        }
+    }
+
+    /**
+     * @param null $id Evaluation id
+     * @param null $parentCompetenceId Parent competence id
+     * @return void
+     */
+    public function addcompetence($id = null, $parentCompetenceId = null)
+    {
+        $competence = $this->Evaluations->EvaluationsCompetences->Competences->newEntity();
+        $evaluation = $this->Evaluations->get($id);
+        $repositoryId = $this->Evaluations->getRepository($id);
+
+        if ($this->request->is('post')) {
+            $competence = $this->Evaluations->EvaluationsCompetences->Competences->patchEntity($competence, $this->request->data);
+            if ($this->Evaluations->EvaluationsCompetences->Competences->save($competence)) {
+                $evaluationCompetence = $this->Evaluations->EvaluationsCompetences->newEntity();
+                $evaluationCompetence->evaluation_id = $id;
+                $evaluationCompetence->competence_id = $competence->id;
+                $evaluationCompetence->position = $this->Evaluations->EvaluationsCompetences->getNextCompentencePosition($id);
+                if ($this->Evaluations->EvaluationsCompetences->save($evaluationCompetence)) {
+                    $this->Flash->success(__('Votre compétence a été créée et associée à l\'évaluation.'));
+                    $this->redirect(['action' => 'competences', $id]);
+                }
+            }
+        }
+
+        $this->set(compact('competence', 'parentCompetenceId', 'repositoryId', 'evaluation'));
     }
 
     /**
@@ -115,17 +195,17 @@ class EvaluationsController extends AppController
         $this->set('title_for_layout', $evaluation->title);
 
         $competencex = '';
-        foreach($evaluation->competences as $competence){
+        foreach ($evaluation->competences as $competence) {
             $competenceno = $competence->_joinData['position'];
             $competencex .= "'Compétence $competenceno', ";
         }
 
-        $competence_division = $this->Evaluations->Results->findItemDivision($id);
-        $global_results = $this->Evaluations->Results->globalResults($id);
+        $competenceDivision = $this->Evaluations->Results->findItemDivision($id);
+        $globalResults = $this->Evaluations->Results->globalResults($id);
 
-        $this->set(compact('evaluation', 'item_division', 'global_results'));
-        $this->set('x',substr($competencex, 0, -2));
-        $this->set('y',$competence_division);
+        $this->set(compact('evaluation', 'globalResults'));
+        $this->set('x', substr($competencex, 0, -2));
+        $this->set('y', $competenceDivision);
     }
 
     /**
@@ -168,15 +248,9 @@ class EvaluationsController extends AppController
             }
         }
 
-
-
-        $settingsTable = TableRegistry::get('Settings');
-        $currentYear = $settingsTable->find('all', ['conditions' => ['Settings.key' => 'currentYear']])->first();
-
         $periods = $this->Evaluations->Periods->find('list', [
             'conditions' => [
-                'establishment_id' => $classroom->establishment_id,
-                'year_id' => $currentYear->value,
+                'classroom_id' => $classroom->id
             ]
         ]);
 
@@ -215,13 +289,9 @@ class EvaluationsController extends AppController
             }
         }
 
-        $settingsTable = TableRegistry::get('Settings');
-        $currentYear = $settingsTable->find('all', ['conditions' => ['Settings.key' => 'currentYear']])->first();
-
         $periods = $this->Evaluations->Periods->find('list', [
             'conditions' => [
-                'establishment_id' => $evaluation->classroom->establishment_id,
-                'year_id' => $currentYear->value,
+                'classroom_id' => $evaluation->classroom->id
             ]
         ]);
 

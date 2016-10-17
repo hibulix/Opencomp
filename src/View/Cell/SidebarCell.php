@@ -29,13 +29,19 @@ class SidebarCell extends Cell
         $establishementUsers = TableRegistry::get('EstablishmentsUsers');
         $establishments = $establishementUsers->getUsersEstablishments($userId);
 
+        $settingsTable = TableRegistry::get('Settings');
+        $currentYear = $settingsTable->find('all', ['conditions' => ['Settings.key' => 'currentYear']])->first();
+
         $classroomsUsers = TableRegistry::get('ClassroomsUsers');
         $classrooms = $classroomsUsers->find('list', [
             'keyField' => 'classroom.id',
             'valueField' => 'classroom.title',
             'groupField' => 'classroom.establishment_id'
         ])->contain(['Classrooms'])
-            ->where(['ClassroomsUsers.user_id' => $userId])->toArray();
+            ->where([
+                'Classrooms.year_id' => $currentYear->id,
+                'ClassroomsUsers.user_id' => $userId
+            ])->toArray();
 
         $this->set(compact('establishments', 'classrooms', 'currentClassroom'));
         $this->set('params', $this->request->params);

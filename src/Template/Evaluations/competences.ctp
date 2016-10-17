@@ -1,8 +1,8 @@
 <?php
-$editLink = $this->AuthLink->link(' <i class="fa fa-pencil"></i> ', '/evaluations/edit/'.$evaluation->id, array('escape' => false));
-$classroomLink = $this->AuthLink->link($evaluation->classroom->title, '/classrooms/tests/'.$evaluation->classroom->id, array('escape' => false));
+$editLink = $this->AuthLink->link(' <i class="fa fa-pencil"></i> ', '/evaluations/edit/' . $evaluation->id, ['escape' => false]);
+$classroomLink = $this->AuthLink->link($evaluation->classroom->title, '/classrooms/tests/' . $evaluation->classroom->id, ['escape' => false]);
 
-$this->assign('header', $evaluation->title.$editLink    );
+$this->assign('header', $evaluation->title . $editLink);
 $this->assign('description', $classroomLink);
 ?>
 
@@ -12,36 +12,44 @@ $this->assign('description', $classroomLink);
     <div class="box-header with-border">
         <h3 class="box-title">Compétences & connaissances évalués</h3>
         <div class="box-tools pull-right">
-            <?= $this->AuthLink->link('<i class="fa fa-plus"></i> '.__('ajouter un item évalué'), '/competences/attachitem?evaluation_id='.$evaluation->id, array('class' => 'btn btn-sm btn-success', 'escape' => false)); ?>
+            <?= $this->AuthLink->link('<i class="fa fa-plus"></i> ' . __('ajouter un item évalué'), '/evaluations/attachcompetence/' . $evaluation->id, ['class' => 'btn btn-sm btn-success', 'escape' => false]); ?>
         </div>
     </div>
     <!-- /.box-header -->
     <div class="box-body no-padding">
-        <?php if (!empty($evaluation->competences)): ?>
+        <?php if (!empty($evaluation->competences)) : ?>
             <table class="table table-stripped table-bordered table-hover">
                 <thead>
                 <tr>
                     <th><?php echo __('Libellé de l\'item évalué'); ?></th>
-                    <th style="width:175px;" class="actions"><?php echo __('Déplacer').' '; echo $this->Html->link('<i class="fa fa-question-circle"></i>', '#aboutMoveFunc', array('data-toggle' => 'modal', 'escape' => false)); ?></th>
+                    <th style="width:175px;" class="actions">
+                        <?php
+                        echo __('Déplacer') . ' ';
+                        echo $this->Html->link('<i class="fa fa-question-circle"></i>', '#aboutMoveFunc', ['data-toggle' => 'modal', 'escape' => false]); ?>
+                    </th>
                     <th style="width:100px;" class="actions"><?php echo __('Action'); ?></th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
                 $nbcompetences = count($evaluation->competences);
-                foreach ($evaluation->competences as $item): ?>
+                foreach ($evaluation->competences as $item) : ?>
                     <tr>
                         <td><?php echo $item->title;
-                            if($item->type == 3)
-                                echo $this->Html->link(' <i class="fa fa-edit"></i>', '#editItem',
-                                    array(
-                                        'onclick'=>"
-					$('#ItemTitle').val('".addslashes(html_entity_decode($item->title, ENT_QUOTES))."');
+                        if ($item->type == 3) {
+                            echo $this->Html->link(
+                                ' <i class="fa fa-edit"></i>',
+                                '#editItem',
+                                [
+                                    'onclick' => "
+					$('#ItemTitle').val('" . addslashes(html_entity_decode($item->title, ENT_QUOTES)) . "');
 					var attr = $('#ItemcompetencesForm').attr('action');
-					$('#ItemcompetencesForm').attr('action', attr + '/".$item->id."');
-					$('#ItemEvaluationId').val('".$evaluation->id."');",
-                                        'data-toggle' => 'modal',
-                                        'escape' => false)); ?>
+					$('#ItemcompetencesForm').attr('action', attr + '/" . $item->id . "');
+					$('#ItemEvaluationId').val('" . $evaluation->id . "');",
+                                    'data-toggle' => 'modal',
+                                    'escape' => false]
+                            );
+                        } ?>
                         </td>
                         <td class="actions">
                             <?php if($item->_joinData->position == 1) $style = 'padding-left: 57px;'; else $style = null; ?>
@@ -50,23 +58,23 @@ $this->assign('description', $classroomLink);
                         </td>
                         <td class="actions">
                             <?php echo $this->Form->postLink(
-                                '<i class="fa fa-trash-o"></i> '.__('Supprimer'),
-                                array('controller' => 'EvaluationsCompetences', 'action' => 'unlinkitem', $item->_joinData->id),
-                                array(
+                                '<i class="fa fa-trash-o"></i> ' . __('Supprimer'),
+                                ['controller' => 'EvaluationsCompetences', 'action' => 'unlinkitem', $item->_joinData->id],
+                                [
                                     'escape' => false,
                                     'confirm' => __('Êtes vous sûr(e) de vouloir dissocier cet item de cette évaluation ? L\'ensemble des résultats qui auraient éventuellement été saisis pour cet item dans le cadre de cette évaluation seront perdus.'),
                                     'class' => 'text-danger'
-                                )
+                                ]
                             ); ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
             </table>
-        <?php else: ?>
+        <?php else : ?>
             <div class="alert alert-info margin">
                 <i class="fa fa-info-circle"></i> Pour le moment, vous n'avez associé aucun item à cette évaluation.<br />
-                Vous devriez commencer par <?php echo $this->Html->link('<i class="fa fa-plus"></i> '.__('ajouter un item'), '/competences/attachitem?evaluation_id='.$evaluation->id, array('class' => 'btn btn-xs btn-success', 'escape' => false)); ?> à cette évaluation.
+                Vous devriez commencer par <?php echo $this->Html->link('<i class="fa fa-plus"></i> ' . __('ajouter un item'), '/evaluations/attachcompetence/' . $evaluation->id, ['class' => 'btn btn-xs btn-success', 'escape' => false]); ?> à cette évaluation.
             </div>
         <?php endif; ?>
     </div>

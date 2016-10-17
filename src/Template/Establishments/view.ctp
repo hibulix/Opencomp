@@ -217,51 +217,7 @@ $this->assign('description', $establishment->id);
     </div>
     <!-- ./col -->
     <div class="col-md-6">
-        <div class="box">
-            <div class="box-header with-border">
-                <i class="fa fa-calendar"></i>
-                <h3 class="box-title">Périodes</h3>
-                <div class="box-tools">
-                    <?= $this->Html->link('<i class="fa fa-fw fa-cloud-download"></i> Importer', [
-                        'controller' => 'classrooms',
-                        'action' => 'add',
-                        $establishment->id
-                    ], [
-                        'escape' => false,
-                        'class' => 'btn btn-default btn-sm'
-                    ]); ?>
-                    <?= $this->Html->link('<i class="fa fa-fw fa-plus"></i> Ajouter', [
-                        'controller' => 'classrooms',
-                        'action' => 'add',
-                        $establishment->id
-                    ], [
-                        'escape' => false,
-                        'class' => 'btn btn bg-green btn-sm'
-                    ]); ?>
-                </div>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body no-padding">
-                <table class="table table-hover">
-                    <tbody><tr>
-                        <th>ID</th>
-                        <th>Libellé</th>
-                        <th>Actions</th>
-                    </tr>
-                    <?php foreach ($establishment->periods as $period): ?>
-                        <tr>
-                            <td><?= $period->id ?></td>
-                            <td><?= $period->well_named ?></td>
-                            <td width="30%">
-                                <?php echo $this->Html->link('<i class="fa fa-fw fa-pencil"></i> Modifier', array('controller' => 'classrooms', 'action' => 'edit', $classroom->id), array('escape'=>false)); ?>&nbsp;&nbsp;&nbsp;
-                                <?php echo $this->Form->postLink('<i class="fa fa-fw fa-trash-o"></i> ', array('controller' => 'classrooms', 'action' => 'delete', $classroom->id), array('escape'=>false,'class'=>'text-danger'), __('Are you sure you want to delete # {0}?', $classroom['id'])); ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+
     </div>
 </div>
 <div class="row">

@@ -15,7 +15,11 @@ class Competence extends Entity
      * @var array
      */
     protected $_accessible = [
+        'repository_id' => true,
+        'type' => true,
         'parent_id' => true,
+        'classroom_id' => true,
+        'user_id' => true,
         'depth' => true,
         'lft' => true,
         'rght' => true,

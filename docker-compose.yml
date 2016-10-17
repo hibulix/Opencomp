@@ -44,7 +44,6 @@ services:
       image: memcached:alpine
   phpmyadmin:
       image: phpmyadmin/phpmyadmin
-      container_name: myadmin
       environment:
        - PMA_HOST=db
        - PMA_USER=root
