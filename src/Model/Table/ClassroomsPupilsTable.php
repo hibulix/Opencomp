@@ -125,4 +125,20 @@ class ClassroomsPupilsTable extends Table
             return false;
         }
     }
+
+    /**
+     * @param int $classroomId classroom identifier
+     * @param int $pupilId pupil identifier
+     * @return mixed
+     */
+    public function getRepository($classroomId, $pupilId)
+    {
+        $classroomsPupils = $this->find()
+            ->where([
+                'ClassroomsPupils.pupil_id' => $pupilId,
+                'ClassroomsPupils.classroom_id' => $classroomId
+            ])->contain('Levels.Cycles')->first();
+
+        return $classroomsPupils->level->cycle->repository_id;
+    }
 }

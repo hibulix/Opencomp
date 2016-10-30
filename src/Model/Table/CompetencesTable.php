@@ -4,6 +4,7 @@ namespace App\Model\Table;
 use Cake\Datasource\ConnectionManager;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
@@ -101,11 +102,16 @@ class CompetencesTable extends Table
      * à partir des id_competence les plus profonds uniquements.
      *
      * @param array $idsArray Un tableau contentant les id_competence les plus profond dont on souhaite la hiérarchie.
+     * @param int $pupilId Identifiant de l'élève
+     * @param int $classroomId Identifiant de la classe
      * @param string $format Format to return
      * @return array Un tableau prêt à être JSONifié pour passer à JsTree.
      */
-    public function findAllCompetencesFromCompetenceId($idsArray, $format = 'jstree')
+    public function findAllCompetencesFromCompetenceId($idsArray, $pupilId, $classroomId, $format = 'jstree')
     {
+        $classroomsPupils = TableRegistry::get('ClassroomsPupils');
+        $repositoryId = $classroomsPupils->getRepository($classroomId, $pupilId);
+
         $competenceBounds = $this->returnBoundsFromCompetenceId($idsArray);
         $sqlString = "SELECT * FROM competences AS Competences WHERE ";
 
@@ -120,7 +126,8 @@ class CompetencesTable extends Table
             $sqlString .= "(lft < $lft AND rght > $rght) OR ";
         }
         $sqlString = substr($sqlString, 0, -3);
-        $sqlString .= "ORDER BY lft;";
+        $sqlString .= "AND repository_id = $repositoryId ORDER BY lft;";
+
         $competences = ConnectionManager::get('default')->execute($sqlString)->fetchAll('assoc');
         if ($format == 'jstree') {
             return $this->formatCompetencesTheJstreeWay($competences);

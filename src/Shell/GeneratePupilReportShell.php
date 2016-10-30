@@ -9,6 +9,10 @@ use Cake\View\View;
 use Pheanstalk\Pheanstalk;
 use ZendPdf;
 
+/**
+ * @property \App\Model\Table\ResultsTable Results
+ * @property \App\Model\Table\ReportsTable Reports
+ */
 class GeneratePupilReportShell extends Shell
 {
 
@@ -58,8 +62,10 @@ class GeneratePupilReportShell extends Shell
             $report->period_id
         )->hydrate(false)->toArray();
 
-        $competences = $this->Results->Items->Competences->findAllCompetencesFromCompetenceId(
-            $this->arrayValueRecursive('competence_id', $items),
+        $competences = $this->Results->Competences->findAllCompetencesFromCompetenceId(
+            $this->arrayValueRecursive('parent_id', $items),
+            $data['pupil_id'],
+            $report->classroom_id,
             '!jstree'
         );
 

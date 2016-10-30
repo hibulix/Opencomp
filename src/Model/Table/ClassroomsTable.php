@@ -13,6 +13,7 @@ use Cake\Validation\Validator;
  * @property UsersTable Users
  * @property EstablishmentsTable Establishments
  * @property ClassroomsPupilsTable ClassroomsPupils
+ * @property ClassroomsUsersTable ClassroomsUsers
  */
 class ClassroomsTable extends Table
 {
@@ -50,6 +51,9 @@ class ClassroomsTable extends Table
             'foreignKey' => 'classroom_id'
         ]);
         $this->hasMany('ClassroomsPupils', [
+            'foreignKey' => 'classroom_id'
+        ]);
+        $this->hasMany('ClassroomsUsers', [
             'foreignKey' => 'classroom_id'
         ]);
         $this->belongsToMany('Pupils', [

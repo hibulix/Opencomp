@@ -179,10 +179,10 @@ class ReportFormaterHelper extends AppHelper
     {
         $itemlist = null;
         foreach ($items as $item) {
-            if ($item['item']['competence_id'] == $competenceId && $item['result'] != "") {
+            if ($item['competence']['parent_id'] == $competenceId && $item['result'] != "") {
                 $item = $this->itemWithResultColor($item);
                 $itemlist[] = '<tr>
-                                    <td>' . $item['item']['title'] . '</td>
+                                    <td>' . $item['competence']['title'] . '</td>
                                     <td style="text-align:center; background-color:' . $item['color'] . ';width:60px;">' . $item['result'] . '</td>
                                 </tr>';
             }

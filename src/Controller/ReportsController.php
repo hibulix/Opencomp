@@ -37,7 +37,7 @@ class ReportsController extends AppController
             $report->classroom_id = $classroom->id;
             if ($this->Reports->save($report)) {
                 $this->Flash->success('Le bulletin a été correctement mis à jour.');
-                $this->redirect(['controller' => 'classrooms', 'action' => 'viewreports', $classroom->id]);
+                $this->redirect(['controller' => 'classrooms', 'action' => 'reports', $classroom->id]);
             } else {
                 $this->set('classroom_id', $classroom->id);
                 $this->Flash->error('Des erreurs ont été détectées durant la validation du formulaire. Veuillez corriger les erreurs mentionnées.');
@@ -76,13 +76,14 @@ class ReportsController extends AppController
             ]
         ]);
 
+        $pup = [];
         foreach ($ReqPupils as $pupils) {
             $pup[] = $pupils->pupil_id;
         }
 
         if (!isset($pup)) {
             $this->Flash->error('Aucun résultat saisi pour la/les période(s) configurée(s). Génération annulée !');
-            $this->redirect(['controller' => 'classrooms', 'action' => 'viewreports', $report->classroom_id]);
+            $this->redirect(['controller' => 'classrooms', 'action' => 'reports', $report->classroom_id]);
         }
 
         $pup = array_values(array_unique($pup));
@@ -118,7 +119,7 @@ class ReportsController extends AppController
     public function generationProgress($id = null)
     {
         $report = $this->Reports->get($id);
-        $classroom = $this->Reports->Classrooms->get($report->classroom_id, ['contain' => ['Establishments', 'User', 'Users', 'Years']]);
+        $classroom = $this->Reports->Classrooms->get($report->classroom_id, ['contain' => ['Establishments', 'Users', 'Years']]);
         $this->set('classroom', $classroom);
         $this->set('report', $report);
     }
@@ -213,7 +214,11 @@ class ReportsController extends AppController
     public function getReportAssociatedInfos($classroomId)
     {
         $this->Competences = TableRegistry::get('Competences');
-        $competences = $this->Competences->find('treeList');
+        $competences = $this->Competences->find('treeList', [
+            'conditions' => [
+                'Competences.type' => 0
+            ]
+        ]);
 
         $this->Classrooms = TableRegistry::get('Classrooms');
         $classroom = $this->Classrooms->get($classroomId);
@@ -223,7 +228,7 @@ class ReportsController extends AppController
 
         $this->Periods = TableRegistry::get('Periods');
         $periods = $this->Periods->find('list', [
-            'conditions' => ['establishment_id' => $classroom->establishment_id, 'year_id' => $currentYear->value]]);
+            'conditions' => ['classroom_id' => $classroom->id ]]);
 
         $this->set(compact('classrooms', 'users', 'periods', 'pupils', 'competences'));
     }

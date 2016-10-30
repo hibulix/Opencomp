@@ -202,7 +202,7 @@ class ClassroomsController extends AppController
         $this->set('classroom', $classroom);
 
         $periods = $this->Classrooms->Evaluations->Periods->find('list', [
-            'conditions' => ['establishment_id' => $classroom->establishment_id]])->toArray();
+            'conditions' => ['classroom_id' => $classroom->id]])->toArray();
         $this->set('periods', $periods);
     }
 
@@ -230,6 +230,12 @@ class ClassroomsController extends AppController
             $classroom->establishment_id = $establishment->id;
 
             if ($this->Classrooms->save($classroom)) {
+                //We're adding the ownership of the new classroom to the currently logged in user
+                $user = $this->Classrooms->Users->get($this->Auth->user('id'));
+                $user->_joinData = $this->Classrooms->ClassroomsUsers->newEntity();
+                $user->_joinData->ownership = 'OWNER';
+                $this->Classrooms->Users->link($this->Classrooms->get($classroom->id), [$user]);
+
                 $this->Flash->success('La nouvelle classe a été correctement ajoutée.');
                 $this->redirect([
                     'controller' => 'establishments',

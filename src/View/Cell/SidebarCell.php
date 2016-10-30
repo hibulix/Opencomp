@@ -39,10 +39,9 @@ class SidebarCell extends Cell
             'groupField' => 'classroom.establishment_id'
         ])->contain(['Classrooms'])
             ->where([
-                'Classrooms.year_id' => $currentYear->id,
+                'Classrooms.year_id' => $currentYear->value,
                 'ClassroomsUsers.user_id' => $userId
             ])->toArray();
-
         $this->set(compact('establishments', 'classrooms', 'currentClassroom'));
         $this->set('params', $this->request->params);
     }

@@ -12,6 +12,7 @@ use Cake\Validation\Validator;
  * @property EvaluationsTable $Evaluations
  * @property EvaluationsPupilsTable $EvaluationsPupils
  * @property EvaluationsCompetencesTable $EvaluationsCompetences
+ * @property \App\Model\Table\CompetencesTable Competences
  */
 class ResultsTable extends Table
 {
@@ -36,8 +37,8 @@ class ResultsTable extends Table
             'foreignKey' => 'pupil_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('Items', [
-            'foreignKey' => 'item_id',
+        $this->belongsTo('Competences', [
+            'foreignKey' => 'competence_id',
             'joinType' => 'INNER'
         ]);
     }
@@ -78,7 +79,7 @@ class ResultsTable extends Table
     {
         $rules->add($rules->existsIn(['evaluation_id'], 'Evaluations'));
         $rules->add($rules->existsIn(['pupil_id'], 'Pupils'));
-        $rules->add($rules->existsIn(['item_id'], 'Items'));
+        $rules->add($rules->existsIn(['competence_id'], 'Competences'));
 
 
         return $rules;
@@ -94,8 +95,8 @@ class ResultsTable extends Table
     {
         return $this->find('all', [
             'fields' => [
-                'Items.title',
-                'Items.competence_id',
+                'Competences.title',
+                'Competences.parent_id',
                 'Pupils.id',
                 'Pupils.name',
                 'Pupils.first_name',
@@ -107,7 +108,7 @@ class ResultsTable extends Table
                 'Evaluations.classroom_id' => $classroomId
             ],
             'contain' => [
-                'Items',
+                'Competences',
                 'Pupils',
                 'Evaluations.Periods',
                 'Evaluations.Classrooms'
@@ -127,7 +128,7 @@ class ResultsTable extends Table
      */
     public function saveGlobalResultEvaluationItem($evaluationId, $itemId, $result)
     {
-        $this->deleteAll(['evaluation_id' => $evaluationId, 'item_id' => $itemId]);
+        $this->deleteAll(['evaluation_id' => $evaluationId, 'competence_id' => $itemId]);
         $pupils = $this->Evaluations->EvaluationsPupils->find('list', [
             'valueField' => 'pupil_id',
             'conditions' => ['evaluation_id' => $evaluationId]
@@ -158,13 +159,13 @@ class ResultsTable extends Table
      * associted with an evaluation_id for a specific item_id.
      *
      * @param int $evaluationId evaluation_id related to the results
-     * @param int $itemId item_id related to the results
+     * @param int $competenceId item_id related to the results
      * @param int $levelId level identifier
      * @param string $result result to save : A, B, C, D, NE or ABS
      * @return bool whether the results has been saved or not
      * @internal param mixed $parameter [description]
      */
-    public function saveGlobalResultEvaluationItemLevel($evaluationId, $itemId, $levelId, $result)
+    public function saveGlobalResultEvaluationItemLevel($evaluationId, $competenceId, $levelId, $result)
     {
         $targetedPupils = $this->Evaluations->EvaluationsPupils->find()
             ->select('Pupils.id')
@@ -174,14 +175,14 @@ class ResultsTable extends Table
                 'ClassroomsPupils.level_id' => $levelId
             ]);
 
-        $this->deleteAll(['Results.evaluation_id' => $evaluationId, 'Results.item_id' => $itemId, 'Results.pupil_id IN' => $targetedPupils]);
+        $this->deleteAll(['Results.evaluation_id' => $evaluationId, 'Results.competence_id' => $competenceId, 'Results.pupil_id IN' => $targetedPupils]);
 
         $iteration = 0;
         $data = [];
         foreach ($targetedPupils->all() as $evaluationsPupils) {
             $data[$iteration]['evaluation_id'] = $evaluationId;
             $data[$iteration]['pupil_id'] = $evaluationsPupils->_matchingData['Pupils']->id;
-            $data[$iteration]['competence_id'] = $itemId;
+            $data[$iteration]['competence_id'] = $competenceId;
             $data[$iteration]['result'] = $result;
             $data = $this->setResult($data, $iteration, $result);
             $iteration++;
@@ -197,17 +198,17 @@ class ResultsTable extends Table
 
     /**
      * @param int $evaluationId Evaluation identifier
-     * @param int $itemId Item identifier
+     * @param int $competenceId Item identifier
      * @param int $pupilId Pupil identifier
      * @param string $result letter grade
      * @return mixed
      */
-    public function saveResultEvaluationItemPupil($evaluationId, $itemId, $pupilId, $result)
+    public function saveResultEvaluationItemPupil($evaluationId, $competenceId, $pupilId, $result)
     {
-        $this->deleteAll(['Results.evaluation_id' => $evaluationId, 'Results.item_id' => $itemId, 'Results.pupil_id' => $pupilId]);
+        $this->deleteAll(['Results.evaluation_id' => $evaluationId, 'Results.competence_id' => $competenceId, 'Results.pupil_id' => $pupilId]);
         $data[0]['evaluation_id'] = $evaluationId;
         $data[0]['pupil_id'] = $pupilId;
-        $data[0]['competence_id'] = $itemId;
+        $data[0]['competence_id'] = $competenceId;
         $data[0]['result'] = $result;
         $data = $this->setResult($data, 0, $result);
 

@@ -34,7 +34,7 @@
                     setTimeout(function() {
                         location.href = '../../reports/download/<?php echo $report->id;?>';
                         setTimeout(function() {
-                            location.href = '../../classrooms/viewreports/<?php echo $report->classroom_id;?>';
+                            location.href = '../../classrooms/reports/<?php echo $report->classroom_id;?>';
                         }, 3000);
                     }, 1000);
                 }
